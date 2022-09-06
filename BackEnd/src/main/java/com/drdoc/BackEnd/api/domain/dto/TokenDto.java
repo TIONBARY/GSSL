@@ -13,5 +13,4 @@ public class TokenDto {
     private String accessToken;
     private String refreshToken;
     private Long accessTokenExpiresIn;
-    private boolean isFirst;
 }
