@@ -1,9 +1,17 @@
 package com.drdoc.BackEnd.api.controller;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,29 +26,59 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
-@Api(value = "유저 API", tags={"User 관리"})
+@Api(value = "유저 API", tags = { "User 관리" })
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/be/users")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+	private final UserService userService;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
-    @ApiOperation(value = "회원가입", notes = "유저 정보 삽입")
-    @PostMapping
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 400, message = "부적절한 요청"),
-        @ApiResponse(code = 500, message = "서버 오류")
-    })
-    public ResponseEntity<BaseResponseDto> register(@RequestBody UserRegisterRequestDto requestDto){
-    		userService.register(requestDto);
-		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Success"));    	
-    }
+	@ApiOperation(value = "회원가입", notes = "유저 정보 삽입")
+	@PostMapping
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "부적절한 요청"),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> register(@RequestBody @Valid UserRegisterRequestDto requestDto,
+			@ApiIgnore Errors errors) {
+		if (errors.hasErrors()) {
+			List<ObjectError> errorMessages = errors.getAllErrors();
+
+			for (ObjectError objectError : errorMessages) {
+				System.err.println(objectError.getDefaultMessage());
+			}
+
+			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "잘못된 요청입니다."));
+		}
+		userService.register(requestDto);
+		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Success"));
+	}
+	
+	@ApiOperation(value = "아이디 중복체크", notes = "memberId 중복체크")
+	@GetMapping("/id/{id}")
+	@ApiResponses({ @ApiResponse(code = 200, message = "사용가능한 아이디입니다."), @ApiResponse(code = 400, message = "중복된 아이디입니다."),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> checkMemberId(@PathVariable("id") String memberId) {
+		if (userService.checkMemberId(memberId)) {
+			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "사용가능한 아이디입니다."));
+		}
+		return ResponseEntity.status(400).body(BaseResponseDto.of(400, "중복된 아이디입니다."));
+	}
+	
+	@ApiOperation(value = "닉네임 중복체크", notes = "nickname 중복체크")
+	@GetMapping("/nickname/{nickname}")
+	@ApiResponses({ @ApiResponse(code = 200, message = "사용가능한 닉네임입니다."), @ApiResponse(code = 400, message = "중복된 닉네임입니다."),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> checkNickname(@PathVariable("nickname") String nickname) {
+		if (userService.checkNickname(nickname)) {
+			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "사용가능한 닉네임입니다."));
+		}
+		return ResponseEntity.status(400).body(BaseResponseDto.of(400, "중복된 닉네임입니다."));
+	}
 
 //    @GetMapping("/email/{email}")
 //    @ApiOperation(value = "이메일 중복 체크", notes = "중복 이메일인지 체크")
