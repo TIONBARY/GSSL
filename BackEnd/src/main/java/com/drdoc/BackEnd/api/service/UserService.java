@@ -12,8 +12,11 @@ public interface UserService {
     //회원 1명 조회
 //    User findByMemberId(String memberId);
 
+    //memberId 중복체크
+    boolean checkMemberId(String memberId);
+	
     //닉네임 중복체크
-//    boolean findByNickname(String nickname);
+    boolean checkNickname(String nickname);
     
     // 회원정보 수정
 //    void modify(User user); // dto로 추가예정
