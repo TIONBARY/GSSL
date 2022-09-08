@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
@@ -17,8 +19,12 @@ import java.time.LocalDateTime;
 public class RefreshToken {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rt_id")
+    private int id;
+    
     @Column(name = "rt_key")
-    private int key;
+    private String key;
 
     @Column(name = "rt_value")
     private String value;
@@ -27,7 +33,7 @@ public class RefreshToken {
     private LocalDateTime expireTime;    //일주일 후에 만료
 
     @Builder
-    public RefreshToken(int key, String value, LocalDateTime expireTime) {
+    public RefreshToken(String key, String value, LocalDateTime expireTime) {
         this.key = key;
         this.value = value;
         this.expireTime = LocalDateTime.now().plusWeeks(1);
