@@ -1,5 +1,7 @@
 package com.drdoc.BackEnd.api.service;
 
+import com.drdoc.BackEnd.api.domain.dto.TokenDto;
+import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
 
 public interface UserService {
@@ -7,7 +9,7 @@ public interface UserService {
 	void register(UserRegisterRequestDto user);
 
     //로그인
-//    boolean login(UserRequest.Login login);
+	TokenDto login(UserLoginRequestDto userLoginRequestDto);
 
     //회원 1명 조회
 //    User findByMemberId(String memberId);
@@ -17,7 +19,7 @@ public interface UserService {
 	
     //닉네임 중복체크
     boolean checkNickname(String nickname);
-    
+
     // 회원정보 수정
 //    void modify(User user); // dto로 추가예정
 

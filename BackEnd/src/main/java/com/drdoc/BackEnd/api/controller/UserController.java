@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.TokenDto;
+import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
+import com.drdoc.BackEnd.api.domain.dto.UserLoginResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
 import com.drdoc.BackEnd.api.service.UserService;
 
@@ -78,6 +81,15 @@ public class UserController {
 			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "사용가능한 닉네임입니다."));
 		}
 		return ResponseEntity.status(400).body(BaseResponseDto.of(400, "중복된 닉네임입니다."));
+	}
+	
+	@ApiOperation(value = "로그인", notes = "memberId와 password를 사용해 로그인")
+	@PostMapping("/login")
+	@ApiResponses({ @ApiResponse(code = 200, message = "로그인 성공"), @ApiResponse(code = 400, message = "회원정보가 일치하지 않습니다."),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
+		TokenDto tokenDto = userService.login(userLoginRequestDto);
+		return ResponseEntity.status(200).body(UserLoginResponseDto.of(200, "로그인 성공", tokenDto));
 	}
 
 //    @GetMapping("/email/{email}")
