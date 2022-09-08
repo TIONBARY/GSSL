@@ -2,6 +2,7 @@ package com.drdoc.BackEnd.exception.handler;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -17,7 +18,12 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
     protected ResponseEntity<BaseResponseDto> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ResponseEntity.status(400).body(BaseResponseDto.of(400, "Invalid Input"));
+        return ResponseEntity.status(400).body(BaseResponseDto.of(400, "부적절한 입력입니다."));
+    }
+
+	@ExceptionHandler(BadCredentialsException.class)
+    protected ResponseEntity<BaseResponseDto> handleTokenExpiredException(BadCredentialsException e) {
+        return ResponseEntity.status(401).body(BaseResponseDto.of(401, "회원정보가 일치하지 않습니다."));
     }
 	
 //	@ExceptionHandler(TokenExpiredException.class)
