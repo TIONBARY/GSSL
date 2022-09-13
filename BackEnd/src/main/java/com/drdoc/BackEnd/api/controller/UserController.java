@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.RefreshTokenDto;
 import com.drdoc.BackEnd.api.domain.dto.TokenDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.UserLogoutRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
 import com.drdoc.BackEnd.api.service.UserService;
 
@@ -43,7 +45,7 @@ public class UserController {
 	PasswordEncoder passwordEncoder;
 
 	@ApiOperation(value = "회원가입", notes = "유저 정보 삽입")
-	@PostMapping
+	@PostMapping("/public/signup")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "부적절한 요청"),
 			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<BaseResponseDto> register(@RequestBody @Valid UserRegisterRequestDto requestDto,
@@ -62,7 +64,7 @@ public class UserController {
 	}
 	
 	@ApiOperation(value = "아이디 중복체크", notes = "memberId 중복체크")
-	@GetMapping("/id/{id}")
+	@GetMapping("/public/id/{id}")
 	@ApiResponses({ @ApiResponse(code = 200, message = "사용가능한 아이디입니다."), @ApiResponse(code = 400, message = "중복된 아이디입니다."),
 			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<BaseResponseDto> checkMemberId(@PathVariable("id") String memberId) {
@@ -73,7 +75,7 @@ public class UserController {
 	}
 	
 	@ApiOperation(value = "닉네임 중복체크", notes = "nickname 중복체크")
-	@GetMapping("/nickname/{nickname}")
+	@GetMapping("/public/nickname/{nickname}")
 	@ApiResponses({ @ApiResponse(code = 200, message = "사용가능한 닉네임입니다."), @ApiResponse(code = 400, message = "중복된 닉네임입니다."),
 			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<BaseResponseDto> checkNickname(@PathVariable("nickname") String nickname) {
@@ -84,12 +86,30 @@ public class UserController {
 	}
 	
 	@ApiOperation(value = "로그인", notes = "memberId와 password를 사용해 로그인")
-	@PostMapping("/login")
+	@PostMapping("/public/login")
 	@ApiResponses({ @ApiResponse(code = 200, message = "로그인 성공"), @ApiResponse(code = 400, message = "회원정보가 일치하지 않습니다."),
 			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<BaseResponseDto> login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
 		TokenDto tokenDto = userService.login(userLoginRequestDto);
 		return ResponseEntity.status(200).body(UserLoginResponseDto.of(200, "로그인 성공", tokenDto));
+	}
+	
+	@ApiOperation(value = "Access 토큰 재발급", notes = "JWT Refresh 토큰을 사용해 재발급")
+	@PostMapping("/auth/reissue")
+	@ApiResponses({ @ApiResponse(code = 200, message = "재발급 성공"), @ApiResponse(code = 400, message = "정보가 일치하지 않습니다."),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> reissue(@RequestBody RefreshTokenDto tokenRequestDto) {
+		TokenDto tokenDto = userService.reissue(tokenRequestDto);
+		return ResponseEntity.status(200).body(UserLoginResponseDto.of(200, "재발급 성공", tokenDto));
+	}
+	
+	@ApiOperation(value = "로그아웃", notes = "현재 사용중인 Refresh Token을 DB에서 삭제")
+	@PostMapping("/auth/logout")
+	@ApiResponses({ @ApiResponse(code = 200, message = "로그아웃 성공"), @ApiResponse(code = 400, message = "회원정보가 일치하지 않습니다."),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> logout(@RequestBody UserLogoutRequestDto userLogoutRequestDto) {
+		userService.logout(userLogoutRequestDto.getRefresh_token());
+		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "로그아웃 성공"));
 	}
 
 //    @GetMapping("/email/{email}")

@@ -6,16 +6,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 //JWT를 위한 커스텀 필터
-public class JwtFilter extends GenericFilterBean {
+public class JwtFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 
@@ -34,14 +37,19 @@ public class JwtFilter extends GenericFilterBean {
      * > 유효성 검증 (토큰 파싱시(잘못된,만료된,지원하지않는..) 유효한지,
      */
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+    public void doFilterInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         System.out.println("---------------doFilter");
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String jwt = resolveToken(httpServletRequest);  //request에서 토큰 받기
         String requestURI = httpServletRequest.getRequestURI();
 
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {         //유효성 검증 메서드 통과
+//        System.out.println(requestURI);
+        if (requestURI.equals("/api/user/auth/reissue")) {
+            logger.debug("token 재발급 중...");        	
+        } else if (requestURI.equals("/api/user/auth/logout")) {
+            logger.debug("로그아웃 중...");        	
+        } else if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {         //유효성 검증 메서드 통과
             System.out.println("---------------Security Context에 저장함");
             Authentication authentication = tokenProvider.getAuthentication(jwt);   //정상 토큰이면 SecurityContext에 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -61,4 +69,12 @@ public class JwtFilter extends GenericFilterBean {
         }
         return null;
     }
+
+
+//	@Override
+//	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+//			throws ServletException, IOException {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }
