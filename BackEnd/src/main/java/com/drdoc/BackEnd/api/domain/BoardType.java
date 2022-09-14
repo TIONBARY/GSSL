@@ -22,15 +22,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 public class BoardType {
-	
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "title", nullable = false, length = 2)
 	private String title;
-	
+
 	@OneToMany(mappedBy = "type")
 	private List<Board> boards;
 }
