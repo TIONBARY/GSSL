@@ -1,5 +1,6 @@
 package com.drdoc.BackEnd.api.service;
 
+import com.drdoc.BackEnd.api.domain.dto.RefreshTokenDto;
 import com.drdoc.BackEnd.api.domain.dto.TokenDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
@@ -28,5 +29,10 @@ public interface UserService {
 
     //삭제
 //    void delete(String memberId);
+
+    //로그아웃
+    void logout(String refresh_token);
+	
+    TokenDto reissue(RefreshTokenDto tokenRequestDto);
 
 }
