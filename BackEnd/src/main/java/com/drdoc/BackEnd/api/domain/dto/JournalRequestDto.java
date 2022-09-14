@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class JournalRequestDto {
-	
+    
 	@ApiModelProperty(name="petId", example="1234")
     private int petId;
 	
