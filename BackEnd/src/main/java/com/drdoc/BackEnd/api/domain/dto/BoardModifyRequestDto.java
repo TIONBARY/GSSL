@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BoardWriteRequestDto {
+public class BoardModifyRequestDto {
 
 	@ApiModelProperty(name = "type_id", example = "1")
 	private int type_id;
