@@ -7,4 +7,5 @@ public interface BoardService {
 	void writeBoard(String userId, BoardWriteRequestDto boardWriteRequestDto);
 	void modifyBoard(int boardId, String userId, BoardModifyRequestDto boardModifyRequestDto);
 	String getBoardImage(int boardId);
+	void deleteBoard(int boardId, String userId);
 }
