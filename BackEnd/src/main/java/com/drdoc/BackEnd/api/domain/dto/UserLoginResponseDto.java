@@ -1,13 +1,9 @@
 package com.drdoc.BackEnd.api.domain.dto;
 
-import javax.validation.constraints.Pattern;
-
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
