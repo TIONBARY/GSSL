@@ -159,4 +159,42 @@ public class UserController {
 //            else return new ResponseEntity<String>("비밀번호 틀림", HttpStatus.FORBIDDEN);
 //        }
 //    }
+
+
+//    @PostMapping("/modify")
+//    @ApiOperation(value = "학생 정보 수정", notes = "학생정보 수정")
+//    @PreAuthorize("hasRole('STUDENT')")
+//    public ResponseEntity<String> modify(@RequestPart(value = "student") StudentRequest student, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+//        try {
+//            if(file!=null) {
+//                if (file.getSize() >= 10485760) {
+//                    return new ResponseEntity<String>("이미지 크기 제한은 10MB 입니다.", HttpStatus.FORBIDDEN);
+//                }
+//                String originFile = file.getOriginalFilename();
+//                String originFileExtension = originFile.substring(originFile.lastIndexOf("."));
+//                if (!originFileExtension.equalsIgnoreCase(".jpg") && !originFileExtension.equalsIgnoreCase(".png")
+//                        && !originFileExtension.equalsIgnoreCase(".jpeg")) {
+//                    return new ResponseEntity<String>("jpg, jpeg, png의 이미지 파일만 업로드해주세요", HttpStatus.FORBIDDEN);
+//                }
+//                StudentEntity entity = repository.getOne(student.getStudentId());
+//                String imgPath = s3Service.upload(entity.getProfile(), file);
+//                student.setProfile(imgPath);
+//                service.modify(student);
+//            } else if(student.getProfile()!=null && student.getProfile().equals("reset")) {
+//                StudentEntity entity = repository.getOne(student.getStudentId());
+//                //이미지 있으면 s3 버킷에서 지움
+//                s3Service.delete(entity.getProfile());
+//
+//                //이미지 컬럼 null로 변경
+//                student.setProfile("null");
+//                service.modify(student);
+//            } else {
+//                service.modify(student);
+//            }
+//            return new ResponseEntity<String>("학생 정보수정 성공.", HttpStatus.OK);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            return new ResponseEntity<String>("학생 정보수정 실패", HttpStatus.FORBIDDEN);
+//        }
+//    }
 }
