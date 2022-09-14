@@ -63,4 +63,15 @@ public class BoardServiceImpl implements BoardService {
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 		return board.getImage();
 	}
+
+	@Override
+	public void deleteBoard(int boardId, String userId) {
+		User user = userRepository.findByMemberId(userId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		Board board = boardRepository.findById(boardId)
+				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+		if (user.getId() != board.getUser().getId())
+			throw new AccessDeniedException("권한이 없습니다.");
+		boardRepository.delete(board);		
+	}
 }

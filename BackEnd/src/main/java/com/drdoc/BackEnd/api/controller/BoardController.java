@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardWriteRequestDto;
+import com.drdoc.BackEnd.api.repository.BoardRepository;
 import com.drdoc.BackEnd.api.service.BoardService;
 import com.drdoc.BackEnd.api.service.S3Service;
 import com.drdoc.BackEnd.api.util.SecurityUtil;
@@ -102,5 +104,21 @@ public class BoardController {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "파일 업로드에 실패했습니다."));
 		}
+	}
+
+	@DeleteMapping("/{boardId}")
+	@ApiOperation(value = "커뮤니티 게시글 삭제", notes = "커뮤니티 내 게시글을 삭제합니다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "게시글 삭제에 성공했습니다."),
+			@ApiResponse(code = 400, message = "입력이 잘못되었습니다."),
+			@ApiResponse(code = 401, message = "인증이 만료되어 로그인이 필요합니다."),
+			@ApiResponse(code = 403, message = "게시글 삭제 권한이 없습니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> deleteBoard(@PathVariable("boardId") int boardId) throws IOException {
+		String memberId = SecurityUtil.getCurrentUsername();
+		String image = boardService.getBoardImage(boardId);
+		if (image != null && !"".equals(image)) {
+			s3Service.delete(image);
+		}
+		boardService.deleteBoard(boardId, memberId);
+		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Deleted"));
 	}
 }
