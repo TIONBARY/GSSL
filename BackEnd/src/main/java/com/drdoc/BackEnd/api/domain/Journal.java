@@ -7,12 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.drdoc.BackEnd.api.domain.dto.JournalRequestDto;
-import com.drdoc.BackEnd.api.util.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,8 +33,9 @@ public class Journal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "memberId", nullable = false)
-    private String memberId;
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	private User user;
 
     @Column(name = "petId", nullable = false)
     private int petId;
@@ -52,8 +54,8 @@ public class Journal {
     private LocalDateTime created_date;    
 
     @Builder
-    public Journal(JournalRequestDto request) {    	
-        this.memberId = SecurityUtil.getCurrentUsername();
+    public Journal(JournalRequestDto request, User user) {
+    	this.user = user;
         this.petId = request.getPetId();
         this.picture = request.getPicture();
         this.part = request.getPart();
