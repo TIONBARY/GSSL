@@ -93,6 +93,8 @@ public class BoardController {
 				}
 				String imgPath = s3Service.upload(boardService.getBoardImage(boardId), file);
 				requestDto.setImage(imgPath);
+			} else {
+				s3Service.delete(boardService.getBoardImage(boardId));
 			}
 			boardService.modifyBoard(boardId, memberId, requestDto);
 			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
