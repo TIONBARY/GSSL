@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
 
+import io.jsonwebtoken.JwtException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	
@@ -16,14 +18,19 @@ public class GlobalExceptionHandler {
 //        return ResponseEntity.status(404).body(BaseResponseDto.of(404, "User Not Exist In Matching"));
 //    }
 	
-	@ExceptionHandler(IllegalArgumentException.class)
-    protected ResponseEntity<BaseResponseDto> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ResponseEntity.status(400).body(BaseResponseDto.of(400, "부적절한 입력입니다."));
-    }
+//	@ExceptionHandler(IllegalArgumentException.class)
+//    protected ResponseEntity<BaseResponseDto> handleIllegalArgumentException(IllegalArgumentException e) {
+//        return ResponseEntity.status(400).body(BaseResponseDto.of(400, "부적절한 입력입니다."));
+//    }
 
 	@ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<BaseResponseDto> handleTokenExpiredException(BadCredentialsException e) {
         return ResponseEntity.status(401).body(BaseResponseDto.of(401, "회원정보가 일치하지 않습니다."));
+    }
+
+	@ExceptionHandler(JwtException.class)
+    protected ResponseEntity<BaseResponseDto> handleJwtException(JwtException e) {
+        return ResponseEntity.status(401).body(BaseResponseDto.of(401, e.getMessage()));
     }
 	
 //	@ExceptionHandler(TokenExpiredException.class)
