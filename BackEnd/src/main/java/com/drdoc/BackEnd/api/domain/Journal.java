@@ -60,5 +60,22 @@ public class Journal {
         this.result = request.getResult();
         this.created_date = LocalDateTime.now();
     }
+
+    public void modify(JournalRequestDto request){
+        if("".equals(request.getPart()) == false && request.getPart()!=null){
+            this.part = request.getPart();
+        }
+        if("".equals(request.getPicture()) == false && request.getPicture()!=null){
+            this.picture = request.getPicture();
+        }
+        if("".equals(request.getResult()) == false && request.getResult()!=null){
+            this.result = request.getResult();
+        }
+        if(request.getPetId() != this.petId){
+            this.petId = request.getPetId();
+        }
+    }
+    
+    
     
 }

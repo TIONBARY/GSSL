@@ -5,8 +5,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.JournalBatchDeleteRequestDto;
+import com.drdoc.BackEnd.api.domain.dto.JournalDetailDto;
+import com.drdoc.BackEnd.api.domain.dto.JournalListResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.JournalRequestDto;
-import com.drdoc.BackEnd.api.domain.dto.JournalSelectionRequestDto;
 
 public interface JournalService {
 
@@ -17,14 +18,14 @@ public interface JournalService {
 	void modify(Integer journalId, JournalRequestDto request);
 
 	// 일지 삭제
-	void delete(JournalSelectionRequestDto journal);
+	void delete(int journalId);
 
 	// 일지 일괄 삭제
 	void batchDelete(JournalBatchDeleteRequestDto Journals);
 
 	// 일지 전체 조회
-	void listAll();
+	JournalListResponseDto listAll();
 	
 	// 일지 상세 조회
-	void detail(JournalSelectionRequestDto journal);
+	JournalDetailDto detail(int journalId);
 }
