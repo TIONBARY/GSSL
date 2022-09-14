@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.drdoc.BackEnd.api.domain.Board;
 import com.drdoc.BackEnd.api.domain.BoardType;
 import com.drdoc.BackEnd.api.domain.User;
+import com.drdoc.BackEnd.api.domain.dto.BoardDetailDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardListDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardWriteRequestDto;
@@ -51,6 +52,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	@Transactional
 	public void modifyBoard(int boardId, String userId, BoardModifyRequestDto boardModifyRequestDto) {
 		User user = userRepository.findByMemberId(userId)
 				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
@@ -65,6 +67,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	@Transactional
 	public String getBoardImage(int boardId) {
 		Board board = boardRepository.findById(boardId)
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
@@ -72,6 +75,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteBoard(int boardId, String userId) {
 		User user = userRepository.findByMemberId(userId)
 				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
@@ -83,10 +87,19 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	@Transactional
 	public Page<BoardListDto> getBoardList(int typeId, int page, int size) {
 		List<BoardListDto> boards = boardRepository
 				.findByTypeId(typeId, PageRequest.of(page, size, Sort.by("id").descending())).stream()
 				.map(BoardListDto::new).collect(Collectors.toList());
 		return new PageImpl<>(boards);
+	}
+
+	@Override
+	@Transactional
+	public BoardDetailDto getBoardDetail(int boardId) {
+		Board board = boardRepository.findById(boardId)
+				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+		return new BoardDetailDto(board);
 	}
 }

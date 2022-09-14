@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.BoardDetailDto;
+import com.drdoc.BackEnd.api.domain.dto.BoardDetailResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardListDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardListResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardModifyRequestDto;
@@ -134,8 +136,17 @@ public class BoardController {
 	public ResponseEntity<? extends BaseResponseDto> boardList(@RequestParam("type_id") int typeId,
 			@RequestParam("page") int page, @RequestParam("size") int size) throws IOException {
 		Page<BoardListDto> boardList = boardService.getBoardList(typeId, page, size);
-		System.out.println(boardList);
 		return ResponseEntity.status(200).body(BoardListResponseDto.of(200, "Success", boardList));
+	}
 
+	@GetMapping("/{boardId}")
+	@ApiOperation(value = "커뮤니티 게시글 상세 조회", notes = "특정 게시글을 상세 조회합니다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "게시글 상세 조회에 성공했습니다."),
+			@ApiResponse(code = 400, message = "입력이 잘못되었습니다."),
+			@ApiResponse(code = 401, message = "인증이 만료되어 로그인이 필요합니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseDto> boardDetail(@PathVariable("boardId") int boardId)
+			throws IOException {
+		BoardDetailDto board = boardService.getBoardDetail(boardId);
+		return ResponseEntity.status(200).body(BoardDetailResponseDto.of(200, "Success", board));
 	}
 }
