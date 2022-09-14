@@ -2,16 +2,23 @@ package com.drdoc.BackEnd.api.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.drdoc.BackEnd.api.domain.Board;
 import com.drdoc.BackEnd.api.domain.BoardType;
 import com.drdoc.BackEnd.api.domain.User;
+import com.drdoc.BackEnd.api.domain.dto.BoardListDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardWriteRequestDto;
 import com.drdoc.BackEnd.api.repository.BoardRepository;
@@ -72,6 +79,14 @@ public class BoardServiceImpl implements BoardService {
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 		if (user.getId() != board.getUser().getId())
 			throw new AccessDeniedException("권한이 없습니다.");
-		boardRepository.delete(board);		
+		boardRepository.delete(board);
+	}
+
+	@Override
+	public Page<BoardListDto> getBoardList(int typeId, int page, int size) {
+		List<BoardListDto> boards = boardRepository
+				.findByTypeId(typeId, PageRequest.of(page, size, Sort.by("id").descending())).stream()
+				.map(BoardListDto::new).collect(Collectors.toList());
+		return new PageImpl<>(boards);
 	}
 }
