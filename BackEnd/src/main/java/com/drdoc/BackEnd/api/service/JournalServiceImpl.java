@@ -74,7 +74,7 @@ public class JournalServiceImpl implements JournalService {
 		Journal journal = repository.findById(journalId)
 				.orElseThrow(() -> new IllegalArgumentException("일지를 찾을 수 없습니다."));
 		if (checkOwner(journal)) {
-			repository.delete(journal);			
+			repository.deleteById(journalId);
 		};
 	}
 
@@ -82,9 +82,7 @@ public class JournalServiceImpl implements JournalService {
 	@Override
 	@Transactional
 	public void batchDelete(JournalBatchDeleteRequestDto Journals) {
-        for(int id: Journals.getJournal_ids()) {
-        	delete(id);        	
-        }
+		repository.deleteAllByIdInBatch(Journals.getJournal_ids());
 	}
 
 	// 일지 전체 조회
