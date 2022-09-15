@@ -29,11 +29,11 @@ import java.util.stream.Collectors;
 public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 30;  // 30초
-//    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24;  // 하루
+//    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 30;  // 30초
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24;  // 하루
 
-    public static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 3;  // 5분
-//    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
+//    public static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 3;  // 5분
+    public static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
     private final Key key;
 
 
