@@ -2,8 +2,12 @@ package com.drdoc.BackEnd.config;
 
 import com.drdoc.BackEnd.api.jwt.JwtAccessDeniedHandler;
 import com.drdoc.BackEnd.api.jwt.JwtAuthenticationEntryPoint;
+import com.drdoc.BackEnd.api.jwt.JwtExceptionFilter;
 import com.drdoc.BackEnd.api.jwt.JwtSecurityConfig;
 import com.drdoc.BackEnd.api.jwt.TokenProvider;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -19,22 +23,24 @@ import org.springframework.web.cors.CorsUtils;
 @EnableWebSecurity      //기본적인 웹 보안 활성화
 @EnableGlobalMethodSecurity(prePostEnabled = true)  //@PreAuthorize 어노테이션을 메소드단위로 추가하기 위해 적용
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter { //추가적인 보안 설정
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-
+    private final JwtExceptionFilter jwtExceptionFilter;
+    
     //주입
-    public SecurityConfig(
-            TokenProvider tokenProvider,
-            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-            JwtAccessDeniedHandler jwtAccessDeniedHandler
-    ) {
-        this.tokenProvider = tokenProvider;
-//        this.corsFilter = corsFilter;
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
-    }
+//    public SecurityConfig(
+//            TokenProvider tokenProvider,
+//            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+//            JwtAccessDeniedHandler jwtAccessDeniedHandler
+//    ) {
+//        this.tokenProvider = tokenProvider;
+////        this.corsFilter = corsFilter;
+//        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+//        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+//    }
 
     //passwordEncoder 로는 BCryptPasswordEncoder 사용
     @Bean
@@ -103,13 +109,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //추가적�
                 .and()
                 .authorizeRequests() //HttpServletRequest를 사용하는 요청들에 대한 접근제한 설정하겠다
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers( "/web-resources/**", "/actuator/**").permitAll()//해당 api 요청은 인증없이 접근 허용하겠다는 의미
-                .antMatchers("/be/items/**").hasRole("STUDENT")
-                .antMatchers("/be/admin/**","/be/excel/**").hasRole("ADMIN")
-//                .anyRequest().authenticated() //나머지 요청들은 모두 인증되어야 한다
+                .antMatchers( "/web-resources/**", "/actuator/**", "/api/user/public/**", "/api/user/auth/reissue", "/api/user/auth/logout").permitAll()//해당 api 요청은 인증없이 접근 허용하겠다는 의미
+//                .antMatchers("/be/items/**").hasRole("STUDENT")
+//                .antMatchers("/be/admin/**","/be/excel/**").hasRole("ADMIN")
+                .anyRequest().authenticated() //나머지 요청들은 모두 인증되어야 한다
 
                 //JWTFilter를 addFilterBefore로 등록했던 JwtSecurityConfig클래스도 적용
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(new JwtSecurityConfig(tokenProvider, jwtExceptionFilter));
     }
 }
