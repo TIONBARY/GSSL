@@ -18,6 +18,7 @@ import com.drdoc.BackEnd.api.domain.dto.RefreshTokenDto;
 import com.drdoc.BackEnd.api.domain.dto.TokenDto;
 import com.drdoc.BackEnd.api.domain.dto.UserInfoDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
+import com.drdoc.BackEnd.api.domain.dto.UserModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
 import com.drdoc.BackEnd.api.jwt.TokenProvider;
 import com.drdoc.BackEnd.api.repository.RefreshTokenRepository;
@@ -37,17 +38,10 @@ public class UserServiceImpl implements UserService {
 	// 회원가입
 	@Override
 	public void register(UserRegisterRequestDto requestDto) {
-		if (!checkMemberId(requestDto.getMember_id())) {
-			throw new IllegalArgumentException("중복된 아이디입니다.");
-		}
-		if (!checkNickname(requestDto.getNickname())) {
-			throw new IllegalArgumentException("중복된 닉네임입니다.");
-		}
 		User user = User.builder().memberId(requestDto.getMember_id()).nickname(requestDto.getNickname())
 				.password(encoder.encode(requestDto.getPassword().toLowerCase())).email(requestDto.getEmail())
 				.phone(requestDto.getPhone()).gender(requestDto.getGender()).profilePic(requestDto.getProfile_pic())
 				.introduce(requestDto.getIntroduce()).build();
-
 		repository.save(user);
 	}
 
@@ -78,7 +72,10 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public TokenDto login(UserLoginRequestDto userLoginRequestDto) {
-
+		User user = repository.findByMemberId(userLoginRequestDto.getMember_id())
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		if (user.isLeft())
+			throw new IllegalArgumentException("이미 탈퇴한 회원입니다.");
 		// 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 				userLoginRequestDto.getMember_id(), userLoginRequestDto.getPassword().toLowerCase());
@@ -146,8 +143,45 @@ public class UserServiceImpl implements UserService {
 			throw new IllegalArgumentException("이미 탈퇴한 계정입니다.");
 		UserInfoDto userInfoDto = UserInfoDto.builder().member_id(memberId).email(user.getEmail())
 				.gender(user.getGender()).introduce(user.getIntroduce()).leave(user.isLeft())
-				.nickname(user.getNickname()).phone(user.getPhone()).profile_pic(user.getProfilePic()).build();
+				.nickname(user.getNickname()).phone(user.getPhone()).profile_pic(user.getProfilePic())
+				.pet_id(user.getPet_id()).build();
 		return userInfoDto;
 	}
 
+	public void modify(String memberId, UserModifyRequestDto requestDto) {
+		User user = repository.findByMemberId(memberId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		requestDto.setPassword(encoder.encode(requestDto.getPassword()));
+		user.modify(requestDto);
+		repository.save(user);
+	}
+
+	@Override
+	public String getProfilePicture(String memberId) {
+		User user = repository.findByMemberId(memberId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		return user.getProfilePic();
+	}
+
+	@Override
+	public void checkDuplication(UserRegisterRequestDto requestDto) {
+		if (!checkMemberId(requestDto.getMember_id())) {
+			throw new IllegalArgumentException("중복된 아이디입니다.");
+		}
+		if (!checkNickname(requestDto.getNickname())) {
+			throw new IllegalArgumentException("중복된 닉네임입니다.");
+		}
+	}
+
+	@Override
+	public void checkModifyDuplication(String memberId, UserModifyRequestDto requestDto) {
+		User user = repository.findByMemberId(memberId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		if (!memberId.equals(requestDto.getMember_id()) && !checkMemberId(requestDto.getMember_id())) {
+			throw new IllegalArgumentException("중복된 아이디입니다.");
+		}
+		if (!user.getNickname().equals(requestDto.getNickname()) && !checkNickname(requestDto.getNickname())) {
+			throw new IllegalArgumentException("중복된 닉네임입니다.");
+		}
+	}
 }
