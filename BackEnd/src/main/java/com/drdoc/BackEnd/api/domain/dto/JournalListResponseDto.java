@@ -1,32 +1,25 @@
 package com.drdoc.BackEnd.api.domain.dto;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
-import com.drdoc.BackEnd.api.domain.Journal;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@ApiModel("JournalListResponse")
 public class JournalListResponseDto extends BaseResponseDto {
-	
-	private List<Journal> journalList;
-	
-	public JournalListResponseDto(Integer statusCode, String message, List<Journal> journalList) {
+
+	@ApiModelProperty(name = "Journal List")
+	private Page<JournalThumbnailDto> journalList;
+
+	public JournalListResponseDto(Integer statusCode, String message, Page<JournalThumbnailDto> journalList) {
 		super(statusCode, message);
 		this.journalList = journalList;
 	}
-	
-	public static JournalListResponseDto of(Integer statusCode, String message, List<Journal> journalList) {
+
+	public static JournalListResponseDto of(Integer statusCode, String message, Page<JournalThumbnailDto> journalList) {
 		JournalListResponseDto body = new JournalListResponseDto(statusCode, message, journalList);
 		return body;
 	}
-
 }

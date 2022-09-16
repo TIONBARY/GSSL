@@ -13,15 +13,15 @@ import lombok.Setter;
 @Builder
 public class JournalDetailResponseDto extends BaseResponseDto {
 	
-	private TokenDto tokenDto;
+	private JournalDetailDto detail;
 	
-	public JournalDetailResponseDto(Integer statusCode, String message, TokenDto tokenDto) {
+	public JournalDetailResponseDto(Integer statusCode, String message, JournalDetailDto detail) {
 		super(statusCode, message);
-		this.tokenDto = tokenDto;
+		this.detail = detail;
 	}
 	
-	public static JournalDetailResponseDto of(Integer statusCode, String message, TokenDto tokenDto) {
-		JournalDetailResponseDto body = new JournalDetailResponseDto(statusCode, message, tokenDto);
+	public static JournalDetailResponseDto of(Integer statusCode, String message, JournalDetailDto detail) {
+		JournalDetailResponseDto body = new JournalDetailResponseDto(statusCode, message, detail);
 		return body;
 	}
 
