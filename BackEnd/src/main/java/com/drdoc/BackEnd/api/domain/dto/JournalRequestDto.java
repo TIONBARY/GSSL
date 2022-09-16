@@ -28,7 +28,10 @@ public class JournalRequestDto {
 	@ApiModelProperty(name="part", example="다리")
     private String part;
 
-    @NotBlank(message = "부위는 필수 입력 값입니다.")
+	@ApiModelProperty(name="symptom", example="가려움")
+    private String symptom;
+
+    @NotBlank(message = "결과는 필수 입력 값입니다.")
 	@ApiModelProperty(name="result", example="결막염")
     private String result;
 	

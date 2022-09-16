@@ -2,7 +2,10 @@ package com.drdoc.BackEnd.api.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +18,8 @@ import com.drdoc.BackEnd.api.domain.User;
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.JournalBatchDeleteRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.JournalDetailDto;
-import com.drdoc.BackEnd.api.domain.dto.JournalListResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.JournalRequestDto;
+import com.drdoc.BackEnd.api.domain.dto.JournalThumbnailDto;
 import com.drdoc.BackEnd.api.repository.JournalRepository;
 import com.drdoc.BackEnd.api.repository.UserRepository;
 import com.drdoc.BackEnd.api.util.SecurityUtil;
@@ -72,7 +75,8 @@ public class JournalServiceImpl implements JournalService {
 				.orElseThrow(() -> new IllegalArgumentException("일지를 찾을 수 없습니다."));
 		if (checkOwner(journal)) {
 			journal.modify(request);
-		};
+		}
+		;
 	}
 
 	// 일지 삭제
@@ -83,7 +87,8 @@ public class JournalServiceImpl implements JournalService {
 				.orElseThrow(() -> new IllegalArgumentException("일지를 찾을 수 없습니다."));
 		if (checkOwner(journal)) {
 			repository.deleteById(journalId);
-		};
+		}
+		;
 	}
 
 	// 일지 일괄 삭제
@@ -95,32 +100,34 @@ public class JournalServiceImpl implements JournalService {
 
 	// 일지 전체 조회
 	@Override
-	public JournalListResponseDto listAll() {
+	public Page<JournalThumbnailDto> listAll() {
 		User user = getCurrentUser();
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-		JournalListResponseDto result = new JournalListResponseDto();
-		List<Journal> list = repository.findByUserId(user.getId(), sort);
-		result.setJournalList(list);
-		return result;
+		Sort sort = Sort.by(Sort.Direction.DESC, "id");
+		List<JournalThumbnailDto> list = repository.findByUserId(user.getId(), sort).stream()
+				.map(JournalThumbnailDto::new).collect(Collectors.toList());
+		return new PageImpl<>(list);
 
 	}
 
 	// 일지 상세 조회
 	@Override
 	public JournalDetailDto detail(int journalId) {
-		return null;
+		Journal journal = repository.findById(journalId)
+				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+
+		return new JournalDetailDto(journal);
 
 	}
-	
+
 	public boolean checkOwner(Journal journal) {
 		String memberId = SecurityUtil.getCurrentUsername();
 		Optional<User> user = userRepository.findByMemberId(memberId);
 		if (user.get().equals(journal.getUser()) && !memberId.isEmpty()) {
 			return true;
-		} 
+		}
 		return false;
 	}
-	
+
 	public User getCurrentUser() {
 		String memberId = SecurityUtil.getCurrentUsername();
 		Optional<User> user = userRepository.findByMemberId(memberId);

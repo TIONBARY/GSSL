@@ -45,9 +45,12 @@ public class Journal {
     
     @Column(name = "part", nullable = false, length = 10)
     private String part;
+
+    @Column(name = "symptom", nullable = true, length = 10)
+    private String symptom;
     
-  @Column(name = "result", nullable = true, length = 10)
-  private String result;
+    @Column(name = "result", nullable = false, length = 10)
+    private String result;
     
     @CreationTimestamp
     @Column(name = "created_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
@@ -59,6 +62,7 @@ public class Journal {
         this.petId = request.getPetId();
         this.picture = request.getPicture();
         this.part = request.getPart();
+        this.symptom = request.getSymptom();
         this.result = request.getResult();
         this.created_date = LocalDateTime.now();
     }
@@ -69,6 +73,9 @@ public class Journal {
         }
         if("".equals(request.getPicture()) == false && request.getPicture()!=null){
             this.picture = request.getPicture();
+        }
+        if("".equals(request.getSymptom()) == false && request.getSymptom()!=null){
+            this.symptom = request.getSymptom();
         }
         if("".equals(request.getResult()) == false && request.getResult()!=null){
             this.result = request.getResult();
