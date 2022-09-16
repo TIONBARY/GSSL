@@ -18,12 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.RefreshTokenDto;
 import com.drdoc.BackEnd.api.domain.dto.TokenDto;
+import com.drdoc.BackEnd.api.domain.dto.UserInfoResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLogoutRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
+import com.drdoc.BackEnd.api.repository.UserRepository;
 import com.drdoc.BackEnd.api.service.S3Service;
 import com.drdoc.BackEnd.api.service.UserService;
+import com.drdoc.BackEnd.api.util.SecurityUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,7 +52,7 @@ public class UserController {
 			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<BaseResponseDto> register(
 			@RequestPart(value = "user") @Valid UserRegisterRequestDto requestDto,
-			@RequestPart("file") MultipartFile file, @ApiIgnore Errors errors) {
+			@RequestPart("file") MultipartFile file) {
 		try {
 			if (file != null) {
 				if (file.getSize() >= 10485760) {
@@ -119,6 +122,16 @@ public class UserController {
 	public ResponseEntity<BaseResponseDto> logout(@RequestBody UserLogoutRequestDto userLogoutRequestDto) {
 		userService.logout(userLogoutRequestDto.getRefresh_token());
 		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "로그아웃 성공"));
+	}
+	
+	@ApiOperation(value = "회원정보 조회", notes = "회원 아이디를 이용해 회원정보를 조회합니다.")
+	@GetMapping
+	@ApiResponses({ @ApiResponse(code = 200, message = "회원정보를 성공적으로 불러왔습니다."),
+			@ApiResponse(code = 400, message = "가입하지 않거나 탈퇴한 회원입니다."), 
+			@ApiResponse(code = 401, message = "인증이 만료되어 로그인이 필요합니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> getUserDetail() {
+		String memberId = SecurityUtil.getCurrentUsername();
+		return ResponseEntity.status(200).body(UserInfoResponseDto.of(200, "Success", userService.getUserDetail(memberId)));
 	}
 
 //    @GetMapping("/email/{email}")

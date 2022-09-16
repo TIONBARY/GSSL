@@ -16,6 +16,7 @@ import com.drdoc.BackEnd.api.domain.RefreshToken;
 import com.drdoc.BackEnd.api.domain.User;
 import com.drdoc.BackEnd.api.domain.dto.RefreshTokenDto;
 import com.drdoc.BackEnd.api.domain.dto.TokenDto;
+import com.drdoc.BackEnd.api.domain.dto.UserInfoDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
 import com.drdoc.BackEnd.api.jwt.TokenProvider;
@@ -135,6 +136,18 @@ public class UserServiceImpl implements UserService {
 	@Scheduled(cron = "0 * */12 * * ?") // 12시간에 1번 시간만료된 RefreshToken DB에서 삭제
 	public void clean() {
 		refreshTokenRepository.deleteByExpireTimeLessThan(LocalDateTime.now());
+	}
+
+	@Override
+	public UserInfoDto getUserDetail(String memberId) {
+		User user = repository.findByMemberId(memberId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		if (user.isLeft())
+			throw new IllegalArgumentException("이미 탈퇴한 계정입니다.");
+		UserInfoDto userInfoDto = UserInfoDto.builder().member_id(memberId).email(user.getEmail())
+				.gender(user.getGender()).introduce(user.getIntroduce()).leave(user.isLeft())
+				.nickname(user.getNickname()).phone(user.getPhone()).profile_pic(user.getProfilePic()).build();
+		return userInfoDto;
 	}
 
 }
