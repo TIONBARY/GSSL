@@ -9,7 +9,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +47,7 @@ public class S3Service {
     public String upload(String currentFilePath, MultipartFile file) throws IOException {
         // 고유한 key 값을 갖기위해 현재 시간을 postfix로 붙여줌
         SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
-        String fileName = file.getOriginalFilename()+"-"+date.format(new Date());
+        String fileName = date.format(new Date())+"-"+file.getOriginalFilename();
 
         // key가 존재하면 기존 파일은 삭제
         delete(currentFilePath);
