@@ -1,13 +1,10 @@
 package com.drdoc.BackEnd.api.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,15 +50,6 @@ public class UserController {
 	public ResponseEntity<BaseResponseDto> register(
 			@RequestPart(value = "user") @Valid UserRegisterRequestDto requestDto,
 			@RequestPart("file") MultipartFile file, @ApiIgnore Errors errors) {
-		if (errors.hasErrors()) {
-			List<ObjectError> errorMessages = errors.getAllErrors();
-
-			for (ObjectError objectError : errorMessages) {
-				System.err.println(objectError.getDefaultMessage());
-			}
-
-			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "잘못된 요청입니다."));
-		}
 		try {
 			if (file != null) {
 				if (file.getSize() >= 10485760) {
