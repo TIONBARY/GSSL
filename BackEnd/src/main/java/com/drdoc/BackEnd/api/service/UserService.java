@@ -24,13 +24,7 @@ public interface UserService {
     UserInfoDto getUserDetail(String memberId);
 
     // 회원정보 수정
-    void modify(String memberId, UserModifyRequestDto requestDto); // dto로 추가예정
-
-    //비밀번호 수정
-//    void modifyPassword(String memberId, String password);
-
-    //삭제
-//    void delete(String memberId);
+    void modify(String memberId, UserModifyRequestDto requestDto);
 
     //로그아웃
     void logout(String refresh_token);
@@ -42,5 +36,7 @@ public interface UserService {
 	void checkModifyDuplication(String memberId, UserModifyRequestDto requestDto);
 	
 	void checkDuplication(UserRegisterRequestDto requestDto);
+	
+	void quit(String memberId);
 
 }

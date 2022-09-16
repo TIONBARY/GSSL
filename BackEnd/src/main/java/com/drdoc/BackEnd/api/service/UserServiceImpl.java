@@ -184,4 +184,12 @@ public class UserServiceImpl implements UserService {
 			throw new IllegalArgumentException("중복된 닉네임입니다.");
 		}
 	}
+
+	@Override
+	public void quit(String memberId) {
+		User user = repository.findByMemberId(memberId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		user.quit();
+		repository.save(user);
+	}
 }

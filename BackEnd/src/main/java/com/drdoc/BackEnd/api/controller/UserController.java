@@ -167,6 +167,17 @@ public class UserController {
 		userService.modify(memberId, requestDto);
 		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
 	}
+	
+	@ApiOperation(value = "회원탈퇴", notes = "회원탈퇴를 수행합니다. 이후 현재 계정으로 로그인 불가능합니다.")
+	@PutMapping("/leave")
+	@ApiResponses({ @ApiResponse(code = 200, message = "회원탈퇴에 성공했습니다."),
+			@ApiResponse(code = 400, message = "가입하지 않거나 이미 탈퇴한 회원입니다."), 
+			@ApiResponse(code = 401, message = "인증이 만료되어 로그인이 필요합니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> quit() {
+		String memberId = SecurityUtil.getCurrentUsername();
+		userService.quit(memberId);
+		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
+	}
 
 //    @GetMapping("/email/{email}")
 //    @ApiOperation(value = "이메일 중복 체크", notes = "중복 이메일인지 체크")
