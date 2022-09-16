@@ -1,10 +1,7 @@
 package com.drdoc.BackEnd.api.service;
 
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.JournalBatchDeleteRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.JournalDetailDto;
 import com.drdoc.BackEnd.api.domain.dto.JournalRequestDto;
@@ -13,7 +10,7 @@ import com.drdoc.BackEnd.api.domain.dto.JournalThumbnailDto;
 public interface JournalService {
 
 	// 일지 등록
-	ResponseEntity<BaseResponseDto> register(JournalRequestDto request, MultipartFile file);
+	void register(JournalRequestDto request);
 
 	// 일지 수정
 	void modify(Integer journalId, JournalRequestDto request);
