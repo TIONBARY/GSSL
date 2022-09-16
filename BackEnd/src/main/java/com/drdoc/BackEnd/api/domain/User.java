@@ -70,4 +70,8 @@ public class User {
 		this.phone = requestDto.getPhone();
 		this.profilePic = requestDto.getProfile_pic();
 	}
+    
+    public void quit() {
+    	this.isLeft = true;
+    }
 }
