@@ -37,4 +37,7 @@ public class UserInfoDto {
 	
 	@ApiModelProperty(name="leave", example="false")
     private boolean leave;
+	
+	@ApiModelProperty(name="pet_id", example="1")
+    private int pet_id;
 }

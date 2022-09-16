@@ -4,11 +4,11 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -22,8 +22,8 @@ import com.drdoc.BackEnd.api.domain.dto.UserInfoResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLogoutRequestDto;
+import com.drdoc.BackEnd.api.domain.dto.UserModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
-import com.drdoc.BackEnd.api.repository.UserRepository;
 import com.drdoc.BackEnd.api.service.S3Service;
 import com.drdoc.BackEnd.api.service.UserService;
 import com.drdoc.BackEnd.api.util.SecurityUtil;
@@ -32,7 +32,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "유저 API", tags = { "User 관리" })
 @RestController
@@ -52,7 +51,8 @@ public class UserController {
 			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<BaseResponseDto> register(
 			@RequestPart(value = "user") @Valid UserRegisterRequestDto requestDto,
-			@RequestPart("file") MultipartFile file) {
+			@RequestPart(value = "file", required = false) MultipartFile file) {
+		userService.checkDuplication(requestDto);
 		try {
 			if (file != null) {
 				if (file.getSize() >= 10485760) {
@@ -132,6 +132,40 @@ public class UserController {
 	public ResponseEntity<BaseResponseDto> getUserDetail() {
 		String memberId = SecurityUtil.getCurrentUsername();
 		return ResponseEntity.status(200).body(UserInfoResponseDto.of(200, "Success", userService.getUserDetail(memberId)));
+	}
+	
+	@ApiOperation(value = "회원정보 수정", notes = "입력한 정보을 바탕으로 회원정보를 수정합니다.")
+	@PutMapping
+	@ApiResponses({ @ApiResponse(code = 200, message = "회원정보를 성공적으로 수정했습니다."),
+			@ApiResponse(code = 400, message = "가입하지 않거나 탈퇴한 회원입니다. 또는 입력이 잘못되었습니다."), 
+			@ApiResponse(code = 401, message = "인증이 만료되어 로그인이 필요합니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> modify(@RequestPart(value = "user") @Valid UserModifyRequestDto requestDto,
+			@RequestPart(value = "file", required = false) MultipartFile file) {
+		String memberId = SecurityUtil.getCurrentUsername();
+		userService.checkModifyDuplication(memberId, requestDto);
+		try {
+			if (file != null) {
+				if (file.getSize() >= 10485760) {
+					return ResponseEntity.status(400).body(BaseResponseDto.of(400, "이미지 크기 제한은 10MB 입니다."));
+				}
+				String originFile = file.getOriginalFilename();
+				String originFileExtension = originFile.substring(originFile.lastIndexOf("."));
+				if (!originFileExtension.equalsIgnoreCase(".jpg") && !originFileExtension.equalsIgnoreCase(".png")
+						&& !originFileExtension.equalsIgnoreCase(".jpeg")) {
+					return ResponseEntity.status(400).body(BaseResponseDto.of(400, "jpg, jpeg, png의 이미지 파일만 업로드해주세요"));
+				}
+				String imgPath = s3Service.upload(userService.getProfilePicture(memberId), file);
+				requestDto.setProfile_pic(imgPath);
+			} else {
+				s3Service.delete(userService.getProfilePicture(memberId));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "파일 업로드에 실패했습니다."));
+		}
+		userService.modify(memberId, requestDto);
+		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
 	}
 
 //    @GetMapping("/email/{email}")
