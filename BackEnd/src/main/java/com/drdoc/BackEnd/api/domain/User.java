@@ -54,4 +54,6 @@ public class User {
     @Column(name = "isLeft", nullable = false, columnDefinition = "boolean default false")
     private boolean isLeft;
     
+    @Column(name = "pet_id", nullable = true)
+    private int pet_id;
 }
