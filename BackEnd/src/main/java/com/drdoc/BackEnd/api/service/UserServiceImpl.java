@@ -16,6 +16,7 @@ import com.drdoc.BackEnd.api.domain.RefreshToken;
 import com.drdoc.BackEnd.api.domain.User;
 import com.drdoc.BackEnd.api.domain.dto.RefreshTokenDto;
 import com.drdoc.BackEnd.api.domain.dto.TokenDto;
+import com.drdoc.BackEnd.api.domain.dto.UserInfoDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
 import com.drdoc.BackEnd.api.jwt.TokenProvider;
@@ -29,23 +30,26 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 	private final UserRepository repository;
 	private final PasswordEncoder encoder;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+	private final AuthenticationManagerBuilder authenticationManagerBuilder;
+	private final TokenProvider tokenProvider;
+	private final RefreshTokenRepository refreshTokenRepository;
 
 	// 회원가입
 	@Override
 	public void register(UserRegisterRequestDto requestDto) {
+		if (!checkMemberId(requestDto.getMember_id())) {
+			throw new IllegalArgumentException("중복된 아이디입니다.");
+		}
+		if (!checkNickname(requestDto.getNickname())) {
+			throw new IllegalArgumentException("중복된 닉네임입니다.");
+		}
 		User user = User.builder().memberId(requestDto.getMember_id()).nickname(requestDto.getNickname())
 				.password(encoder.encode(requestDto.getPassword().toLowerCase())).email(requestDto.getEmail())
 				.phone(requestDto.getPhone()).gender(requestDto.getGender()).profilePic(requestDto.getProfile_pic())
-				.introduce(requestDto.getIntroduce()).build();		
+				.introduce(requestDto.getIntroduce()).build();
 
 		repository.save(user);
 	}
-
-	// 로그인
-//    boolean login(UserRequest.Login login);
 
 	// 회원 1명 조회
 //    User findByMemberId(String memberId);
@@ -72,67 +76,78 @@ public class UserServiceImpl implements UserService {
 	// 삭제
 //    void delete(String memberId);
 
-    @Transactional
-    public TokenDto login(UserLoginRequestDto userLoginRequestDto) {
-    	
-        // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userLoginRequestDto.getMember_id(), userLoginRequestDto.getPassword().toLowerCase());
-        System.out.println(encoder.encode(userLoginRequestDto.getPassword().toLowerCase()));
-        System.out.println(userLoginRequestDto.getPassword());
-        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
-        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+	@Transactional
+	public TokenDto login(UserLoginRequestDto userLoginRequestDto) {
 
-        // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+		// 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+				userLoginRequestDto.getMember_id(), userLoginRequestDto.getPassword().toLowerCase());
+		System.out.println(encoder.encode(userLoginRequestDto.getPassword().toLowerCase()));
+		System.out.println(userLoginRequestDto.getPassword());
+		// 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+		// authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername
+		// 메서드가 실행됨
+		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // 4. RefreshToken 저장
-        RefreshToken refreshToken = RefreshToken.builder()
-                .key(authentication.getName())
-                .value(tokenDto.getRefreshToken())
-                .build();
-        refreshTokenRepository.save(refreshToken);
+		// 3. 인증 정보를 기반으로 JWT 토큰 생성
+		TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
-        // 5. 토큰 발급
-        return tokenDto;
-    }
+		// 4. RefreshToken 저장
+		RefreshToken refreshToken = RefreshToken.builder().key(authentication.getName())
+				.value(tokenDto.getRefreshToken()).build();
+		refreshTokenRepository.save(refreshToken);
 
-    @Transactional
-    public TokenDto reissue(RefreshTokenDto tokenRequestDto) {
-        // 1. Refresh Token 검증
-        if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
-            throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
-        }
+		// 5. 토큰 발급
+		return tokenDto;
+	}
 
-        // 2. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
-        RefreshToken refreshToken = refreshTokenRepository.findByValue(tokenRequestDto.getRefreshToken())
-                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
-        
-        // 3. Refresh Token 에서 Member ID 가져오기
-        String memberId = refreshToken.getKey();
-        
+	@Transactional
+	public TokenDto reissue(RefreshTokenDto tokenRequestDto) {
+		// 1. Refresh Token 검증
+		if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
+			throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
+		}
 
-        // 4. 새로운 토큰 생성
-        TokenDto tokenDto = tokenProvider.generateTokenDto(memberId);
+		// 2. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
+		RefreshToken refreshToken = refreshTokenRepository.findByValue(tokenRequestDto.getRefreshToken())
+				.orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
-        // 6. 저장소 정보 업데이트
-        RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());
-        refreshTokenRepository.save(newRefreshToken);
+		// 3. Refresh Token 에서 Member ID 가져오기
+		String memberId = refreshToken.getKey();
 
-        // 토큰 발급
-        return tokenDto;
-    }
+		// 4. 새로운 토큰 생성
+		TokenDto tokenDto = tokenProvider.generateTokenDto(memberId);
 
-    @Transactional
-    public void logout(String refresh_token){
-        refreshTokenRepository.deleteByValue(refresh_token);
-    }
-    
-    @Transactional
-    @Scheduled(cron = "0 * */12 * * ?") // 12시간에 1번 시간만료된 RefreshToken DB에서 삭제
-    public void clean() {
-    	refreshTokenRepository.deleteByExpireTimeLessThan(LocalDateTime.now());
-    }
+		// 6. 저장소 정보 업데이트
+		RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());
+		refreshTokenRepository.save(newRefreshToken);
+
+		// 토큰 발급
+		return tokenDto;
+	}
+
+	@Transactional
+	public void logout(String refresh_token) {
+		refreshTokenRepository.deleteByValue(refresh_token);
+	}
+
+	@Transactional
+	@Scheduled(cron = "0 * */12 * * ?") // 12시간에 1번 시간만료된 RefreshToken DB에서 삭제
+	public void clean() {
+		refreshTokenRepository.deleteByExpireTimeLessThan(LocalDateTime.now());
+	}
+
+	@Override
+	public UserInfoDto getUserDetail(String memberId) {
+		User user = repository.findByMemberId(memberId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		if (user.isLeft())
+			throw new IllegalArgumentException("이미 탈퇴한 계정입니다.");
+		UserInfoDto userInfoDto = UserInfoDto.builder().member_id(memberId).email(user.getEmail())
+				.gender(user.getGender()).introduce(user.getIntroduce()).leave(user.isLeft())
+				.nickname(user.getNickname()).phone(user.getPhone()).profile_pic(user.getProfilePic()).build();
+		return userInfoDto;
+	}
 
 }
