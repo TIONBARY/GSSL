@@ -20,31 +20,32 @@ import com.drdoc.BackEnd.api.domain.Pet;
 import com.drdoc.BackEnd.api.domain.User;
 import com.drdoc.BackEnd.api.domain.dto.PetDetailDto;
 import com.drdoc.BackEnd.api.domain.dto.PetListDto;
+import com.drdoc.BackEnd.api.domain.dto.PetModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.PetRegisterRequestDto;
 import com.drdoc.BackEnd.api.repository.PetRepository;
 import com.drdoc.BackEnd.api.repository.PetKindRepository;
 import com.drdoc.BackEnd.api.repository.UserRepository;
 
 @Service
-public class PetServiceImpl implements PetService{
-	
+public class PetServiceImpl implements PetService {
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private PetKindRepository petTypeRepository;
-	
+
 	@Autowired
 	private PetRepository petRepository;
-	
+
 	@Override
 	@Transactional
 	public void registerPet(String userId, PetRegisterRequestDto petRegisterRequestDto) {
 		User user = userRepository.findByMemberId(userId)
 				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
 		Kind kind = petTypeRepository.findById(petRegisterRequestDto.getKind_id())
-				.orElseThrow(() -> new IllegalArgumentException("반려동물 품종 번호가 올바르지 않습니다."));;
-
+				.orElseThrow(() -> new IllegalArgumentException("반려동물 품종 번호가 올바르지 않습니다."));
+		;
 		Pet pet = Pet.builder().user(user).kind(kind).species(petRegisterRequestDto.isSpecies())
 				.name(petRegisterRequestDto.getName()).gender(petRegisterRequestDto.getGender())
 				.neutralize(petRegisterRequestDto.isNeutralize()).birth(petRegisterRequestDto.getBirth())
@@ -55,21 +56,38 @@ public class PetServiceImpl implements PetService{
 	}
 
 	@Override
-	public void modifyPet(int petId, String userId, PetRegisterRequestDto petModifyRequestDto) {
-		// TODO Auto-generated method stub
-		
+	@Transactional
+	public void modifyPet(int petId, String userId, PetModifyRequestDto petModifyRequestDto) {
+		User user = userRepository.findByMemberId(userId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		Pet pet = petRepository.findById(petId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 반려동물입니다."));
+		Kind kind = petTypeRepository.findById(petModifyRequestDto.getKind_id())
+				.orElseThrow(() -> new IllegalArgumentException("반려동물 품종 번호가 올바르지 않습니다."));
+		;
+		if (user.getId() != pet.getUser().getId())
+			throw new AccessDeniedException("권한이 없습니다.");
+		pet.modify(petModifyRequestDto, kind);
+		petRepository.save(pet);
+
 	}
 
 	@Override
+	@Transactional
 	public String getPetImage(int petId) {
-		// TODO Auto-generated method stub
-		return null;
+		Pet pet = petRepository.findById(petId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 반려동물입니다."));
+		return pet.getAnimalPic();
 	}
 
 	@Override
+	@Transactional
 	public void deletePet(int petId, String userId) {
-		// TODO Auto-generated method stub
-		
+		User user = userRepository.findByMemberId(userId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		Pet pet = petRepository.findById(petId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 반려동물입니다."));
+		if (user.getId() != pet.getUser().getId())
+			throw new AccessDeniedException("권한이 없습니다.");
+		petRepository.delete(pet);
+
 	}
 
 	@Override
@@ -83,8 +101,5 @@ public class PetServiceImpl implements PetService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
 
 }
