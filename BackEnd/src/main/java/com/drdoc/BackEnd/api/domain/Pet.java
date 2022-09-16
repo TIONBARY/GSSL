@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.drdoc.BackEnd.api.domain.dto.PetModifyRequestDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -67,5 +69,19 @@ public class Pet {
     
     @Column(name = "description", nullable = true, length = 50)
     private String description;
+
+	public void modify(PetModifyRequestDto petModifyRequestDto, Kind kind) {
+		this.kind = kind;
+		this.species = petModifyRequestDto.isSpecies();
+		this.name = petModifyRequestDto.getName();
+		this.gender = petModifyRequestDto.getGender();
+		this.neutralize = petModifyRequestDto.isNeutralize();
+		this.birth = petModifyRequestDto.getBirth();
+		this.weight = petModifyRequestDto.getWeight();
+		this.animalPic = petModifyRequestDto.getAnimal_pic();
+		this.death = petModifyRequestDto.isDeath();
+		this.diseases = petModifyRequestDto.getDiseases();
+		this.description = petModifyRequestDto.getDescription();
+	}
 
 }
