@@ -1,13 +1,5 @@
 package com.drdoc.BackEnd.config;
 
-import com.drdoc.BackEnd.api.jwt.JwtAccessDeniedHandler;
-import com.drdoc.BackEnd.api.jwt.JwtAuthenticationEntryPoint;
-import com.drdoc.BackEnd.api.jwt.JwtExceptionFilter;
-import com.drdoc.BackEnd.api.jwt.JwtSecurityConfig;
-import com.drdoc.BackEnd.api.jwt.TokenProvider;
-
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -19,6 +11,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsUtils;
+
+import com.drdoc.BackEnd.api.jwt.JwtAccessDeniedHandler;
+import com.drdoc.BackEnd.api.jwt.JwtAuthenticationEntryPoint;
+import com.drdoc.BackEnd.api.jwt.JwtExceptionFilter;
+import com.drdoc.BackEnd.api.jwt.JwtSecurityConfig;
+import com.drdoc.BackEnd.api.jwt.TokenProvider;
+
+import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity      //기본적인 웹 보안 활성화
 @EnableGlobalMethodSecurity(prePostEnabled = true)  //@PreAuthorize 어노테이션을 메소드단위로 추가하기 위해 적용
