@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
+import com.drdoc.BackEnd.api.domain.dto.UserModifyRequestDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -56,4 +58,20 @@ public class User {
     
     @Column(name = "pet_id", nullable = true)
     private int pet_id;
+    
+    public void modify(UserModifyRequestDto requestDto) {
+		this.memberId = requestDto.getMember_id();
+		this.password = requestDto.getPassword();
+		this.email = requestDto.getEmail();
+		this.gender = requestDto.getGender();
+		this.introduce = requestDto.getIntroduce();
+		this.nickname = requestDto.getNickname();
+		this.pet_id = requestDto.getPet_id();
+		this.phone = requestDto.getPhone();
+		this.profilePic = requestDto.getProfile_pic();
+	}
+    
+    public void quit() {
+    	this.isLeft = true;
+    }
 }
