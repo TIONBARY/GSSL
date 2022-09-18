@@ -3,6 +3,7 @@ package com.drdoc.BackEnd.api.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -91,15 +92,27 @@ public class PetServiceImpl implements PetService {
 	}
 
 	@Override
-	public List<PetListDto> getPetList(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PetListDto> getPetList(int userId) {
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		if (user.isLeft())
+			throw new IllegalArgumentException("이미 탈퇴한 계정입니다.");
+		List<PetListDto> petList = petRepository.findAllByUserId(userId);
+		return petList;
 	}
 
 	@Override
 	public PetDetailDto getPetDetail(int petId) {
-		// TODO Auto-generated method stub
-		return null;
+		Pet pet = petRepository.findById(petId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 반려동물입니다."));
+		PetDetailDto petdetailDto = PetDetailDto.builder().id(petId).kind(pet.getKind().getName())
+				.species(pet.isSpecies()).name(pet.getName()).gender(pet.getGender()).neutralize(pet.isNeutralize())
+				.birth(pet.getBirth()).weight(pet.getWeight()).animal_pic(pet.getAnimalPic()).death(pet.isDeath())
+				.diseases(pet.getDiseases()).description(pet.getDescription()).build();
+		return petdetailDto;
+
+
+
+
 	}
 
 }

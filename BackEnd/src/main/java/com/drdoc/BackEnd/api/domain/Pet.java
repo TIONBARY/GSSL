@@ -37,7 +37,7 @@ public class Pet {
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name = "kine_id")
+	@JoinColumn(name = "kind_id")
 	private Kind kind;
 	
 	@Column(name = "species", nullable = false)
