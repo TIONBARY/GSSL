@@ -63,8 +63,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
-                .title("닥닥 테스트 API 타이틀")
-                .description("닥닥 관련 테스트 API 상세소개 및 사용법")
+                .title("견생실록 테스트 API 타이틀")
+                .description("견생실록 관련 테스트 API 상세소개 및 사용법")
                 .contact(new Contact("drdoc", "drdoc.com", "drdoc@gmail.com"))
                 .version("1.0")
                 .build();

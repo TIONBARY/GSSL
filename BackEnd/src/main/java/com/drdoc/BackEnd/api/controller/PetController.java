@@ -11,6 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.PetDetailResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.PetListResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.PetRegisterRequestDto;
 import com.drdoc.BackEnd.api.service.PetService;
@@ -130,6 +133,31 @@ public class PetController {
 		petService.deletePet(petId, memberId);
 		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Deleted"));
 	}
+	
+	@GetMapping("/{userId}")
+	@ApiOperation(value = "반려동물 목록 조회", notes = "나의 반려동물 목록을 모두 조회합니다.")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "반려동물 목록 조회"),
+		@ApiResponse(code = 400, message = "잘못된 요청입니다."),
+		@ApiResponse(code = 401, message = "인증이 필요합니다."),
+		@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<PetListResponseDto> getPetList(@PathVariable int userId) {
+		return ResponseEntity.status(200).body(PetListResponseDto.of(200, "Success", petService.getPetList(userId)));
+	}
+	
+	@GetMapping("/{petId}/detail")
+	@ApiOperation(value = "반려동물 상세 조회", notes = "나의 반려동물을 상세 조회합니다.")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "반려동물 상세 조회"),
+		@ApiResponse(code = 401, message = "인증이 필요합니다."),
+		@ApiResponse(code = 403, message = "권한이 없습니다."),
+		@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<PetDetailResponseDto> getDetail(@PathVariable int petId) {
+		return ResponseEntity.status(200)
+				.body(PetDetailResponseDto.of(200, "Success", petService.getPetDetail(petId)));
+	}
+
+
 
 
 
