@@ -18,7 +18,7 @@ public class PetDetailDto {
 	private int id;
 	private int user_id;
 	private String kind;
-	private String species;
+	private boolean species;
 	private String name;
 	private String gender;
 	private boolean neutralize;
@@ -26,7 +26,7 @@ public class PetDetailDto {
 	private float weight;
 	private String animal_pic;
 	private boolean death;
-	private boolean diseases;
+	private String diseases;
 	private String description;
 
 }
