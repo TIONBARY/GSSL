@@ -137,7 +137,7 @@ public class PetController {
 	@GetMapping("/{userId}")
 	@ApiOperation(value = "반려동물 목록 조회", notes = "나의 반려동물 목록을 모두 조회합니다.")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "일지 조회"),
+		@ApiResponse(code = 200, message = "반려동물 목록 조회"),
 		@ApiResponse(code = 400, message = "잘못된 요청입니다."),
 		@ApiResponse(code = 401, message = "인증이 필요합니다."),
 		@ApiResponse(code = 500, message = "서버 오류") })
@@ -146,9 +146,9 @@ public class PetController {
 	}
 	
 	@GetMapping("/{petId}/detail")
-	@ApiOperation(value = "반려동물 상세 조회", notes = "나의 반려동물 목록을 조회합니다.")
+	@ApiOperation(value = "반려동물 상세 조회", notes = "나의 반려동물을 상세 조회합니다.")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "일지 조회"),
+		@ApiResponse(code = 200, message = "반려동물 상세 조회"),
 		@ApiResponse(code = 401, message = "인증이 필요합니다."),
 		@ApiResponse(code = 403, message = "권한이 없습니다."),
 		@ApiResponse(code = 500, message = "서버 오류") })
