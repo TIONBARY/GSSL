@@ -16,8 +16,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class JournalDetailDto {
-	
-    private int petId;
+
+    private int id;
+    private int pet_id;
     private String picture;
     private String part;
     private String symptom;
@@ -25,7 +26,8 @@ public class JournalDetailDto {
     private LocalDateTime created_date;    
     
 	public JournalDetailDto(Journal journal) {
-		this.petId = journal.getPetId();
+		this.id = journal.getId();
+		this.pet_id = journal.getPet_id();
 		this.picture = journal.getPicture();
 		this.part = journal.getPart();
 		this.symptom = journal.getSymptom();
