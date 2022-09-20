@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.drdoc.BackEnd.api.domain.Journal;
 import com.drdoc.BackEnd.api.domain.User;
@@ -38,18 +37,17 @@ public class JournalServiceImpl implements JournalService {
 
 	// 일지 수정
 	@Override
-	@Transactional
 	public void modify(Integer journalId, JournalRequestDto request) {
 		Journal journal = repository.findById(journalId)
 				.orElseThrow(() -> new IllegalArgumentException("일지를 찾을 수 없습니다."));
 		if (checkOwner(journal)) {
 			journal.modify(request);
+			repository.save(journal);
 		}
 	}
 
 	// 일지 삭제
 	@Override
-	@Transactional
 	public void delete(int journalId) {
 		Journal journal = repository.findById(journalId)
 				.orElseThrow(() -> new IllegalArgumentException("일지를 찾을 수 없습니다."));
@@ -60,7 +58,6 @@ public class JournalServiceImpl implements JournalService {
 
 	// 일지 일괄 삭제
 	@Override
-	@Transactional
 	public void batchDelete(JournalBatchDeleteRequestDto Journals) {
 		repository.deleteAllByIdInBatch(Journals.getJournal_ids());
 	}
