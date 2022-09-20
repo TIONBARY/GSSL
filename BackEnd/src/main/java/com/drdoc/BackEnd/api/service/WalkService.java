@@ -13,17 +13,17 @@ public interface WalkService {
 	void register(WalkRegisterRequestDto request);
 
 	// 산책 기록 수정
-	void modify(Integer WalkId, WalkModifyRequestDto request);
+	void modify(Integer walkId, WalkModifyRequestDto request);
 
 	// 산책 기록 삭제
-	void delete(int WalkId);
+	void delete(int walkId);
 
 	// 산책 기록 일괄 삭제
-	void batchDelete(WalkBatchDeleteRequestDto Walks);
+	void batchDelete(WalkBatchDeleteRequestDto walks);
 
 	// 산책 기록 전체 조회
 	Page<WalkDetailDto> listAll();
 	
 	// 산책 기록 상세 조회
-	WalkDetailDto detail(int WalkId);
+	WalkDetailDto detail(int walkId);
 }

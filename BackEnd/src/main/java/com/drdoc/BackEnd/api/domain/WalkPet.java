@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,10 +33,12 @@ public class WalkPet {
 	private int id;
 
 	@ManyToOne
+    @OnDelete(action= OnDeleteAction.CASCADE)
 	@JoinColumn(name = "petId", nullable = false)
 	private Pet pet;
 
 	@ManyToOne
+    @OnDelete(action= OnDeleteAction.CASCADE)
 	@JoinColumn(name = "walkId", nullable = false)
 	private Walk walk;
 
