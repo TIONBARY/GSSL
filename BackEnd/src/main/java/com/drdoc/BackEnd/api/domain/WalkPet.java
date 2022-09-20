@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,32 +21,31 @@ import lombok.NoArgsConstructor;
 @Table(name = "walkPet")
 @Entity
 @Builder
+@Data
 public class WalkPet {
-	
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
-    @ManyToOne
-    @JoinColumn(name="petId", nullable = false)
-    private Pet pet;
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    @ManyToOne
-    @JoinColumn(name="walkId", nullable = false)
-    private Walk walk;
-    
-    @Builder
-    public WalkPet(Walk walk, Pet pet) {
-    	this.pet = pet;
-        this.walk = walk;
-    }
+	@ManyToOne
+	@JoinColumn(name = "petId", nullable = false)
+	private Pet pet;
 
-    public void modify(Walk walk, Pet pet) {
-    	this.pet = pet;
-        this.walk = walk;
-    }
-    
-    
-    
+	@ManyToOne
+	@JoinColumn(name = "walkId", nullable = false)
+	private Walk walk;
+
+	@Builder
+	public WalkPet(Walk walk, Pet pet) {
+		this.pet = pet;
+		this.walk = walk;
+	}
+
+	public void modify(Walk walk, Pet pet) {
+		this.pet = pet;
+		this.walk = walk;
+	}
+
 }
