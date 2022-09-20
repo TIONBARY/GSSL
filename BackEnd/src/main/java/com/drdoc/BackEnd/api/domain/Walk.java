@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.drdoc.BackEnd.api.domain.dto.WalkRegisterRequestDto;
@@ -29,6 +31,10 @@ public class Walk {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	private User user;
+
 	@Column(name = "distance", nullable = false)
 	private int distance;
 
@@ -43,6 +49,14 @@ public class Walk {
 		this.start_time = request.getStart_time();
 		this.end_time = request.getEnd_time();
 		this.distance = request.getDistance();
+	}
+	
+	@Builder
+	public Walk(WalkRegisterRequestDto request, User user) {
+		this.start_time = request.getStart_time();
+		this.end_time = request.getEnd_time();
+		this.distance = request.getDistance();
+		this.user = user;
 	}
 
 	public void modify(WalkRegisterRequestDto request) {

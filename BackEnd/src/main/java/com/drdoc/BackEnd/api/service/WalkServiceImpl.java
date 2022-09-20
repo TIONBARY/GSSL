@@ -1,29 +1,37 @@
 package com.drdoc.BackEnd.api.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.drdoc.BackEnd.api.domain.Pet;
+import com.drdoc.BackEnd.api.domain.User;
 import com.drdoc.BackEnd.api.domain.Walk;
 import com.drdoc.BackEnd.api.domain.WalkPet;
 import com.drdoc.BackEnd.api.domain.dto.WalkBatchDeleteRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkDetailDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkModifyRequestDto;
+import com.drdoc.BackEnd.api.domain.dto.WalkPetDetailDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkRegisterRequestDto;
 import com.drdoc.BackEnd.api.repository.PetRepository;
+import com.drdoc.BackEnd.api.repository.UserRepository;
 import com.drdoc.BackEnd.api.repository.WalkPetRepository;
 import com.drdoc.BackEnd.api.repository.WalkRepository;
+import com.drdoc.BackEnd.api.util.SecurityUtil;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class WalkServiceImpl implements WalkService {
+	private final UserRepository userRepository;
 	private final WalkRepository walkRepository;
 	private final PetRepository petRepository;
 	private final WalkPetRepository walkPetRepository;
@@ -32,7 +40,8 @@ public class WalkServiceImpl implements WalkService {
 	@Transactional
 	public void register(WalkRegisterRequestDto request) {
 		// 산책 테이블에 저장
-		Walk walk = new Walk(request);
+		User user = getCurrentUser();
+		Walk walk = new Walk(request, user);
 		walkRepository.save(walk);
 
 		// 산책동물 테이블에 저장
@@ -47,6 +56,11 @@ public class WalkServiceImpl implements WalkService {
 	@Transactional
 	public void modify(Integer walkId, WalkModifyRequestDto request) {
 		Walk walk = walkRepository.findById(walkId).get();
+
+		User user = getCurrentUser();
+		if (!walk.getUser().equals(user)) {
+			new IllegalArgumentException("산책 기록에 접근 권한이 없습니다.");
+		}
 		// 산책동물 테이블에 저장된 정보 수정
 		List<WalkPet> walkPetList = walkPetRepository.findByWalk(walk)
 				.orElseThrow(() -> new IllegalArgumentException("해당 산책에 데려간 반려동물이 없습니다."));
@@ -83,16 +97,37 @@ public class WalkServiceImpl implements WalkService {
 
 	// 산책 기록 일괄 삭제
 	public void batchDelete(WalkBatchDeleteRequestDto walks) {
-		walkRepository.deleteAllByIdInBatch(walks.getWalk_ids());		
+		walkRepository.deleteAllByIdInBatch(walks.getWalk_ids());
 	}
 
 	// 산책 기록 전체 조회
 	public Page<WalkDetailDto> listAll() {
-		return null;
+		User user = getCurrentUser();
+		Sort sort = Sort.by(Sort.Direction.DESC, "id");
+		List<Walk> list = walkRepository.findByUser(user, sort).stream().collect(Collectors.toList());
+		List<WalkDetailDto> result = list.stream().map(walk -> new WalkDetailDto(walk, getPetList(walk.getId())))
+				.collect(Collectors.toList());
+		return new PageImpl<>(result);
 	}
 
 	// 산책 기록 상세 조회
 	public WalkDetailDto detail(int walkId) {
-		return null;
+		Walk walk = walkRepository.findById(walkId).orElseThrow(() -> new IllegalArgumentException("산책 기록이 없습니다."));
+		List<WalkPetDetailDto> petList = getPetList(walkId);
+		return new WalkDetailDto(walk, petList);
+	}
+
+	public List<WalkPetDetailDto> getPetList(int walkId) {
+		Walk walk = walkRepository.findById(walkId).orElseThrow(() -> new IllegalArgumentException("산책 기록이 없습니다."));
+		List<WalkPet> walkPetList = walkPetRepository.findByWalk(walk)
+				.orElseThrow(() -> new IllegalArgumentException("해당 산책에 데려간 반려동물이 없습니다."));
+		List<WalkPetDetailDto> petList = walkPetList.stream().map(wp -> new WalkPetDetailDto(wp.getPet())).collect(Collectors.toList());
+		return petList;
+	}
+
+	public User getCurrentUser() {
+		String memberId = SecurityUtil.getCurrentUsername();
+		Optional<User> user = userRepository.findByMemberId(memberId);
+		return user.get();
 	}
 }
