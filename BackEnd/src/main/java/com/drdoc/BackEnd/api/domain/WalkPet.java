@@ -1,0 +1,51 @@
+package com.drdoc.BackEnd.api.domain;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "walkPet")
+@Entity
+@Builder
+public class WalkPet {
+	
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @ManyToOne
+    @JoinColumn(name="petId", nullable = false)
+    private Pet pet;
+
+    @ManyToOne
+    @JoinColumn(name="walkId", nullable = false)
+    private Walk walk;
+    
+    @Builder
+    public WalkPet(Walk walk, Pet pet) {
+    	this.pet = pet;
+        this.walk = walk;
+    }
+
+    public void modify(Walk walk, Pet pet) {
+    	this.pet = pet;
+        this.walk = walk;
+    }
+    
+    
+    
+}
