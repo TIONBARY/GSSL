@@ -18,8 +18,8 @@ import lombok.Setter;
 @Builder
 public class JournalRequestDto {
     
-	@ApiModelProperty(name="petId", example="1234")
-    private int petId;
+	@ApiModelProperty(name="pet_id", example="1234")
+    private int pet_id;
 	
 	@ApiModelProperty(name="picture", example="null")
     private String picture;
