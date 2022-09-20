@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.drdoc.BackEnd.api.domain.dto.WalkRegisterRequestDto;
 
 import lombok.AllArgsConstructor;
@@ -34,11 +32,9 @@ public class Walk {
 	@Column(name = "distance", nullable = false)
 	private int distance;
 
-	@CreationTimestamp
 	@Column(name = "start_time", nullable = false)
 	private LocalDateTime start_time;
 
-	@CreationTimestamp
 	@Column(name = "end_time", nullable = false)
 	private LocalDateTime end_time;
 

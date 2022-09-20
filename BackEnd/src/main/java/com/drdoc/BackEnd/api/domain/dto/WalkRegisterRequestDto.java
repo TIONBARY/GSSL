@@ -23,10 +23,10 @@ public class WalkRegisterRequestDto {
 	@ApiModelProperty(name = "end_time", example = "2022-09-14T15:44:30.327959")
 	private LocalDateTime end_time;
 
-	@ApiModelProperty(name = "pet_ids", example = "[1,2,3,4]")
-	private List<Integer> pet_ids;
-
 	@ApiModelProperty(name = "distance", example = "123")
 	private int distance;
+
+	@ApiModelProperty(name = "pet_ids", example = "[1,2,3,4]")
+	private List<Integer> pet_ids;
 
 }
