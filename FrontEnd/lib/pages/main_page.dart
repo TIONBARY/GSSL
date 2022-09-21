@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widget/main_function_box.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -41,11 +42,7 @@ class UserBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(child: Row(
-      children: [
-        Flexible(child: Container(color:Colors.green,
-          child: OutlineCircleButton(
-            child: Icon(Icons.account_box_rounded),
-          ),),flex: 1,),
+      children: [Flexible(child:Container(color:Colors.blue)),
         Flexible(child: Container(child: Column(
           children: [
             Flexible(child: Container(color:Colors.black, 
@@ -64,164 +61,32 @@ class UserBar extends StatelessWidget {
   }
 }
 
-class behavior_diagnosis extends StatefulWidget {
+class behavior_diagnosis extends StatelessWidget {
   const behavior_diagnosis({Key? key}) : super(key: key);
 
   @override
-  State<behavior_diagnosis> createState() => _behavior_diagnosisState();
-}
-
-class _behavior_diagnosisState extends State<behavior_diagnosis> {
-  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: Container(child: Column(
-        children: [
-          Flexible(child: Container(width:480, height:360, color:Colors.yellow,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text("견민정음",style: TextStyle(fontSize: 40,),),
-                    ),
-                  ],
-                ),
-                  width: 200, height: 100, color: Colors.red,),
-              ],
-            ),),flex: 1,),
-        ],
-      ),),
-    );;
+    return function_box(title: '견민정음');
   }
 }
 
-class health_diagnosis extends StatefulWidget {
+class health_diagnosis extends StatelessWidget {
   const health_diagnosis({Key? key}) : super(key: key);
 
   @override
-  State<health_diagnosis> createState() => _health_diagnosisState();
-}
-
-class _health_diagnosisState extends State<health_diagnosis> {
-  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: Container(child: Column(
-        children: [
-          Flexible(child: Container(width:480, height:360, color:Colors.yellow,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text("견의보감",style: TextStyle(fontSize: 40,),),
-                    ),
-                  ],
-                ),
-                  width: 200, height: 100, color: Colors.red,),
-              ],
-            ),),flex: 1,),
-        ],
-      ),),
-    );;
+    return function_box(title: '견의보감');
   }
 }
 
-class diary extends StatefulWidget {
+class diary extends StatelessWidget {
   const diary({Key? key}) : super(key: key);
 
   @override
-  State<diary> createState() => _diaryState();
-}
-
-class _diaryState extends State<diary> {
-  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: Container(child: Column(
-        children: [
-          Flexible(child: Container(width:480, height:360, color:Colors.yellow,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text("견중일기",style: TextStyle(fontSize: 40,),),
-                    ),
-                  ],
-                ),
-                  width: 200, height: 100, color: Colors.red,),
-              ],
-            ),),flex: 1,),
-        ],
-      ),),
-    );;
+    return function_box(title: '견중일기');
   }
 }
 
-class OutlineCircleButton extends StatelessWidget {
-  OutlineCircleButton({
-    Key key,
-    this.onTap,
-    this.borderSize: 0.5,
-    this.radius: 20.0,
-    this.borderColor: Colors.black,
-    this.foregroundColor: Colors.white,
-    this.child,
-  }) : super(key: key);
 
-  final onTap;
-  final radius;
-  final borderSize;
-  final borderColor;
-  final foregroundColor;
-  final child;
 
-  @override
-  Widget build(BuildContext context) {
-    return ClipOval(
-      child: Container(
-        width: radius,
-        height: radius,
-        decoration: BoxDecoration(
-          border: Border.all(color: borderColor, width: borderSize),
-          color: foregroundColor,
-          shape: BoxShape.circle,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-              child: child??SizedBox(),
-              onTap: () async {
-                if(onTap != null) {
-                  onTap();
-                }
-              }
-          ),
-        ),
-      ),
-    );
-  }
-}
