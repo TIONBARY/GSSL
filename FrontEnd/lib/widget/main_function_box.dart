@@ -23,7 +23,7 @@ class function_box extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(15.0),
-                      child: Text("${title}",style: TextStyle(fontSize: 40,),),
+                      child: Text("${title}",style: TextStyle(fontSize: 40, fontFamily: "Daehan"),),
                     ),
                   ],
                 ),
