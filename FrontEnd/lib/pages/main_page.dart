@@ -66,7 +66,7 @@ class behavior_diagnosis extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return function_box(title: '견민정음');
+    return function_box(title: '견민정음', box_color: Colors.blue,);
   }
 }
 
@@ -75,7 +75,7 @@ class health_diagnosis extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return function_box(title: '견의보감');
+    return function_box(title: '견의보감', box_color: Colors.green);
   }
 }
 
@@ -84,7 +84,7 @@ class diary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return function_box(title: '견중일기');
+    return function_box(title: '견중일기', box_color: Colors.black);
   }
 }
 

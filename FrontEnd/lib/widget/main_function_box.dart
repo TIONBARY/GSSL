@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class function_box extends StatelessWidget {
-  const function_box({Key? key, required this.title}) : super(key: key);
+  const function_box({Key? key, required this.title, required this.box_color}) : super(key: key);
   final title;
+  final box_color;
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +11,7 @@ class function_box extends StatelessWidget {
       padding: const EdgeInsets.all(30.0),
       child: Container(child: Column(
         children: [
-          Flexible(child: Container(width:480, height:360, color:Colors.yellow,
+          Flexible(child: Container(width:480, height:360, color:box_color,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
