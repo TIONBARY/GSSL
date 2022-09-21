@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class function_box extends StatelessWidget {
-  const function_box({Key? key, required this.title, required this.box_color}) : super(key: key);
+  const function_box({Key? key, required this.title, required this.box_color, required this.paddings}) : super(key: key);
   final title;
   final box_color;
+  final paddings;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(30.0),
+      padding: paddings,
       child: Container(child: Column(
         children: [
           Flexible(child: Container(width:480, height:360, color:box_color,
