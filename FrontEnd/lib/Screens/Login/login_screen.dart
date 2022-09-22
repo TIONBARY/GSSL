@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:work/responsive.dart';
+import 'package:GSSL/responsive.dart';
 
 import '../../components/background.dart';
 import 'components/login_form.dart';
