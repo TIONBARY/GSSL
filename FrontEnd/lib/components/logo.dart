@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../constants.dart';
+import '../constants.dart';
 
-class WelcomeImage extends StatelessWidget {
-  const WelcomeImage({
+class Logo extends StatelessWidget {
+  const Logo({
     Key? key,
   }) : super(key: key);
 
@@ -12,21 +12,15 @@ class WelcomeImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          "WELCOME TO EDU",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
         SizedBox(height: defaultPadding * 2),
         Row(
           children: [
-            Spacer(),
+            const Spacer(),
             Expanded(
               flex: 8,
-              child: SvgPicture.asset(
-                "assets/icons/mainlogo2.svg",
-              ),
+              child: SvgPicture.asset("assets/icons/mainlogo2.svg"),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
         SizedBox(height: defaultPadding * 2),
