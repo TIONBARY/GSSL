@@ -1,4 +1,4 @@
-name: work
+name: GSSL
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -63,7 +63,11 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-
+    - assets/sounds/
+  fonts:
+    - family: Daehan
+      fonts:
+        - asset: fonts/Independency-Ahn.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
