@@ -1,6 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+
 import '../widget/main_function_box.dart';
+
+void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.black, // navigation bar color
+    statusBarColor: Color(0xFFFFE6BC), // status bar color
+  ));
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MainPage(),
+    );
+  }
+}
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -88,24 +115,34 @@ class UserBar extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
       // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(45),
-        color: Color(0xFFFFE6BC),
-      ),
+          // borderRadius: BorderRadius.circular(45),
+          // color: Color(0xFFFFE6BC),
+          ),
       child: Row(
         children: [
           Flexible(
               child: Container(
-                // color: Colors.blue
-              )),
+            margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
+            child: SizedBox(
+              width: 80.0,
+              height: 80.0,
+              child: GestureDetector(
+                onTap: () => print('이미지 클릭'),
+                child: CircleAvatar(
+                    // backgroundImage: NetworkImage(widget.user.photoUrl),
+                    ),
+              ),
+            ),
+          )),
           Flexible(
             child: Container(
               child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
                     child: Container(
                       child: Container(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
                         child: Text(
                           "주인의 멍멍이",
                           style: TextStyle(color: Color(0xFF483434)),
@@ -116,22 +153,22 @@ class UserBar extends StatelessWidget {
                     ),
                     flex: 1,
                   ),
-                  Flexible(
-                    child: Container(
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        child: Text(
-                          "건강하자",
-                          style: TextStyle(
-                            color: Color(0xFF483434),
-                          ),
-                        ),
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                    ),
-                    flex: 1,
-                  ),
+                  // Flexible(
+                  //   child: Container(
+                  //     child: Container(
+                  //       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  //       child: Text(
+                  //         "건강하자",
+                  //         style: TextStyle(
+                  //           color: Color(0xFF483434),
+                  //         ),
+                  //       ),
+                  //       width: double.infinity,
+                  //       height: double.infinity,
+                  //     ),
+                  //   ),
+                  //   flex: 1,
+                  // ),
                 ],
               ),
             ),
@@ -141,9 +178,80 @@ class UserBar extends StatelessWidget {
             child: Container(
               // color: Colors.green,
               child: Container(
-                child: Icon(
-                  Icons.wifi_protected_setup_outlined,
+                child: IconButton(
+                  icon: Icon(Icons.wifi_protected_setup),
                   color: Color(0xFF483434),
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      builder: (BuildContext context) {
+                        return Container(
+                          height: 275,
+                          decoration: new BoxDecoration(
+                            color: Color(0xFFFFE6BC),
+                            borderRadius: new BorderRadius.only(
+                              topLeft: const Radius.circular(25.0),
+                              topRight: const Radius.circular(25.0),
+                            ),
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              // mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Row(
+                                  children: [ // petmodal 함수적용
+                                    Flexible(
+                                        child: Container(
+                                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                      child: SizedBox(
+                                        width: 65.0,
+                                        height: 65.0,
+                                        child: GestureDetector(
+                                          onTap: () => print('이미지 클릭'),
+                                          child: CircleAvatar(
+                                              // backgroundImage: NetworkImage(widget.user.photoUrl),
+                                              ),
+                                        ),
+                                      ),
+                                    )),
+                                    // Flexible(
+                                    //     child: Container(
+                                    //       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    //       child: SizedBox(
+                                    //         width: 65.0,
+                                    //         height: 65.0,
+                                    //         child: GestureDetector(
+                                    //           onTap: () => print('이미지 클릭'),
+                                    //           child: CircleAvatar(
+                                    //             // backgroundImage: NetworkImage(widget.user.photoUrl),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     )),
+                                  ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  child: SizedBox(
+                                    child: IconButton(
+                                      icon: Icon(Icons.add),
+                                      iconSize: 50,
+                                      color: Color(0xFF483434),
+                                      onPressed: () => Navigator.pop(context),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
                 width: double.infinity,
                 height: double.infinity,
