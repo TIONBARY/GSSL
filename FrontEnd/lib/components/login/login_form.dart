@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../components/dont_have_an_Account.dart';
-import '../../../constants.dart';
-import '../../../pages/signup_page.dart';
+import '../dont_have_an_Account.dart';
+import '../../constants.dart';
+import '../../pages/signup_page.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -18,9 +18,9 @@ class LoginForm extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             cursorColor: kPrimaryColor,
-            onSaved: (email) {},
+            onSaved: (id) {},
             decoration: InputDecoration(
-              hintText: "Your email",
+              hintText: "아이디",
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(defaultPadding),
                 child: Icon(Icons.person),
@@ -34,7 +34,7 @@ class LoginForm extends StatelessWidget {
               obscureText: true,
               cursorColor: kPrimaryColor,
               decoration: InputDecoration(
-                hintText: "Your password",
+                hintText: "비밀번호",
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(defaultPadding),
                   child: Icon(Icons.lock),
@@ -48,7 +48,7 @@ class LoginForm extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {},
               child: Text(
-                "Login".toUpperCase(),
+                "로그인".toUpperCase(),
               ),
             ),
           ),
