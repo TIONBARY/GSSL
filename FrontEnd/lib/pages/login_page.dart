@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:work/api/api_service.dart';
-import 'package:work/model/login_model.dart';
+import 'package:GSSL/api/api_service.dart';
+import 'package:GSSL/model/login_model.dart';
 
 import '../ProgressHUD.dart';
 
