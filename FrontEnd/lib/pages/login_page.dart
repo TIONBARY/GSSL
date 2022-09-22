@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:GSSL/responsive.dart';
 
-import '../Screens/Login/components/login_form.dart';
-import '../Screens/Login/components/login_screen_top_image.dart';
+import '../components/login/login_form.dart';
+import '../components/logo.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class LoginScreen extends StatelessWidget {
             desktop: Row(
               children: [
                 const Expanded(
-                  child: LoginScreenTopImage(),
+                  child: Logo(),
                 ),
                 Expanded(
                   child: Row(
@@ -47,7 +47,7 @@ class MobileLoginScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const LoginScreenTopImage(),
+        const Logo(),
         Row(
           children: const [
             Spacer(),
