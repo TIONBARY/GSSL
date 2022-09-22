@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../components/background.dart';
 import '../../responsive.dart';
 import 'components/login_signup_btn.dart';
 import 'components/welcome_image.dart';
@@ -10,8 +9,8 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Background(
-      child: SingleChildScrollView(
+    return Scaffold(
+      body: SingleChildScrollView(
         child: SafeArea(
           child: Responsive(
             desktop: Row(

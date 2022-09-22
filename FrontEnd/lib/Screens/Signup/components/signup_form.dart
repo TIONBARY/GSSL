@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../components/already_have_an_account_acheck.dart';
+import '../../../components/dont_have_an_Account.dart';
 import '../../../constants.dart';
-import '../../Login/login_screen.dart';
+import '../../../pages/login_page.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({
@@ -48,7 +48,7 @@ class SignUpForm extends StatelessWidget {
             child: Text("Sign Up".toUpperCase()),
           ),
           const SizedBox(height: defaultPadding),
-          AlreadyHaveAnAccountCheck(
+          DontHaveAnAccount(
             login: false,
             press: () {
               Navigator.push(
