@@ -16,7 +16,7 @@ class SignUpForm extends StatelessWidget {
         children: [
           TextFormField(
             textInputAction: TextInputAction.next,
-            cursorColor: kPrimaryColor,
+            cursorColor: btnColor,
             onSaved: (email) {},
             decoration: InputDecoration(
               hintText: "아이디",
@@ -30,7 +30,7 @@ class SignUpForm extends StatelessWidget {
             child: TextFormField(
               textInputAction: TextInputAction.next,
               obscureText: true,
-              cursorColor: kPrimaryColor,
+              cursorColor: btnColor,
               decoration: InputDecoration(
                 hintText: "비밀번호",
                 prefixIcon: Padding(
@@ -45,7 +45,7 @@ class SignUpForm extends StatelessWidget {
               keyboardType: TextInputType.name,
               textInputAction: TextInputAction.next,
               obscureText: true,
-              cursorColor: kPrimaryColor,
+              cursorColor: btnColor,
               decoration: InputDecoration(
                 hintText: "닉네임",
                 prefixIcon: Padding(
@@ -59,7 +59,7 @@ class SignUpForm extends StatelessWidget {
             child: TextFormField(
               textInputAction: TextInputAction.next,
               obscureText: true,
-              cursorColor: kPrimaryColor,
+              cursorColor: btnColor,
               decoration: InputDecoration(
                 hintText: "성별",
                 prefixIcon: Padding(
@@ -74,7 +74,7 @@ class SignUpForm extends StatelessWidget {
               keyboardType: TextInputType.phone,
               textInputAction: TextInputAction.next,
               obscureText: true,
-              cursorColor: kPrimaryColor,
+              cursorColor: btnColor,
               decoration: InputDecoration(
                 hintText: "전화번호",
                 prefixIcon: Padding(
@@ -89,7 +89,7 @@ class SignUpForm extends StatelessWidget {
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               obscureText: true,
-              cursorColor: kPrimaryColor,
+              cursorColor: btnColor,
               decoration: InputDecoration(
                 hintText: "이메일",
                 prefixIcon: Padding(
@@ -103,7 +103,7 @@ class SignUpForm extends StatelessWidget {
             child: TextFormField(
               textInputAction: TextInputAction.next,
               obscureText: true,
-              cursorColor: kPrimaryColor,
+              cursorColor: btnColor,
               decoration: InputDecoration(
                 hintText: "프로필(선택)",
                 prefixIcon: Padding(
@@ -118,7 +118,7 @@ class SignUpForm extends StatelessWidget {
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.done,
               obscureText: true,
-              cursorColor: kPrimaryColor,
+              cursorColor: btnColor,
               decoration: InputDecoration(
                 hintText: "자기소개(선택)",
                 prefixIcon: Padding(
