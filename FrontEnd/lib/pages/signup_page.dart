@@ -11,28 +11,34 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Responsive(
-          mobile: const MobileSignupScreen(),
-          desktop: Row(
-            children: [
-              const Expanded(
-                child: Logo(),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SizedBox(
-                      width: 450,
-                      child: SignUpForm(),
-                    ),
-                    SizedBox(height: defaultPadding / 2),
-                    // SocalSignUp()
-                  ],
+      backgroundColor: pColor,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Responsive(
+            mobile: const MobileSignupScreen(),
+            desktop: Row(
+              children: [
+                const Expanded(
+                  child: Logo(heights : defaultPadding),
                 ),
-              )
-            ],
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      SizedBox(
+                        width: 450,
+                        child: SignUpForm(),
+                      ),
+                      SizedBox(height: defaultPadding / 2),
+                      // SocalSignUp()
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -50,7 +56,7 @@ class MobileSignupScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Logo(),
+        const Logo(heights : defaultPadding),
         Row(
           children: const [
             Spacer(),
