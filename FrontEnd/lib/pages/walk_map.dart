@@ -6,7 +6,7 @@ import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
-const String kakaoMapKey = 'kakao자바스크립트API';
+const String kakaoMapKey = '4788247ce309a737d4c2e2b238954fcb';
 
 void main() {
   runApp(MaterialApp(home: KakaoMapTest()));

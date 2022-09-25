@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
               desktop: Row(
                 children: [
                   const Expanded(
-                    child: Logo(),
+                    child: Logo(heights : defaultPadding * 2),
                   ),
                   Expanded(
                     child: Row(
@@ -54,7 +54,7 @@ class MobileLoginScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Logo(),
+        const Logo(heights : defaultPadding * 2),
         Row(
           children: const [
             Spacer(),
