@@ -1,3 +1,4 @@
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +8,7 @@ import '../components/main/main_function_box.dart';
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.black, // navigation bar color
-    statusBarColor: Color(0xFFFFE6BC), // status bar color
+    statusBarColor: pColor, // status bar color
   ));
 
   runApp(const MyApp());
@@ -68,7 +69,7 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Color(0xFFFFE6BC),
+        color: pColor,
         child: SizedBox(
           height: 60,
           child: Row(
@@ -86,7 +87,7 @@ class _MainPageState extends State<MainPage> {
                 icon: Icon(
                   Icons.home,
                   size: 30,
-                  color: Color(0xFF483434),
+                  color: btnColor,
                 ),
                 onPressed: () {},
               ),
@@ -145,7 +146,7 @@ class UserBar extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
                         child: Text(
                           "주인의 멍멍이",
-                          style: TextStyle(color: Color(0xFF483434)),
+                          style: TextStyle(color: btnColor),
                         ),
                         width: double.infinity,
                         height: double.infinity,
@@ -180,7 +181,7 @@ class UserBar extends StatelessWidget {
               child: Container(
                 child: IconButton(
                   icon: Icon(Icons.wifi_protected_setup),
-                  color: Color(0xFF483434),
+                  color: btnColor,
                   onPressed: () {
                     showModalBottomSheet<void>(
                       context: context,
@@ -191,7 +192,7 @@ class UserBar extends StatelessWidget {
                         return Container(
                           height: 275,
                           decoration: new BoxDecoration(
-                            color: Color(0xFFFFE6BC),
+                            color: pColor,
                             borderRadius: new BorderRadius.only(
                               topLeft: const Radius.circular(25.0),
                               topRight: const Radius.circular(25.0),
@@ -240,7 +241,7 @@ class UserBar extends StatelessWidget {
                                     child: IconButton(
                                       icon: Icon(Icons.add),
                                       iconSize: 50,
-                                      color: Color(0xFF483434),
+                                      color: btnColor,
                                       onPressed: () => Navigator.pop(context),
                                     ),
                                   ),
