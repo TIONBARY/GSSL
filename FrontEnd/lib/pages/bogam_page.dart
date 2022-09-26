@@ -7,7 +7,16 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%EA%B2%B0%EB%A7%89%EC%97%BC');
+final String label0 = '결막염';
+final String label1 = '궤양성각막질환';
+final String label2 = '백내장';
+final String label3 = '비궤양성각막질환';
+final String label4 = '색소침착성각막염';
+final String label5 = '안검내반증';
+final String label6 = '안검염';
+final String label7 = '안검종양';
+final String label8 = '유루증';
+final String label9 = '핵경화';
 
 class BogamPage extends StatefulWidget {
   const BogamPage({Key? key}) : super(key: key);
@@ -122,6 +131,7 @@ class _BogamPageState extends State<BogamPage> {
                                   Text('결막염'),
                                   IconButton(
                                       onPressed: () async {
+                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label0);
                                           if (await canLaunchUrl(_url)) {
                                             await launchUrl(_url);
                                           } else {
@@ -135,9 +145,16 @@ class _BogamPageState extends State<BogamPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('핵반증'),
+                                  Text('핵경화'),
                                   IconButton(
-                                      onPressed: () => guideDialog(),
+                                      onPressed: () async {
+                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label9);
+                                        if (await canLaunchUrl(_url)) {
+                                          await launchUrl(_url);
+                                        } else {
+                                          print('Could not launch');
+                                        }
+                                      },
                                       icon: Icon(Icons.help_outline))
                                 ],
                               ),
@@ -147,7 +164,14 @@ class _BogamPageState extends State<BogamPage> {
                                 children: [
                                   Text('안검염'),
                                   IconButton(
-                                      onPressed: () => guideDialog(),
+                                      onPressed: () async {
+                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label6);
+                                        if (await canLaunchUrl(_url)) {
+                                          await launchUrl(_url);
+                                        } else {
+                                          print('Could not launch');
+                                        }
+                                      },
                                       icon: Icon(Icons.help_outline))
                                 ],
                               ),
