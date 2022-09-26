@@ -23,13 +23,12 @@ class _LoginFormState extends State<LoginForm> {
 
   String id = '';
   String pw = '';
-   Future<LoginResponseModel>? loginAuth;
-   ApiLogin apiLogin = ApiLogin();
+  Future<LoginResponseModel>? loginAuth;
+  ApiLogin apiLogin = ApiLogin();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-
   }
 
   @override
@@ -38,42 +37,46 @@ class _LoginFormState extends State<LoginForm> {
       key: this.loginFormKey,
       child: Column(
         children: [
-          renderTextFormField(label: '아이디', icon: Icon(Icons.person, color: sColor), onSaved: (val){
-            id = val;
-          }),
+          renderTextFormField(
+              label: '아이디',
+              icon: Icon(Icons.person, color: sColor),
+              onSaved: (val) {
+                id = val;
+              }),
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              child: renderTextFormField(
+                  label: '비밀번호',
+                  icon: Icon(Icons.lock, color: sColor),
+                  onSaved: (val) {
+                    pw = val;
+                  })),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: renderTextFormField(label: '비밀번호', icon: Icon(Icons.lock, color: sColor), onSaved: (val){
-              pw = val;
-            })
-          ),
-    Padding(
-    padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-    child: Container(
-    height: 48,
-    width: double.maxFinite,
-    child:Hero(
-            tag: "login_btn",
-            child: ElevatedButton(
-              onPressed: () async {
-                if(mounted) {
-                  loginFormKey.currentState?.save();
-                  loginAuth = apiLogin.login(LoginRequestModel(id: id, password: pw));
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainPage())
-                  );
-              }
-              },
-    style: ElevatedButton.styleFrom(
-    backgroundColor: btnColor,
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(25.0),
-    )),
-              child: Text(
-                "로그인".toUpperCase(),
-              ),
-            ),
+            child: Container(
+              height: 48,
+              width: double.maxFinite,
+              child: Hero(
+                tag: "login_btn",
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (mounted) {
+                      loginFormKey.currentState?.save();
+                      loginAuth = apiLogin
+                          .login(LoginRequestModel(id: id, password: pw));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MainPage()));
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: btnColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      )),
+                  child: Text(
+                    "로그인".toUpperCase(),
+                  ),
+                ),
               ),
             ),
           ),
@@ -96,8 +99,11 @@ class _LoginFormState extends State<LoginForm> {
   }
 }
 
-renderTextFormField({required String label, required Icon icon, required FormFieldSetter onSaved,})
-{
+renderTextFormField({
+  required String label,
+  required Icon icon,
+  required FormFieldSetter onSaved,
+}) {
   assert(label != null);
   assert(onSaved != null);
 
