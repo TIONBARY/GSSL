@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 
 import '../constants.dart';
 import '../pages/walk_map.dart';
+import 'package:GSSL/pages/community_page.dart';
 
 class bottomNavBar extends StatelessWidget {
   const bottomNavBar(
@@ -34,7 +35,12 @@ class bottomNavBar extends StatelessWidget {
                 size: 30,
                 color: icon_color_com, // Color(0xFFFFF3E4),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CommunityApp()),
+                );
+              },
             ),
             IconButton(
               icon: Icon(
