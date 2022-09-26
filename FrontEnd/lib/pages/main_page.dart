@@ -1,4 +1,5 @@
 import 'package:GSSL/constants.dart';
+import 'package:GSSL/pages/bogam_page.dart';
 import 'package:GSSL/pages/diary_page.dart';
 import 'package:GSSL/pages/walk_map.dart';
 
@@ -265,7 +266,7 @@ class health_diagnosis extends StatelessWidget {
       title: '견의보감',
       box_color: Color(0x80506274),
       paddings: EdgeInsets.fromLTRB(30, 15, 30, 15),
-      nextPage: GalleryApp(),
+      nextPage: BogamPage(),
     );
   }
 }
