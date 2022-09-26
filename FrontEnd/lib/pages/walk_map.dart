@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:snapping_sheet/snapping_sheet.dart';
 
 import '../components/bottomNavBar.dart';
 import '../constants.dart';
@@ -20,7 +21,6 @@ List<Position> positionList = [];
 StreamSubscription<Position>? _positionStreamSubscription;
 int totalWalkLength = 0;
 var bounds = new KakaoBoundary();
-
 
 void main() async {
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -146,10 +146,8 @@ void startWalk(Position position, _mapController) {
 }
 
 void drawLine(_mapController, position, beforePos) {
-  var lat = 0.0,
-      lon = 0.0;
-  var beforeLat = 0.0,
-      beforeLon = 0.0;
+  var lat = 0.0, lon = 0.0;
+  var beforeLat = 0.0, beforeLon = 0.0;
 
   lat = position.latitude;
   lon = position.longitude;
@@ -158,7 +156,7 @@ void drawLine(_mapController, position, beforePos) {
   // 거리 계산
   double distanceInMeters = _geolocatorPlatform
       .bearingBetween(position.latitude, position.longitude, beforePos.latitude,
-      beforePos.longitude)
+          beforePos.longitude)
       .abs();
   // 거리 합산
   totalWalkLength += distanceInMeters.toInt();
@@ -237,9 +235,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     // var appBarHeight = AppBar().preferredSize.height;
     debugPrint(widget.initLat.toString());
     debugPrint(widget.initLng.toString());
@@ -249,70 +245,119 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
       appBar: AppBar(
         toolbarHeight: 0,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            child: KakaoMapView(
-              width: size.width,
-              // height: size.height * 7 / 10,
-              // height: size.height - appBarHeight - 130,
-              height: size.height - 100,
-              kakaoMapKey: widget.kakaoMapKey,
-              lat: widget.initLat,
-              lng: widget.initLng,
-              showMapTypeControl: false,
-              showZoomControl: false,
-              draggableMarker: false,
-              // mapType: MapType.TERRAIN,
-              mapController: (controller) {
-                _mapController = controller;
-              },
-              polyline: KakaoFigure(path: []),
-              zoomChanged: (message) {
-                debugPrint('[확대] ${message.message}');
-              },
-              cameraIdle: (message) {
-                KakaoLatLng latLng =
-                KakaoLatLng.fromJson(jsonDecode(message.message));
-                debugPrint('[대기중] ${latLng.lat}, ${latLng.lng}');
-              },
-              boundaryUpdate: (message) {
-                bounds = KakaoBoundary.fromJson(jsonDecode(message.message));
-                debugPrint(
-                    '[범위] ne : ${bounds.neLat}, ${bounds.neLng}, sw : ${bounds
-                        .swLat}, ${bounds.swLng}');
-              },
+      body: Container(
+        child: SnappingSheet( // 슬라이드 모달창
+          snappingPositions: [
+            SnappingPosition.factor(
+              positionFactor: 0,
+              snappingCurve: Curves.easeOutExpo,
+              snappingDuration: Duration(seconds: 1),
+              grabbingContentOffset: GrabbingContentOffset.top,
+            ),
+            SnappingPosition.pixels( // 원하는 높이만큼 보임
+              positionPixels: 150,
+              snappingCurve: Curves.elasticOut,
+              snappingDuration: Duration(milliseconds: 1750),
+            ),
+          ],
+          lockOverflowDrag: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                child: KakaoMapView(
+                  width: size.width,
+                  // height: size.height * 7 / 10,
+                  // height: size.height - appBarHeight - 130,
+                  height: size.height - 100,
+                  kakaoMapKey: widget.kakaoMapKey,
+                  lat: widget.initLat,
+                  lng: widget.initLng,
+                  showMapTypeControl: false,
+                  showZoomControl: false,
+                  draggableMarker: false,
+                  // mapType: MapType.TERRAIN,
+                  mapController: (controller) {
+                    _mapController = controller;
+                  },
+                  polyline: KakaoFigure(path: []),
+                  zoomChanged: (message) {
+                    debugPrint('[확대] ${message.message}');
+                  },
+                  cameraIdle: (message) {
+                    KakaoLatLng latLng =
+                        KakaoLatLng.fromJson(jsonDecode(message.message));
+                    debugPrint('[대기중] ${latLng.lat}, ${latLng.lng}');
+                  },
+                  boundaryUpdate: (message) {
+                    bounds = KakaoBoundary.fromJson(jsonDecode(message.message));
+                    debugPrint(
+                        '[범위] ne : ${bounds.neLat}, ${bounds.neLng}, sw : ${bounds.swLat}, ${bounds.swLng}');
+                  },
+                ),
+              ),
+            ],
+          ),
+          grabbingHeight: 50,
+          grabbing: Container(
+            decoration: new BoxDecoration(
+              color: pColor,
+              borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(25.0),
+                topRight: const Radius.circular(25.0),
+              ),
+            ),
+            child : Container(
+                child: Icon(
+                  Icons.maximize,
+                  size: 50,
+                  color: sColor,
+                )
+            )
+          ),
+          sheetBelow: SnappingSheetContent(
+            draggable: true,
+            child: Container(
+                color: pColor,
+              // decoration: new BoxDecoration(
+              //   borderRadius: new BorderRadius.only(
+              //     topLeft: const Radius.circular(25.0),
+              //     topRight: const Radius.circular(25.0),
+              //   ),
+              // ),
+              child: Row(
+                children: [
+                  ElevatedButton(
+                      child: pressWalkBtn ? Text('산책 종료') : Text('산책 시작'),
+                      onPressed: () {
+                        setState(() {
+                          if (pressWalkBtn == false) {
+                            Future<Position> future = _determinePosition();
+                            future
+                                .then((pos) => startWalk(pos, _mapController))
+                                .catchError((error) => debugPrint(error));
+                            pressWalkBtn = true;
+                            debugPrint(pressWalkBtn.toString());
+                          } else if (pressWalkBtn == true) {
+                            stopWalk(_mapController);
+                            pressWalkBtn = false;
+                            debugPrint(pressWalkBtn.toString());
+                          }
+                        });
+                      }),
+                ],
+              ),
             ),
           ),
-          bottomNavBar(
-              back_com : pColor,
-              back_home : pColor,
-              back_loc : sColor,
-              icon_color_com: btnColor,
-              icon_color_home: btnColor,
-              icon_color_loc: Colors.white),
-          // ElevatedButton(
-          //   child: pressWalkBtn ? Text('산책 종료') : Text('산책 시작'),
-          //   onPressed: () {
-          //     setState(() {
-          //       if (pressWalkBtn == false) {
-          //         Future<Position> future = _determinePosition();
-          //         future
-          //           .then((pos) => startWalk(pos, _mapController))
-          //           .catchError((error) => debugPrint(error));
-          //         pressWalkBtn = true;
-          //         debugPrint(pressWalkBtn.toString());
-          //       } else if (pressWalkBtn == true) {
-          //         stopWalk(_mapController);
-          //         pressWalkBtn = false;
-          //         debugPrint(pressWalkBtn.toString());
-          //       }
-          //     });
-          //   }
-          // ),
-        ],
+        ),
       ),
+      bottomNavigationBar: bottomNavBar(
+          back_com : pColor,
+          back_home : pColor,
+          back_loc : sColor,
+          icon_color_com: btnColor,
+          icon_color_home: btnColor,
+          icon_color_loc: Colors.white),
     );
   }
 }
