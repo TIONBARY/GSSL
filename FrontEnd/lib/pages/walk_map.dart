@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter/services.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
@@ -12,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../components/bottomNavBar.dart';
+import '../components/walk/walk_timer.dart';
 import '../constants.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
@@ -34,6 +35,7 @@ void main() async {
   String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
 
   runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)));
 }
 
@@ -232,8 +234,12 @@ class KakaoMapTest extends StatefulWidget {
 }
 
 class _KakaoMapTestState extends State<KakaoMapTest> {
+  // ignore: unused_field
   late WebViewController _mapController;
   bool pressWalkBtn = false;
+  DateTime startTime = DateTime.now();
+  DateTime endTime =  DateTime.now();
+  var stopwatch = clock.stopwatch();
 
   @override
   Widget build(BuildContext context) {
@@ -257,7 +263,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               width: size.width,
               // height: size.height * 7 / 10,
               // height: size.height - appBarHeight - 130,
-              height: size.height - 100,
+              height: size.height - 300,
               kakaoMapKey: widget.kakaoMapKey,
               lat: widget.initLat,
               lng: widget.initLng,
@@ -285,29 +291,37 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               },
             ),
           ),
+          WalkTimer(!pressWalkBtn),
           bottomNavBar(
               icon_color_com: Color(0xFFFFF3E4),
               icon_color_home: Color(0xFFFFF3E4),
               icon_color_loc: btnColor),
-          // ElevatedButton(
-          //   child: pressWalkBtn ? Text('산책 종료') : Text('산책 시작'),
-          //   onPressed: () {
-          //     setState(() {
-          //       if (pressWalkBtn == false) {
-          //         Future<Position> future = _determinePosition();
-          //         future
-          //           .then((pos) => startWalk(pos, _mapController))
-          //           .catchError((error) => debugPrint(error));
-          //         pressWalkBtn = true;
-          //         debugPrint(pressWalkBtn.toString());
-          //       } else if (pressWalkBtn == true) {
-          //         stopWalk(_mapController);
-          //         pressWalkBtn = false;
-          //         debugPrint(pressWalkBtn.toString());
-          //       }
-          //     });
-          //   }
-          // ),
+          ElevatedButton(
+            child: pressWalkBtn ? Text('산책 종료') : Text('산책 시작'),
+            onPressed: () {
+              setState(() {
+                if(pressWalkBtn == false) {
+                  Future<Position> future = _determinePosition();
+                  future
+                      .then((pos) => startWalk(pos, _mapController))
+                      .catchError((error) => debugPrint(error));
+
+                  startTime = DateTime.now();
+                  stopwatch.start();
+                  pressWalkBtn = true;
+                  debugPrint(pressWalkBtn.toString());
+                } else if(pressWalkBtn == true){
+                  stopWalk(_mapController);
+
+                  endTime = DateTime.now();
+                  stopwatch.stop();
+                  pressWalkBtn = false;
+                  debugPrint(totalWalkLength.toString());
+                  debugPrint(pressWalkBtn.toString());
+                }
+              });
+            }
+          ),
         ],
       ),
     );
