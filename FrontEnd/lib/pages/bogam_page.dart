@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:GSSL/constants.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,9 +35,7 @@ class _BogamPageState extends State<BogamPage> {
         child: Center(
             child: _image == null
                 ? Text('이미지를 촬영/선택 해주세요')
-                : Image.file(File(_image!.path))
-        )
-    );
+                : Image.file(File(_image!.path))));
   }
 
   @override
@@ -52,7 +52,7 @@ class _BogamPageState extends State<BogamPage> {
             IconButton(
               onPressed: () => guideDialog(),
               icon: Icon(Icons.help_outline),
-              color: Color(0xffE38B29),
+              color: btnColor,
             ),
             SizedBox(height: 25.0),
             showImage(),
@@ -69,7 +69,7 @@ class _BogamPageState extends State<BogamPage> {
                   onPressed: () {
                     getImage(ImageSource.camera);
                   },
-                  backgroundColor: Color(0xffE38B29),
+                  backgroundColor: btnColor,
                 ),
 
                 // 갤러리에서 이미지를 가져오는 버튼
@@ -79,10 +79,85 @@ class _BogamPageState extends State<BogamPage> {
                   onPressed: () {
                     getImage(ImageSource.gallery);
                   },
-                  backgroundColor: Color(0xffE38B29),
+                  backgroundColor: btnColor,
                 ),
               ],
-            )
+            ),
+            Padding(padding: EdgeInsets.all(15)),
+            FloatingActionButton(
+                child: Icon(Icons.search),
+                tooltip: 'diagnose',
+                backgroundColor: btnColor,
+                onPressed: () {
+                  if (_image == null) {
+                    print('사진을 선택해주세요');
+                  } else {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      builder: (BuildContext context) {
+                        return Container(
+                          height: 250,
+                          decoration: new BoxDecoration(
+                            color: pColor,
+                            borderRadius: new BorderRadius.only(
+                              topLeft: const Radius.circular(25.0),
+                              topRight: const Radius.circular(25.0),
+                            ),
+                          ),
+                          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(padding: EdgeInsets.all(10)),
+                              Text('해당 질병이 의심됩니다'),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('결막염'),
+                                  IconButton(
+                                      onPressed: () => guideDialog(),
+                                      icon: Icon(Icons.help_outline))
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('핵반증'),
+                                  IconButton(
+                                      onPressed: () => guideDialog(),
+                                      icon: Icon(Icons.help_outline))
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('안검염'),
+                                  IconButton(
+                                      onPressed: () => guideDialog(),
+                                      icon: Icon(Icons.help_outline))
+                                ],
+                              ),
+                              FloatingActionButton(
+                                child: Icon(Icons.save_alt_outlined),
+                                tooltip: 'save',
+                                onPressed: () {
+                                  
+                                },
+                                backgroundColor: btnColor,
+                              ),
+                            ],
+
+                          ),
+                        );
+                      },
+                    );
+                  }
+                })
           ],
         ));
   }
@@ -124,9 +199,5 @@ class _BogamPageState extends State<BogamPage> {
             ],
           );
         });
-  }
-
-  void show_result(){
-    Image.file(File(_image!.path));
   }
 }
