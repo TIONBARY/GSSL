@@ -4,6 +4,8 @@ import 'package:GSSL/pages/walk_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../components/main/main_function_box.dart';
 
@@ -100,10 +102,15 @@ class _MainPageState extends State<MainPage> {
                   size: 30,
                   color: Color(0xFFFFF3E4),
                 ),
-                onPressed: (){
+                onPressed: () async {
+                  WidgetsFlutterBinding.ensureInitialized();
+                  Position pos = await Geolocator.getCurrentPosition();
+                  await dotenv.load(fileName: ".env");
+                  String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
+
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => KakaoMapTest()),
+                    MaterialPageRoute(builder: (context) => KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)),
                 );
                   },
               ),

@@ -10,7 +10,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
-// const String kakaoMapKey = 'kakao자바스크립트API';
 
 List<Position> positionList = [];
 StreamSubscription<Position>? _positionStreamSubscription;
