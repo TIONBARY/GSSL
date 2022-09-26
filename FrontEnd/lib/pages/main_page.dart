@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../components/bottomNavBar.dart';
 import '../components/main/main_function_box.dart';
-
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -74,51 +74,10 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: pColor,
-        child: SizedBox(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.people_alt_outlined,
-                  size: 30,
-                  color: Color(0xFFFFF3E4),
-                ),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.home,
-                  size: 30,
-                  color: btnColor,
-                ),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.location_on_outlined,
-                  size: 30,
-                  color: Color(0xFFFFF3E4),
-                ),
-                onPressed: () async {
-                  WidgetsFlutterBinding.ensureInitialized();
-                  Position pos = await Geolocator.getCurrentPosition();
-                  await dotenv.load(fileName: ".env");
-                  String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)),
-                );
-                  },
-              ),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: bottomNavBar(
+          icon_color_com: Color(0xFFFFF3E4),
+          icon_color_home: btnColor,
+          icon_color_loc: Color(0xFFFFF3E4)),
     );
   }
 }
@@ -146,9 +105,9 @@ class UserBar extends StatelessWidget {
               child: GestureDetector(
                 onTap: () => print('이미지 클릭'),
                 child: CircleAvatar(
-                    backgroundColor: btnColor,
-                    // backgroundImage: NetworkImage(widget.user.photoUrl),
-                    ),
+                  backgroundColor: btnColor,
+                  // backgroundImage: NetworkImage(widget.user.photoUrl),
+                ),
               ),
             ),
           )),
@@ -220,7 +179,8 @@ class UserBar extends StatelessWidget {
                               // mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Row(
-                                  children: [ // petmodal 함수적용
+                                  children: [
+                                    // petmodal 함수적용
                                     Flexible(
                                         child: Container(
                                       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
