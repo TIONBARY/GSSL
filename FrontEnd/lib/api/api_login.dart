@@ -1,8 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../model/login_model.dart';
+import '../model/request_models/login.dart';
 
-class APIService {
+class ApiLogin {
   Future<LoginResponseModel> login(LoginRequestModel requestModel) async {
     String url = "https://j7a204.p.ssafy.io/api/user/public/login";
 
