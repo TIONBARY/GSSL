@@ -76,9 +76,12 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       bottomNavigationBar: bottomNavBar(
-          icon_color_com: Color(0xFFFFF3E4),
-          icon_color_home: btnColor,
-          icon_color_loc: Color(0xFFFFF3E4)),
+          back_com : pColor,
+          back_home : sColor,
+          back_loc : pColor,
+          icon_color_com: btnColor,
+          icon_color_home: Colors.white,
+          icon_color_loc: btnColor),
     );
   }
 }
