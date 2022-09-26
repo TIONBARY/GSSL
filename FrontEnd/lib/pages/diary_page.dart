@@ -56,7 +56,7 @@ class GalleryApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown,
+      backgroundColor: Colors.lightGreen,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -76,6 +76,16 @@ class GalleryApp extends StatelessWidget {
             SizedBox(
               height: 40,
             ),
+            TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search, color: Colors.black),
+                hintText: "Search for an Image",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0)
+                )
+              ),
+            ),
+            SizedBox(height: 24.0,),
             Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(
