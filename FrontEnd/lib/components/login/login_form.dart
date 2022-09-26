@@ -1,7 +1,7 @@
 import 'package:GSSL/model/request_models/login.dart';
 import 'package:GSSL/model/response_models/login_post.dart';
 import 'package:GSSL/pages/main_page.dart';
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../dont_have_an_Account.dart';
 import '../../constants.dart';
@@ -38,12 +38,12 @@ class _LoginFormState extends State<LoginForm> {
       key: this.loginFormKey,
       child: Column(
         children: [
-          renderTextFormField(label: '아이디', icon: Icon(Icons.person), onSaved: (val){
+          renderTextFormField(label: '아이디', icon: Icon(Icons.person, color: sColor), onSaved: (val){
             id = val;
           }),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: renderTextFormField(label: '비밀번호', icon: Icon(Icons.password), onSaved: (val){
+            child: renderTextFormField(label: '비밀번호', icon: Icon(Icons.lock, color: sColor), onSaved: (val){
               pw = val;
             })
           ),
@@ -112,7 +112,6 @@ renderTextFormField({required String label, required Icon icon, required FormFie
       prefixIcon: Padding(
         padding: const EdgeInsets.all(defaultPadding),
         child: icon,
-        color: sColor,
       ),
       enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
