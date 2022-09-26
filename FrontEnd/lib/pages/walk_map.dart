@@ -3,11 +3,16 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/services.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import '../components/bottomNavBar.dart';
+import '../constants.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 
@@ -16,13 +21,20 @@ StreamSubscription<Position>? _positionStreamSubscription;
 int totalWalkLength = 0;
 var bounds = new KakaoBoundary();
 
+
 void main() async {
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   systemNavigationBarColor: Colors.black, // navigation bar color
+  //   // statusBarColor: pColor, // status bar color
+  // ));
+
   WidgetsFlutterBinding.ensureInitialized();
   Position pos = await _determinePosition();
   await dotenv.load(fileName: ".env");
   String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
 
-  runApp(MaterialApp(home: KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)));
+  runApp(MaterialApp(
+      home: KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)));
 }
 
 /// 디바이스의 현재 위치 결정
@@ -134,8 +146,10 @@ void startWalk(Position position, _mapController) {
 }
 
 void drawLine(_mapController, position, beforePos) {
-  var lat = 0.0, lon = 0.0;
-  var beforeLat = 0.0, beforeLon = 0.0;
+  var lat = 0.0,
+      lon = 0.0;
+  var beforeLat = 0.0,
+      beforeLon = 0.0;
 
   lat = position.latitude;
   lon = position.longitude;
@@ -223,64 +237,77 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     // var appBarHeight = AppBar().preferredSize.height;
     debugPrint(widget.initLat.toString());
     debugPrint(widget.initLng.toString());
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // appBar: AppBar(title: Text('카카오 맵(산책 경로 예정)')),
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          KakaoMapView(
-            width: size.width,
-            // height: size.height * 7 / 10,
-            // height: size.height - appBarHeight - 130,
-            height: size.height - 130,
-            kakaoMapKey: widget.kakaoMapKey,
-            lat: widget.initLat,
-            lng: widget.initLng,
-            showMapTypeControl: false,
-            showZoomControl: false,
-            draggableMarker: false,
-            // mapType: MapType.TERRAIN,
-            mapController: (controller) {
-              _mapController = controller;
-            },
-            polyline: KakaoFigure(path: []),
-            zoomChanged: (message) {
-              debugPrint('[확대] ${message.message}');
-            },
-            cameraIdle: (message) {
-              KakaoLatLng latLng =
-              KakaoLatLng.fromJson(jsonDecode(message.message));
-              debugPrint('[대기중] ${latLng.lat}, ${latLng.lng}');
-            },
-            boundaryUpdate: (message) {
-              bounds = KakaoBoundary.fromJson(jsonDecode(message.message));
-              debugPrint(
-                  '[범위] ne : ${bounds.neLat}, ${bounds.neLng}, sw : ${bounds.swLat}, ${bounds.swLng}');
-            },
+          Container(
+            child: KakaoMapView(
+              width: size.width,
+              // height: size.height * 7 / 10,
+              // height: size.height - appBarHeight - 130,
+              height: size.height - 100,
+              kakaoMapKey: widget.kakaoMapKey,
+              lat: widget.initLat,
+              lng: widget.initLng,
+              showMapTypeControl: false,
+              showZoomControl: false,
+              draggableMarker: false,
+              // mapType: MapType.TERRAIN,
+              mapController: (controller) {
+                _mapController = controller;
+              },
+              polyline: KakaoFigure(path: []),
+              zoomChanged: (message) {
+                debugPrint('[확대] ${message.message}');
+              },
+              cameraIdle: (message) {
+                KakaoLatLng latLng =
+                KakaoLatLng.fromJson(jsonDecode(message.message));
+                debugPrint('[대기중] ${latLng.lat}, ${latLng.lng}');
+              },
+              boundaryUpdate: (message) {
+                bounds = KakaoBoundary.fromJson(jsonDecode(message.message));
+                debugPrint(
+                    '[범위] ne : ${bounds.neLat}, ${bounds.neLng}, sw : ${bounds
+                        .swLat}, ${bounds.swLng}');
+              },
+            ),
           ),
-          ElevatedButton(child: pressWalkBtn ? Text('산책 종료') : Text('산책 시작'),
-              onPressed: () {
-            setState(() {
-              if(pressWalkBtn == false) {
-                Future<Position> future = _determinePosition();
-                future
-                    .then((pos) => startWalk(pos, _mapController))
-                    .catchError((error) => debugPrint(error));
-                pressWalkBtn = true;
-                debugPrint(pressWalkBtn.toString());
-              } else if(pressWalkBtn == true){
-                stopWalk(_mapController);
-                pressWalkBtn = false;
-                debugPrint(pressWalkBtn.toString());
-              }
-            });
-              }),
+          bottomNavBar(
+              icon_color_com: Color(0xFFFFF3E4),
+              icon_color_home: Color(0xFFFFF3E4),
+              icon_color_loc: btnColor),
+          // ElevatedButton(
+          //   child: pressWalkBtn ? Text('산책 종료') : Text('산책 시작'),
+          //   onPressed: () {
+          //     setState(() {
+          //       if (pressWalkBtn == false) {
+          //         Future<Position> future = _determinePosition();
+          //         future
+          //           .then((pos) => startWalk(pos, _mapController))
+          //           .catchError((error) => debugPrint(error));
+          //         pressWalkBtn = true;
+          //         debugPrint(pressWalkBtn.toString());
+          //       } else if (pressWalkBtn == true) {
+          //         stopWalk(_mapController);
+          //         pressWalkBtn = false;
+          //         debugPrint(pressWalkBtn.toString());
+          //       }
+          //     });
+          //   }
+          // ),
         ],
       ),
     );
