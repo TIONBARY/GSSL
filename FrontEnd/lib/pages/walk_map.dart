@@ -286,9 +286,12 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
             ),
           ),
           bottomNavBar(
-              icon_color_com: Color(0xFFFFF3E4),
-              icon_color_home: Color(0xFFFFF3E4),
-              icon_color_loc: btnColor),
+              back_com : pColor,
+              back_home : pColor,
+              back_loc : sColor,
+              icon_color_com: btnColor,
+              icon_color_home: btnColor,
+              icon_color_loc: Colors.white),
           // ElevatedButton(
           //   child: pressWalkBtn ? Text('산책 종료') : Text('산책 시작'),
           //   onPressed: () {
