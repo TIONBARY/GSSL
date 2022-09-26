@@ -1,4 +1,5 @@
 import 'package:GSSL/pages/main_page.dart';
+import 'package:GSSL/pages/community_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -6,9 +7,10 @@ import 'package:geolocator/geolocator.dart';
 
 import '../constants.dart';
 import '../pages/walk_map.dart';
-import 'package:GSSL/pages/community_page.dart';
+
 
 class bottomNavBar extends StatelessWidget {
+
   const bottomNavBar(
       {Key? key,
         required this.back_com,
