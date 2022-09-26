@@ -1,4 +1,5 @@
 import 'package:GSSL/constants.dart';
+import 'package:GSSL/pages/diary_page.dart';
 import 'package:GSSL/pages/walk_map.dart';
 
 import 'package:flutter/material.dart';
@@ -283,6 +284,7 @@ class behavior_diagnosis extends StatelessWidget {
       title: '견민정음',
       box_color: Color(0x80DFB45B),
       paddings: EdgeInsets.fromLTRB(30, 30, 30, 15),
+      nextPage: GalleryApp(),
     );
   }
 }
@@ -296,19 +298,26 @@ class health_diagnosis extends StatelessWidget {
       title: '견의보감',
       box_color: Color(0x80506274),
       paddings: EdgeInsets.fromLTRB(30, 15, 30, 15),
+      nextPage: GalleryApp(),
     );
   }
 }
 
-class diary extends StatelessWidget {
+class diary extends StatefulWidget {
   const diary({Key? key}) : super(key: key);
 
+  @override
+  State<diary> createState() => _diaryState();
+}
+
+class _diaryState extends State<diary> {
   @override
   Widget build(BuildContext context) {
     return function_box(
       title: '견중일기',
       box_color: Color(0x80C66952),
       paddings: EdgeInsets.fromLTRB(30, 15, 30, 30),
+      nextPage: GalleryApp(),
     );
   }
 }
