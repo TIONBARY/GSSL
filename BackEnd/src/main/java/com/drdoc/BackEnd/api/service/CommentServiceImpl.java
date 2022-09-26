@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.drdoc.BackEnd.api.domain.Board;
@@ -41,8 +42,14 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void modifyComment(int commentId, String memberId, CommentModifyRequestDto requestDto) {
-		// TODO Auto-generated method stub
-
+		User user = userRepository.findByMemberId(memberId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		Comment comment = commentRepository.findById(commentId)
+				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+		if (user.getId() != comment.getUser().getId())
+			throw new AccessDeniedException("권한이 없습니다.");
+		comment.modify(requestDto.getContent());
+		commentRepository.save(comment);
 	}
 
 	@Override
