@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:GSSL/components/walk/walk_length.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -184,7 +185,7 @@ void drawLine(_mapController, position, beforePos) {
                     var lat = parseFloat('$lat'), // 위도
                         lon = parseFloat('$lon'); // 경도
                     var beforeLat = parseFloat('$beforeLat'), // 위도
-                        beforeLon = parseFloat('$beforeLon'); // 경도
+                        beforeLon = parseFloat('$beforeLon'); // 경도 
                     var locPosition = new kakao.maps.LatLng(lat, lon);
                     var beforeLocPosition = new kakao.maps.LatLng(beforeLat, beforeLon);
                     var linePath = [];
@@ -263,7 +264,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               width: size.width,
               // height: size.height * 7 / 10,
               // height: size.height - appBarHeight - 130,
-              height: size.height - 300,
+              height: size.height - 500,
               kakaoMapKey: widget.kakaoMapKey,
               lat: widget.initLat,
               lng: widget.initLng,
@@ -291,7 +292,8 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               },
             ),
           ),
-          WalkTimer(!pressWalkBtn),
+          WalkTimer(!pressWalkBtn, startTime),
+          WalkLength(totalWalkLength),
           bottomNavBar(
               icon_color_com: Color(0xFFFFF3E4),
               icon_color_home: Color(0xFFFFF3E4),
@@ -307,14 +309,12 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                       .catchError((error) => debugPrint(error));
 
                   startTime = DateTime.now();
-                  stopwatch.start();
                   pressWalkBtn = true;
                   debugPrint(pressWalkBtn.toString());
                 } else if(pressWalkBtn == true){
                   stopWalk(_mapController);
 
                   endTime = DateTime.now();
-                  stopwatch.stop();
                   pressWalkBtn = false;
                   debugPrint(totalWalkLength.toString());
                   debugPrint(pressWalkBtn.toString());
