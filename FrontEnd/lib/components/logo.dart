@@ -6,13 +6,15 @@ import '../constants.dart';
 class Logo extends StatelessWidget {
   const Logo({
     Key? key,
+    required this.heights,
   }) : super(key: key);
+  final heights;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: defaultPadding * 2),
+        SizedBox(height: heights),
         Row(
           children: [
             const Spacer(),
@@ -23,7 +25,7 @@ class Logo extends StatelessWidget {
             const Spacer(),
           ],
         ),
-        SizedBox(height: defaultPadding * 2),
+        SizedBox(height: heights),
       ],
     );
   }
