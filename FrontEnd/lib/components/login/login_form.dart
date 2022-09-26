@@ -1,6 +1,6 @@
-import 'package:GSSL/model/request_models/login.dart';
+import 'package:GSSL/model/request_models/put_login.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
-import 'package:GSSL/model/response_models/login_post.dart';
+import 'package:GSSL/model/response_models/post_login.dart';
 import 'package:GSSL/pages/main_page.dart';
 import 'package:flutter/material.dart';
 
@@ -67,8 +67,6 @@ class _LoginFormState extends State<LoginForm> {
                       loginFormKey.currentState?.save();
                       loginAuth = await apiLogin
                           .login(LoginRequestModel(id: id, password: pw));
-                      print("+++++++++++++++++++++++++++++++++++++");
-                      print("${loginAuth?.statusCode}");
                       if(loginAuth?.statusCode == 200){
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => MainPage()));  

@@ -1,4 +1,4 @@
-class userUpdate {
+class updateUser {
   String? memberId;
   String? password;
   String? nickname;
@@ -9,7 +9,7 @@ class userUpdate {
   String? introduce;
   int? petId;
 
-  userUpdate(
+  updateUser(
       {this.memberId,
         this.password,
         this.nickname,
@@ -19,18 +19,6 @@ class userUpdate {
         this.profilePic,
         this.introduce,
         this.petId});
-
-  userUpdate.fromJson(Map<String, dynamic> json) {
-    memberId = json['member_id'];
-    password = json['password'];
-    nickname = json['nickname'];
-    gender = json['gender'];
-    phone = json['phone'];
-    email = json['email'];
-    profilePic = json['profile_pic'];
-    introduce = json['introduce'];
-    petId = json['pet_id'];
-  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

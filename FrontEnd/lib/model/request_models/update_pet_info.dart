@@ -24,20 +24,6 @@ class updatePetInfo {
         this.diseases,
         this.description});
 
-  updatePetInfo.fromJson(Map<String, dynamic> json) {
-    kindId = json['kind_id'];
-    species = json['species'];
-    name = json['name'];
-    gender = json['gender'];
-    neutralize = json['neutralize'];
-    birth = json['birth'];
-    weight = json['weight'];
-    animalPic = json['animal_pic'];
-    death = json['death'];
-    diseases = json['diseases'];
-    description = json['description'];
-  }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['kind_id'] = this.kindId;
