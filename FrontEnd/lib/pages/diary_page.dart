@@ -27,7 +27,7 @@ class GalleryApp extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "Gallery App",
+                "견중일기",
                 style: TextStyle(
                   fontSize: 32.0,
                   fontWeight: FontWeight.bold,
