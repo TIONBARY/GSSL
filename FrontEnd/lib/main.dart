@@ -1,3 +1,4 @@
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,7 +8,7 @@ import './pages/intro_page.dart';
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.black, // navigation bar color
-    statusBarColor: Color(0xFFFFE6BC), // status bar color
+    statusBarColor: pColor, // status bar color
   ));
 
   runApp(const MyApp());

@@ -17,14 +17,14 @@ class DontHaveAnAccount extends StatelessWidget {
       children: <Widget>[
         Text(
           login ? " 계정이 없으신가요? " : "Already have an Account ? ",
-          style: const TextStyle(color: kPrimaryColor),
+          style: const TextStyle(color: btnColor),
         ),
         GestureDetector(
           onTap: press as void Function()?,
           child: Text(
             login ? " 회원가입 " : "Sign In",
             style: const TextStyle(
-              color: kPrimaryColor,
+              color: btnColor,
               fontWeight: FontWeight.bold,
             ),
           ),
