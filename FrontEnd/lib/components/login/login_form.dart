@@ -23,13 +23,13 @@ class _LoginFormState extends State<LoginForm> {
 
   String id = '';
   String pw = '';
-  LoginRequestModel? userAuth;
-
-  Future<LoginResponseModel>? loginAuth;
+   Future<LoginResponseModel>? loginAuth;
+   ApiLogin apiLogin = ApiLogin();
 
   @override
   void initState(){
     super.initState();
+
   }
 
   @override
@@ -39,14 +39,12 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           renderTextFormField(label: '아이디', icon: Icon(Icons.person), onSaved: (val){
-            this.id = val;
-            this.userAuth?.id = val;
+            id = val;
           }),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: renderTextFormField(label: '비밀번호', icon: Icon(Icons.password), onSaved: (val){
-              this.pw = val;
-              this.userAuth?.password = val;
+              pw = val;
             })
           ),
           const SizedBox(height: defaultPadding),
@@ -56,6 +54,7 @@ class _LoginFormState extends State<LoginForm> {
               onPressed: () async {
                 if(mounted) {
                   loginFormKey.currentState?.save();
+                  loginAuth = apiLogin.login(LoginRequestModel(id: id, password: pw));
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => MainPage())

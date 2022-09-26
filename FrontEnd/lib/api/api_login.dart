@@ -10,6 +10,7 @@ class ApiLogin {
       'Content-Type': 'application/json; charset=UTF-8',
     }, body: jsonEncode(requestModel.toJson()));
     if (response.statusCode == 200 || response.statusCode == 400) {
+      print("---------------------------------");
       print(json.decode(response.body));
       return LoginResponseModel.fromJson(
         json.decode(response.body),
