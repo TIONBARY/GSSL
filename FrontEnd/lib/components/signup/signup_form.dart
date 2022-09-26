@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../dont_have_an_Account.dart';
 import '../../constants.dart';
 import '../../pages/login_page.dart';
-
+import '../signup/signup_pet_form.dart';
+import '../logo.dart';
 class SignUpForm extends StatelessWidget {
   const SignUpForm({
     Key? key,
@@ -206,7 +207,12 @@ class SignUpForm extends StatelessWidget {
               child: Hero(
                 tag: "next_btn",
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUpPetForm()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: btnColor,
                       shape: RoundedRectangleBorder(
@@ -225,3 +231,4 @@ class SignUpForm extends StatelessWidget {
     );
   }
 }
+
