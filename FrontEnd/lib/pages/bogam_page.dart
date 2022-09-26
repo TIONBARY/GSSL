@@ -5,6 +5,9 @@ import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+final Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%EA%B2%B0%EB%A7%89%EC%97%BC');
 
 class BogamPage extends StatefulWidget {
   const BogamPage({Key? key}) : super(key: key);
@@ -118,7 +121,13 @@ class _BogamPageState extends State<BogamPage> {
                                 children: [
                                   Text('결막염'),
                                   IconButton(
-                                      onPressed: () => guideDialog(),
+                                      onPressed: () async {
+                                          if (await canLaunchUrl(_url)) {
+                                            await launchUrl(_url);
+                                          } else {
+                                            print('Could not launch');
+                                          }
+                                      },
                                       icon: Icon(Icons.help_outline))
                                 ],
                               ),
@@ -146,7 +155,7 @@ class _BogamPageState extends State<BogamPage> {
                                 child: Icon(Icons.save_alt_outlined),
                                 tooltip: 'save',
                                 onPressed: () {
-                                  
+
                                 },
                                 backgroundColor: btnColor,
                               ),
