@@ -10,7 +10,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
-// const String kakaoMapKey = 'kakao자바스크립트API';
 
 List<Position> positionList = [];
 StreamSubscription<Position>? _positionStreamSubscription;
@@ -220,6 +219,7 @@ class KakaoMapTest extends StatefulWidget {
 
 class _KakaoMapTestState extends State<KakaoMapTest> {
   late WebViewController _mapController;
+  bool pressWalkBtn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -264,20 +264,23 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                   '[범위] ne : ${bounds.neLat}, ${bounds.neLng}, sw : ${bounds.swLat}, ${bounds.swLng}');
             },
           ),
-          ElevatedButton(
-              child: Text('산책 시작'),
+          ElevatedButton(child: pressWalkBtn ? Text('산책 종료') : Text('산책 시작'),
               onPressed: () {
-                // 1번 기록(최초 위치)
+            setState(() {
+              if(pressWalkBtn == false) {
                 Future<Position> future = _determinePosition();
                 future
                     .then((pos) => startWalk(pos, _mapController))
                     .catchError((error) => debugPrint(error));
-              }),
-          ElevatedButton(
-              child: Text('산책 종료'),
-              onPressed: () {
+                pressWalkBtn = true;
+                debugPrint(pressWalkBtn.toString());
+              } else if(pressWalkBtn == true){
                 stopWalk(_mapController);
-              })
+                pressWalkBtn = false;
+                debugPrint(pressWalkBtn.toString());
+              }
+            });
+              }),
         ],
       ),
     );
