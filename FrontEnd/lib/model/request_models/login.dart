@@ -23,7 +23,7 @@ class LoginRequestModel {
 
   Map<String, String> toJson() {
     Map<String, String> map = {
-      'email': id.trim(),
+      'member_id': id.trim(),
       'password': password.trim(),
     };
 
