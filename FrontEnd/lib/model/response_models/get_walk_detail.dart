@@ -1,25 +1,14 @@
-class getWalkDetail {
-  int? statusCode;
-  String? message;
+import 'package:GSSL/model/response_models/general_response.dart';
+
+class getWalkDetail extends generalResponse {
   Detail? detail;
 
-  getWalkDetail({this.statusCode, this.message, this.detail});
-
-  getWalkDetail.fromJson(Map<String, dynamic> json) {
-    statusCode = json['statusCode'];
-    message = json['message'];
-    detail =
-    json['detail'] != null ? new Detail.fromJson(json['detail']) : null;
+  getWalkDetail(int statusCode, String message, Detail detail) : super(statusCode, message){
+    this.detail = detail;
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['statusCode'] = this.statusCode;
-    data['message'] = this.message;
-    if (this.detail != null) {
-      data['detail'] = this.detail!.toJson();
-    }
-    return data;
+  getWalkDetail.fromJson(Map<String, dynamic> json) : super(json['statusCode'], json['message']) {
+    detail = json['detail'] != null ? new Detail.fromJson(json['detail']) : null;
   }
 }
 
