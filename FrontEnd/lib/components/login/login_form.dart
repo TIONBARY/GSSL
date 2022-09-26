@@ -1,4 +1,5 @@
 import 'package:GSSL/model/request_models/login.dart';
+import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/login_post.dart';
 import 'package:GSSL/pages/main_page.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ import '../../constants.dart';
 import '../../pages/signup_page.dart';
 
 import '../../api/api_login.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -23,7 +26,7 @@ class _LoginFormState extends State<LoginForm> {
 
   String id = '';
   String pw = '';
-  Future<LoginResponseModel>? loginAuth;
+  generalResponse? loginAuth;
   ApiLogin apiLogin = ApiLogin();
 
   @override
@@ -62,10 +65,17 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: () async {
                     if (mounted) {
                       loginFormKey.currentState?.save();
-                      loginAuth = apiLogin
+                      loginAuth = await apiLogin
                           .login(LoginRequestModel(id: id, password: pw));
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MainPage()));
+                      print("+++++++++++++++++++++++++++++++++++++");
+                      print("${loginAuth?.statusCode}");
+                      if(loginAuth?.statusCode == 200){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MainPage()));  
+                      }
+                      else{
+                        // 모달에 loginAuth message 띄우기
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(
