@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:GSSL/components/walk/walk_length.dart';
-import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -13,12 +11,11 @@ import "package:stop_watch_timer/stop_watch_timer.dart";
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../components/bottomNavBar.dart';
+import '../components/walk/walk_length.dart';
 import '../components/walk/walk_timer.dart';
 import '../constants.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
-final StopWatchTimer _stopWatchTimer =
-    StopWatchTimer(mode: StopWatchMode.countUp);
 
 List<Position> positionList = [];
 StreamSubscription<Position>? _positionStreamSubscription;
@@ -157,27 +154,32 @@ void drawLine(_mapController, position, beforePos) {
   lon = position.longitude;
   beforeLat = beforePos.latitude;
   beforeLon = beforePos.longitude;
-  // 거리 계산
-  double distanceInMeters = _geolocatorPlatform
-      .bearingBetween(position.latitude, position.longitude, beforePos.latitude,
-          beforePos.longitude)
-      .abs();
-  // 거리 합산
-  totalWalkLength += distanceInMeters.toInt();
+  // 한 번에 너무 먼 거리 이동(오류/차량 등등) 제외
+  if ((lat * 1000).round() == (beforeLat * 1000).round() &&
+      (lon * 1000).round() == (beforeLon * 1000).round()) {
+    // 거리 계산
+    double distanceInMeters = _geolocatorPlatform
+        .distanceBetween(position.latitude, position.longitude,
+            beforePos.latitude, beforePos.longitude)
+        .abs();
+    // 거리 합산
+    totalWalkLength += distanceInMeters.toInt();
+  }
 
   // 범위 변경
   //
-  // if (bounds.neLat! < lat) {
-  //   bounds.neLat = lat;
-  // } else if (bounds.swLat! > lat) {
-  //   bounds.swLat = lat;
-  // }
-  //
-  // if (bounds.swLng! > lon) {
-  //   bounds.swLng = lon;
-  // } else if (bounds.neLng! < lon) {
-  //   bounds.neLng = lon;
-  // }
+  if (bounds.neLat! < lat) {
+    bounds.neLat = lat;
+  } else if (bounds.swLat! > lat) {
+    bounds.swLat = lat;
+  }
+
+  if (bounds.swLng! > lon) {
+    bounds.swLng = lon;
+  } else if (bounds.neLng! < lon) {
+    bounds.neLng = lon;
+    debugPrint('바운드' + bounds.neLng.toString());
+  }
 
   debugPrint('그리는 중');
   _mapController.runJavascript('''
@@ -206,7 +208,7 @@ void drawLine(_mapController, position, beforePos) {
                     
                     // // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
                     // // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
-                    // alert($bounds);
+                    // alert($bounds.toString());
                     // map.setBounds($bounds);
             ''');
 }
@@ -236,14 +238,32 @@ class KakaoMapTest extends StatefulWidget {
 class _KakaoMapTestState extends State<KakaoMapTest> {
   // ignore: unused_field
   late WebViewController _mapController;
+  late StopWatchTimer _stopWatchTimer =
+      StopWatchTimer(mode: StopWatchMode.countUp);
 
   bool pressWalkBtn = false;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
-  var stopwatch = clock.stopwatch();
+  Timer? timer;
+
+  void initTimer() {
+    if (timer != null && timer!.isActive) return;
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      //job
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    initTimer();
     Size size = MediaQuery.of(context).size;
     // var appBarHeight = AppBar().preferredSize.height;
     debugPrint(widget.initLat.toString());
@@ -261,8 +281,8 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
             child: KakaoMapView(
               width: size.width,
               // height: size.height * 7 / 10,
-              // height: size.height - appBarHeight - 130,
-              height: size.height - 500,
+              height: size.height - 300,
+              // height: size.height * 0.7,
               kakaoMapKey: widget.kakaoMapKey,
               lat: widget.initLat,
               lng: widget.initLng,
@@ -290,12 +310,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
             ),
           ),
           WalkTimer(_stopWatchTimer),
-          // WalkLength(totalWalkLength),
           WalkLength(totalWalkLength),
-          bottomNavBar(
-              icon_color_com: Color(0xFFFFF3E4),
-              icon_color_home: Color(0xFFFFF3E4),
-              icon_color_loc: btnColor),
           ElevatedButton(
               child: pressWalkBtn ? Text('산책 종료') : Text('산책 시작'),
               onPressed: () {
@@ -306,20 +321,26 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                         .then((pos) => startWalk(pos, _mapController))
                         .catchError((error) => debugPrint(error));
                     startTime = DateTime.now();
-                    _stopWatchTimer.secondTime
-                        .listen((value) => print('secondTime $value'));
+                    _stopWatchTimer =
+                        StopWatchTimer(mode: StopWatchMode.countUp);
+                    _stopWatchTimer.onStartTimer();
+                    // _stopWatchTimer.secondTime
+                    //     .listen((value) => print('secondTime $value'));
                     pressWalkBtn = true;
                     debugPrint(pressWalkBtn.toString());
                   } else if (pressWalkBtn == true) {
                     stopWalk(_mapController);
                     _stopWatchTimer.dispose();
+                    // _stopWatchTimer.onStopTimer();
                     endTime = DateTime.now();
                     pressWalkBtn = false;
-                    debugPrint(totalWalkLength.toString());
-                    debugPrint(pressWalkBtn.toString());
                   }
                 });
               }),
+          bottomNavBar(
+              icon_color_com: Color(0xFFFFF3E4),
+              icon_color_home: Color(0xFFFFF3E4),
+              icon_color_loc: btnColor),
         ],
       ),
     );
