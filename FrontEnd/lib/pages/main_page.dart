@@ -80,7 +80,7 @@ class _MainPageState extends State<MainPage> {
           back_home : sColor,
           back_loc : pColor,
           icon_color_com: btnColor,
-          icon_color_home: Colors.white,
+          icon_color_home: Color(0xFFFFFDF4),
           icon_color_loc: btnColor),
     );
   }

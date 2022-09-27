@@ -23,10 +23,10 @@ int totalWalkLength = 0;
 var bounds = new KakaoBoundary();
 
 void main() async {
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //   systemNavigationBarColor: Colors.black, // navigation bar color
-  //   // statusBarColor: pColor, // status bar color
-  // ));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.black, // navigation bar color
+    // statusBarColor: pColor, // status bar color
+  ));
 
   WidgetsFlutterBinding.ensureInitialized();
   Position pos = await _determinePosition();
@@ -298,7 +298,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               ),
             ],
           ),
-          grabbingHeight: 50,
+          grabbingHeight: 25,
           grabbing: Container(
             decoration: new BoxDecoration(
               color: pColor,
@@ -308,43 +308,44 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               ),
             ),
             child : Container(
-                child: Icon(
-                  Icons.maximize,
-                  size: 50,
-                  color: sColor,
-                )
+              margin: EdgeInsets.fromLTRB(150, 10, 150, 10),
+              decoration: new BoxDecoration(
+                color: btnColor,
+                borderRadius: BorderRadius.all(Radius.circular(25)),
+              ),
             )
           ),
           sheetBelow: SnappingSheetContent(
             draggable: true,
             child: Container(
                 color: pColor,
-              // decoration: new BoxDecoration(
-              //   borderRadius: new BorderRadius.only(
-              //     topLeft: const Radius.circular(25.0),
-              //     topRight: const Radius.circular(25.0),
-              //   ),
-              // ),
               child: Row(
                 children: [
-                  ElevatedButton(
-                      child: pressWalkBtn ? Text('산책 종료') : Text('산책 시작'),
-                      onPressed: () {
-                        setState(() {
-                          if (pressWalkBtn == false) {
-                            Future<Position> future = _determinePosition();
-                            future
-                                .then((pos) => startWalk(pos, _mapController))
-                                .catchError((error) => debugPrint(error));
-                            pressWalkBtn = true;
-                            debugPrint(pressWalkBtn.toString());
-                          } else if (pressWalkBtn == true) {
-                            stopWalk(_mapController);
-                            pressWalkBtn = false;
-                            debugPrint(pressWalkBtn.toString());
-                          }
-                        });
-                      }),
+                  CircleAvatar(
+                    backgroundColor: btnColor,
+                    radius: 20,
+                    child: IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: pressWalkBtn ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+                        color: Color(0xFFFFFDF4),
+                        iconSize: 30,
+                        onPressed: () {
+                          setState(() {
+                            if (pressWalkBtn == false) {
+                              Future<Position> future = _determinePosition();
+                              future
+                                  .then((pos) => startWalk(pos, _mapController))
+                                  .catchError((error) => debugPrint(error));
+                              pressWalkBtn = true;
+                              debugPrint(pressWalkBtn.toString());
+                            } else if (pressWalkBtn == true) {
+                              stopWalk(_mapController);
+                              pressWalkBtn = false;
+                              debugPrint(pressWalkBtn.toString());
+                            }
+                          });
+                        }),
+                  ),
                 ],
               ),
             ),
@@ -357,7 +358,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
           back_loc : sColor,
           icon_color_com: btnColor,
           icon_color_home: btnColor,
-          icon_color_loc: Colors.white),
+          icon_color_loc: Color(0xFFFFFDF4)),
     );
   }
 }
