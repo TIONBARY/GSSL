@@ -18,7 +18,6 @@ import '../components/bottomNavBar.dart';
 import '../constants.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
-
 List<Position> positionList = [];
 StreamSubscription<Position>? _positionStreamSubscription;
 int totalWalkLength = 0;
@@ -34,7 +33,6 @@ void main() async {
   Position pos = await _determinePosition();
   await dotenv.load(fileName: ".env");
   String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
-
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       home: KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)));
@@ -113,7 +111,6 @@ void startWalk(Position position, _mapController) {
   debugPrint(lon.toString());
   totalWalkLength = 0;
   positionList = [];
-  totalWalkLength = 0;
 
   _mapController.runJavascript('''
                   map.setDraggable(false);
@@ -144,6 +141,7 @@ void startWalk(Position position, _mapController) {
                     var locPosition = new kakao.maps.LatLng(37.5013068, 127.0396597); // 멀티캠퍼스 위치
                     map.setCenter(locPosition);
                   }
+                  var boundList = [];
             ''');
   }
 }
@@ -191,6 +189,9 @@ void drawLine(_mapController, position, beforePos) {
                     var locPosition = new kakao.maps.LatLng(lat, lon);
                     var beforeLocPosition = new kakao.maps.LatLng(beforeLat, beforeLon);
                     var linePath = [];
+                    
+                    boundList.push(locPosition); // 바운드 영역 계산용 위치 추가
+                    
                     map.setCenter(locPosition);
                     linePath.push(beforeLocPosition);
                     linePath.push(locPosition);
@@ -210,7 +211,7 @@ void drawLine(_mapController, position, beforePos) {
                     // // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
                     // // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
                     // alert($bounds);
-                    // map.setBounds($bounds);
+                    // map.setBounds(boundList);
             ''');
 }
 
@@ -221,6 +222,14 @@ void stopWalk(_mapController) {
   _mapController.runJavascript('''
                      map.setDraggable(true);
                      map.setZoomable(true);
+                     var bounds = new kakao.maps.LatLngBounds();    
+                      for (i = 0; i < boundList.length; i++) {                          
+                          // LatLngBounds 객체에 좌표를 추가합니다
+                          bounds.extend(boundList[i]);
+                      }
+                     map.setBounds(bounds);
+                     // bounds[, paddingTop, paddingRight, paddingBottom, paddingLeft]
+                     // map.setCenter(new kakao.maps.LatLng(latitude,longitude));
   ''');
   debugPrint('산책 끝');
 }
@@ -304,6 +313,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                   kakaoMapKey: widget.kakaoMapKey,
                   lat: widget.initLat,
                   lng: widget.initLng,
+                  zoomLevel: 1,
                   showMapTypeControl: false,
                   showZoomControl: false,
                   draggableMarker: false,
