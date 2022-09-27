@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:GSSL/components/walk/walk_length.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter/services.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
@@ -13,6 +14,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
 
 import '../components/bottomNavBar.dart';
+import '../components/walk/walk_timer.dart';
 import '../constants.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
@@ -22,11 +24,12 @@ StreamSubscription<Position>? _positionStreamSubscription;
 int totalWalkLength = 0;
 var bounds = new KakaoBoundary();
 
+
 void main() async {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.black, // navigation bar color
-    // statusBarColor: pColor, // status bar color
-  ));
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   systemNavigationBarColor: Colors.black, // navigation bar color
+  //   // statusBarColor: pColor, // status bar color
+  // ));
 
   WidgetsFlutterBinding.ensureInitialized();
   Position pos = await _determinePosition();
@@ -34,6 +37,7 @@ void main() async {
   String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
 
   runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)));
 }
 
@@ -146,8 +150,10 @@ void startWalk(Position position, _mapController) {
 }
 
 void drawLine(_mapController, position, beforePos) {
-  var lat = 0.0, lon = 0.0;
-  var beforeLat = 0.0, beforeLon = 0.0;
+  var lat = 0.0,
+      lon = 0.0;
+  var beforeLat = 0.0,
+      beforeLon = 0.0;
 
   lat = position.latitude;
   lon = position.longitude;
@@ -156,7 +162,7 @@ void drawLine(_mapController, position, beforePos) {
   // 거리 계산
   double distanceInMeters = _geolocatorPlatform
       .bearingBetween(position.latitude, position.longitude, beforePos.latitude,
-          beforePos.longitude)
+      beforePos.longitude)
       .abs();
   // 거리 합산
   totalWalkLength += distanceInMeters.toInt();
@@ -230,12 +236,18 @@ class KakaoMapTest extends StatefulWidget {
 }
 
 class _KakaoMapTestState extends State<KakaoMapTest> {
+  // ignore: unused_field
   late WebViewController _mapController;
   bool pressWalkBtn = false;
+  DateTime startTime = DateTime.now();
+  DateTime endTime =  DateTime.now();
+  var stopwatch = clock.stopwatch();
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     // var appBarHeight = AppBar().preferredSize.height;
     debugPrint(widget.initLat.toString());
     debugPrint(widget.initLng.toString());
@@ -296,6 +308,8 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                   },
                 ),
               ),
+              WalkTimer(!pressWalkBtn, startTime),
+              WalkLength(totalWalkLength),
             ],
           ),
           grabbingHeight: 25,
@@ -336,11 +350,14 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                               future
                                   .then((pos) => startWalk(pos, _mapController))
                                   .catchError((error) => debugPrint(error));
+                              startTime = DateTime.now();
                               pressWalkBtn = true;
                               debugPrint(pressWalkBtn.toString());
                             } else if (pressWalkBtn == true) {
                               stopWalk(_mapController);
+                              endTime = DateTime.now();
                               pressWalkBtn = false;
+                              debugPrint(totalWalkLength.toString());
                               debugPrint(pressWalkBtn.toString());
                             }
                           });
