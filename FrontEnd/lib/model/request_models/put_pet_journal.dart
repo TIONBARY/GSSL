@@ -8,14 +8,6 @@ class putPetJournal {
   putPetJournal(
       {this.picture, this.petId, this.part, this.symptom, this.result});
 
-  putPetJournal.fromJson(Map<String, dynamic> json) {
-    picture = json['picture'];
-    petId = json['pet_id'];
-    part = json['part'];
-    symptom = json['symptom'];
-    result = json['result'];
-  }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['picture'] = this.picture;
