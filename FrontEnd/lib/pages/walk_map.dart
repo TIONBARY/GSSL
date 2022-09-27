@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:GSSL/components/walk/walk_length.dart';
+import 'package:GSSL/components/walk/walk_timer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../components/bottomNavBar.dart';
@@ -235,7 +239,7 @@ class KakaoMapTest extends StatefulWidget {
 class _KakaoMapTestState extends State<KakaoMapTest> {
   late WebViewController _mapController;
   late StopWatchTimer _stopWatchTimer =
-  StopWatchTimer(mode: StopWatchMode.countUp);
+      StopWatchTimer(mode: StopWatchMode.countUp);
   bool pressWalkBtn = false;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
@@ -271,7 +275,8 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
         toolbarHeight: 0,
       ),
       body: Container(
-        child: SnappingSheet( // 슬라이드 모달창
+        child: SnappingSheet(
+          // 슬라이드 모달창
           snappingPositions: [
             SnappingPosition.factor(
               positionFactor: 0,
@@ -279,7 +284,8 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               snappingDuration: Duration(seconds: 1),
               grabbingContentOffset: GrabbingContentOffset.top,
             ),
-            SnappingPosition.pixels( // 원하는 높이만큼 보임
+            SnappingPosition.pixels(
+              // 원하는 높이만큼 보임
               positionPixels: 150,
               snappingCurve: Curves.elasticOut,
               snappingDuration: Duration(milliseconds: 1750),
@@ -311,11 +317,12 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                   },
                   cameraIdle: (message) {
                     KakaoLatLng latLng =
-                    KakaoLatLng.fromJson(jsonDecode(message.message));
+                        KakaoLatLng.fromJson(jsonDecode(message.message));
                     debugPrint('[대기중] ${latLng.lat}, ${latLng.lng}');
                   },
                   boundaryUpdate: (message) {
-                    bounds = KakaoBoundary.fromJson(jsonDecode(message.message));
+                    bounds =
+                        KakaoBoundary.fromJson(jsonDecode(message.message));
                     debugPrint(
                         '[범위] ne : ${bounds.neLat}, ${bounds.neLng}, sw : ${bounds.swLat}, ${bounds.swLng}');
                   },
@@ -332,14 +339,13 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                   topRight: const Radius.circular(25.0),
                 ),
               ),
-              child : Container(
+              child: Container(
                 margin: EdgeInsets.fromLTRB(150, 10, 150, 10),
                 decoration: new BoxDecoration(
                   color: btnColor,
                   borderRadius: BorderRadius.all(Radius.circular(25)),
                 ),
-              )
-          ),
+              )),
           sheetBelow: SnappingSheetContent(
             draggable: true,
             child: Container(
@@ -353,7 +359,9 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                     radius: 20,
                     child: IconButton(
                         padding: EdgeInsets.zero,
-                        icon: pressWalkBtn ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+                        icon: pressWalkBtn
+                            ? Icon(Icons.stop)
+                            : Icon(Icons.play_arrow),
                         color: Color(0xFFFFFDF4),
                         iconSize: 30,
                         onPressed: () {
@@ -389,9 +397,9 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
         ),
       ),
       bottomNavigationBar: bottomNavBar(
-          back_com : pColor,
-          back_home : pColor,
-          back_loc : sColor,
+          back_com: pColor,
+          back_home: pColor,
+          back_loc: sColor,
           icon_color_com: btnColor,
           icon_color_home: btnColor,
           icon_color_loc: Color(0xFFFFFDF4)),
