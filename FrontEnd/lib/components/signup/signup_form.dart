@@ -6,7 +6,7 @@ import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import './custom_dialog.dart';
+import '../util/custom_dialog.dart';
 
 import '../../constants.dart';
 
