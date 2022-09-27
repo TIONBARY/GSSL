@@ -15,7 +15,7 @@ import '../components/main/main_function_box.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.black, // navigation bar color
+    systemNavigationBarColor: Colors.black,// navigation bar color
     statusBarColor: pColor, // status bar color
   ));
 
@@ -77,9 +77,12 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       bottomNavigationBar: bottomNavBar(
-          icon_color_com: Color(0xFFFFF3E4),
-          icon_color_home: btnColor,
-          icon_color_loc: Color(0xFFFFF3E4)),
+          back_com : pColor,
+          back_home : sColor,
+          back_loc : pColor,
+          icon_color_com: btnColor,
+          icon_color_home: Color(0xFFFFFDF4),
+          icon_color_loc: btnColor),
     );
   }
 }
