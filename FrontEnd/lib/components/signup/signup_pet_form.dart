@@ -1,10 +1,13 @@
+import 'package:GSSL/pages/main_page.dart';
 import 'package:flutter/material.dart';
 
+import '../dont_have_an_Account.dart';
 import '../../constants.dart';
-import '../../pages/signup_pet_page.dart';
-
-class SignUpForm extends StatelessWidget {
-  const SignUpForm({
+import '../../pages/login_page.dart';
+import '../signup/signup_pet_form.dart';
+import '../logo.dart';
+class SignUpPetForm extends StatelessWidget {
+  const SignUpPetForm({
     Key? key,
   }) : super(key: key);
 
@@ -206,6 +209,10 @@ class SignUpForm extends StatelessWidget {
                 tag: "next_btn",
                 child: ElevatedButton(
                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainPage()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: btnColor,
@@ -213,7 +220,7 @@ class SignUpForm extends StatelessWidget {
                         borderRadius: BorderRadius.circular(25.0),
                       )),
                   child: Text(
-                    "회원가입".toUpperCase(),
+                    "반려동물 추가".toUpperCase(),
                   ),
                 ),
               ),

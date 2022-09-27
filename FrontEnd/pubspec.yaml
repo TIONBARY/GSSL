@@ -27,7 +27,6 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  dio: ^4.0.0
   http:
   flutter:
     sdk: flutter
@@ -41,11 +40,12 @@ dependencies:
   geolocator: ^9.0.1
   kakaomap_webview: ^0.6.2
   permission_handler: ^10.0.1
-  image_picker: ^0.8.4+4
-
+  stop_watch_timer: ^2.0.0
+  image_picker: ^0.8.5+3
   flutter_staggered_grid_view: ^0.3.0
   flutter_dotenv: ^5.0.2
-  flutter_secure_storage: ^6.0.0
+  clock: ^1.1.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
