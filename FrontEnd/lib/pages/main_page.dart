@@ -1,6 +1,7 @@
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/pages/bogam_page.dart';
 import 'package:GSSL/pages/diary_page.dart';
+import 'package:GSSL/pages/signup_pet_page.dart';
 import 'package:GSSL/pages/walk_map.dart';
 
 import 'package:flutter/material.dart';
@@ -219,7 +220,10 @@ class UserBar extends StatelessWidget {
                                       icon: Icon(Icons.add),
                                       iconSize: 50,
                                       color: btnColor,
-                                      onPressed: () => Navigator.pop(context),
+                                      onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => SignUpPetScreen()),
+                                      ),
                                     ),
                                   ),
                                 )
