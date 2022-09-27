@@ -1,26 +1,16 @@
-class getWalkList {
-  int? statusCode;
-  String? message;
+import 'package:GSSL/model/response_models/general_response.dart';
+
+class getWalkList extends generalResponse {
   WalkList? walkList;
 
-  getWalkList({this.statusCode, this.message, this.walkList});
+  getWalkList(int statusCode, String message, WalkList walkList) : super(statusCode, message){
+    this.walkList = walkList;
+  }
 
-  getWalkList.fromJson(Map<String, dynamic> json) {
-    statusCode = json['statusCode'];
-    message = json['message'];
+  getWalkList.fromJson(Map<String, dynamic> json) : super(json['statusCode'], json['message']){
     walkList = json['walkList'] != null
         ? new WalkList.fromJson(json['walkList'])
         : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['statusCode'] = this.statusCode;
-    data['message'] = this.message;
-    if (this.walkList != null) {
-      data['walkList'] = this.walkList!.toJson();
-    }
-    return data;
   }
 }
 
