@@ -2,6 +2,7 @@ package com.drdoc.BackEnd.api.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -69,8 +70,10 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<CommentListDto> getCommentList(int boardId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<CommentListDto> comments = commentRepository
+				.findByBoardIdOrderByIdDesc(boardId).stream()
+				.map(CommentListDto::new).collect(Collectors.toList());
+		return comments;
 	}
 
 }
