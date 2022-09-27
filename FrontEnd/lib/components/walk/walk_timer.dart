@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import "package:stop_watch_timer/stop_watch_timer.dart";
 
@@ -12,19 +10,6 @@ class WalkTimer extends StatefulWidget {
 }
 
 class _WalkTimerState extends State<WalkTimer> {
-  Timer? timer;
-  DateTime realStartTime = DateTime.now();
-  DateTime realEndTime = DateTime.now();
-
-  void initTimer() {
-    if (timer != null && timer!.isActive) return;
-
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      //job
-      setState(() {});
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -38,8 +23,6 @@ class _WalkTimerState extends State<WalkTimer> {
 
   @override
   Widget build(BuildContext context) {
-    initTimer();
-
     return StreamBuilder<int>(
       stream: widget._stopWatchTimer.rawTime,
       initialData: 0,
@@ -53,7 +36,7 @@ class _WalkTimerState extends State<WalkTimer> {
               child: Text(
                 displayTime,
                 style: TextStyle(
-                    fontSize: 40,
+                    fontSize: 20,
                     fontFamily: 'Helvetica',
                     fontWeight: FontWeight.bold),
               ),
