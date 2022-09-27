@@ -359,6 +359,6 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
           icon_color_com: btnColor,
           icon_color_home: btnColor,
           icon_color_loc: Color(0xFFFFFDF4)),
-    );
+    ); // 수정중
   }
 }
