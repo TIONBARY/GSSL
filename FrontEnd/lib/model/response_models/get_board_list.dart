@@ -1,26 +1,16 @@
-class getBoardList {
-  int? statusCode;
-  String? message;
+import 'package:GSSL/model/response_models/general_response.dart';
+
+class getBoardList extends generalResponse {
   BoardList? boardList;
 
-  getBoardList({this.statusCode, this.message, this.boardList});
+  getBoardList(int statusCode, String message, BoardList boardList):super(statusCode, message){
+    this.boardList = boardList;
+  }
 
-  getBoardList.fromJson(Map<String, dynamic> json) {
-    statusCode = json['statusCode'];
-    message = json['message'];
+  getBoardList.fromJson(Map<String, dynamic> json) : super(json['statusCode'],json['message']) {
     boardList = json['boardList'] != null
         ? new BoardList.fromJson(json['boardList'])
         : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['statusCode'] = this.statusCode;
-    data['message'] = this.message;
-    if (this.boardList != null) {
-      data['boardList'] = this.boardList!.toJson();
-    }
-    return data;
   }
 }
 

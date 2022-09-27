@@ -1,4 +1,6 @@
-class singup {
+import 'package:GSSL/components/signup/signup_form.dart';
+
+class Signup {
   String? memberId;
   String? password;
   String? nickname;
@@ -7,7 +9,7 @@ class singup {
   String? email;
   String? introduce;
 
-  singup(
+  Signup(
       {this.memberId,
         this.password,
         this.nickname,
@@ -15,16 +17,6 @@ class singup {
         this.phone,
         this.email,
         this.introduce});
-
-  singup.fromJson(Map<String, dynamic> json) {
-    memberId = json['member_id'];
-    password = json['password'];
-    nickname = json['nickname'];
-    gender = json['gender'];
-    phone = json['phone'];
-    email = json['email'];
-    introduce = json['introduce'];
-  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
