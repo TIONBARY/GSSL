@@ -45,15 +45,19 @@ class _LoginFormState extends State<LoginForm> {
               icon: Icon(Icons.person, color: sColor),
               onSaved: (val) {
                 id = val;
-              }),
+              },
+              obscureText: false),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: renderTextFormField(
                   label: '비밀번호',
+
                   icon: Icon(Icons.lock, color: sColor),
                   onSaved: (val) {
                     pw = val;
-                  })),
+                  },
+                  obscureText: true)
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(
@@ -111,6 +115,7 @@ renderTextFormField({
   required String label,
   required Icon icon,
   required FormFieldSetter onSaved,
+  required bool obscureText,
 }) {
   assert(label != null);
   assert(onSaved != null);
@@ -120,6 +125,7 @@ renderTextFormField({
     textInputAction: TextInputAction.next,
     cursorColor: btnColor,
     onSaved: onSaved,
+    obscureText: obscureText,
     decoration: InputDecoration(
       hintText: label,
       hintStyle: TextStyle(color: sColor),
