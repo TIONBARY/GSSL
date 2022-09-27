@@ -24,6 +24,7 @@ import com.drdoc.BackEnd.api.domain.dto.BoardModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.BoardWriteRequestDto;
 import com.drdoc.BackEnd.api.repository.BoardRepository;
 import com.drdoc.BackEnd.api.repository.BoardTypeRepository;
+import com.drdoc.BackEnd.api.repository.CommentRepository;
 import com.drdoc.BackEnd.api.repository.UserRepository;
 
 @Service
@@ -37,6 +38,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 
 	@Override
 	@Transactional
@@ -83,6 +87,8 @@ public class BoardServiceImpl implements BoardService {
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 		if (user.getId() != board.getUser().getId())
 			throw new AccessDeniedException("권한이 없습니다.");
+		board.getComments().stream()
+			.forEach((comment) -> commentRepository.delete(comment));
 		boardRepository.delete(board);
 	}
 
