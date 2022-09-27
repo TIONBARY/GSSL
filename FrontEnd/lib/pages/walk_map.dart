@@ -4,13 +4,11 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter/services.dart';
-
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../components/bottomNavBar.dart';
 import '../constants.dart';
@@ -34,6 +32,7 @@ void main() async {
   String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
 
   runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)));
 }
 
@@ -153,13 +152,17 @@ void drawLine(_mapController, position, beforePos) {
   lon = position.longitude;
   beforeLat = beforePos.latitude;
   beforeLon = beforePos.longitude;
-  // 거리 계산
-  double distanceInMeters = _geolocatorPlatform
-      .bearingBetween(position.latitude, position.longitude, beforePos.latitude,
-          beforePos.longitude)
-      .abs();
-  // 거리 합산
-  totalWalkLength += distanceInMeters.toInt();
+  // 한 번에 너무 먼 거리 이동(오류/차량 등등) 제외
+  if ((lat * 1000).round() == (beforeLat * 1000).round() &&
+      (lon * 1000).round() == (beforeLon * 1000).round()) {
+    // 거리 계산
+    double distanceInMeters = _geolocatorPlatform
+        .distanceBetween(position.latitude, position.longitude,
+            beforePos.latitude, beforePos.longitude)
+        .abs();
+    // 거리 합산
+    totalWalkLength += distanceInMeters.toInt();
+  }
 
   // 범위 변경
   //
@@ -231,10 +234,32 @@ class KakaoMapTest extends StatefulWidget {
 
 class _KakaoMapTestState extends State<KakaoMapTest> {
   late WebViewController _mapController;
+  late StopWatchTimer _stopWatchTimer =
+  StopWatchTimer(mode: StopWatchMode.countUp);
   bool pressWalkBtn = false;
+  DateTime startTime = DateTime.now();
+  DateTime endTime = DateTime.now();
+
+  Timer? timer;
+
+  void initTimer() {
+    if (timer != null && timer!.isActive) return;
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      //job
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    initTimer();
     Size size = MediaQuery.of(context).size;
     // var appBarHeight = AppBar().preferredSize.height;
     debugPrint(widget.initLat.toString());
@@ -286,7 +311,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                   },
                   cameraIdle: (message) {
                     KakaoLatLng latLng =
-                        KakaoLatLng.fromJson(jsonDecode(message.message));
+                    KakaoLatLng.fromJson(jsonDecode(message.message));
                     debugPrint('[대기중] ${latLng.lat}, ${latLng.lng}');
                   },
                   boundaryUpdate: (message) {
@@ -300,27 +325,29 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
           ),
           grabbingHeight: 25,
           grabbing: Container(
-            decoration: new BoxDecoration(
-              color: pColor,
-              borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(25.0),
-                topRight: const Radius.circular(25.0),
-              ),
-            ),
-            child : Container(
-              margin: EdgeInsets.fromLTRB(150, 10, 150, 10),
               decoration: new BoxDecoration(
-                color: btnColor,
-                borderRadius: BorderRadius.all(Radius.circular(25)),
+                color: pColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(25.0),
+                  topRight: const Radius.circular(25.0),
+                ),
               ),
-            )
+              child : Container(
+                margin: EdgeInsets.fromLTRB(150, 10, 150, 10),
+                decoration: new BoxDecoration(
+                  color: btnColor,
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                ),
+              )
           ),
           sheetBelow: SnappingSheetContent(
             draggable: true,
             child: Container(
-                color: pColor,
+              color: pColor,
               child: Row(
                 children: [
+                  WalkTimer(_stopWatchTimer),
+                  WalkLength(totalWalkLength),
                   CircleAvatar(
                     backgroundColor: btnColor,
                     radius: 20,
@@ -336,10 +363,19 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                               future
                                   .then((pos) => startWalk(pos, _mapController))
                                   .catchError((error) => debugPrint(error));
+                              startTime = DateTime.now();
+                              _stopWatchTimer =
+                                  StopWatchTimer(mode: StopWatchMode.countUp);
+                              _stopWatchTimer.onStartTimer();
+                              // _stopWatchTimer.secondTime
+                              //     .listen((value) => print('secondTime $value'));
                               pressWalkBtn = true;
                               debugPrint(pressWalkBtn.toString());
                             } else if (pressWalkBtn == true) {
                               stopWalk(_mapController);
+                              _stopWatchTimer.dispose();
+                              // _stopWatchTimer.onStopTimer();
+                              endTime = DateTime.now();
                               pressWalkBtn = false;
                               debugPrint(pressWalkBtn.toString());
                             }
