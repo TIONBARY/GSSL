@@ -243,7 +243,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
 /// 위치 서비스가 활성화 되어있지 않거나 권한이 없는 경우 `Future` 에러
 Future<Position> _determinePosition() async {
   bool serviceEnabled;
-  LocationPermission permission;
+  PermissionStatus permission;
 
   // Test if location services are enabled.
   serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
@@ -251,22 +251,21 @@ Future<Position> _determinePosition() async {
     return Future.error('위치 서비스 비활성화');
   }
 
-  permission = await _geolocatorPlatform.checkPermission();
+  // 백그라운드 GPS 권한 요청
+  // permission = await _geolocatorPlatform.checkPermission();
+  permission = await Permission.locationAlways.status;
   if (permission == LocationPermission.denied) {
-    permission = await _geolocatorPlatform.requestPermission();
+    Permission.locationAlways.request();
+    permission = await Permission.locationAlways.status;
     if (permission == LocationPermission.denied) {
       return Future.error('위치 정보 권한이 없음');
     }
   }
 
-  // 백그라운드 GPS 권한 요청
-  PermissionStatus alwaysPermission = await Permission.locationAlways.status;
-  if (alwaysPermission == PermissionStatus.granted) {
+  if (permission == PermissionStatus.granted) {
     return await _geolocatorPlatform.getCurrentPosition();
-  } else if (alwaysPermission == PermissionStatus.permanentlyDenied) {
+  } else if (permission == PermissionStatus.permanentlyDenied) {
     return Future.error('백그라운드 위치정보 권한이 영구적으로 거부되어 권한을 요청할 수 없습니다.');
-  } else {
-    Permission.locationAlways.request();
   }
 
   if (permission == LocationPermission.deniedForever) {
