@@ -1,4 +1,6 @@
-class singup {
+import 'package:GSSL/components/signup/signup_form.dart';
+
+class Signup {
   String? memberId;
   String? password;
   String? nickname;
@@ -7,7 +9,7 @@ class singup {
   String? email;
   String? introduce;
 
-  singup(
+  Signup(
       {this.memberId,
         this.password,
         this.nickname,
