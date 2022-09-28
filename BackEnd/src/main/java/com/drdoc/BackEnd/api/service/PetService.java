@@ -3,6 +3,7 @@ package com.drdoc.BackEnd.api.service;
 import java.util.List;
 
 import com.drdoc.BackEnd.api.domain.dto.PetDetailDto;
+import com.drdoc.BackEnd.api.domain.dto.PetKindListDto;
 import com.drdoc.BackEnd.api.domain.dto.PetListDto;
 import com.drdoc.BackEnd.api.domain.dto.PetModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.PetRegisterRequestDto;
@@ -14,6 +15,7 @@ public interface PetService {
 	void deletePet(int petId, String userId);
 	List<PetListDto> getPetList(String memberId);
 	PetDetailDto getPetDetail(int petId);
+	List<PetKindListDto> getPetKindList();
 
 
 
