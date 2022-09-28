@@ -127,6 +127,7 @@ renderTextFormField({
     onSaved: onSaved,
     obscureText: obscureText,
     decoration: InputDecoration(
+      contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
       hintText: label,
       hintStyle: TextStyle(color: sColor),
       prefixIcon: Padding(
