@@ -1,6 +1,7 @@
 package com.drdoc.BackEnd.api.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -12,6 +13,7 @@ import com.drdoc.BackEnd.api.domain.Kind;
 import com.drdoc.BackEnd.api.domain.Pet;
 import com.drdoc.BackEnd.api.domain.User;
 import com.drdoc.BackEnd.api.domain.dto.PetDetailDto;
+import com.drdoc.BackEnd.api.domain.dto.PetKindListDto;
 import com.drdoc.BackEnd.api.domain.dto.PetListDto;
 import com.drdoc.BackEnd.api.domain.dto.PetModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.PetRegisterRequestDto;
@@ -101,10 +103,13 @@ public class PetServiceImpl implements PetService {
 				.birth(pet.getBirth()).weight(pet.getWeight()).animal_pic(pet.getAnimalPic()).death(pet.isDeath())
 				.diseases(pet.getDiseases()).description(pet.getDescription()).build();
 		return petdetailDto;
+	}
 
-
-
-
+	@Override
+	public List<PetKindListDto> getPetKindList() {
+		List<PetKindListDto> list = petTypeRepository.findAll()
+				.stream().map(PetKindListDto::new).collect(Collectors.toList());
+		return list;
 	}
 
 }
