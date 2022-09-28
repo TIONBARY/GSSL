@@ -49,6 +49,7 @@ dependencies:
   snapping_sheet: ^3.1.0
   screenshot: ^1.2.3
   flutter_secure_storage: ^6.0.0
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:
