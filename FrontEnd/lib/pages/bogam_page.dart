@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:GSSL/constants.dart';
+import 'package:GSSL/api/api_bogam.dart';
+import 'package:GSSL/model/response_models/bogam_response.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +19,9 @@ final String label6 = '안검염';
 final String label7 = '안검종양';
 final String label8 = '유루증';
 final String label9 = '핵경화';
+ApiBogam apiBogam = ApiBogam();
+File? _image;
+final picker = ImagePicker();
 
 class BogamPage extends StatefulWidget {
   const BogamPage({Key? key}) : super(key: key);
@@ -26,9 +31,6 @@ class BogamPage extends StatefulWidget {
 }
 
 class _BogamPageState extends State<BogamPage> {
-  File? _image;
-  final picker = ImagePicker();
-
   // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
   Future getImage(ImageSource imageSource) async {
     final image = await picker.pickImage(source: imageSource);
@@ -104,6 +106,7 @@ class _BogamPageState extends State<BogamPage> {
                   if (_image == null) {
                     print('사진을 선택해주세요');
                   } else {
+                    _diagnosis();
                     showModalBottomSheet<void>(
                       context: context,
                       shape: RoundedRectangleBorder(
@@ -232,5 +235,10 @@ class _BogamPageState extends State<BogamPage> {
             ],
           );
         });
+  }
+
+  void _diagnosis() async {
+    print('진단중');
+    bogamResponse result =  await apiBogam.diagnosis(_image);
   }
 }
