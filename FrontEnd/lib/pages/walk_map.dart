@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:GSSL/api/api_walk.dart';
 import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/components/walk/walk_length.dart';
 import 'package:GSSL/components/walk/walk_timer.dart';
@@ -80,8 +81,8 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
     initTimer();
     Size size = MediaQuery.of(context).size;
     // var appBarHeight = AppBar().preferredSize.height;
-    debugPrint(widget.initLat.toString());
-    debugPrint(widget.initLng.toString());
+    // debugPrint(widget.initLat.toString());
+    // debugPrint(widget.initLng.toString());
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -201,22 +202,27 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                               _stopWatchTimer.onStopTimer();
                               endTime = DateTime.now();
 
+                              // 백엔드 서버로 전송
+                              List<int> pets = [1, 2, 3];
+                              putWalk info = new putWalk(
+                                  startTime: startTime.toIso8601String(),
+                                  endTime: endTime.toIso8601String(),
+                                  distance: totalWalkLength,
+                                  pet_ids: pets);
+                              // 반려동물 1, 2, 3은 예시용(수정필요)
+                              ApiWalk apiWalk = ApiWalk();
+                              apiWalk.enterWalk(info);
+
                               // 스크린샷 저장
                               // final directory =
                               //     (await getApplicationDocumentsDirectory())
                               //         .path; //from path_provide package
-                              String fileName = DateTime.now()
-                                  .microsecondsSinceEpoch as String;
-                              debugPrint(fileName);
+                              // String fileName = DateTime.now()
+                              //     .microsecondsSinceEpoch;
+                              // debugPrint(fileName);
                               // path = '$directory';
-                              screenshotController.captureAndSave(fileName);
+                              // screenshotController.captureAndSave(fileName);
 
-                              // 백엔드 서버로 전송
-                              new putWalk(
-                                  startTime: startTime.toString(),
-                                  endTime: endTime.toString(),
-                                  distance: totalWalkLength as double,
-                                  pets: [1, 2, 3]);
                             }
                           });
                         }),
@@ -243,7 +249,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
 /// 위치 서비스가 활성화 되어있지 않거나 권한이 없는 경우 `Future` 에러
 Future<Position> _determinePosition() async {
   bool serviceEnabled;
-  PermissionStatus permission;
+  LocationPermission permission;
 
   // Test if location services are enabled.
   serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
@@ -252,11 +258,11 @@ Future<Position> _determinePosition() async {
   }
 
   // 백그라운드 GPS 권한 요청
-  // permission = await _geolocatorPlatform.checkPermission();
-  permission = await Permission.locationAlways.status;
+  permission = await _geolocatorPlatform.checkPermission();
+  // permission = await Permission.locationAlways.status;
   if (permission == LocationPermission.denied) {
     Permission.locationAlways.request();
-    permission = await Permission.locationAlways.status;
+    permission = await _geolocatorPlatform.requestPermission();
     if (permission == LocationPermission.denied) {
       return Future.error('위치 정보 권한이 없음');
     }
@@ -351,16 +357,16 @@ void drawLine(_mapController, position, beforePos) {
   beforeLat = beforePos.latitude;
   beforeLon = beforePos.longitude;
   // 한 번에 너무 먼 거리 이동(오류/차량 등등) 제외
-  if ((lat * 1000).round() == (beforeLat * 1000).round() &&
-      (lon * 1000).round() == (beforeLon * 1000).round()) {
-    // 거리 계산
-    double distanceInMeters = _geolocatorPlatform
-        .distanceBetween(position.latitude, position.longitude,
-            beforePos.latitude, beforePos.longitude)
-        .abs();
-    // 거리 합산
-    totalWalkLength += distanceInMeters.toInt();
-  }
+  // if ((lat * 1000).round() == (beforeLat * 1000).round() ||
+  //     (lon * 1000).round() == (beforeLon * 1000).round()) {
+  // 거리 계산
+  double distanceInMeters = _geolocatorPlatform
+      .distanceBetween(position.latitude, position.longitude,
+          beforePos.latitude, beforePos.longitude)
+      .abs();
+  // 거리 합산
+  totalWalkLength += distanceInMeters.toInt();
+  // }
 
   debugPrint('그리는 중');
   _mapController.runJavascript('''
