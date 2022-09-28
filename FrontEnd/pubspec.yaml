@@ -47,6 +47,7 @@ dependencies:
   clock: ^1.1.1
   intl: ^0.17.0
   snapping_sheet: ^3.1.0
+  screenshot: ^1.2.3
   flutter_secure_storage: ^6.0.0
   sqflite: ^2.0.3+1
   path: ^1.8.1
