@@ -2,13 +2,13 @@ class petInfo {
   int? kindId;
   bool? species;
   String? name;
-  int? gender;
+  String? gender;
   bool? neutralize;
-  String? birth;
+  DateTime? birth;
   double? weight;
   String? animalPic;
   bool? death;
-  Null? diseases;
+  String? diseases;
   String? description;
 
   petInfo(
@@ -31,7 +31,7 @@ class petInfo {
     data['name'] = this.name;
     data['gender'] = this.gender;
     data['neutralize'] = this.neutralize;
-    data['birth'] = this.birth;
+    data['birth'] = this.birth?.toIso8601String();
     data['weight'] = this.weight;
     data['animal_pic'] = this.animalPic;
     data['death'] = this.death;
