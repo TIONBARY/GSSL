@@ -1,6 +1,7 @@
 import 'package:GSSL/model/request_models/pet_info.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_all_pet_kind.dart';
+import 'package:GSSL/model/response_models/get_pet_detail.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -50,6 +51,14 @@ class ApiPet {
     print("Result: ${httpResponse.body}");
     String body = httpResponse.body;
     generalResponse result = generalResponse.fromJson(json.decode(body));
+    return result;
+  }
+
+  Future<getPetDetail> getPetDetailApi(int? petId) async {
+    String? accessToken = await storage.read(key: "Authorization");
+    Map<String, String> headers = { "Authorization": "Bearer "+accessToken!};
+    final response = await http.get(Uri.parse(api_url + "/" + petId.toString()), headers: headers);
+    getPetDetail result = getPetDetail.fromJson(json.decode(response.body));
     return result;
   }
 }
