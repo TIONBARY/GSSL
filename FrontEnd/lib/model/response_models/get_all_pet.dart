@@ -8,9 +8,9 @@ class getAllPet extends generalResponse {
   }
 
   getAllPet.fromJson(Map<String, dynamic> json) : super(json['statusCode'], json['message']) {
-    if (json['pets'] != null) {
+    if (json['petList'] != null) {
       pets = <Pets>[];
-      json['pets'].forEach((v) {
+      json['petList'].forEach((v) {
         pets!.add(new Pets.fromJson(v));
       });
     }
@@ -18,8 +18,8 @@ class getAllPet extends generalResponse {
 }
 
 class Pets {
-  String? id;
-  String? userId;
+  int? id;
+  int? userId;
   String? name;
   String? animalPic;
 
