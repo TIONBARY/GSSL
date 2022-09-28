@@ -56,25 +56,32 @@ class _SignupFormState extends State<SignUpForm> {
   void _submit() async {
     // set this variable to true when we try to submit
     setState(() => _submitted = true);
-    if (checkDupId && checkDupNickname && SignupFormKey.currentState!.validate()) {
+    if (checkDupId &&
+        checkDupNickname &&
+        SignupFormKey.currentState!.validate()) {
       SignupFormKey.currentState!.save();
-      generalResponse result =  await apiSignup.signup(profileImage, Signup(memberId: member_id,
-          password: password, nickname: nickname, gender: gender,
-          phone: phone, email: email, introduce: introduce));
+      generalResponse result = await apiSignup.signup(
+          profileImage,
+          Signup(
+              memberId: member_id,
+              password: password,
+              nickname: nickname,
+              gender: gender,
+              phone: phone,
+              email: email,
+              introduce: introduce));
       if (result.statusCode == 201) {
         showDialog(
             context: context,
-            builder: (BuildContext context){
+            builder: (BuildContext context) {
               return CustomDialog("회원가입에 성공했습니다.", (context) => LoginScreen());
-            }
-        );
+            });
       } else {
         showDialog(
             context: context,
-            builder: (BuildContext context){
+            builder: (BuildContext context) {
               return CustomDialog(result.message!, null);
-            }
-        );
+            });
       }
     }
   }
@@ -85,82 +92,86 @@ class _SignupFormState extends State<SignUpForm> {
       key: SignupFormKey,
       child: Column(
         children: [
-          TextFormField(
-            // 아이디
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            cursorColor: btnColor,
-            onChanged: (val) {
-              member_id = val;
-              setState(() => checkDupId = false);
-            },
-            autovalidateMode: _submitted
-                ? AutovalidateMode.onUserInteraction
-                : AutovalidateMode.disabled,
-            validator: (text) {
-              if (text == null || text.isEmpty) {
-                return '아이디를 입력해주세요.';
-              }
-              if (!RegExp(
-                  r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,20}$")
-                  .hasMatch(text)) {
-                return '영문과 숫자를 포함해 5 ~ 20자를 입력해주세요.';
-              }
-              if (!checkDupId) {
-                return '아이디 중복검사를 해주세요.';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              hintText: "아이디",
-              hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20, 15, 15, 15),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.white)),
-              filled: true,
-              fillColor: Colors.white,
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: btnColor)),
-              suffix: ElevatedButton(
-                onPressed: () async {
-                  // 아이디 중복검사
-                  print(member_id);
-                  setState(() => _submitted = true);
-                  if (member_id == null || member_id!.isEmpty || !RegExp(
-                      r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,20}$").hasMatch(member_id!)) {
-                    return;
-                  }
-                  generalResponse result = await apiSignup.checkId(member_id);
-                  print(result.statusCode);
-                  print(result.message);
-                  if (result?.statusCode == 200) {
-                    setState(() => checkDupId = true);
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context){
-                          return CustomDialog("사용 가능한 아이디입니다.", null);
-                        }
-                    );
-                  } else {
-                    setState(() => checkDupId = false);
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context){
-                          return CustomDialog(result.message!, null);
-                        }
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: btnColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ), tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                child: Text(
-                  "중복검사".toUpperCase(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+            child: TextFormField( // 아이디
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              cursorColor: btnColor,
+              onChanged: (val) {
+                member_id = val;
+                setState(() => checkDupId = false);
+              },
+              autovalidateMode: _submitted
+                  ? AutovalidateMode.onUserInteraction
+                  : AutovalidateMode.disabled,
+              validator: (text) {
+                if (text == null || text.isEmpty) {
+                  return '아이디를 입력해주세요.';
+                }
+                if (!RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,20}$")
+                    .hasMatch(text)) {
+                  return '영문과 숫자를 포함해 5 ~ 20자를 입력해주세요.';
+                }
+                if (!checkDupId) {
+                  return '아이디 중복검사를 해주세요.';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                isCollapsed: true,
+                hintText: "아이디",
+                hintStyle: TextStyle(color: sColor),
+                contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.white)),
+                filled: true,
+                fillColor: Colors.white,
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: btnColor)),
+                suffix: ElevatedButton(
+                  onPressed: () async {
+                    // 아이디 중복검사
+                    print(member_id);
+                    setState(() => _submitted = true);
+                    if (member_id == null ||
+                        member_id!.isEmpty ||
+                        !RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,20}$")
+                            .hasMatch(member_id!)) {
+                      return;
+                    }
+                    generalResponse result = await apiSignup.checkId(member_id);
+                    print(result.statusCode);
+                    print(result.message);
+                    if (result?.statusCode == 200) {
+                      setState(() => checkDupId = true);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomDialog("사용 가능한 아이디입니다.", null);
+                          });
+                    } else {
+                      setState(() => checkDupId = false);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomDialog(result.message!, null);
+                          });
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.all(0),
+                    backgroundColor: btnColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: Text(
+                    "중복검사".toUpperCase(),
+                  ),
                 ),
               ),
             ),
@@ -184,16 +195,17 @@ class _SignupFormState extends State<SignUpForm> {
                   return '비밀번호를 입력해주세요.';
                 }
                 if (!RegExp(
-                    r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$")
+                        r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$")
                     .hasMatch(text)) {
                   return '영문과 숫자, 특수문자를 포함해 8 ~ 16자를 입력해주세요.';
                 }
                 return null;
               },
               decoration: InputDecoration(
+                isCollapsed: true,
                 hintText: "비밀번호",
                 hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
+                contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white)),
@@ -227,9 +239,10 @@ class _SignupFormState extends State<SignUpForm> {
               return null;
             },
             decoration: InputDecoration(
+              isCollapsed: true,
               hintText: "닉네임",
               hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20, 15, 15, 15),
+              contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: Colors.white)),
@@ -243,80 +256,92 @@ class _SignupFormState extends State<SignUpForm> {
                   // 아이디 중복검사
                   print(nickname);
                   setState(() => _submitted = true);
-                  if (nickname == null || nickname!.isEmpty || nickname!.length > 10) {
+                  if (nickname == null ||
+                      nickname!.isEmpty ||
+                      nickname!.length > 10) {
                     return;
                   }
-                  generalResponse result = await apiSignup.checkNickname(nickname);
+                  generalResponse result =
+                      await apiSignup.checkNickname(nickname);
                   print(result.statusCode);
                   print(result.message);
                   if (result?.statusCode == 200) {
                     setState(() => checkDupNickname = true);
                     showDialog(
-                        context: context,
-                        builder: (BuildContext context){
-                          return CustomDialog("사용 가능한 닉네임입니다.", null);
-                        },
+                      context: context,
+                      builder: (BuildContext context) {
+                        return CustomDialog("사용 가능한 닉네임입니다.", null);
+                      },
                     );
                   } else {
                     checkDupNickname = false;
                     showDialog(
                         context: context,
-                        builder: (BuildContext context){
+                        builder: (BuildContext context) {
                           return CustomDialog(result.message!, null);
-                        }
-                    );
+                        });
                   }
                 },
                 style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(0),
                   backgroundColor: btnColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
-                  ), tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 child: Text(
                   "중복검사".toUpperCase(),
                 ),
               ),
             ),
-
           ),
           Padding(
-            // 성별
-              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-              child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(child: ListTile(
-                          title: const Text('남자'),
-                          leading: Radio<String>(
-                            value: "M",
-                            groupValue: gender,
-                            onChanged: (String? value) {
-                              setState(() {
-                                gender = value;
-                              });
-                            },
-                          ),
-                        )),
-                        Expanded(child: ListTile(
-                          title: const Text('여자'),
-                          leading: Radio<String>(
-                            value: "F",
-                            groupValue: gender,
-                            onChanged: (String? value) {
-                              setState(() {
-                                gender = value;
-                              });
-                            },
-                          ),
-                        )),
-                      ],
-                    )
-                  ]
-              )
-          ),
+              // 성별
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
+              child: Column(children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Expanded(
+                        child: ListTile(
+                      title: const Text(
+                        '남자',
+                        style: TextStyle(color: btnColor),
+                      ),
+                      leading: Radio<String>(
+                        value: "M",
+                        groupValue: gender,
+                        fillColor: MaterialStateColor.resolveWith(
+                            (states) => btnColor),
+                        onChanged: (String? value) {
+                          setState(() {
+                            gender = value;
+                          });
+                        },
+                      ),
+                    )),
+                    Expanded(
+                        child: ListTile(
+                      title: const Text(
+                        '여자',
+                        style: TextStyle(color: btnColor),
+                      ),
+                      leading: Radio<String>(
+                        value: "F",
+                        groupValue: gender,
+                        fillColor: MaterialStateColor.resolveWith(
+                            (states) => btnColor),
+                        onChanged: (String? value) {
+                          setState(() {
+                            gender = value;
+                          });
+                        },
+                      ),
+                    )),
+                  ],
+                )
+              ])),
           TextFormField(
             // 전화번호
             keyboardType: TextInputType.number,
@@ -329,15 +354,19 @@ class _SignupFormState extends State<SignUpForm> {
                 ? AutovalidateMode.onUserInteraction
                 : AutovalidateMode.disabled,
             validator: (text) {
-              if (text == null || text.length < 10 || text.length > 11 || !RegExp(r'^010?([0-9]{4})?([0-9]{4})$').hasMatch(text)) {
+              if (text == null ||
+                  text.length < 10 ||
+                  text.length > 11 ||
+                  !RegExp(r'^010?([0-9]{4})?([0-9]{4})$').hasMatch(text)) {
                 return '전화번호를 입력해주세요.';
               }
               return null;
             },
             decoration: InputDecoration(
+              isCollapsed: true,
               hintText: "전화번호",
               hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
+              contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: Colors.white)),
@@ -362,17 +391,20 @@ class _SignupFormState extends State<SignUpForm> {
                   ? AutovalidateMode.onUserInteraction
                   : AutovalidateMode.disabled,
               validator: (text) {
-                if (text == null || text.isEmpty || text.length > 50 || !RegExp(
-                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                    .hasMatch(text)) {
+                if (text == null ||
+                    text.isEmpty ||
+                    text.length > 50 ||
+                    !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(text)) {
                   return '이메일을 입력해주세요.';
                 }
                 return null;
               },
               decoration: InputDecoration(
+                isCollapsed: true,
                 hintText: "이메일",
                 hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
+                contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white)),
@@ -384,45 +416,47 @@ class _SignupFormState extends State<SignUpForm> {
               ),
             ),
           ),
-          Column (
+          Container(
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Divider(color: sColor, thickness: 2.0)),
+          Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
-                      // color: const Color(0xffd0cece),
-                      width: MediaQuery.of(context).size.width/5,
-                      height: MediaQuery.of(context).size.width/5,
-                      child: Center(
-                          child: profileImage == null
-                              ? Text('')
-                              : new CircleAvatar(backgroundImage: new FileImage(File(profileImage!.path)), radius: 200.0,)
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          shape: BoxShape.circle
-                      ),
+                    // color: const Color(0xffd0cece),
+                    width: MediaQuery.of(context).size.width / 5,
+                    height: MediaQuery.of(context).size.width / 5,
+                    child: Center(
+                        child: profileImage == null
+                            ? Text('')
+                            : new CircleAvatar(
+                                backgroundImage:
+                                    new FileImage(File(profileImage!.path)),
+                                radius: 200.0,
+                              )),
+                    decoration:
+                        BoxDecoration(color: sColor, shape: BoxShape.circle),
                   ),
                   Container(
                     child: ElevatedButton.icon(
-                      onPressed: (){
+                      onPressed: () {
                         chooseImage(); // call choose image function
                       },
-                      icon:Icon(Icons.image),
+                      icon: Icon(Icons.image),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: btnColor,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(5.0),
                           )),
-                      label: Text("프로필 이미지 선택"),
+                      label: Text("프로필 이미지 (선택)"),
                     ),
                   ),
                 ],
               )
-
             ],
           ),
-
           Padding(
             // 자기소개
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
@@ -447,9 +481,10 @@ class _SignupFormState extends State<SignUpForm> {
                 return null;
               },
               decoration: InputDecoration(
+                isCollapsed: true,
                 hintText: "자기소개 (선택)",
                 hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
+                contentPadding: EdgeInsets.fromLTRB(20, 25, 20, 25),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white)),
@@ -490,4 +525,3 @@ class _SignupFormState extends State<SignUpForm> {
     );
   }
 }
-
