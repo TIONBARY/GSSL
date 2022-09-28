@@ -34,7 +34,7 @@ class _WalkTimerState extends State<WalkTimer> {
             Padding(
               padding: const EdgeInsets.all(8),
               child: Text(
-                displayTime,
+                displayTime.split('.')[0],
                 style: TextStyle(
                     fontSize: 20,
                     fontFamily: 'Helvetica',
