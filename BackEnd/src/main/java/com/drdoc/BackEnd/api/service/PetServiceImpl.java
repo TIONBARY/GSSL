@@ -1,18 +1,10 @@
 package com.drdoc.BackEnd.api.service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -92,12 +84,12 @@ public class PetServiceImpl implements PetService {
 	}
 
 	@Override
-	public List<PetListDto> getPetList(int userId) {
-		User user = userRepository.findById(userId)
+	public List<PetListDto> getPetList(String memberId) {
+		User user = userRepository.findByMemberId(memberId)
 				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
 		if (user.isLeft())
 			throw new IllegalArgumentException("이미 탈퇴한 계정입니다.");
-		List<PetListDto> petList = petRepository.findAllByUserId(userId);
+		List<PetListDto> petList = petRepository.findAllByUserId(user.getId());
 		return petList;
 	}
 
