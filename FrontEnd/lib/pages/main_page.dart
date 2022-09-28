@@ -1,5 +1,6 @@
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/pages/bogam_page.dart';
+import 'package:GSSL/pages/community_page.dart';
 import 'package:GSSL/pages/diary_page.dart';
 import 'package:GSSL/pages/signup_pet_page.dart';
 import 'package:GSSL/pages/walk_map.dart';
@@ -29,10 +30,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      // title: 'Flutter Demo',
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
       home: const MainPage(),
     );
   }
@@ -46,6 +47,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,13 +78,7 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
-      bottomNavigationBar: bottomNavBar(
-          back_com : pColor,
-          back_home : sColor,
-          back_loc : pColor,
-          icon_color_com: btnColor,
-          icon_color_home: Color(0xFFFFFDF4),
-          icon_color_loc: btnColor),
+      // bottomNavigationBar: ,
     );
   }
 }
