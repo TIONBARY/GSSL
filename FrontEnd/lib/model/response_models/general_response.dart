@@ -2,7 +2,10 @@ class generalResponse {
   int? statusCode;
   String? message;
 
-  generalResponse({this.statusCode, this.message});
+  generalResponse(int? statusCode, String? message){
+    this.statusCode = statusCode;
+    this.message = message;
+  }
 
   generalResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];

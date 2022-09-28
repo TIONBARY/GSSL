@@ -1,6 +1,6 @@
-import 'package:GSSL/components/bottomNavBar.dart';
-import 'package:GSSL/model/request_models/login.dart';
-import 'package:GSSL/model/response_models/login_post.dart';
+import 'package:GSSL/model/request_models/put_login.dart';
+import 'package:GSSL/model/response_models/general_response.dart';
+import 'package:GSSL/model/response_models/post_login.dart';
 import 'package:GSSL/pages/main_page.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +9,8 @@ import '../../constants.dart';
 import '../../pages/signup_page.dart';
 
 import '../../api/api_login.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -24,7 +26,7 @@ class _LoginFormState extends State<LoginForm> {
 
   String id = '';
   String pw = '';
-  Future<LoginResponseModel>? loginAuth;
+  generalResponse? loginAuth;
   ApiLogin apiLogin = ApiLogin();
 
   @override
@@ -43,15 +45,19 @@ class _LoginFormState extends State<LoginForm> {
               icon: Icon(Icons.person, color: sColor),
               onSaved: (val) {
                 id = val;
-              }),
+              },
+              obscureText: false),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: renderTextFormField(
                   label: '비밀번호',
+
                   icon: Icon(Icons.lock, color: sColor),
                   onSaved: (val) {
                     pw = val;
-                  })),
+                  },
+                  obscureText: true)
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(
@@ -63,10 +69,15 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: () async {
                     if (mounted) {
                       loginFormKey.currentState?.save();
-                      loginAuth = apiLogin
+                      loginAuth = await apiLogin
                           .login(LoginRequestModel(id: id, password: pw));
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => BottomNavBar()));
+                      if(loginAuth?.statusCode == 200){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MainPage()));  
+                      }
+                      else{
+                        // 모달에 loginAuth message 띄우기
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -104,6 +115,7 @@ renderTextFormField({
   required String label,
   required Icon icon,
   required FormFieldSetter onSaved,
+  required bool obscureText,
 }) {
   assert(label != null);
   assert(onSaved != null);
@@ -113,6 +125,7 @@ renderTextFormField({
     textInputAction: TextInputAction.next,
     cursorColor: btnColor,
     onSaved: onSaved,
+    obscureText: obscureText,
     decoration: InputDecoration(
       hintText: label,
       hintStyle: TextStyle(color: sColor),
