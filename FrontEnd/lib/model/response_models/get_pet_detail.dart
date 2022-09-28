@@ -13,9 +13,9 @@ class getPetDetail extends generalResponse {
 }
 
 class Pet {
-  String? id;
-  String? userId;
-  String? species;
+  int? id;
+  int? userId;
+  bool? species;
   String? kind;
   String? name;
   String? gender;
@@ -24,7 +24,7 @@ class Pet {
   double? weight;
   String? animalPic;
   bool? death;
-  Null? diseases;
+  String? diseases;
   String? description;
 
   Pet(
