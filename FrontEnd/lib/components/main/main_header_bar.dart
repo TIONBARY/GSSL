@@ -29,7 +29,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
   String? mainAnimalImage;
   User? user;
   List<Pets>? pets;
-  AssetImage basic_image = AssetImage("assets/images/basic_dog.jpg");
+  AssetImage basic_image = AssetImage("assets/images/basic_dog.png");
 
   ApiUser apiUser = ApiUser();
   ApiPet apiPet = ApiPet();
