@@ -408,7 +408,9 @@ void stopWalk(_mapController) {
                           // LatLngBounds 객체에 좌표를 추가합니다
                           bounds.extend(boundList[i]);
                       }
-                     map.setBounds(bounds);
+                      if ( boundList.length > 1) {
+                        map.setBounds(bounds);                      
+                      }
                      // bounds[, paddingTop, paddingRight, paddingBottom, paddingLeft]
                      // map.setCenter(new kakao.maps.LatLng(latitude,longitude));
   ''');
