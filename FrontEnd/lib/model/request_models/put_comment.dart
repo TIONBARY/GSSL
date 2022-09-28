@@ -5,12 +5,6 @@ class putComment {
 
   putComment({this.userId, this.boardId, this.content});
 
-  putComment.fromJson(Map<String, dynamic> json) {
-    userId = json['user_id'];
-    boardId = json['board_id'];
-    content = json['content'];
-  }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['user_id'] = this.userId;
