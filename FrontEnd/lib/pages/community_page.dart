@@ -4,7 +4,6 @@ import 'package:GSSL/components/community/second_form.dart';
 import 'package:GSSL/components/community/third_form.dart';
 
 void main() => runApp(MaterialApp(
-
     debugShowCheckedModeBanner: false,
     home: CommunityApp()
 ));
