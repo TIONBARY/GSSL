@@ -3,14 +3,18 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../components/bottomNavBar.dart';
+import '../components/walk/walk_length.dart';
+import '../components/walk/walk_timer.dart';
 import '../constants.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
