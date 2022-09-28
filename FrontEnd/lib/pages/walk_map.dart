@@ -18,6 +18,11 @@ import 'package:snapping_sheet/snapping_sheet.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../components/bottomNavBar.dart';
+import '../components/walk/walk_length.dart';
+import '../components/walk/walk_timer.dart';
+import '../constants.dart';
+
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 List<Position> positionList = [];
 StreamSubscription<Position>? _positionStreamSubscription;
