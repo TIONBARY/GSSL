@@ -3,7 +3,7 @@ import 'package:GSSL/constants.dart';
 import 'package:GSSL/responsive.dart';
 
 import '../components/logo.dart';
-import '../components/signup/signup_pet_form.dart';
+import '../components/pet/register_pet_form.dart';
 
 class SignUpPetScreen extends StatelessWidget {
   const SignUpPetScreen({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class SignUpPetScreen extends StatelessWidget {
                     children: const [
                       SizedBox(
                         width: 450,
-                        child: SignUpPetForm(),
+                        child: RegisterPetForm(),
                       ),
                       SizedBox(height: defaultPadding / 2),
                       // SocalSignUp()
@@ -62,7 +62,7 @@ class MobileSignupScreen extends StatelessWidget {
             Spacer(),
             Expanded(
               flex: 8,
-              child: SignUpPetForm(),
+              child: RegisterPetForm(),
             ),
             Spacer(),
           ],
