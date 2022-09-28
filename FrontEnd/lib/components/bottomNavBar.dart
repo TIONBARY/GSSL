@@ -8,97 +8,154 @@ import 'package:geolocator/geolocator.dart';
 import '../constants.dart';
 import '../pages/walk_map.dart';
 
+class BottomNavBar extends StatefulWidget {
+  @override
+  _BottomNavBarState createState() => _BottomNavBarState();
+  final _KakaoMapTest = KakaoMapTest(initLat, initLng, kakaoMapKey);
+}
 
-class bottomNavBar extends StatelessWidget {
+class _BottomNavBarState extends State<BottomNavBar> {
+  int _selectedIndex = 1;
 
-  const bottomNavBar(
-      {Key? key,
-        required this.back_com,
-        required this.back_home,
-        required this.back_loc,
-        required this.icon_color_com,
-        required this.icon_color_home,
-        required this.icon_color_loc,
-      }) : super(key: key);
+  final _KakaoMapTest = KakaoMapTest(initLat, initLng, kakaoMapKey);
 
-  final back_com;
-  final back_home;
-  final back_loc;
-  final icon_color_com;
-  final icon_color_home;
-  final icon_color_loc;
+  List<Widget> _widgetOptions = <Widget>[
+    CommunityApp(),
+    MainPage(),
+    KakaoMapTest(latitude, longitude, kakaoMapKey) as Widget,
+  ];
+
+  Future<Widget> KakaoMapTest(latitude, longitude, kakaoMapKey) {
+    setState(() async {
+      WidgetsFlutterBinding.ensureInitialized();
+      Position pos = await Geolocator.getCurrentPosition();
+      await dotenv.load(fileName: ".env");
+      String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)),
+      );
+    });
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: pColor,
-      child: SizedBox(
-        height: 60,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CircleAvatar(
-              backgroundColor: back_com,
-              radius: 20,
-              child: IconButton(
-                padding: EdgeInsets.zero,
-                icon: Icon(
-                  Icons.people_alt_outlined,
-                  size: 30,
-                  color: icon_color_com, // Color(0xFFFFF3E4),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CommunityApp()),
-                  );
-                },
-              ),
-            ),
-            CircleAvatar(
-              backgroundColor: back_home,
-              radius: 20,
-              child: IconButton(
-                padding: EdgeInsets.zero,
-                icon: Icon(
-                  Icons.home_outlined,
-                  size: 30,
-                  color: icon_color_home, // btnColor,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainPage()),
-                  );
-                },
-              ),
-            ),
-            CircleAvatar(
-              backgroundColor: back_loc,
-              radius: 20,
-              child: IconButton(
-                padding: EdgeInsets.zero,
-                icon: Icon(
-                  Icons.location_on_outlined,
-                  size: 30,
-                  color: icon_color_loc, // Color(0xFFFFF3E4),
-                ),
-                onPressed: () async {
-                  WidgetsFlutterBinding.ensureInitialized();
-                  Position pos = await Geolocator.getCurrentPosition();
-                  await dotenv.load(fileName: ".env");
-                  String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+    return Scaffold(
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_alt_outlined),
+            label: 'Community',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.pets_outlined),
+            label: 'Walk',
+          ),
+        ],
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        currentIndex: _selectedIndex,
+        selectedItemColor: btnColor,
+        iconSize: 30,
+        unselectedItemColor: sColor,
+        backgroundColor: pColor,
+        onTap: _onItemTapped,
       ),
     );
   }
 }
+
+// class bottomNavBar extends StatelessWidget {
+//
+//   const bottomNavBar(
+//       {Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       color: pColor,
+//       child: SizedBox(
+//         height: 60,
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//           children: [
+//             CircleAvatar(
+//               backgroundColor: back_com,
+//               radius: 20,
+//               child: IconButton(
+//                 padding: EdgeInsets.zero,
+//                 icon: Icon(
+//                   Icons.people_alt_outlined,
+//                   size: 30,
+//                   color: icon_color_com, // Color(0xFFFFF3E4),
+//                 ),
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(builder: (context) => CommunityApp()),
+//                   );
+//                 },
+//               ),
+//             ),
+//             CircleAvatar(
+//               backgroundColor: back_home,
+//               radius: 20,
+//               child: IconButton(
+//                 padding: EdgeInsets.zero,
+//                 icon: Icon(
+//                   Icons.home_outlined,
+//                   size: 30,
+//                   color: icon_color_home, // btnColor,
+//                 ),
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(builder: (context) => MainPage()),
+//                   );
+//                 },
+//               ),
+//             ),
+//             CircleAvatar(
+//               backgroundColor: back_loc,
+//               radius: 20,
+//               child: IconButton(
+//                 padding: EdgeInsets.zero,
+//                 icon: Icon(
+//                   Icons.location_on_outlined,
+//                   size: 30,
+//                   color: icon_color_loc, // Color(0xFFFFF3E4),
+//                 ),
+//                 onPressed: () async {
+//                   WidgetsFlutterBinding.ensureInitialized();
+//                   Position pos = await Geolocator.getCurrentPosition();
+//                   await dotenv.load(fileName: ".env");
+//                   String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
+//
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(builder: (context) => KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)),
+//                   );
+//                 },
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

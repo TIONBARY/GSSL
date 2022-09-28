@@ -1,3 +1,4 @@
+import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/model/request_models/login.dart';
 import 'package:GSSL/model/response_models/login_post.dart';
 import 'package:GSSL/pages/main_page.dart';
@@ -65,7 +66,7 @@ class _LoginFormState extends State<LoginForm> {
                       loginAuth = apiLogin
                           .login(LoginRequestModel(id: id, password: pw));
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MainPage()));
+                          MaterialPageRoute(builder: (context) => BottomNavBar()));
                     }
                   },
                   style: ElevatedButton.styleFrom(

@@ -1,13 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:GSSL/components/walk/walk_length.dart';
+import 'package:GSSL/components/walk/walk_timer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../components/bottomNavBar.dart';
@@ -280,7 +285,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               grabbingContentOffset: GrabbingContentOffset.top,
             ),
             SnappingPosition.pixels( // 원하는 높이만큼 보임
-              positionPixels: 150,
+              positionPixels: 100,
               snappingCurve: Curves.elasticOut,
               snappingDuration: Duration(milliseconds: 1750),
             ),
@@ -346,16 +351,16 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               color: pColor,
               child: Row(
                 children: [
-                  WalkTimer(_stopWatchTimer),
                   WalkLength(totalWalkLength),
                   CircleAvatar(
                     backgroundColor: btnColor,
-                    radius: 20,
+                    radius: 25,
+
                     child: IconButton(
                         padding: EdgeInsets.zero,
                         icon: pressWalkBtn ? Icon(Icons.stop) : Icon(Icons.play_arrow),
                         color: Color(0xFFFFFDF4),
-                        iconSize: 30,
+                        iconSize: 50,
                         onPressed: () {
                           setState(() {
                             if (pressWalkBtn == false) {
@@ -382,19 +387,13 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                           });
                         }),
                   ),
+                  WalkTimer(_stopWatchTimer),
                 ],
               ),
             ),
           ),
         ),
       ),
-      bottomNavigationBar: bottomNavBar(
-          back_com : pColor,
-          back_home : pColor,
-          back_loc : sColor,
-          icon_color_com: btnColor,
-          icon_color_home: btnColor,
-          icon_color_loc: Color(0xFFFFFDF4)),
-    ); // 수정중
+    );
   }
 }
