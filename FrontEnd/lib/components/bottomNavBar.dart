@@ -31,7 +31,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           //error가 발생하게 될 경우 반환하게 되는 부분
           else if (snapshot.hasError) {
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(0.0),
               child: Text(
                 'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
                 style: TextStyle(fontSize: 15),
@@ -45,7 +45,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             Map<String, dynamic> jsonData = jsonDecode(snapshot.data);
             KakaomapInfo info = KakaomapInfo.fromJson(jsonData);
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(0.0),
               // child: Text(snapshot.data),
               child: KakaoMapTest(info.lat!, info.lon!, info.kakaoMapKey!),
               // child: KakaoMapTest(snapshot.data.pos.latitude,
