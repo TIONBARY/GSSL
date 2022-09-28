@@ -1,17 +1,17 @@
 class putWalk {
   String? startTime;
   String? endTime;
-  double? distance;
-  List<int>? pets;
+  int? distance;
+  List<int>? pet_ids;
 
-  putWalk({this.startTime, this.endTime, this.distance, this.pets});
+  putWalk({this.startTime, this.endTime, this.distance, this.pet_ids});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['start_time'] = this.startTime;
     data['end_time'] = this.endTime;
     data['distance'] = this.distance;
-    data['pets'] = this.pets;
+    data['pet_ids'] = this.pet_ids;
     return data;
   }
 }
