@@ -4,7 +4,6 @@ import 'package:GSSL/responsive.dart';
 
 import '../components/logo.dart';
 import '../components/signup/signup_form.dart';
-import '../components/signup/signup_pet_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
