@@ -12,7 +12,7 @@ public interface PetService {
 	void modifyPet(int petId, String userId, PetModifyRequestDto petModifyRequestDto);
 	String getPetImage(int petId);
 	void deletePet(int petId, String userId);
-	List<PetListDto> getPetList(int userId);
+	List<PetListDto> getPetList(String memberId);
 	PetDetailDto getPetDetail(int petId);
 
 

@@ -1,14 +1,11 @@
 package com.drdoc.BackEnd.api.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +30,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "반려동물 API", tags = { "반려동물 관리" })
 @RestController
@@ -134,18 +130,19 @@ public class PetController {
 		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Deleted"));
 	}
 	
-	@GetMapping("/{userId}")
+	@GetMapping
 	@ApiOperation(value = "반려동물 목록 조회", notes = "나의 반려동물 목록을 모두 조회합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "반려동물 목록 조회"),
 		@ApiResponse(code = 400, message = "잘못된 요청입니다."),
 		@ApiResponse(code = 401, message = "인증이 필요합니다."),
 		@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<PetListResponseDto> getPetList(@PathVariable int userId) {
-		return ResponseEntity.status(200).body(PetListResponseDto.of(200, "Success", petService.getPetList(userId)));
+	public ResponseEntity<PetListResponseDto> getPetList() {
+		String memberId = SecurityUtil.getCurrentUsername();
+		return ResponseEntity.status(200).body(PetListResponseDto.of(200, "Success", petService.getPetList(memberId)));
 	}
 	
-	@GetMapping("/{petId}/detail")
+	@GetMapping("/{petId}")
 	@ApiOperation(value = "반려동물 상세 조회", notes = "나의 반려동물을 상세 조회합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "반려동물 상세 조회"),
