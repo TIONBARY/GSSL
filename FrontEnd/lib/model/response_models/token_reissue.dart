@@ -25,22 +25,19 @@ class TokenInfo {
   String? grantType;
   String? accessToken;
   String? refreshToken;
-  String? accessTokenExpiresIn;
-  String? userId;
+  int? accessTokenExpiresIn;
 
   TokenInfo(
       {this.grantType,
-        this.accessToken,
-        this.refreshToken,
-        this.accessTokenExpiresIn,
-        this.userId});
+      this.accessToken,
+      this.refreshToken,
+      this.accessTokenExpiresIn});
 
   TokenInfo.fromJson(Map<String, dynamic> json) {
     grantType = json['grantType'];
     accessToken = json['accessToken'];
     refreshToken = json['refreshToken'];
     accessTokenExpiresIn = json['accessTokenExpiresIn'];
-    userId = json['user_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -49,7 +46,6 @@ class TokenInfo {
     data['accessToken'] = this.accessToken;
     data['refreshToken'] = this.refreshToken;
     data['accessTokenExpiresIn'] = this.accessTokenExpiresIn;
-    data['user_id'] = this.userId;
     return data;
   }
 }

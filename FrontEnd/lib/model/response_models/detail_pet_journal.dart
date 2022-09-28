@@ -1,26 +1,16 @@
-class detailPetJournal {
-  int? statusCode;
-  String? message;
+import 'package:GSSL/model/response_models/general_response.dart';
+
+class detailPetJournal extends generalResponse{
   JournalList? journalList;
 
-  detailPetJournal({this.statusCode, this.message, this.journalList});
+  detailPetJournal(int statusCode, String message, JournalList journalList) : super(statusCode,message){
+    this.journalList = journalList;
+  }
 
-  detailPetJournal.fromJson(Map<String, dynamic> json) {
-    statusCode = json['statusCode'];
-    message = json['message'];
+  detailPetJournal.fromJson(Map<String, dynamic> json) : super(json['statusCode'],json['message']) {
     journalList = json['journalList'] != null
         ? new JournalList.fromJson(json['journalList'])
         : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['statusCode'] = this.statusCode;
-    data['message'] = this.message;
-    if (this.journalList != null) {
-      data['journalList'] = this.journalList!.toJson();
-    }
-    return data;
   }
 }
 
