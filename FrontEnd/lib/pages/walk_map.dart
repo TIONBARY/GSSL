@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:GSSL/api/api_walk.dart';
-import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/components/walk/walk_length.dart';
 import 'package:GSSL/components/walk/walk_timer.dart';
 import 'package:GSSL/constants.dart';
@@ -233,13 +232,13 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
           ),
         ),
       ),
-      bottomNavigationBar: bottomNavBar(
-          back_com: pColor,
-          back_home: pColor,
-          back_loc: sColor,
-          icon_color_com: btnColor,
-          icon_color_home: btnColor,
-          icon_color_loc: Color(0xFFFFFDF4)),
+      // bottomNavigationBar: bottomNavBar(
+      //     back_com: pColor,
+      //     back_home: pColor,
+      //     back_loc: sColor,
+      //     icon_color_com: btnColor,
+      //     icon_color_home: btnColor,
+      //     icon_color_loc: Color(0xFFFFFDF4)),
     ); // 수정중
   }
 }
@@ -413,5 +412,6 @@ void stopWalk(_mapController) {
                      // bounds[, paddingTop, paddingRight, paddingBottom, paddingLeft]
                      // map.setCenter(new kakao.maps.LatLng(latitude,longitude));
   ''');
+  positionList = [];
   debugPrint('산책 끝');
 }
