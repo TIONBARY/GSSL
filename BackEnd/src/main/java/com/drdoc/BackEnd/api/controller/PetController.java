@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetDetailResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.PetKindResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetListResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.PetRegisterRequestDto;
@@ -152,6 +153,17 @@ public class PetController {
 	public ResponseEntity<PetDetailResponseDto> getDetail(@PathVariable int petId) {
 		return ResponseEntity.status(200)
 				.body(PetDetailResponseDto.of(200, "Success", petService.getPetDetail(petId)));
+	}
+	
+	@GetMapping("/kind")
+	@ApiOperation(value = "반려동물 품종 목록 조회", notes = "반려동물 품종 목록을 모두 조회합니다.")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "반려동물 목록 조회"),
+		@ApiResponse(code = 400, message = "잘못된 요청입니다."),
+		@ApiResponse(code = 401, message = "인증이 필요합니다."),
+		@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<PetKindResponseDto> getPetKindList() {
+		return ResponseEntity.status(200).body(PetKindResponseDto.of(200, "Success", petService.getPetKindList()));
 	}
 
 
