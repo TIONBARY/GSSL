@@ -20,4 +20,12 @@ class ApiUser {
     userInfo result = userInfo.fromJson(json.decode(response.body));
     return result;
   }
+
+  Future<generalResponse> modifyUserPetAPI(int petId) async {
+    String? accessToken = await storage.read(key: "Authorization");
+    Map<String, String> headers = { "Authorization": "Bearer "+accessToken!, 'Content-Type': 'application/json; charset=UTF-8'};
+    final response = await http.put(Uri.parse(api_url+"/pet"), body: json.encode({'pet_id': petId}), headers: headers);
+    generalResponse result = generalResponse.fromJson(json.decode(response.body));
+    return result;
+  }
 }
