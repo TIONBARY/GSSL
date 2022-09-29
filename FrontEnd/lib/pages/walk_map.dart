@@ -1,46 +1,243 @@
 import 'dart:async';
-import 'dart:convert';
 
+import 'package:GSSL/api/api_walk.dart';
 import 'package:GSSL/components/walk/walk_length.dart';
-import 'package:clock/clock.dart';
+import 'package:GSSL/components/walk/walk_timer.dart';
+import 'package:GSSL/constants.dart';
+import 'package:GSSL/model/request_models/put_walk.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
-
-import '../components/bottomNavBar.dart';
-import '../components/walk/walk_timer.dart';
-import '../constants.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
-
 List<Position> positionList = [];
 StreamSubscription<Position>? _positionStreamSubscription;
 int totalWalkLength = 0;
-var bounds = new KakaoBoundary();
-
+late WebViewController _mapController;
+late StopWatchTimer _stopWatchTimer =
+StopWatchTimer(mode: StopWatchMode.countUp);
+bool pressWalkBtn = false;
+DateTime startTime = DateTime.now();
+DateTime endTime = DateTime.now();
+String addrName = "";
 
 void main() async {
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //   systemNavigationBarColor: Colors.black, // navigation bar color
-  //   // statusBarColor: pColor, // status bar color
-  // ));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.black, // navigation bar color
+    // statusBarColor: pColor, // status bar color
+  ));
 
   WidgetsFlutterBinding.ensureInitialized();
   Position pos = await _determinePosition();
   await dotenv.load(fileName: ".env");
   String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
-
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       home: KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)));
 }
 
+class KakaoMapTest extends StatefulWidget {
+  final double initLat;
+  final double initLng;
+  final String kakaoMapKey;
+
+  const KakaoMapTest(this.initLat, this.initLng, this.kakaoMapKey);
+
+  @override
+  State<KakaoMapTest> createState() => _KakaoMapTestState();
+}
+
+class _KakaoMapTestState extends State<KakaoMapTest> {
+  late ScreenshotController screenshotController = ScreenshotController();
+  final directory =
+      getApplicationDocumentsDirectory(); //from path_provide package
+
+  Timer? timer;
+
+  void initTimer() {
+    if (timer != null && timer!.isActive) return;
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      //job
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    initTimer();
+    Size size = MediaQuery.of(context).size;
+    // var appBarHeight = AppBar().preferredSize.height;
+    // debugPrint(widget.initLat.toString());
+    // debugPrint(widget.initLng.toString());
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
+      body: Container(
+        child: SnappingSheet(
+          // 슬라이드 모달창
+          snappingPositions: [
+            SnappingPosition.factor(
+              positionFactor: 0,
+              snappingCurve: Curves.easeOutExpo,
+              snappingDuration: Duration(seconds: 1),
+              grabbingContentOffset: GrabbingContentOffset.top,
+            ),
+            SnappingPosition.pixels(
+              // 원하는 높이만큼 보임
+              positionPixels: 150,
+              snappingCurve: Curves.elasticOut,
+              snappingDuration: Duration(milliseconds: 1750),
+            ),
+          ],
+          lockOverflowDrag: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Screenshot(
+                controller: screenshotController,
+                child: Container(
+                  child: KakaoMapView(
+                    width: size.width,
+                    // height: size.height * 7 / 10,
+                    // height: size.height - appBarHeight - 130,
+                    height: size.height - 100,
+                    kakaoMapKey: widget.kakaoMapKey,
+                    lat: widget.initLat,
+                    lng: widget.initLng,
+                    // zoomLevel: 1,
+                    showMapTypeControl: false,
+                    showZoomControl: false,
+                    draggableMarker: false,
+                    // mapType: MapType.TERRAIN,
+                    mapController: (controller) {
+                      _mapController = controller;
+                    },
+                    polyline: KakaoFigure(path: []),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          grabbingHeight: 25,
+          grabbing: Container(
+              decoration: new BoxDecoration(
+                color: pColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(25.0),
+                  topRight: const Radius.circular(25.0),
+                ),
+              ),
+              child: Container(
+                margin: EdgeInsets.fromLTRB(150, 10, 150, 10),
+                decoration: new BoxDecoration(
+                  color: btnColor,
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                ),
+              )),
+          sheetBelow: SnappingSheetContent(
+            draggable: true,
+            child: Container(
+              color: pColor,
+              child: Row(
+                children: [
+                  WalkLength(totalWalkLength),
+                  CircleAvatar(
+                    backgroundColor: btnColor,
+                    radius: 20,
+                    child: IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: pressWalkBtn
+                            ? Icon(Icons.stop)
+                            : Icon(Icons.play_arrow),
+                        color: nWColor,
+                        iconSize: 30,
+                        onPressed: () {
+                          setState(() {
+                            if (pressWalkBtn == false) {
+                              // 버튼 변경
+                              pressWalkBtn = true;
+                              debugPrint(pressWalkBtn.toString());
+
+                              // 카카오 맵 이동 기록 시작
+                              Future<Position> future = _determinePosition();
+                              future
+                                  .then((pos) => startWalk(pos, _mapController))
+                                  .catchError((error) => debugPrint(error));
+
+                              // 타이머 정지
+                              startTime = DateTime.now();
+                              _stopWatchTimer =
+                                  StopWatchTimer(mode: StopWatchMode.countUp);
+                              _stopWatchTimer.onStartTimer();
+                              // _stopWatchTimer.secondTime
+                              //     .listen((value) => print('secondTime $value'));
+                            } else if (pressWalkBtn == true) {
+                              // 버튼 변경
+                              pressWalkBtn = false;
+                              debugPrint(pressWalkBtn.toString());
+
+                              // 카카오 맵 이동 기록 중단
+                              stopWalk(_mapController);
+
+                              // 타이머 정지
+                              // _stopWatchTimer.dispose();
+                              _stopWatchTimer.onStopTimer();
+                              endTime = DateTime.now();
+                              // 백엔드 서버로 전송
+                              List<int> pets = [1, 2, 3];
+                              putWalk info = new putWalk(
+                                  startTime: startTime.toIso8601String(),
+                                  endTime: endTime.toIso8601String(),
+                                  distance: totalWalkLength,
+                                  pet_ids: pets);
+                              // 반려동물 1, 2, 3은 예시용(수정필요)
+                              ApiWalk apiWalk = ApiWalk();
+                              apiWalk.enterWalk(info);
+
+                              // 스크린샷 저장
+                              String fileName = DateTime.now()
+                                  .microsecondsSinceEpoch
+                                  .toString();
+                              debugPrint(fileName);
+                              debugPrint(directory.toString());
+
+                              // path = '$directory';
+                              screenshotController.captureAndSave(fileName);
+                            }
+                          });
+                        }),
+                  ),
+                  WalkTimer(_stopWatchTimer),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 기능 functions
 /// 디바이스의 현재 위치 결정
 /// 위치 서비스가 활성화 되어있지 않거나 권한이 없는 경우 `Future` 에러
 Future<Position> _determinePosition() async {
@@ -53,22 +250,21 @@ Future<Position> _determinePosition() async {
     return Future.error('위치 서비스 비활성화');
   }
 
+  // 백그라운드 GPS 권한 요청
   permission = await _geolocatorPlatform.checkPermission();
+  // permission = await Permission.locationAlways.status;
   if (permission == LocationPermission.denied) {
+    Permission.locationAlways.request();
     permission = await _geolocatorPlatform.requestPermission();
     if (permission == LocationPermission.denied) {
       return Future.error('위치 정보 권한이 없음');
     }
   }
 
-  // 백그라운드 GPS 권한 요청
-  PermissionStatus alwaysPermission = await Permission.locationAlways.status;
-  if (alwaysPermission == PermissionStatus.granted) {
+  if (permission == PermissionStatus.granted) {
     return await _geolocatorPlatform.getCurrentPosition();
-  } else if (alwaysPermission == PermissionStatus.permanentlyDenied) {
+  } else if (permission == PermissionStatus.permanentlyDenied) {
     return Future.error('백그라운드 위치정보 권한이 영구적으로 거부되어 권한을 요청할 수 없습니다.');
-  } else {
-    Permission.locationAlways.request();
   }
 
   if (permission == LocationPermission.deniedForever) {
@@ -108,13 +304,8 @@ void startWalk(Position position, _mapController) {
 
   var lat = position.latitude, // 위도
       lon = position.longitude; // 경도
-  debugPrint('[버튼 클릭]');
-  debugPrint('$position');
-  debugPrint(lat.toString());
-  debugPrint(lon.toString());
   totalWalkLength = 0;
   positionList = [];
-  totalWalkLength = 0;
 
   _mapController.runJavascript('''
                   map.setDraggable(false);
@@ -145,40 +336,29 @@ void startWalk(Position position, _mapController) {
                     var locPosition = new kakao.maps.LatLng(37.5013068, 127.0396597); // 멀티캠퍼스 위치
                     map.setCenter(locPosition);
                   }
+                  var boundList = [];
             ''');
   }
 }
 
 void drawLine(_mapController, position, beforePos) {
-  var lat = 0.0,
-      lon = 0.0;
-  var beforeLat = 0.0,
-      beforeLon = 0.0;
+  var lat = 0.0, lon = 0.0;
+  var beforeLat = 0.0, beforeLon = 0.0;
 
   lat = position.latitude;
   lon = position.longitude;
   beforeLat = beforePos.latitude;
   beforeLon = beforePos.longitude;
+  // 한 번에 너무 먼 거리 이동(오류/차량 등등) 제외
+  // if ((lat * 1000).round() == (beforeLat * 1000).round() ||
+  //     (lon * 1000).round() == (beforeLon * 1000).round()) {
   // 거리 계산
   double distanceInMeters = _geolocatorPlatform
-      .bearingBetween(position.latitude, position.longitude, beforePos.latitude,
-      beforePos.longitude)
+      .distanceBetween(position.latitude, position.longitude,
+          beforePos.latitude, beforePos.longitude)
       .abs();
   // 거리 합산
   totalWalkLength += distanceInMeters.toInt();
-
-  // 범위 변경
-  //
-  // if (bounds.neLat! < lat) {
-  //   bounds.neLat = lat;
-  // } else if (bounds.swLat! > lat) {
-  //   bounds.swLat = lat;
-  // }
-  //
-  // if (bounds.swLng! > lon) {
-  //   bounds.swLng = lon;
-  // } else if (bounds.neLng! < lon) {
-  //   bounds.neLng = lon;
   // }
 
   debugPrint('그리는 중');
@@ -190,6 +370,9 @@ void drawLine(_mapController, position, beforePos) {
                     var locPosition = new kakao.maps.LatLng(lat, lon);
                     var beforeLocPosition = new kakao.maps.LatLng(beforeLat, beforeLon);
                     var linePath = [];
+                    
+                    boundList.push(locPosition); // 바운드 영역 계산용 위치 추가
+                    
                     map.setCenter(locPosition);
                     linePath.push(beforeLocPosition);
                     linePath.push(locPosition);
@@ -205,177 +388,26 @@ void drawLine(_mapController, position, beforePos) {
                     
                     // 지도에 선을 표시합니다 
                     polyline.setMap(map);
-                    
-                    // // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
-                    // // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
-                    // alert($bounds);
-                    // map.setBounds($bounds);
             ''');
 }
 
 void stopWalk(_mapController) {
   debugPrint(totalWalkLength.toString());
   _positionStreamSubscription?.cancel(); // 위치 기록 종료
-  debugPrint('[종료~~~~(다른 페이지 이동 코드 필요)]');
   _mapController.runJavascript('''
                      map.setDraggable(true);
                      map.setZoomable(true);
+                     var bounds = new kakao.maps.LatLngBounds();    
+                      for (i = 0; i < boundList.length; i++) {                          
+                          // LatLngBounds 객체에 좌표를 추가합니다
+                          bounds.extend(boundList[i]);
+                      }
+                      if ( boundList.length > 1) {
+                        map.setBounds(bounds);                      
+                      }
+                     // bounds[, paddingTop, paddingRight, paddingBottom, paddingLeft]
+                     // map.setCenter(new kakao.maps.LatLng(latitude,longitude));
   ''');
+  positionList = [];
   debugPrint('산책 끝');
-}
-
-class KakaoMapTest extends StatefulWidget {
-  final double initLat;
-  final double initLng;
-  final String kakaoMapKey;
-
-  const KakaoMapTest(this.initLat, this.initLng, this.kakaoMapKey);
-
-  @override
-  State<KakaoMapTest> createState() => _KakaoMapTestState();
-}
-
-class _KakaoMapTestState extends State<KakaoMapTest> {
-  // ignore: unused_field
-  late WebViewController _mapController;
-  bool pressWalkBtn = false;
-  DateTime startTime = DateTime.now();
-  DateTime endTime =  DateTime.now();
-  var stopwatch = clock.stopwatch();
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
-    // var appBarHeight = AppBar().preferredSize.height;
-    debugPrint(widget.initLat.toString());
-    debugPrint(widget.initLng.toString());
-
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        toolbarHeight: 0,
-      ),
-      body: Container(
-        child: SnappingSheet( // 슬라이드 모달창
-          snappingPositions: [
-            SnappingPosition.factor(
-              positionFactor: 0,
-              snappingCurve: Curves.easeOutExpo,
-              snappingDuration: Duration(seconds: 1),
-              grabbingContentOffset: GrabbingContentOffset.top,
-            ),
-            SnappingPosition.pixels( // 원하는 높이만큼 보임
-              positionPixels: 150,
-              snappingCurve: Curves.elasticOut,
-              snappingDuration: Duration(milliseconds: 1750),
-            ),
-          ],
-          lockOverflowDrag: true,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                child: KakaoMapView(
-                  width: size.width,
-                  // height: size.height * 7 / 10,
-                  // height: size.height - appBarHeight - 130,
-                  height: size.height - 100,
-                  kakaoMapKey: widget.kakaoMapKey,
-                  lat: widget.initLat,
-                  lng: widget.initLng,
-                  showMapTypeControl: false,
-                  showZoomControl: false,
-                  draggableMarker: false,
-                  // mapType: MapType.TERRAIN,
-                  mapController: (controller) {
-                    _mapController = controller;
-                  },
-                  polyline: KakaoFigure(path: []),
-                  zoomChanged: (message) {
-                    debugPrint('[확대] ${message.message}');
-                  },
-                  cameraIdle: (message) {
-                    KakaoLatLng latLng =
-                        KakaoLatLng.fromJson(jsonDecode(message.message));
-                    debugPrint('[대기중] ${latLng.lat}, ${latLng.lng}');
-                  },
-                  boundaryUpdate: (message) {
-                    bounds = KakaoBoundary.fromJson(jsonDecode(message.message));
-                    debugPrint(
-                        '[범위] ne : ${bounds.neLat}, ${bounds.neLng}, sw : ${bounds.swLat}, ${bounds.swLng}');
-                  },
-                ),
-              ),
-              WalkTimer(!pressWalkBtn, startTime),
-              WalkLength(totalWalkLength),
-            ],
-          ),
-          grabbingHeight: 25,
-          grabbing: Container(
-            decoration: new BoxDecoration(
-              color: pColor,
-              borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(25.0),
-                topRight: const Radius.circular(25.0),
-              ),
-            ),
-            child : Container(
-              margin: EdgeInsets.fromLTRB(150, 10, 150, 10),
-              decoration: new BoxDecoration(
-                color: btnColor,
-                borderRadius: BorderRadius.all(Radius.circular(25)),
-              ),
-            )
-          ),
-          sheetBelow: SnappingSheetContent(
-            draggable: true,
-            child: Container(
-                color: pColor,
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: btnColor,
-                    radius: 20,
-                    child: IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: pressWalkBtn ? Icon(Icons.stop) : Icon(Icons.play_arrow),
-                        color: Color(0xFFFFFDF4),
-                        iconSize: 30,
-                        onPressed: () {
-                          setState(() {
-                            if (pressWalkBtn == false) {
-                              Future<Position> future = _determinePosition();
-                              future
-                                  .then((pos) => startWalk(pos, _mapController))
-                                  .catchError((error) => debugPrint(error));
-                              startTime = DateTime.now();
-                              pressWalkBtn = true;
-                              debugPrint(pressWalkBtn.toString());
-                            } else if (pressWalkBtn == true) {
-                              stopWalk(_mapController);
-                              endTime = DateTime.now();
-                              pressWalkBtn = false;
-                              debugPrint(totalWalkLength.toString());
-                              debugPrint(pressWalkBtn.toString());
-                            }
-                          });
-                        }),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-      bottomNavigationBar: bottomNavBar(
-          back_com : pColor,
-          back_home : pColor,
-          back_loc : sColor,
-          icon_color_com: btnColor,
-          icon_color_home: btnColor,
-          icon_color_loc: Color(0xFFFFFDF4)),
-    );
-  }
 }

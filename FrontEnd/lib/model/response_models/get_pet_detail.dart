@@ -1,31 +1,21 @@
-class getPetDetail {
-  int? statusCode;
-  String? message;
+import 'package:GSSL/model/response_models/general_response.dart';
+
+class getPetDetail extends generalResponse {
   Pet? pet;
 
-  getPetDetail({this.statusCode, this.message, this.pet});
-
-  getPetDetail.fromJson(Map<String, dynamic> json) {
-    statusCode = json['statusCode'];
-    message = json['message'];
-    pet = json['pet'] != null ? new Pet.fromJson(json['pet']) : null;
+  getPetDetail(int statusCode, String message, Pet pet) : super(statusCode, message){
+    this.pet = pet;
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['statusCode'] = this.statusCode;
-    data['message'] = this.message;
-    if (this.pet != null) {
-      data['pet'] = this.pet!.toJson();
-    }
-    return data;
+  getPetDetail.fromJson(Map<String, dynamic> json) : super(json['statusCode'], json['message']) {
+    pet = json['pet'] != null ? new Pet.fromJson(json['pet']) : null;
   }
 }
 
 class Pet {
-  String? id;
-  String? userId;
-  String? species;
+  int? id;
+  int? userId;
+  bool? species;
   String? kind;
   String? name;
   String? gender;
@@ -34,7 +24,7 @@ class Pet {
   double? weight;
   String? animalPic;
   bool? death;
-  Null? diseases;
+  String? diseases;
   String? description;
 
   Pet(
