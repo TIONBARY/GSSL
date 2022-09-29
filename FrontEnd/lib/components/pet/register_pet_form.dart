@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:GSSL/api/api_pet.dart';
+import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/model/request_models/pet_info.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_all_pet_kind.dart';
@@ -9,9 +10,9 @@ import 'package:GSSL/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import '../util/custom_dialog.dart';
 
 import '../../constants.dart';
+import '../util/custom_dialog.dart';
 
 class RegisterPetForm extends StatefulWidget {
   const RegisterPetForm({
@@ -60,17 +61,15 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
     } else if (kindResponse.statusCode == 401) {
       showDialog(
           context: context,
-          builder: (BuildContext context){
+          builder: (BuildContext context) {
             return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
-          }
-      );
+          });
     } else {
       showDialog(
           context: context,
-          builder: (BuildContext context){
+          builder: (BuildContext context) {
             return CustomDialog("알 수 없는 오류가 발생했습니다.", (context) => MainPage());
-          }
-      );
+          });
     }
   }
 
@@ -87,30 +86,36 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
     setState(() => _submitted = true);
     if (RegisterPetFormKey.currentState!.validate()) {
       RegisterPetFormKey.currentState!.save();
-      generalResponse result =  await apiPet.register(animalPicture, petInfo(kindId: kind_id,
-      name: name, gender: gender, neutralize: neutralize, birth: birth, weight: weight,
-      death: death, diseases: diseases, description: description));
+      generalResponse result = await apiPet.register(
+          animalPicture,
+          petInfo(
+              kindId: kind_id,
+              name: name,
+              gender: gender,
+              neutralize: neutralize,
+              birth: birth,
+              weight: weight,
+              death: death,
+              diseases: diseases,
+              description: description));
       if (result.statusCode == 201) {
         showDialog(
             context: context,
-            builder: (BuildContext context){
-              return CustomDialog("펫 등록에 성공했습니다.", (context) => MainPage());
-            }
-        );
+            builder: (BuildContext context) {
+              return CustomDialog("펫 등록에 성공했습니다.", (context) => BottomNavBar());
+            });
       } else if (result.statusCode == 401) {
         showDialog(
             context: context,
-            builder: (BuildContext context){
+            builder: (BuildContext context) {
               return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
-            }
-        );
+            });
       } else {
         showDialog(
             context: context,
-            builder: (BuildContext context){
+            builder: (BuildContext context) {
               return CustomDialog(result.message!, null);
-            }
-        );
+            });
       }
     }
   }
@@ -142,24 +147,25 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
                 children: [
                   Container(
                     // color: const Color(0xffd0cece),
-                    width: MediaQuery.of(context).size.width/5,
-                    height: MediaQuery.of(context).size.width/5,
+                    width: MediaQuery.of(context).size.width / 5,
+                    height: MediaQuery.of(context).size.width / 5,
                     child: Center(
                         child: animalPicture == null
                             ? Text('')
-                            : new CircleAvatar(backgroundImage: new FileImage(File(animalPicture!.path)), radius: 200.0,)
-                    ),
+                            : new CircleAvatar(
+                                backgroundImage:
+                                    new FileImage(File(animalPicture!.path)),
+                                radius: 200.0,
+                              )),
                     decoration: BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle
-                    ),
+                        color: Colors.black, shape: BoxShape.circle),
                   ),
                   Container(
                     child: ElevatedButton.icon(
-                      onPressed: (){
+                      onPressed: () {
                         chooseImage(); // call choose image function
                       },
-                      icon:Icon(Icons.image),
+                      icon: Icon(Icons.image),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: btnColor,
                           shape: RoundedRectangleBorder(
@@ -169,103 +175,103 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
                     ),
                   ),
                 ],
-              )// 이름
-          ),
-          Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(child: ListTile(
-                      title: const Text('수컷'),
-                      leading: Radio<String>(
-                        value: "M",
-                        groupValue: gender,
-                        onChanged: (String? value) {
-                          setState(() {
-                            gender = value;
-                          });
-                          },
-                      ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: const Text('암컷'),
-                      leading: Radio<String>(
-                        value: "F",
-                        groupValue: gender,
-                        onChanged: (String? value) {
-                          setState(() {
-                            gender = value;
-                          });
-                          },
-                      ),
-                    )),
-                  ],
-                )
-              ]
-          ),
+              ) // 이름
+              ),
+          Column(children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                    child: ListTile(
+                  title: const Text('수컷'),
+                  leading: Radio<String>(
+                    value: "M",
+                    groupValue: gender,
+                    onChanged: (String? value) {
+                      setState(() {
+                        gender = value;
+                      });
+                    },
+                  ),
+                )),
+                Expanded(
+                    child: ListTile(
+                  title: const Text('암컷'),
+                  leading: Radio<String>(
+                    value: "F",
+                    groupValue: gender,
+                    onChanged: (String? value) {
+                      setState(() {
+                        gender = value;
+                      });
+                    },
+                  ),
+                )),
+              ],
+            )
+          ]),
           Padding(
-          //   // 성별
+              //   // 성별
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-              child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('중성화 수술을 했어요'),
-                        Transform.scale(
-                          scale: 1.5,
-                          child: Checkbox(
-                            activeColor: Colors.white,
-                            checkColor: Colors.blue,
-                            value: neutralize,
-                            onChanged: (value) {
-                              setState(() {
-                                neutralize = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
+              child: Column(children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('중성화 수술을 했어요'),
+                    Transform.scale(
+                      scale: 1.5,
+                      child: Checkbox(
+                        activeColor: Colors.white,
+                        checkColor: Colors.blue,
+                        value: neutralize,
+                        onChanged: (value) {
+                          setState(() {
+                            neutralize = value;
+                          });
+                        },
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('무지개 다리를 건넜어요...'),
-                        Transform.scale(
-                          scale: 1.5,
-                          child: Checkbox(
-                            activeColor: Colors.white,
-                            checkColor: Colors.blue,
-                            value: death,
-                            onChanged: (value) {
-                              setState(() {
-                                death = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('무지개 다리를 건넜어요...'),
+                    Transform.scale(
+                      scale: 1.5,
+                      child: Checkbox(
+                        activeColor: Colors.white,
+                        checkColor: Colors.blue,
+                        value: death,
+                        onChanged: (value) {
+                          setState(() {
+                            death = value;
+                          });
+                        },
+                      ),
                     ),
-                  ]
-              )
-          ),
+                  ],
+                ),
+              ])),
           TextField(
             controller: dateinput, //editing controller of this TextField
             decoration: InputDecoration(
                 icon: Icon(Icons.calendar_today), //icon of text field
                 labelText: "반려견의 생년월일" //label text of field
-            ),
-            readOnly: true,  //set it true, so that user will not able to edit text
+                ),
+            readOnly:
+                true, //set it true, so that user will not able to edit text
             onTap: () async {
               DateTime? pickedDate = await showDatePicker(
-                  context: context, initialDate: DateTime.now(),
-                  firstDate: DateTime(1990), //DateTime.now() - not to allow to choose before today.
-                  lastDate: DateTime(2023)
-              );
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(
+                      1990), //DateTime.now() - not to allow to choose before today.
+                  lastDate: DateTime(2023));
 
-              if(pickedDate != null){
-                print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000//formatted date output using intl package =>  2021-03-16
+              if (pickedDate != null) {
+                print(
+                    pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000//formatted date output using intl package =>  2021-03-16
                 //you can implement different kind of Date Format here according to your requirement
 
                 setState(() {
@@ -314,34 +320,36 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
             ),
           ),
           TextFormField(
-              keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.done,
-              obscureText: false,
-              cursorColor: btnColor,
-              onChanged: (val) {
-                setState(() { weight = double.tryParse(val);});
-              },
-              autovalidateMode: _submitted
-                  ? AutovalidateMode.onUserInteraction
-                  : AutovalidateMode.disabled,
-              validator: (text) {
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: "몸무게 (선택)",
-                hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: Colors.white)),
-                filled: true,
-                fillColor: Colors.white,
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: btnColor)),
-                suffix: Text("kg"),
-              ),
+            keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.done,
+            obscureText: false,
+            cursorColor: btnColor,
+            onChanged: (val) {
+              setState(() {
+                weight = double.tryParse(val);
+              });
+            },
+            autovalidateMode: _submitted
+                ? AutovalidateMode.onUserInteraction
+                : AutovalidateMode.disabled,
+            validator: (text) {
+              return null;
+            },
+            decoration: InputDecoration(
+              hintText: "몸무게 (선택)",
+              hintStyle: TextStyle(color: sColor),
+              contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(color: Colors.white)),
+              filled: true,
+              fillColor: Colors.white,
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(color: btnColor)),
+              suffix: Text("kg"),
             ),
+          ),
           Padding(
             // 병명
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
@@ -442,4 +450,3 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
     );
   }
 }
-
