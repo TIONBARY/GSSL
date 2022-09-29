@@ -102,4 +102,11 @@ class ApiPet {
     generalResponse result = generalResponse.fromJson(json.decode(body));
     return result;
   }
+
+  Future<generalResponse> deletePetAPI(int? petId) async {
+    final response =
+        await client.delete(Uri.parse(api_url + "/" + petId.toString()));
+    generalResponse result = getAllPet.fromJson(json.decode(response.body));
+    return result;
+  }
 }
