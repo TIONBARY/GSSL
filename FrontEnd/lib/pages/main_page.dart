@@ -2,6 +2,7 @@ import 'package:GSSL/components/main/main_header_bar.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/pages/bogam_page.dart';
 import 'package:GSSL/pages/diary_page.dart';
+import 'package:GSSL/pages/jeongeum_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -104,7 +105,7 @@ class behavior_diagnosis extends StatelessWidget {
       title: '견민정음',
       box_color: Color(0x80DFB45B),
       paddings: EdgeInsets.fromLTRB(30, 15.h, 30, 15.h),
-      nextPage: GalleryApp(),
+      nextPage: JeongeumPage(),
     );
   }
 }
