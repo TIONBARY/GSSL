@@ -9,18 +9,9 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final String label0 = '결막염';
-final String label1 = '궤양성각막질환';
-final String label2 = '백내장';
-final String label3 = '비궤양성각막질환';
-final String label4 = '색소침착성각막염';
-final String label5 = '안검내반증';
-final String label6 = '안검염';
-final String label7 = '안검종양';
-final String label8 = '유루증';
-final String label9 = '핵경화';
+final label = ['결막염', '궤양성각막질환', '백내장', '비궤양성각막질환', '색소침착성각막염', '안검내반증', '안검염', '안검종양', '유루증', '핵경화'];
 ApiBogam apiBogam = ApiBogam();
-File? _image;
+XFile? _image;
 final picker = ImagePicker();
 
 class BogamPage extends StatefulWidget {
@@ -33,10 +24,13 @@ class BogamPage extends StatefulWidget {
 class _BogamPageState extends State<BogamPage> {
   // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
   Future getImage(ImageSource imageSource) async {
-    final image = await picker.pickImage(source: imageSource);
+    final image = await picker.pickImage(
+        source: imageSource,
+        imageQuality: 30
+    );
 
     setState(() {
-      _image = File(image!.path); // 가져온 이미지를 _image에 저장
+      _image = XFile(image!.path); // 가져온 이미지를 _image에 저장
     });
   }
 
@@ -134,7 +128,7 @@ class _BogamPageState extends State<BogamPage> {
                                   Text('결막염'),
                                   IconButton(
                                       onPressed: () async {
-                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label0);
+                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label[0]);
                                           if (await canLaunchUrl(_url)) {
                                             await launchUrl(_url);
                                           } else {
@@ -151,7 +145,7 @@ class _BogamPageState extends State<BogamPage> {
                                   Text('핵경화'),
                                   IconButton(
                                       onPressed: () async {
-                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label9);
+                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label[9]);
                                         if (await canLaunchUrl(_url)) {
                                           await launchUrl(_url);
                                         } else {
@@ -168,7 +162,7 @@ class _BogamPageState extends State<BogamPage> {
                                   Text('안검염'),
                                   IconButton(
                                       onPressed: () async {
-                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label6);
+                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label[6]);
                                         if (await canLaunchUrl(_url)) {
                                           await launchUrl(_url);
                                         } else {
@@ -240,5 +234,6 @@ class _BogamPageState extends State<BogamPage> {
   void _diagnosis() async {
     print('진단중');
     bogamResponse result =  await apiBogam.diagnosis(_image);
+    print(result.bogamresult?.one);
   }
 }
