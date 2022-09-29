@@ -236,7 +236,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
               MyBoxWidget(
                 height: 5,
               ),
-              const Text('No Data'),
+              const Text('게시물이 없습니다.'),
             ],
           )),
     );
