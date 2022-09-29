@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:GSSL/model/request_models/put_login_refresh.dart';
 import 'package:GSSL/model/response_models/token_reissue.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -42,17 +41,21 @@ class ExpiredTokenRetryPolicy extends RetryPolicy {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(
-              RefreshTokenRequestModel(refreshToken: refreshToken).toJson()));
+          body: json.encode({'refreshToken': refreshToken}));
 
       tokenReissue reissueInfo =
           tokenReissue.fromJson(json.decode(response.body));
-      // Write value
-      await storage.write(
-          key: 'Authorization', value: reissueInfo.tokenInfo?.accessToken);
-      await storage.write(
-          key: 'RefreshToken', value: reissueInfo.tokenInfo?.refreshToken);
-      return response.statusCode == 200;
+      if (reissueInfo.tokenInfo?.accessToken != null &&
+          reissueInfo.tokenInfo?.refreshToken != null) {
+        // debugPrint(reissueInfo.tokenInfo?.refreshToken!);
+        // Write value
+        await storage.write(
+            key: 'Authorization', value: reissueInfo.tokenInfo?.accessToken);
+        await storage.write(
+            key: 'RefreshToken', value: reissueInfo.tokenInfo?.refreshToken);
+
+        return response.statusCode == 200;
+      }
     }
     return false;
   }
