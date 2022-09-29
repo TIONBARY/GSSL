@@ -39,7 +39,7 @@ class DismissibleBackgroundWidget extends StatelessWidget {
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(color: Colors.black),
+                decoration: BoxDecoration(color: Colors.red),
                 child: Icon(
                   icon,
                   color: iconColor,
