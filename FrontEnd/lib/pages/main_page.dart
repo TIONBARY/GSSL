@@ -1,23 +1,19 @@
 import 'package:GSSL/components/main/main_header_bar.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/pages/bogam_page.dart';
-import 'package:GSSL/pages/community_page.dart';
 import 'package:GSSL/pages/diary_page.dart';
-import 'package:GSSL/pages/signup_pet_page.dart';
-import 'package:GSSL/pages/walk_map.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../components/bottomNavBar.dart';
 import '../components/main/main_function_box.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.black,// navigation bar color
+    systemNavigationBarColor: Colors.black, // navigation bar color
     statusBarColor: pColor, // status bar color
   ));
 
@@ -48,7 +44,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,14 +85,13 @@ class UserBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
-      // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-      decoration: BoxDecoration(
-          // borderRadius: BorderRadius.circular(45),
-          // color: Color(0xFFFFE6BC),
-          ),
-      child: MainHeaderBar()
-    );
+        margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
+        // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+        decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(45),
+            // color: Color(0xFFFFE6BC),
+            ),
+        child: MainHeaderBar());
   }
 }
 
@@ -109,7 +103,7 @@ class behavior_diagnosis extends StatelessWidget {
     return function_box(
       title: '견민정음',
       box_color: Color(0x80DFB45B),
-      paddings: EdgeInsets.fromLTRB(30, 30, 30, 15),
+      paddings: EdgeInsets.fromLTRB(30, 15.h, 30, 15.h),
       nextPage: GalleryApp(),
     );
   }
@@ -123,7 +117,7 @@ class health_diagnosis extends StatelessWidget {
     return function_box(
       title: '견의보감',
       box_color: Color(0x80506274),
-      paddings: EdgeInsets.fromLTRB(30, 15, 30, 15),
+      paddings: EdgeInsets.fromLTRB(30, 15.h, 30, 15.h),
       nextPage: BogamPage(),
     );
   }
@@ -142,7 +136,7 @@ class _diaryState extends State<diary> {
     return function_box(
       title: '견중일기',
       box_color: Color(0x80C66952),
-      paddings: EdgeInsets.fromLTRB(30, 15, 30, 30),
+      paddings: EdgeInsets.fromLTRB(30, 15.h, 30, 15.h),
       nextPage: GalleryApp(),
     );
   }

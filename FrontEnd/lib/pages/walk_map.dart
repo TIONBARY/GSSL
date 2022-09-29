@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,14 +25,14 @@ StreamSubscription<Position>? _positionStreamSubscription;
 int totalWalkLength = 0;
 late WebViewController _mapController;
 late StopWatchTimer _stopWatchTimer =
-StopWatchTimer(mode: StopWatchMode.countUp);
+    StopWatchTimer(mode: StopWatchMode.countUp);
 bool pressWalkBtn = false;
 DateTime startTime = DateTime.now();
 DateTime endTime = DateTime.now();
 String addrName = "";
 String kakaoMapKey = "";
 double initLat = 0.0;
-double initLon =0.0;
+double initLon = 0.0;
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -40,21 +41,22 @@ void main() async {
   ));
 
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: KakaoMapTest()));
+  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: KakaoMapTest()));
 }
 
 class KakaoMapTest extends StatefulWidget {
-
   @override
   State<KakaoMapTest> createState() => _KakaoMapTestState();
 }
 
-class _KakaoMapTestState extends State<KakaoMapTest> {
+class _KakaoMapTestState extends State<KakaoMapTest>
+    with AutomaticKeepAliveClientMixin<KakaoMapTest> {
+  @override
+  bool get wantKeepAlive => true;
+
   late ScreenshotController screenshotController = ScreenshotController();
   final directory =
-  getApplicationDocumentsDirectory(); //from path_provide package
+      getApplicationDocumentsDirectory(); //from path_provide package
 
   Timer? timer;
 
@@ -76,9 +78,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
   @override
   Widget build(BuildContext context) {
     initTimer();
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     // var appBarHeight = AppBar().preferredSize.height;
     // debugPrint(widget.initLat.toString());
     // debugPrint(widget.initLng.toString());
@@ -131,38 +131,36 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                     // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
                     else {
                       debugPrint(snapshot.data);
-                      return
-                        Screenshot(
+                      return Screenshot(
                           controller: screenshotController,
                           child: Container(
                             // child: Text(snapshot.data),
                             child: KakaoMapView(
-                            width: size.width,
-                            // height: size.height * 7 / 10,
-                            // height: size.height - appBarHeight - 130,
-                            height: size.height - 100,
-                            kakaoMapKey: kakaoMapKey,
-                            lat: initLat,
-                            lng: initLon,
-                            // zoomLevel: 1,
-                            showMapTypeControl: false,
-                            showZoomControl: false,
-                            draggableMarker: false,
-                            // mapType: MapType.TERRAIN,
-                            mapController: (controller) {
-                              debugPrint("빈컨트롤러");
-                              debugPrint(
-                                  _mapController.currentUrl().toString());
-                              if (_mapController.toString() == "") {
-                                _mapController = controller;
-                              }
-                            },
-                            polyline: KakaoFigure(path: []),
-                          ),
-                        ));
-                  }
-                  }
-              )
+                              width: size.width,
+                              // height: size.height * 7 / 10,
+                              // height: size.height - appBarHeight - 130,
+                              height: 600.h,
+                              kakaoMapKey: kakaoMapKey,
+                              lat: initLat,
+                              lng: initLon,
+                              // zoomLevel: 1,
+                              showMapTypeControl: false,
+                              showZoomControl: false,
+                              draggableMarker: false,
+                              // mapType: MapType.TERRAIN,
+                              mapController: (controller) {
+                                debugPrint("빈컨트롤러");
+                                debugPrint(
+                                    _mapController.currentUrl().toString());
+                                if (_mapController.toString() == "") {
+                                  _mapController = controller;
+                                }
+                              },
+                              polyline: KakaoFigure(path: []),
+                            ),
+                          ));
+                    }
+                  })
             ],
           ),
           grabbingHeight: 25,
@@ -242,8 +240,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                               apiWalk.enterWalk(info);
 
                               // 스크린샷 저장
-                              String fileName = DateTime
-                                  .now()
+                              String fileName = DateTime.now()
                                   .microsecondsSinceEpoch
                                   .toString();
                               debugPrint(fileName);
@@ -371,10 +368,8 @@ void startWalk(Position position, _mapController) {
 }
 
 void drawLine(_mapController, position, beforePos) {
-  var lat = 0.0,
-      lon = 0.0;
-  var beforeLat = 0.0,
-      beforeLon = 0.0;
+  var lat = 0.0, lon = 0.0;
+  var beforeLat = 0.0, beforeLon = 0.0;
 
   lat = position.latitude;
   lon = position.longitude;
@@ -386,7 +381,7 @@ void drawLine(_mapController, position, beforePos) {
   // 거리 계산
   double distanceInMeters = _geolocatorPlatform
       .distanceBetween(position.latitude, position.longitude,
-      beforePos.latitude, beforePos.longitude)
+          beforePos.latitude, beforePos.longitude)
       .abs();
   // 거리 합산
   totalWalkLength += distanceInMeters.toInt();
@@ -442,7 +437,6 @@ void stopWalk(_mapController) {
   positionList = [];
   debugPrint('산책 끝');
 }
-
 
 // 비동기 처리
 Future _future() async {
