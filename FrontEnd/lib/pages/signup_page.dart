@@ -12,7 +12,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('회원가입'), foregroundColor: Color(0xFFFFFDF4),
+        title: Text('회원가입'), foregroundColor:nWColor,
         backgroundColor: btnColor,
         centerTitle: true,
       ),
