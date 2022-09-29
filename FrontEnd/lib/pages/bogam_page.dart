@@ -1,8 +1,19 @@
 import 'dart:io';
 
+import 'package:GSSL/constants.dart';
+import 'package:GSSL/api/api_bogam.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+final label = ['결막염', '궤양성각막질환', '백내장', '비궤양성각막질환', '색소침착성각막염', '안검내반증', '안검염', '안검종양', '유루증', '핵경화'];
+List<String> diagnosisResult = ['1등', '2등', '3등'];
+List<int> diagnosisPercent = [50, 50, 50];
+ApiBogam apiBogam = ApiBogam();
+XFile? _image;
+final picker = ImagePicker();
 
 class BogamPage extends StatefulWidget {
   const BogamPage({Key? key}) : super(key: key);
@@ -12,15 +23,15 @@ class BogamPage extends StatefulWidget {
 }
 
 class _BogamPageState extends State<BogamPage> {
-  File? _image;
-  final picker = ImagePicker();
-
   // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
   Future getImage(ImageSource imageSource) async {
-    final image = await picker.pickImage(source: imageSource);
+    final image = await picker.pickImage(
+        source: imageSource,
+        imageQuality: 50
+    );
 
     setState(() {
-      _image = File(image!.path); // 가져온 이미지를 _image에 저장
+      _image = XFile(image!.path); // 가져온 이미지를 _image에 저장
     });
   }
 
@@ -33,9 +44,7 @@ class _BogamPageState extends State<BogamPage> {
         child: Center(
             child: _image == null
                 ? Text('이미지를 촬영/선택 해주세요')
-                : Image.file(File(_image!.path))
-        )
-    );
+                : Image.file(File(_image!.path))));
   }
 
   @override
@@ -52,7 +61,7 @@ class _BogamPageState extends State<BogamPage> {
             IconButton(
               onPressed: () => guideDialog(),
               icon: Icon(Icons.help_outline),
-              color: Color(0xffE38B29),
+              color: btnColor,
             ),
             SizedBox(height: 25.0),
             showImage(),
@@ -69,7 +78,7 @@ class _BogamPageState extends State<BogamPage> {
                   onPressed: () {
                     getImage(ImageSource.camera);
                   },
-                  backgroundColor: Color(0xffE38B29),
+                  backgroundColor: btnColor,
                 ),
 
                 // 갤러리에서 이미지를 가져오는 버튼
@@ -79,10 +88,113 @@ class _BogamPageState extends State<BogamPage> {
                   onPressed: () {
                     getImage(ImageSource.gallery);
                   },
-                  backgroundColor: Color(0xffE38B29),
+                  backgroundColor: btnColor,
                 ),
               ],
-            )
+            ),
+            Padding(padding: EdgeInsets.all(15)),
+            FloatingActionButton(
+                child: Icon(Icons.search),
+                tooltip: 'diagnose',
+                backgroundColor: btnColor,
+                onPressed: () {
+                  if (_image == null) {
+                    print('사진을 선택해주세요');
+                  } else {
+                    _diagnosis();
+                    loadingDialog();
+                    Future.delayed(const Duration(milliseconds: 40000), () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: 250,
+                            decoration: new BoxDecoration(
+                              color: pColor,
+                              borderRadius: new BorderRadius.only(
+                                topLeft: const Radius.circular(25.0),
+                                topRight: const Radius.circular(25.0),
+                              ),
+                            ),
+                            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                            child: Column(
+                              children: <Widget>[
+                                Padding(padding: EdgeInsets.all(10)),
+                                Text('해당 질병이 의심됩니다'),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(diagnosisResult.elementAt(0)),
+                                    Text('${diagnosisPercent.elementAt(0)}%'),
+                                    IconButton(
+                                        onPressed: () async {
+                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(0));
+                                          if (await canLaunchUrl(_url)) {
+                                            await launchUrl(_url);
+                                          } else {
+                                            print('Could not launch');
+                                          }
+                                        },
+                                        icon: Icon(Icons.help_outline))
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(diagnosisResult.elementAt(1)),
+                                    Text('${diagnosisPercent.elementAt(1)}%'),
+                                    IconButton(
+                                        onPressed: () async {
+                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(1));
+                                          if (await canLaunchUrl(_url)) {
+                                            await launchUrl(_url);
+                                          } else {
+                                            print('Could not launch');
+                                          }
+                                        },
+                                        icon: Icon(Icons.help_outline))
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(diagnosisResult.elementAt(2)),
+                                    Text('${diagnosisPercent.elementAt(2)}%'),
+                                    IconButton(
+                                        onPressed: () async {
+                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(2));
+                                          if (await canLaunchUrl(_url)) {
+                                            await launchUrl(_url);
+                                          } else {
+                                            print('Could not launch');
+                                          }
+                                        },
+                                        icon: Icon(Icons.help_outline))
+                                  ],
+                                ),
+                                FloatingActionButton(
+                                  child: Icon(Icons.save_alt_outlined),
+                                  tooltip: 'save',
+                                  onPressed: () {
+
+                                  },
+                                  backgroundColor: btnColor,
+                                ),
+                              ],
+
+                            ),
+                          );
+                        },
+                      );
+                    });
+                  }
+                })
           ],
         ));
   }
@@ -111,7 +223,7 @@ class _BogamPageState extends State<BogamPage> {
                 Text(
                   "사진은 이렇게 찍어주세요.",
                 ),
-                Image.asset("assets/guide.jpg")
+                Image.asset("assets/images/1.png")
               ],
             ),
             actions: <Widget>[
@@ -126,7 +238,53 @@ class _BogamPageState extends State<BogamPage> {
         });
   }
 
-  void show_result(){
-    Image.file(File(_image!.path));
+  void loadingDialog() {
+    showDialog(
+        context: context,
+        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            //Dialog Main Title
+            content: SizedBox(
+              height: 350,
+              child: Column(
+                children: [
+                  Image.asset('assets/images/loadingDog.gif'),
+                  Padding(padding: EdgeInsets.all(15)),
+                  Text('조금만 기다려주세요.'),
+                  Text('40초 가량 소요됩니다.')
+                ],
+              )
+
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text("확인"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  void _diagnosis() async {
+    int index = 0;
+    print('진단중');
+    Map<String, dynamic> result =  await apiBogam.diagnosis(_image);
+    for(String key in result.keys){
+      diagnosisResult[index++] = key;
+      if(index == 3) break;
+    } 
+    index = 0;
+    for(int value in result.values){
+      diagnosisPercent[index++] = value;
+      if(index == 3) break;
+    }
   }
 }
