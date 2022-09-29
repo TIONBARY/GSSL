@@ -9,16 +9,16 @@ import lombok.Getter;
 @Getter
 @ApiModel("PetKindListResponse")
 public class PetKindResponseDto extends BaseResponseDto {
-	@ApiModelProperty(name = "Pet Kind List")
-	private List<PetKindListDto> petKindList;
+	@ApiModelProperty(name = "Pet Kind")
+	private PetKindListDto petKind;
 	
-	public PetKindResponseDto(Integer statusCode, String message, List<PetKindListDto> petList) {
+	public PetKindResponseDto(Integer statusCode, String message, PetKindListDto petKind) {
 		super(statusCode, message);
-		this.petKindList = petList;
+		this.petKind = petKind;
 	}
 	
-	public static PetKindResponseDto of(Integer statusCode, String message, List<PetKindListDto> petList) {
-		PetKindResponseDto body = new PetKindResponseDto(statusCode, message, petList);
+	public static PetKindResponseDto of(Integer statusCode, String message, PetKindListDto petKind) {
+		PetKindResponseDto body = new PetKindResponseDto(statusCode, message, petKind);
 		return body;
 	}
 
