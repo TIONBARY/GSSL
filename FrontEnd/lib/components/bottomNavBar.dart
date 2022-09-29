@@ -1,3 +1,4 @@
+import 'package:GSSL/components/util/double_click_pop.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/pages/community_page.dart';
 import 'package:GSSL/pages/main_page.dart';
@@ -53,7 +54,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
     var size = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        bool result = doubleClickPop();
+        return await Future.value(result);
+      },
       child: PersistentTabView(
         context,
         controller: controller,

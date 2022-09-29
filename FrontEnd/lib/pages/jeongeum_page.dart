@@ -1,37 +1,33 @@
 import 'dart:io';
+import 'package:GSSL/api/api_jeongeum.dart';
 
 import 'package:GSSL/constants.dart';
-import 'package:GSSL/api/api_bogam.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-final label = ['결막염', '궤양성각막질환', '백내장', '비궤양성각막질환', '색소침착성각막염', '안검내반증', '안검염', '안검종양', '유루증', '핵경화'];
-List<String> diagnosisResult = ['1등', '2등', '3등'];
-List<int> diagnosisPercent = [50, 50, 50];
-ApiBogam apiBogam = ApiBogam();
-XFile? _image;
+String diagnosisResult = "";
+ApiJeongeum apiJeongeum = ApiJeongeum();
+XFile? _video;
 final picker = ImagePicker();
 
-class BogamPage extends StatefulWidget {
-  const BogamPage({Key? key}) : super(key: key);
+class JeongeumPage extends StatefulWidget {
+  const JeongeumPage({Key? key}) : super(key: key);
 
   @override
-  State<BogamPage> createState() => _BogamPageState();
+  State<JeongeumPage> createState() => _JeongeumPageState();
 }
 
-class _BogamPageState extends State<BogamPage> {
+class _JeongeumPageState extends State<JeongeumPage> {
   // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
-  Future getImage(ImageSource imageSource) async {
-    final image = await picker.pickImage(
+  Future getVideo(ImageSource imageSource) async {
+    final image = await picker.pickVideo(
         source: imageSource,
-        imageQuality: 50
     );
 
     setState(() {
-      _image = XFile(image!.path); // 가져온 이미지를 _image에 저장
+      _video = XFile(image!.path); // 가져온 이미지를 _image에 저장
     });
   }
 
@@ -42,9 +38,9 @@ class _BogamPageState extends State<BogamPage> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.width,
         child: Center(
-            child: _image == null
-                ? Text('이미지를 촬영/선택 해주세요')
-                : Image.file(File(_image!.path))));
+            child: _video == null
+                ? Text('영상을 촬영/선택 해주세요')
+                : Image.file(File(_video!.path))));
   }
 
   @override
@@ -76,7 +72,7 @@ class _BogamPageState extends State<BogamPage> {
                   child: Icon(Icons.add_a_photo),
                   tooltip: 'pick Iamge',
                   onPressed: () {
-                    getImage(ImageSource.camera);
+                    getVideo(ImageSource.camera);
                   },
                   backgroundColor: btnColor,
                 ),
@@ -86,7 +82,7 @@ class _BogamPageState extends State<BogamPage> {
                   child: Icon(Icons.wallpaper),
                   tooltip: 'pick Iamge',
                   onPressed: () {
-                    getImage(ImageSource.gallery);
+                    getVideo(ImageSource.gallery);
                   },
                   backgroundColor: btnColor,
                 ),
@@ -98,12 +94,12 @@ class _BogamPageState extends State<BogamPage> {
                 tooltip: 'diagnose',
                 backgroundColor: btnColor,
                 onPressed: () {
-                  if (_image == null) {
+                  if (_video == null) {
                     print('사진을 선택해주세요');
                   } else {
                     _diagnosis();
                     loadingDialog();
-                    Future.delayed(const Duration(milliseconds: 40000), () {
+                    Future.delayed(const Duration(milliseconds: 20000), () {
                       showModalBottomSheet<void>(
                         context: context,
                         shape: RoundedRectangleBorder(
@@ -123,55 +119,7 @@ class _BogamPageState extends State<BogamPage> {
                             child: Column(
                               children: <Widget>[
                                 Padding(padding: EdgeInsets.all(10)),
-                                Text('해당 질병이 의심됩니다'),
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(diagnosisResult.elementAt(0)),
-                                    Text('${diagnosisPercent.elementAt(0)}%'),
-                                    IconButton(
-                                        onPressed: () async {
-                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(0));
-                                          if (!await launchUrl(_url)) {
-                                            throw 'Could not launch $_url';
-                                          }
-                                        },
-                                        icon: Icon(Icons.help_outline))
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(diagnosisResult.elementAt(1)),
-                                    Text('${diagnosisPercent.elementAt(1)}%'),
-                                    IconButton(
-                                        onPressed: () async {
-                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(1));
-                                          if (!await launchUrl(_url)) {
-                                            throw 'Could not launch $_url';
-                                          }
-                                        },
-                                        icon: Icon(Icons.help_outline))
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(diagnosisResult.elementAt(2)),
-                                    Text('${diagnosisPercent.elementAt(2)}%'),
-                                    IconButton(
-                                        onPressed: () async {
-                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(2));
-                                          if (!await launchUrl(_url)) {
-                                            throw 'Could not launch $_url';
-                                          }
-                                        },
-                                        icon: Icon(Icons.help_outline))
-                                  ],
-                                ),
+                                Text('강아지는 현재 ${diagnosisResult}한 상태입니다.'),
                                 FloatingActionButton(
                                   child: Icon(Icons.save_alt_outlined),
                                   tooltip: 'save',
@@ -215,10 +163,9 @@ class _BogamPageState extends State<BogamPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "사진은 이렇게 찍어주세요.",
+                  "강아지가 가운데 오게 찍어주세요.",
                 ),
-                Image.asset("assets/images/1.png")
-              ],
+               ],
             ),
             actions: <Widget>[
               TextButton(
@@ -238,7 +185,7 @@ class _BogamPageState extends State<BogamPage> {
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
         builder: (BuildContext context) {
-          Future.delayed(Duration(milliseconds: 40000), () {
+          Future.delayed(Duration(milliseconds: 20000), () {
             Navigator.pop(context);
           });
 
@@ -248,32 +195,24 @@ class _BogamPageState extends State<BogamPage> {
                 borderRadius: BorderRadius.circular(10.0)),
             //Dialog Main Title
             content: SizedBox(
-              height: 350,
-              child: Column(
-                children: [
-                  Image.asset('assets/images/loadingDog.gif'),
-                  Padding(padding: EdgeInsets.all(15)),
-                  Text('조금만 기다려주세요.'),
-                  Text('40초 가량 소요됩니다.')
-                ],
-              )
+                height: 350,
+                child: Column(
+                  children: [
+                    Image.asset('assets/images/loadingDog.gif'),
+                    Padding(padding: EdgeInsets.all(15)),
+                    Text('조금만 기다려주세요.'),
+                    Text('20초 가량 소요됩니다.')
+                  ],
+                )
             ),
           );
         });
   }
 
   void _diagnosis() async {
-    int index = 0;
     print('진단중');
-    Map<String, dynamic> result =  await apiBogam.diagnosis(_image);
-    for(String key in result.keys){
-      diagnosisResult[index++] = key;
-      if(index == 3) break;
-    } 
-    index = 0;
-    for(int value in result.values){
-      diagnosisPercent[index++] = value;
-      if(index == 3) break;
-    }
+    String result =  await apiJeongeum.diagnosis(_video);
+    print(result);
+    diagnosisResult = result;
   }
 }
