@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     _permission();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: '견생실록',
       theme: ThemeData(
           // primarySwatch: Colors.blue,
           ),
@@ -43,8 +43,8 @@ class HomePage extends StatelessWidget {
 
 // 백그라운드 GPS 권한 요청
 void _permission() async {
-  // var requestStatus = await Permission.location.request();
-  var requestStatus = await Permission.locationAlways.request();
+  var requestStatus = await Permission.location.request();
+  // var requestStatus = await Permission.locationAlways.request();
 
   if (await Permission.contacts.request().isGranted) {
     // Either the permission was already granted before or the user just granted it.
