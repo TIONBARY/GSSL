@@ -164,6 +164,11 @@ public class UserServiceImpl implements UserService {
 	public void modifyPet(String memberId, int petId) {
 		User user = repository.findByMemberId(memberId)
 				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		if (petId == 0) {
+			user.modifyPetId(petId);
+			repository.save(user);
+			return;
+		}
 		Pet pet = petRepository.findById(petId)
 				.orElseThrow(() -> new IllegalArgumentException("등록되지 않은 반려동물입니다."));
 		if (pet.getUser().getId() != user.getId()) {
