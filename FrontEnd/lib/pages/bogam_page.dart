@@ -10,12 +10,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final label = ['결막염', '궤양성각막질환', '백내장', '비궤양성각막질환', '색소침착성각막염', '안검내반증', '안검염', '안검종양', '유루증', '핵경화'];
+List<String> diagnosisResult = ['1등', '2등', '3등'];
+List<int> diagnosisPercent = [50, 50, 50];
 ApiBogam apiBogam = ApiBogam();
 XFile? _image;
 final picker = ImagePicker();
-String first = '1등';
-String second = '2등';
-String third = '3등';
 
 class BogamPage extends StatefulWidget {
   const BogamPage({Key? key}) : super(key: key);
@@ -106,7 +105,6 @@ class _BogamPageState extends State<BogamPage> {
                     _diagnosis();
                     loadingDialog();
                     Future.delayed(const Duration(milliseconds: 40000), () {
-                      first = label[0];
                       showModalBottomSheet<void>(
                         context: context,
                         shape: RoundedRectangleBorder(
@@ -131,10 +129,11 @@ class _BogamPageState extends State<BogamPage> {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(first),
+                                    Text(diagnosisResult.elementAt(0)),
+                                    Text('${diagnosisPercent.elementAt(0)}%'),
                                     IconButton(
                                         onPressed: () async {
-                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ first);
+                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(0));
                                           if (await canLaunchUrl(_url)) {
                                             await launchUrl(_url);
                                           } else {
@@ -148,10 +147,11 @@ class _BogamPageState extends State<BogamPage> {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(second),
+                                    Text(diagnosisResult.elementAt(1)),
+                                    Text('${diagnosisPercent.elementAt(1)}%'),
                                     IconButton(
                                         onPressed: () async {
-                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ second);
+                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(1));
                                           if (await canLaunchUrl(_url)) {
                                             await launchUrl(_url);
                                           } else {
@@ -165,10 +165,11 @@ class _BogamPageState extends State<BogamPage> {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(third),
+                                    Text(diagnosisResult.elementAt(2)),
+                                    Text('${diagnosisPercent.elementAt(2)}%'),
                                     IconButton(
                                         onPressed: () async {
-                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ third);
+                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(2));
                                           if (await canLaunchUrl(_url)) {
                                             await launchUrl(_url);
                                           } else {
@@ -274,8 +275,17 @@ class _BogamPageState extends State<BogamPage> {
   }
 
   void _diagnosis() async {
+    int index = 0;
     print('진단중');
-    bogamResponse result =  await apiBogam.diagnosis(_image);
-    print(result.bogamresult?.one);
+    Map<String, dynamic> result =  await apiBogam.diagnosis(_image);
+    for(String key in result.keys){
+      diagnosisResult[index++] = key;
+      if(index == 3) break;
+    } 
+    index = 0;
+    for(int value in result.values){
+      diagnosisPercent[index++] = value;
+      if(index == 3) break;
+    }
   }
 }
