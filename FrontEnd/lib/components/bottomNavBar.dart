@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:GSSL/pages/community_page.dart';
 import 'package:GSSL/pages/main_page.dart';
+import 'package:GSSL/pages/user_info_page.dart';
 import 'package:GSSL/pages/walk_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -15,12 +16,13 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   List<Widget> _widgetOptions = <Widget>[
-    CommunityApp(),
     MainPage(),
+    CommunityApp(),
     KakaoMapTest(),
+    UserInfoPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -36,25 +38,34 @@ class _BottomNavBarState extends State<BottomNavBar> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.people_alt_outlined),
-            label: 'Community',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+            backgroundColor: pColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.feed),
+            label: 'Community',
+            backgroundColor: pColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pets_outlined),
             label: 'Walk',
+            backgroundColor: pColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'UserInfo',
+            backgroundColor: pColor,
           ),
         ],
         showSelectedLabels: false,
         showUnselectedLabels: false,
         currentIndex: _selectedIndex,
         selectedItemColor: btnColor,
-        iconSize: 30,
         unselectedItemColor: sColor,
+        iconSize: 30,
         backgroundColor: pColor,
+        // type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,
       ),
     );
