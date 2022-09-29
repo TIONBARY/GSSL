@@ -257,16 +257,7 @@ class _BogamPageState extends State<BogamPage> {
                   Text('40초 가량 소요됩니다.')
                 ],
               )
-
             ),
-            actions: <Widget>[
-              TextButton(
-                child: Text("확인"),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
           );
         });
   }
