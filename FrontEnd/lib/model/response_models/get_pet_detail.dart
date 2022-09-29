@@ -3,11 +3,13 @@ import 'package:GSSL/model/response_models/general_response.dart';
 class getPetDetail extends generalResponse {
   Pet? pet;
 
-  getPetDetail(int statusCode, String message, Pet pet) : super(statusCode, message){
+  getPetDetail(int statusCode, String message, Pet pet)
+      : super(statusCode, message) {
     this.pet = pet;
   }
 
-  getPetDetail.fromJson(Map<String, dynamic> json) : super(json['statusCode'], json['message']) {
+  getPetDetail.fromJson(Map<String, dynamic> json)
+      : super(json['statusCode'], json['message']) {
     pet = json['pet'] != null ? new Pet.fromJson(json['pet']) : null;
   }
 }
@@ -16,7 +18,7 @@ class Pet {
   int? id;
   int? userId;
   bool? species;
-  String? kind;
+  int? kindId;
   String? name;
   String? gender;
   bool? neutralize;
@@ -29,24 +31,24 @@ class Pet {
 
   Pet(
       {this.id,
-        this.userId,
-        this.species,
-        this.kind,
-        this.name,
-        this.gender,
-        this.neutralize,
-        this.birth,
-        this.weight,
-        this.animalPic,
-        this.death,
-        this.diseases,
-        this.description});
+      this.userId,
+      this.species,
+      this.kindId,
+      this.name,
+      this.gender,
+      this.neutralize,
+      this.birth,
+      this.weight,
+      this.animalPic,
+      this.death,
+      this.diseases,
+      this.description});
 
   Pet.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     species = json['species'];
-    kind = json['kind'];
+    kindId = json['kind_id'];
     name = json['name'];
     gender = json['gender'];
     neutralize = json['neutralize'];
@@ -63,7 +65,7 @@ class Pet {
     data['id'] = this.id;
     data['user_id'] = this.userId;
     data['species'] = this.species;
-    data['kind'] = this.kind;
+    data['kind'] = this.kindId;
     data['name'] = this.name;
     data['gender'] = this.gender;
     data['neutralize'] = this.neutralize;
