@@ -105,7 +105,7 @@ class _BogamPageState extends State<BogamPage> {
                   } else {
                     _diagnosis();
                     loadingDialog();
-                    Future.delayed(const Duration(milliseconds: 20000), () {
+                    Future.delayed(const Duration(milliseconds: 40000), () {
                       first = label[0];
                       showModalBottomSheet<void>(
                         context: context,
@@ -256,7 +256,7 @@ class _BogamPageState extends State<BogamPage> {
                   Image.asset('assets/images/loadingDog.gif'),
                   Padding(padding: EdgeInsets.all(15)),
                   Text('조금만 기다려주세요.'),
-                  Text('30초 가량 소요됩니다.')
+                  Text('40초 가량 소요됩니다.')
                 ],
               )
 
