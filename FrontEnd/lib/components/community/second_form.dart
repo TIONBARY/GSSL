@@ -1,18 +1,19 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
-import './utils_second/context_extension.dart';
-import './widgets/dismissible_background_widget.dart';
-import './widgets/my_box_widget.dart';
+import 'package:flutter/material.dart';
+
 import './constants/constants.dart';
+import './edit_second_page.dart';
 import './models/content_first_object.dart';
+import './store_second_page.dart';
+import './utils_second/context_extension.dart';
 import './utils_second/database_helper.dart';
 import './utils_second/database_services.dart';
 import './widgets/content_item_widget.dart';
+import './widgets/dismissible_background_widget.dart';
 import './widgets/icon_button_widget.dart';
+import './widgets/my_box_widget.dart';
 import './widgets/text_button_widget.dart';
-import './edit_second_page.dart';
-import './store_second_page.dart';
 
 class SecondPage extends StatefulWidget {
   const SecondPage({Key? key}) : super(key: key);
@@ -60,6 +61,7 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
       appBar: AppBar(
         toolbarHeight: 70,
         centerTitle: false,
+        backgroundColor: Colors.white,
         title: TextField(
           controller: searchController,
           textInputAction: TextInputAction.search,
@@ -110,9 +112,12 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
                 )),
             hintText: 'Search',
             contentPadding: EdgeInsets.all(10),
-            border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-            enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+            border:
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+            focusedBorder:
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+            enabledBorder:
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
           ),
         ),
         actions: [
@@ -132,113 +137,130 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
       ),
       body: _aidList.isNotEmpty || isSearch
           ? SingleChildScrollView(
-        child: Column(
-          children: [
-            ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: _aidList.length,
-                itemBuilder: (context, index) {
-                  return Dismissible(
-                    background: DismissibleBackgroundWidget(alignment: Alignment.centerRight, icon: Icons.edit, backgroundColor: Theme.of(context).primaryColor),
-                    secondaryBackground: DismissibleBackgroundWidget(
-                      alignment: Alignment.centerLeft,
-                      icon: Icons.delete_outline_sharp,
-                      backgroundColor: Colors.red,
-                      iconColor: Colors.white,
-                    ),
-                    confirmDismiss: (DismissDirection direction) async {
-                      if (direction == DismissDirection.startToEnd) {
-                        return await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("Confirm"),
-                              content: const Text("Are you sure you wish to edit this item?"),
-                              actions: <Widget>[
-                                TextBtnWidget(
-                                  name: ' Edit ',
-                                  isStretch: false,
-                                  onTap: () {
-                                    context.to(EditPostPage(ContentObject.fromMap(_aidList[index]))).then((value) {
-                                      if (value != null) {
-                                        if (value == true) {
-                                          setState(() {});
-                                          _getList();
-                                        }
-                                      }
-                                      return context.back(false);
-                                    });
-                                  },
-                                ),
-                                TextBtnWidget(
-                                  name: 'Cancel',
-                                  btnColor: Colors.white,
-                                  onTap: () => context.back(false),
-                                  isStretch: false,
-                                ),
-                              ],
-                            );
+              child: Column(
+                children: [
+                  ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _aidList.length,
+                      itemBuilder: (context, index) {
+                        return Dismissible(
+                          background: DismissibleBackgroundWidget(
+                              alignment: Alignment.centerRight,
+                              icon: Icons.edit,
+                              backgroundColor: Theme.of(context).primaryColor),
+                          secondaryBackground: DismissibleBackgroundWidget(
+                            alignment: Alignment.centerLeft,
+                            icon: Icons.delete_outline_sharp,
+                            backgroundColor: Colors.red,
+                            iconColor: Colors.white,
+                          ),
+                          confirmDismiss: (DismissDirection direction) async {
+                            if (direction == DismissDirection.startToEnd) {
+                              return await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Confirm"),
+                                    content: const Text(
+                                        "Are you sure you wish to edit this item?"),
+                                    actions: <Widget>[
+                                      TextBtnWidget(
+                                        name: ' Edit ',
+                                        isStretch: false,
+                                        onTap: () {
+                                          context
+                                              .to(EditPostPage(
+                                                  ContentObject.fromMap(
+                                                      _aidList[index])))
+                                              .then((value) {
+                                            if (value != null) {
+                                              if (value == true) {
+                                                setState(() {});
+                                                _getList();
+                                              }
+                                            }
+                                            return context.back(false);
+                                          });
+                                        },
+                                      ),
+                                      TextBtnWidget(
+                                        name: 'Cancel',
+                                        btnColor: Colors.white,
+                                        onTap: () => context.back(false),
+                                        isStretch: false,
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else if (direction ==
+                                DismissDirection.endToStart) {
+                              return await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Confirm"),
+                                    content: const Text(
+                                        "Are you sure you wish to delete this item?"),
+                                    actions: <Widget>[
+                                      TextBtnWidget(
+                                        name: 'Delete',
+                                        nameColor: Colors.white,
+                                        btnColor: Colors.red,
+                                        onTap: () {
+                                          DatabaseServices()
+                                              .deleteItem(_aidList[index]['id'],
+                                                  tableContent)
+                                              .then((value) {
+                                            if (value != null) {
+                                              context.back(true);
+                                            }
+                                          });
+                                        },
+                                        isStretch: false,
+                                      ),
+                                      TextBtnWidget(
+                                        name: 'Cancel',
+                                        btnColor: Colors.white,
+                                        onTap: () => context.back(false),
+                                        isStretch: false,
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                            return null;
                           },
-                        );
-                      } else if (direction == DismissDirection.endToStart) {
-                        return await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("Confirm"),
-                              content: const Text("Are you sure you wish to delete this item?"),
-                              actions: <Widget>[
-                                TextBtnWidget(
-                                  name: 'Delete',
-                                  nameColor: Colors.white,
-                                  btnColor: Colors.red,
-                                  onTap: () {
-                                    DatabaseServices().deleteItem(_aidList[index]['id'], tableContent).then((value) {
-                                      if (value != null) {
-                                        context.back(true);
-                                      }
-                                    });
-                                  },
-                                  isStretch: false,
-                                ),
-                                TextBtnWidget(
-                                  name: 'Cancel',
-                                  btnColor: Colors.white,
-                                  onTap: () => context.back(false),
-                                  isStretch: false,
-                                ),
-                              ],
-                            );
+                          onDismissed: (direction) {
+                            if (direction == DismissDirection.startToEnd) {
+                            } else if (direction ==
+                                DismissDirection.endToStart) {
+                              _getList();
+                            }
                           },
+                          key: Key(_aidList[index]['id'].toString()),
+                          child: ContentItemWidget(
+                              name: _aidList[index]['name'],
+                              body: _aidList[index]['body'],
+                              photo: _aidList[index]['photo']),
                         );
-                      }
-                      return null;
-                    },
-                    onDismissed: (direction) {
-                      if (direction == DismissDirection.startToEnd) {
-                      } else if (direction == DismissDirection.endToStart) {
-                        _getList();
-                      }
-                    },
-                    key: Key(_aidList[index]['id'].toString()),
-                    child: ContentItemWidget(name: _aidList[index]['name'], body: _aidList[index]['body'], photo: _aidList[index]['photo']),
-                  );
-                }),
-          ],
-        ),
-      )
-          : Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/images/no_data.png'),
-              MyBoxWidget(
-                height: 5,
+                      }),
+                ],
               ),
-              const Text('게시물이 없습니다.'),
-            ],
-          )),
+            )
+          : Center(
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/no_data.png'),
+                MyBoxWidget(
+                  height: 5,
+                ),
+                const Text('게시물이 없습니다.'),
+              ],
+            )),
     );
   }
 
@@ -248,4 +270,3 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
     super.dispose();
   }
 }
-
