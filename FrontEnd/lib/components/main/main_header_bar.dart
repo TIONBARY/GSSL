@@ -1,5 +1,6 @@
 import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_user.dart';
+import 'package:GSSL/components/pet/pet_detail.dart';
 import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/get_all_pet.dart';
@@ -7,6 +8,7 @@ import 'package:GSSL/model/response_models/get_pet_detail.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:GSSL/pages/main_page.dart';
+import 'package:GSSL/pages/pet_detail_page.dart';
 import 'package:GSSL/pages/signup_pet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
@@ -25,8 +27,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
   final MainHeaderBarFormKey = GlobalKey<FormState>();
   String S3Address = "https://a204drdoc.s3.ap-northeast-2.amazonaws.com/";
   String? nickname;
-  String? mainAnimalName;
-  String? mainAnimalImage;
+  Pet? mainPet;
   User? user;
   List<Pets>? pets;
   AssetImage basic_image = AssetImage("assets/images/basic_dog.png");
@@ -69,8 +70,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
         await apiPet.getPetDetailApi(user?.petId);
     if (getMainPetResponse.statusCode == 200) {
       setState(() {
-        mainAnimalImage = getMainPetResponse.pet?.animalPic;
-        mainAnimalName = getMainPetResponse.pet?.name;
+        mainPet = getMainPetResponse.pet;
       });
     } else if (getMainPetResponse.statusCode == 401) {
       showDialog(
@@ -119,19 +119,27 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
             width: 80.0,
             height: 80.0,
             child: GestureDetector(
-              onTap: () => print('이미지 클릭'),
-              child: mainAnimalImage == null || mainAnimalImage!.length == 0
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          PetDetailScreen()),
+                );
+              },
+              child: mainPet?.animalPic == null || mainPet?.animalPic!.length == 0
                   ? CircleAvatar(
                       backgroundImage:
                           basic_image,
                     )
                   : CircleAvatar(
                       backgroundImage:
-                          NetworkImage(S3Address + mainAnimalImage!),
-                      radius: 100.0),
+                          NetworkImage(S3Address + mainPet!.animalPic!),
+                      radius: 150.0),
             ),
           ),
-        )),
+        ),
+        flex: 2),
         Flexible(
           child: Container(
             child: Column(
@@ -142,13 +150,13 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                     child: Container(
                       padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
                       child: Text(
-                        mainAnimalName == null
+                        textScaleFactor: 1.5,
+                        mainPet?.name == null
                             ? "등록된 반려견이 없습니다."
-                            : nickname! + "의 " + mainAnimalName!,
+                            : nickname! + "의 " + mainPet!.name!,
                         style: TextStyle(color: btnColor),
                       ),
-                      width: double.infinity,
-                      height: double.infinity,
+
                     ),
                   ),
                   flex: 1,
@@ -156,7 +164,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
               ],
             ),
           ),
-          flex: 3,
+          flex: 2,
         ),
         Flexible(
           child: Container(
@@ -267,7 +275,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
               height: double.infinity,
             ),
           ),
-          flex: 1,
+
         ),
       ],
     );
