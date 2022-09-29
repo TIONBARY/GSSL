@@ -16,6 +16,7 @@ public interface PetService {
 	List<PetListDto> getPetList(String memberId);
 	PetDetailDto getPetDetail(int petId);
 	List<PetKindListDto> getPetKindList();
+	PetKindListDto getPetKind(int kindId);
 
 
 
