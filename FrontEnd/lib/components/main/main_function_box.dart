@@ -1,4 +1,6 @@
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class function_box extends StatelessWidget {
   const function_box(
@@ -29,7 +31,7 @@ class function_box extends StatelessWidget {
                 Flexible(
                   child: Container(
                     width: 480,
-                    height: 360,
+                    height: 400.h,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: box_color,
@@ -48,7 +50,7 @@ class function_box extends StatelessWidget {
                                   "${title}",
                                   style: TextStyle(
                                     fontSize: 70,
-                                    color: Color(0xFF483434),
+                                    color: btnColor,
                                     fontFamily: "Daehan",
                                   ),
                                 ),
@@ -58,7 +60,7 @@ class function_box extends StatelessWidget {
                                 child: Text(
                                   "설명",
                                   style: TextStyle(
-                                    color: Color(0xFF483434),
+                                    color: btnColor,
                                     fontFamily: "Daehan",
                                   ),
                                 ),

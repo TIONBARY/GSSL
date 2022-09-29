@@ -17,7 +17,7 @@ class CommunityApp extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Community'),
+          title: Text('커뮤니티'),
           centerTitle: true,
           bottom: TabBar(
             tabs: [
