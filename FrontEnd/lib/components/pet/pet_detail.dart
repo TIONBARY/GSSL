@@ -60,7 +60,7 @@ class _PetDetailState extends State<PetDetail> {
       setState(() {
         pet = getMainPetResponse.pet;
       });
-      GetPetKind kind = await apiPet.getPetKindOne(pet!.id!);
+      GetPetKind kind = await apiPet.getPetKindOne(pet!.kindId!);
       setState(() {
         kindName = kind?.kind?.name;
       });
@@ -288,25 +288,21 @@ class _PetDetailState extends State<PetDetail> {
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Container(
                   height: 48,
-                  child: Hero(
-                    tag: "next_btn",
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ModifyPetScreen(petId: pet!.id!)),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: btnColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )),
-                      child: Text(
-                        "수정하기".toUpperCase(),
-                      ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ModifyPetScreen()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: btnColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        )),
+                    child: Text(
+                      "수정하기".toUpperCase(),
                     ),
                   ),
                 ),
@@ -315,18 +311,15 @@ class _PetDetailState extends State<PetDetail> {
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Container(
                   height: 48,
-                  child: Hero(
-                    tag: "next_btn",
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )),
-                      child: Text(
-                        "삭제하기".toUpperCase(),
-                      ),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        )),
+                    child: Text(
+                      "삭제하기".toUpperCase(),
                     ),
                   ),
                 ),

@@ -324,9 +324,9 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
             textInputAction: TextInputAction.done,
             obscureText: false,
             cursorColor: btnColor,
-            onChanged: (val) {
+            onSaved: (val) {
               setState(() {
-                weight = double.tryParse(val);
+                weight = double.tryParse(val!);
               });
             },
             autovalidateMode: _submitted
