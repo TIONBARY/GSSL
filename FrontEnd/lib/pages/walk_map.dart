@@ -23,7 +23,7 @@ final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 List<Position> positionList = [];
 StreamSubscription<Position>? _positionStreamSubscription;
 int totalWalkLength = 0;
-late WebViewController _mapController;
+late WebViewController? _mapController;
 late StopWatchTimer _stopWatchTimer =
     StopWatchTimer(mode: StopWatchMode.countUp);
 bool pressWalkBtn = false;
@@ -57,7 +57,6 @@ class _KakaoMapTestState extends State<KakaoMapTest>
   late ScreenshotController screenshotController = ScreenshotController();
   final directory =
       getApplicationDocumentsDirectory(); //from path_provide package
-
   Timer? timer;
 
   void initTimer() {
@@ -77,12 +76,8 @@ class _KakaoMapTestState extends State<KakaoMapTest>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     initTimer();
-    Size size = MediaQuery.of(context).size;
-    // var appBarHeight = AppBar().preferredSize.height;
-    // debugPrint(widget.initLat.toString());
-    // debugPrint(widget.initLng.toString());
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -136,7 +131,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
                           child: Container(
                             // child: Text(snapshot.data),
                             child: KakaoMapView(
-                              width: size.width,
+                              width: 360.w,
                               // height: size.height * 7 / 10,
                               // height: size.height - appBarHeight - 130,
                               height: 600.h,
@@ -149,12 +144,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
                               draggableMarker: false,
                               // mapType: MapType.TERRAIN,
                               mapController: (controller) {
-                                debugPrint("빈컨트롤러");
-                                debugPrint(
-                                    _mapController.currentUrl().toString());
-                                if (_mapController.toString() == "") {
-                                  _mapController = controller;
-                                }
+                                _mapController = controller;
                               },
                               polyline: KakaoFigure(path: []),
                             ),
