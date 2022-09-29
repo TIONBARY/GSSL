@@ -8,7 +8,6 @@ import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_all_pet_kind.dart';
 import 'package:GSSL/model/response_models/get_pet_detail.dart';
 import 'package:GSSL/pages/login_page.dart';
-import 'package:GSSL/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
@@ -78,7 +77,11 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return CustomDialog("알 수 없는 오류가 발생했습니다.", (context) => MainPage());
+            return CustomDialog(
+                kindResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : kindResponse.message!,
+                (context) => BottomNavBar());
           });
     }
   }
@@ -100,7 +103,11 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return CustomDialog("알 수 없는 오류가 발생했습니다.", (context) => MainPage());
+            return CustomDialog(
+                userInfoResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : userInfoResponse.message!,
+                (context) => BottomNavBar());
           });
     }
   }
@@ -154,7 +161,11 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return CustomDialog("알 수 없는 오류가 발생했습니다.", (context) => MainPage());
+            return CustomDialog(
+                getMainPetResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : getMainPetResponse.message!,
+                (context) => BottomNavBar());
           });
     }
   }
