@@ -47,11 +47,13 @@ class _LoginFormState extends State<LoginForm> {
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: renderTextFormField(
                   label: '비밀번호',
+
                   icon: Icon(Icons.lock, color: sColor),
                   onSaved: (val) {
                     pw = val;
                   },
-                  obscureText: true)),
+                  obscureText: true)
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(
