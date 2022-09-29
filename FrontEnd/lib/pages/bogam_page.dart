@@ -104,6 +104,7 @@ class _BogamPageState extends State<BogamPage> {
                     print('사진을 선택해주세요');
                   } else {
                     _diagnosis();
+                    first = label[0];
                     showModalBottomSheet<void>(
                       context: context,
                       shape: RoundedRectangleBorder(
@@ -219,7 +220,7 @@ class _BogamPageState extends State<BogamPage> {
                 Text(
                   "사진은 이렇게 찍어주세요.",
                 ),
-                Image.asset("assets/guide.jpg")
+                Image.asset("assets/images/1.png")
               ],
             ),
             actions: <Widget>[
