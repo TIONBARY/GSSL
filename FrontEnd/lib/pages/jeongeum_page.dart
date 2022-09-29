@@ -6,7 +6,6 @@ import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
 
 String diagnosisResult = "";
 ApiJeongeum apiJeongeum = ApiJeongeum();
