@@ -60,7 +60,7 @@ dependencies:
   google_fonts: ^3.0.1
   url_launcher: ^6.1.5
   flutter_screenutil: ^5.5.4
-  url_launcher: ^6.1.5
+
 
 dev_dependencies:
   flutter_test:

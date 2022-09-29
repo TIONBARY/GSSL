@@ -16,20 +16,13 @@ class CommunityApp extends StatelessWidget {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             iconTheme: IconThemeData(
               color: btnColor,
               size: 20,
             ),
             toolbarHeight: 25,
             backgroundColor: pColor,
-            title: Text(
-              '커뮤니티',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 25,
-              ),
-            ),
-            centerTitle: true,
             bottom: TabBar(
               tabs: [
                 Tab(text: '자랑하기', icon: Icon(Icons.favorite)),
