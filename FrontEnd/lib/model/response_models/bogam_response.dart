@@ -1,14 +1,13 @@
 import 'package:GSSL/model/response_models/general_response.dart';
 
-class bogamResponse extends generalResponse {
-  int? statusCode;
+class bogamResponse {
   bogamResult? bogamresult;
 
-  bogamResponse(int statusCode, String message, bogamResult bogamresult) : super(statusCode, message) {
+  bogamResponse(int statusCode, String message, bogamResult bogamresult) {
     this.bogamresult = bogamresult;
   }
 
-  bogamResponse.fromJson(Map<String, dynamic> json): super(json['statusCode'], json['message'])  {
+  bogamResponse.fromJson(Map<String, dynamic> json) {
     bogamresult = json['dic'] != null ? new bogamResult.fromJson(json['dic']) : null;
   }
 }
@@ -35,7 +34,8 @@ class bogamResult {
         this.seven,
         this.eight,
         this.nine,
-        this.ten});
+        this.ten}
+  );
 
   bogamResult.fromJson(Map<String, dynamic> json) {
     one = json[0];
@@ -48,20 +48,5 @@ class bogamResult {
     eight = json[7];
     nine = json[8];
     ten = json[9];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['member_id'] = this.one;
-    data['nickname'] = this.two;
-    data['gender'] = this.three;
-    data['phone'] = this.four;
-    data['email'] = this.five;
-    data['profile_pic'] = this.six;
-    data['introduce'] = this.seven;
-    data['pet_id'] = this.eight;
-    data['leave'] = this.nine;
-    data['leave'] = this.ten;
-    return data;
   }
 }

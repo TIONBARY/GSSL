@@ -353,6 +353,7 @@ class _SignupFormState extends State<SignUpForm> {
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
               textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.emailAddress,
               obscureText: false,
               cursorColor: btnColor,
               onChanged: (val) {
