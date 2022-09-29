@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +13,23 @@ class WalkLength extends StatefulWidget {
 }
 
 class _WalkLengthState extends State<WalkLength> {
+  Timer? timer;
+
+  void initTimer() {
+    if (timer != null && timer!.isActive) return;
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      //job
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
