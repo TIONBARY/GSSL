@@ -1,16 +1,11 @@
 import 'package:GSSL/components/main/main_header_bar.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/pages/bogam_page.dart';
-import 'package:GSSL/pages/community_page.dart';
 import 'package:GSSL/pages/diary_page.dart';
-import 'package:GSSL/pages/signup_pet_page.dart';
-import 'package:GSSL/pages/walk_map.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../components/bottomNavBar.dart';
 import '../components/main/main_function_box.dart';
