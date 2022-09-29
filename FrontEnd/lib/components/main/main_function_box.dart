@@ -1,3 +1,4 @@
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 
 class function_box extends StatelessWidget {
@@ -48,7 +49,7 @@ class function_box extends StatelessWidget {
                                   "${title}",
                                   style: TextStyle(
                                     fontSize: 70,
-                                    color: Color(0xFF483434),
+                                    color: btnColor,
                                     fontFamily: "Daehan",
                                   ),
                                 ),
@@ -58,7 +59,7 @@ class function_box extends StatelessWidget {
                                 child: Text(
                                   "설명",
                                   style: TextStyle(
-                                    color: Color(0xFF483434),
+                                    color: btnColor,
                                     fontFamily: "Daehan",
                                   ),
                                 ),

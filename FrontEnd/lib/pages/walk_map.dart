@@ -159,7 +159,6 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               color: pColor,
               child: Row(
                 children: [
-                  WalkTimer(_stopWatchTimer),
                   WalkLength(totalWalkLength),
                   CircleAvatar(
                     backgroundColor: btnColor,
@@ -169,7 +168,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                         icon: pressWalkBtn
                             ? Icon(Icons.stop)
                             : Icon(Icons.play_arrow),
-                        color: Color(0xFFFFFDF4),
+                        color: nWColor,
                         iconSize: 30,
                         onPressed: () {
                           setState(() {
@@ -227,20 +226,14 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                           });
                         }),
                   ),
+                  WalkTimer(_stopWatchTimer),
                 ],
               ),
             ),
           ),
         ),
       ),
-      // bottomNavigationBar: bottomNavBar(
-      //     back_com: pColor,
-      //     back_home: pColor,
-      //     back_loc: sColor,
-      //     icon_color_com: btnColor,
-      //     icon_color_home: btnColor,
-      //     icon_color_loc: Color(0xFFFFFDF4)),
-    ); // 수정중
+    );
   }
 }
 
