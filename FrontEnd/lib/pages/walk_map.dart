@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,15 +19,20 @@ import 'package:snapping_sheet/snapping_sheet.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../components/bottomNavBar.dart';
-import '../components/walk/walk_length.dart';
-import '../components/walk/walk_timer.dart';
-import '../constants.dart';
-
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 List<Position> positionList = [];
 StreamSubscription<Position>? _positionStreamSubscription;
 int totalWalkLength = 0;
+late WebViewController _mapController;
+late StopWatchTimer _stopWatchTimer =
+    StopWatchTimer(mode: StopWatchMode.countUp);
+bool pressWalkBtn = false;
+DateTime startTime = DateTime.now();
+DateTime endTime = DateTime.now();
+String addrName = "";
+String kakaoMapKey = "";
+double initLat = 0.0;
+double initLon = 0.0;
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -35,36 +41,22 @@ void main() async {
   ));
 
   WidgetsFlutterBinding.ensureInitialized();
-  Position pos = await _determinePosition();
-  await dotenv.load(fileName: ".env");
-  String kakaoMapKey = dotenv.get('kakaoMapAPIKey');
-  runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: KakaoMapTest(pos.latitude, pos.longitude, kakaoMapKey)));
+  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: KakaoMapTest()));
 }
 
 class KakaoMapTest extends StatefulWidget {
-  final double initLat;
-  final double initLng;
-  final String kakaoMapKey;
-
-  const KakaoMapTest(this.initLat, this.initLng, this.kakaoMapKey);
-
   @override
   State<KakaoMapTest> createState() => _KakaoMapTestState();
 }
 
-class _KakaoMapTestState extends State<KakaoMapTest> {
+class _KakaoMapTestState extends State<KakaoMapTest>
+    with AutomaticKeepAliveClientMixin<KakaoMapTest> {
+  @override
+  bool get wantKeepAlive => true;
+
   late ScreenshotController screenshotController = ScreenshotController();
-  late WebViewController _mapController;
-  late StopWatchTimer _stopWatchTimer =
-      StopWatchTimer(mode: StopWatchMode.countUp);
   final directory =
       getApplicationDocumentsDirectory(); //from path_provide package
-  bool pressWalkBtn = false;
-  DateTime startTime = DateTime.now();
-  DateTime endTime = DateTime.now();
-  String addrName = "";
 
   Timer? timer;
 
@@ -117,29 +109,58 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Screenshot(
-                controller: screenshotController,
-                child: Container(
-                  child: KakaoMapView(
-                    width: size.width,
-                    // height: size.height * 7 / 10,
-                    // height: size.height - appBarHeight - 130,
-                    height: size.height - 100,
-                    kakaoMapKey: widget.kakaoMapKey,
-                    lat: widget.initLat,
-                    lng: widget.initLng,
-                    // zoomLevel: 1,
-                    showMapTypeControl: false,
-                    showZoomControl: false,
-                    draggableMarker: false,
-                    // mapType: MapType.TERRAIN,
-                    mapController: (controller) {
-                      _mapController = controller;
-                    },
-                    polyline: KakaoFigure(path: []),
-                  ),
-                ),
-              ),
+              FutureBuilder(
+                  future: _future(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    //해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
+                    if (snapshot.hasData == false) {
+                      return CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
+                    }
+
+                    //error가 발생하게 될 경우 반환하게 되는 부분
+                    else if (snapshot.hasError) {
+                      return Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Text(
+                          'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      );
+                    }
+
+                    // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
+                    else {
+                      debugPrint(snapshot.data);
+                      return Screenshot(
+                          controller: screenshotController,
+                          child: Container(
+                            // child: Text(snapshot.data),
+                            child: KakaoMapView(
+                              width: size.width,
+                              // height: size.height * 7 / 10,
+                              // height: size.height - appBarHeight - 130,
+                              height: 600.h,
+                              kakaoMapKey: kakaoMapKey,
+                              lat: initLat,
+                              lng: initLon,
+                              // zoomLevel: 1,
+                              showMapTypeControl: false,
+                              showZoomControl: false,
+                              draggableMarker: false,
+                              // mapType: MapType.TERRAIN,
+                              mapController: (controller) {
+                                debugPrint("빈컨트롤러");
+                                debugPrint(
+                                    _mapController.currentUrl().toString());
+                                if (_mapController.toString() == "") {
+                                  _mapController = controller;
+                                }
+                              },
+                              polyline: KakaoFigure(path: []),
+                            ),
+                          ));
+                    }
+                  })
             ],
           ),
           grabbingHeight: 25,
@@ -164,7 +185,6 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
               color: pColor,
               child: Row(
                 children: [
-                  WalkTimer(_stopWatchTimer),
                   WalkLength(totalWalkLength),
                   CircleAvatar(
                     backgroundColor: btnColor,
@@ -174,7 +194,7 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                         icon: pressWalkBtn
                             ? Icon(Icons.stop)
                             : Icon(Icons.play_arrow),
-                        color: Color(0xFFFFFDF4),
+                        color: nWColor,
                         iconSize: 30,
                         onPressed: () {
                           setState(() {
@@ -208,7 +228,6 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                               // _stopWatchTimer.dispose();
                               _stopWatchTimer.onStopTimer();
                               endTime = DateTime.now();
-
                               // 백엔드 서버로 전송
                               List<int> pets = [1, 2, 3];
                               putWalk info = new putWalk(
@@ -233,20 +252,14 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                           });
                         }),
                   ),
+                  WalkTimer(_stopWatchTimer),
                 ],
               ),
             ),
           ),
         ),
       ),
-      // bottomNavigationBar: bottomNavBar(
-      //     back_com: pColor,
-      //     back_home: pColor,
-      //     back_loc: sColor,
-      //     icon_color_com: btnColor,
-      //     icon_color_home: btnColor,
-      //     icon_color_loc: Color(0xFFFFFDF4)),
-    ); // 수정중
+    );
   }
 }
 
@@ -423,4 +436,16 @@ void stopWalk(_mapController) {
   ''');
   positionList = [];
   debugPrint('산책 끝');
+}
+
+// 비동기 처리
+Future _future() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Position pos = await Geolocator.getCurrentPosition();
+  await dotenv.load(fileName: ".env");
+  kakaoMapKey = dotenv.get('kakaoMapAPIKey');
+  debugPrint("어싱크 내부");
+  initLat = pos.latitude;
+  initLon = pos.longitude;
+  return kakaoMapKey; // 5초 후 '짜잔!' 리턴
 }
