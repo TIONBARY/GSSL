@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:GSSL/components/pet/modify_pet_form.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/responsive.dart';
+import 'package:flutter/material.dart';
 
 import '../components/logo.dart';
-import '../components/pet/register_pet_form.dart';
 
-class SignUpPetScreen extends StatelessWidget {
-  const SignUpPetScreen({Key? key}) : super(key: key);
+class ModifyPetScreen extends StatelessWidget {
+  const ModifyPetScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class SignUpPetScreen extends StatelessWidget {
             desktop: Row(
               children: [
                 const Expanded(
-                  child: Logo(heights : defaultPadding),
+                  child: Logo(heights: defaultPadding),
                 ),
                 Expanded(
                   child: Column(
@@ -30,7 +30,7 @@ class SignUpPetScreen extends StatelessWidget {
                     children: const [
                       SizedBox(
                         width: 450,
-                        child: RegisterPetForm(),
+                        child: ModifyPetForm(),
                       ),
                       SizedBox(height: defaultPadding / 2),
                       // SocalSignUp()
@@ -47,22 +47,20 @@ class SignUpPetScreen extends StatelessWidget {
 }
 
 class MobileSignupScreen extends StatelessWidget {
-  const MobileSignupScreen({
-    Key? key,
-  }) : super(key: key);
+  const MobileSignupScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Logo(heights : defaultPadding),
+        const Logo(heights: defaultPadding),
         Row(
           children: const [
             Spacer(),
             Expanded(
               flex: 8,
-              child: RegisterPetForm(),
+              child: ModifyPetForm(),
             ),
             Spacer(),
           ],
