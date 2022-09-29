@@ -1,5 +1,3 @@
-import 'package:GSSL/model/response_models/general_response.dart';
-
 class bogamResponse {
   bogamResult? bogamresult;
 
@@ -48,5 +46,20 @@ class bogamResult {
     eight = json[7];
     nine = json[8];
     ten = json[9];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['one'] = this.one;
+    data['two'] = this.two;
+    data['three'] = this.three;
+    data['four'] = this.four;
+    data['five'] = this.five;
+    data['six'] = this.six;
+    data['seven'] = this.seven;
+    data['eight'] = this.eight;
+    data['nine'] = this.nine;
+    data['ten'] = this.ten;
+    return data;
   }
 }

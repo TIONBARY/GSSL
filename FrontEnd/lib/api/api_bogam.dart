@@ -23,7 +23,7 @@ class ApiBogam {
     var response = await request.send();
     http.Response httpResponse = await http.Response.fromStream(response);
     print("Result: ${httpResponse.body}");
-    String body = utf8.decode(httpResponse.bodyBytes);
+    String body = httpResponse.body;
     bogamResponse result = bogamResponse.fromJson(json.decode(body));
     return result;
   }
