@@ -1,6 +1,7 @@
 package com.drdoc.BackEnd.api.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.validation.Valid;
 
@@ -19,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetDetailResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.PetKindListDto;
+import com.drdoc.BackEnd.api.domain.dto.PetKindListResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetKindResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetListResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetModifyRequestDto;
@@ -162,8 +165,19 @@ public class PetController {
 		@ApiResponse(code = 400, message = "잘못된 요청입니다."),
 		@ApiResponse(code = 401, message = "인증이 필요합니다."),
 		@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<PetKindResponseDto> getPetKindList() {
-		return ResponseEntity.status(200).body(PetKindResponseDto.of(200, "Success", petService.getPetKindList()));
+	public ResponseEntity<PetKindListResponseDto> getPetKindList() {
+		return ResponseEntity.status(200).body(PetKindListResponseDto.of(200, "Success", petService.getPetKindList()));
+	}
+	
+	@GetMapping("/kind/{kindId}")
+	@ApiOperation(value = "반려동물 품종 번호 조회", notes = "반려동물 품종 번호에 해당하는 품종을 조회합니다.")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "반려동물 목록 조회"),
+		@ApiResponse(code = 400, message = "잘못된 요청입니다."),
+		@ApiResponse(code = 401, message = "인증이 필요합니다."),
+		@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<PetKindResponseDto> getPetKind(@PathVariable("kindId") int kindId) {
+		return ResponseEntity.status(200).body(PetKindResponseDto.of(200, "Success", petService.getPetKind(kindId)));
 	}
 
 
