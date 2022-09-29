@@ -1,5 +1,6 @@
 import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class function_box extends StatelessWidget {
   const function_box(
@@ -30,7 +31,7 @@ class function_box extends StatelessWidget {
                 Flexible(
                   child: Container(
                     width: 480,
-                    height: 360,
+                    height: 400.h,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: box_color,
