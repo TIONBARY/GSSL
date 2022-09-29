@@ -13,6 +13,9 @@ final label = ['결막염', '궤양성각막질환', '백내장', '비궤양성�
 ApiBogam apiBogam = ApiBogam();
 XFile? _image;
 final picker = ImagePicker();
+String first = '1등';
+String second = '2등';
+String third = '3등';
 
 class BogamPage extends StatefulWidget {
   const BogamPage({Key? key}) : super(key: key);
@@ -26,7 +29,7 @@ class _BogamPageState extends State<BogamPage> {
   Future getImage(ImageSource imageSource) async {
     final image = await picker.pickImage(
         source: imageSource,
-        imageQuality: 30
+        imageQuality: 50
     );
 
     setState(() {
@@ -125,10 +128,10 @@ class _BogamPageState extends State<BogamPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('결막염'),
+                                  Text(first),
                                   IconButton(
                                       onPressed: () async {
-                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label[0]);
+                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ first);
                                           if (await canLaunchUrl(_url)) {
                                             await launchUrl(_url);
                                           } else {
@@ -142,10 +145,10 @@ class _BogamPageState extends State<BogamPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('핵경화'),
+                                  Text(second),
                                   IconButton(
                                       onPressed: () async {
-                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label[9]);
+                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ second);
                                         if (await canLaunchUrl(_url)) {
                                           await launchUrl(_url);
                                         } else {
@@ -159,10 +162,10 @@ class _BogamPageState extends State<BogamPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('안검염'),
+                                  Text(third),
                                   IconButton(
                                       onPressed: () async {
-                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ label[6]);
+                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ third);
                                         if (await canLaunchUrl(_url)) {
                                           await launchUrl(_url);
                                         } else {
