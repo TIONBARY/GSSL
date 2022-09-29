@@ -98,7 +98,7 @@ public class PetServiceImpl implements PetService {
 	@Override
 	public PetDetailDto getPetDetail(int petId) {
 		Pet pet = petRepository.findById(petId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 반려동물입니다."));
-		PetDetailDto petdetailDto = PetDetailDto.builder().id(petId).kind(pet.getKind().getName())
+		PetDetailDto petdetailDto = PetDetailDto.builder().id(petId).kind_id(pet.getKind().getId())
 				.species(pet.isSpecies()).name(pet.getName()).gender(pet.getGender()).neutralize(pet.isNeutralize())
 				.birth(pet.getBirth()).weight(pet.getWeight()).animal_pic(pet.getAnimalPic()).death(pet.isDeath())
 				.diseases(pet.getDiseases()).description(pet.getDescription()).build();
@@ -110,6 +110,13 @@ public class PetServiceImpl implements PetService {
 		List<PetKindListDto> list = petTypeRepository.findAll()
 				.stream().map(PetKindListDto::new).collect(Collectors.toList());
 		return list;
+	}
+
+	@Override
+	public PetKindListDto getPetKind(int kindId) {
+		Kind kind = petTypeRepository.findById(kindId)
+				.orElseThrow(() -> new IllegalArgumentException("잘못된 품종 번호입니다."));
+		return new PetKindListDto(kind);
 	}
 
 }
