@@ -104,92 +104,95 @@ class _BogamPageState extends State<BogamPage> {
                     print('사진을 선택해주세요');
                   } else {
                     _diagnosis();
-                    first = label[0];
-                    showModalBottomSheet<void>(
-                      context: context,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
-                      builder: (BuildContext context) {
-                        return Container(
-                          height: 250,
-                          decoration: new BoxDecoration(
-                            color: pColor,
-                            borderRadius: new BorderRadius.only(
-                              topLeft: const Radius.circular(25.0),
-                              topRight: const Radius.circular(25.0),
+                    loadingDialog();
+                    Future.delayed(const Duration(milliseconds: 20000), () {
+                      first = label[0];
+                      showModalBottomSheet<void>(
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: 250,
+                            decoration: new BoxDecoration(
+                              color: pColor,
+                              borderRadius: new BorderRadius.only(
+                                topLeft: const Radius.circular(25.0),
+                                topRight: const Radius.circular(25.0),
+                              ),
                             ),
-                          ),
-                          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                          child: Column(
-                            children: <Widget>[
-                              Padding(padding: EdgeInsets.all(10)),
-                              Text('해당 질병이 의심됩니다'),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(first),
-                                  IconButton(
-                                      onPressed: () async {
-                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ first);
+                            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                            child: Column(
+                              children: <Widget>[
+                                Padding(padding: EdgeInsets.all(10)),
+                                Text('해당 질병이 의심됩니다'),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(first),
+                                    IconButton(
+                                        onPressed: () async {
+                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ first);
                                           if (await canLaunchUrl(_url)) {
                                             await launchUrl(_url);
                                           } else {
                                             print('Could not launch');
                                           }
-                                      },
-                                      icon: Icon(Icons.help_outline))
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(second),
-                                  IconButton(
-                                      onPressed: () async {
-                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ second);
-                                        if (await canLaunchUrl(_url)) {
-                                          await launchUrl(_url);
-                                        } else {
-                                          print('Could not launch');
-                                        }
-                                      },
-                                      icon: Icon(Icons.help_outline))
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(third),
-                                  IconButton(
-                                      onPressed: () async {
-                                        Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ third);
-                                        if (await canLaunchUrl(_url)) {
-                                          await launchUrl(_url);
-                                        } else {
-                                          print('Could not launch');
-                                        }
-                                      },
-                                      icon: Icon(Icons.help_outline))
-                                ],
-                              ),
-                              FloatingActionButton(
-                                child: Icon(Icons.save_alt_outlined),
-                                tooltip: 'save',
-                                onPressed: () {
+                                        },
+                                        icon: Icon(Icons.help_outline))
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(second),
+                                    IconButton(
+                                        onPressed: () async {
+                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ second);
+                                          if (await canLaunchUrl(_url)) {
+                                            await launchUrl(_url);
+                                          } else {
+                                            print('Could not launch');
+                                          }
+                                        },
+                                        icon: Icon(Icons.help_outline))
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(third),
+                                    IconButton(
+                                        onPressed: () async {
+                                          Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ third);
+                                          if (await canLaunchUrl(_url)) {
+                                            await launchUrl(_url);
+                                          } else {
+                                            print('Could not launch');
+                                          }
+                                        },
+                                        icon: Icon(Icons.help_outline))
+                                  ],
+                                ),
+                                FloatingActionButton(
+                                  child: Icon(Icons.save_alt_outlined),
+                                  tooltip: 'save',
+                                  onPressed: () {
 
-                                },
-                                backgroundColor: btnColor,
-                              ),
-                            ],
+                                  },
+                                  backgroundColor: btnColor,
+                                ),
+                              ],
 
-                          ),
-                        );
-                      },
-                    );
+                            ),
+                          );
+                        },
+                      );
+                    });
                   }
                 })
           ],
@@ -222,6 +225,41 @@ class _BogamPageState extends State<BogamPage> {
                 ),
                 Image.asset("assets/images/1.png")
               ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text("확인"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  void loadingDialog() {
+    showDialog(
+        context: context,
+        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            //Dialog Main Title
+            content: SizedBox(
+              height: 350,
+              child: Column(
+                children: [
+                  Image.asset('assets/images/loadingDog.gif'),
+                  Padding(padding: EdgeInsets.all(15)),
+                  Text('조금만 기다려주세요.'),
+                  Text('30초 가량 소요됩니다.')
+                ],
+              )
+
             ),
             actions: <Widget>[
               TextButton(
