@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: const MainPage(),
+      home: BottomNavBar(),
     );
   }
 }
@@ -57,7 +57,7 @@ class _MainPageState extends State<MainPage> {
         toolbarHeight: 0,
       ),
       body: Container(
-        color: Color(0xFFFFFDF4),
+        color: nWColor,
         child: Column(
           children: [
             Flexible(
