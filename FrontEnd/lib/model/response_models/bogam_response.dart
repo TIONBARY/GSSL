@@ -38,7 +38,7 @@ class bogamResult {
   );
 
   bogamResult.fromJson(Map<String, dynamic> json) {
-    one = json[0];
+    one = json['0'];
     two = json[1];
     three = json[2];
     four = json[3];
