@@ -9,11 +9,11 @@ class DetailsPage extends StatelessWidget {
   final int index;
   DetailsPage(
       {required this.imagePath,
-        required this.title,
-        required this.date,
-        required this.disease,
-        required this.details,
-        required this.index});
+      required this.title,
+      required this.date,
+      required this.disease,
+      required this.details,
+      required this.index});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,9 +91,10 @@ class DetailsPage extends StatelessWidget {
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 15),
                             foregroundColor: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                           ),
                           child: Text(
-                            'Back',
+                            '뒤로가기',
                             style: TextStyle(
                               color: Colors.white,
                             ),
@@ -101,23 +102,23 @@ class DetailsPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: 15,
+                        width: 0,
                       ),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            foregroundColor: Colors.lightBlueAccent,
-                          ),
-                          child: Text(
-                            'Buy',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: TextButton(
+                      //     onPressed: () {},
+                      //     style: TextButton.styleFrom(
+                      //       padding: EdgeInsets.symmetric(vertical: 15),
+                      //       foregroundColor: Colors.lightBlueAccent,
+                      //     ),
+                      //     child: Text(
+                      //       'Buy',
+                      //       style: TextStyle(
+                      //         color: Colors.white,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   )
                 ],

@@ -13,6 +13,8 @@ import './widgets/icon_button_widget.dart';
 import './widgets/text_button_widget.dart';
 import './edit_first_page.dart';
 import './store_first_page.dart';
+import './utils_third/assets_constants.dart';
+import './utils_third/color_constants.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({Key? key}) : super(key: key);
@@ -24,6 +26,7 @@ class FirstPage extends StatefulWidget {
 class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
   TextEditingController searchController = TextEditingController();
   bool isSearch = false;
+  late Size _size;
   final dbHelper = DatabaseHelper.instance;
   List<Map<String, dynamic>> _aidList = [];
 
@@ -56,6 +59,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    _size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -116,17 +120,35 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
           ),
         ),
         actions: [
-          IconButtonWidget(
-            color: Theme.of(context).primaryColor,
-            onTap: () => context.to(AddNewFeedPage()).then((value) {
-              if (value != null) {
-                if (value == true) {
-                  setState(() {});
-                  _getList();
-                }
-              }
-            }),
-            iconData: Icons.add_sharp,
+          TweenAnimationBuilder<Offset>(
+            duration: const Duration(seconds: 2),
+            tween: Tween<Offset>(
+              begin: const Offset(0, -800),
+              end: const Offset(0, 0),
+            ),
+            curve: Curves.bounceOut,
+            builder: (context, Offset offset, child) {
+              return Transform.translate(
+                offset: offset,
+                child: child,
+              );
+            },
+            child: FloatingActionButton(
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const AddNewFeedPage(),
+                  ),
+                );
+              },
+              backgroundColor: AppColors.white,
+              child: Icon(
+                Icons.add,
+                color: AppColors.codGray,
+                size: _size.width * 0.08,
+              ),
+            ),
           ),
         ],
       ),
