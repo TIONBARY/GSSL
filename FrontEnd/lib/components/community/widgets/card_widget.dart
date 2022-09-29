@@ -64,14 +64,20 @@ class CardWidget extends StatelessWidget {
           bottom: 10,
           top: 20,
           child: Container(
-            decoration:
-                BoxDecoration(color: backgroundColor ?? Theme.of(context).backgroundColor, borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.black)),
+            decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black)),
           ),
         ),
         Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Theme.of(context).cardColor, border: Border.all(color: Colors.black)),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).cardColor,
+              border: Border.all(color: Colors.black)),
           margin: EdgeInsets.only(left: ml!, right: mr!, top: mt!, bottom: mb!),
-          padding: EdgeInsets.only(left: pl!, right: pr!, top: pt!, bottom: pb!),
+          padding:
+              EdgeInsets.only(left: pl!, right: pr!, top: pt!, bottom: pb!),
           child: child,
         ),
       ],
