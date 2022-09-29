@@ -1,11 +1,12 @@
 import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_user.dart';
+import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/constants.dart';
+import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_pet_detail.dart';
 import 'package:GSSL/model/response_models/get_pet_kind.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
-import 'package:GSSL/pages/main_page.dart';
 import 'package:GSSL/pages/modify_pet_page.dart';
 import 'package:flutter/material.dart';
 
@@ -48,7 +49,11 @@ class _PetDetailState extends State<PetDetail> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return CustomDialog("알 수 없는 오류가 발생했습니다.", (context) => MainPage());
+            return CustomDialog(
+                userInfoResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : userInfoResponse.message!,
+                (context) => BottomNavBar());
           });
     }
   }
@@ -74,7 +79,61 @@ class _PetDetailState extends State<PetDetail> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return CustomDialog("알 수 없는 오류가 발생했습니다.", (context) => MainPage());
+            return CustomDialog(
+                getMainPetResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : getMainPetResponse.message!,
+                (context) => BottomNavBar());
+          });
+    }
+  }
+
+  Future<void> deletePet() async {
+    generalResponse deletePetResponse = await apiPet.deletePetAPI(user?.petId);
+    if (deletePetResponse.statusCode == 200) {
+      await deleteUserPet();
+    } else if (deletePetResponse.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(
+                deletePetResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : deletePetResponse.message!,
+                (context) => BottomNavBar());
+          });
+    }
+  }
+
+  Future<void> deleteUserPet() async {
+    generalResponse deleteUserPetResponse = await apiUser.modifyUserPetAPI(0);
+    if (deleteUserPetResponse.statusCode == 200) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("펫 삭제가 완료되었습니다.", (context) => BottomNavBar());
+          });
+    } else if (deleteUserPetResponse.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(
+                deleteUserPetResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : deleteUserPetResponse.message!,
+                (context) => BottomNavBar());
           });
     }
   }
@@ -312,7 +371,65 @@ class _PetDetailState extends State<PetDetail> {
                 child: Container(
                   height: 48,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0)), //this right here
+                              child: Container(
+                                height: 150,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      12.0, 12.0, 12.0, 3.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Title(
+                                        color: Colors.black,
+                                        child: Text("정말 삭제하시겠습니까?",
+                                            style: TextStyle(fontSize: 20)),
+                                      ),
+                                      Container(
+                                          width: 150.0,
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 15, 0, 0),
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    deletePet();
+                                                  },
+                                                  child: Text(
+                                                    "확인",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    "취소",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                              ]))
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         shape: RoundedRectangleBorder(
