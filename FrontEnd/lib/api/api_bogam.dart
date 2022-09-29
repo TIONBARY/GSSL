@@ -7,11 +7,13 @@ import '../model/request_models/signup.dart';
 import 'package:http_parser/http_parser.dart';
 
 
+
 class ApiBogam {
+  final label = ['결막염', '궤양성각막질환', '백내장', '비궤양성각막질환', '색소침착성각막염', '안검내반증', '안검염', '안검종양', '유루증', '핵경화'];
 
   String api_url = "https://j7a204.p.ssafy.io";
 
-  Future<bogamResponse> diagnosis(XFile? file) async {
+  Future<Map<String, dynamic>> diagnosis(XFile? file) async {
     String url = api_url + "/eye/temp";
     final httpUri = Uri.parse(url);
     var request = http.MultipartRequest('POST', httpUri);
@@ -24,7 +26,14 @@ class ApiBogam {
     http.Response httpResponse = await http.Response.fromStream(response);
     print("Result: ${httpResponse.body}");
     String body = httpResponse.body;
-    bogamResponse result = bogamResponse.fromJson(json.decode(body));
-    return result;
+
+    Map<String, dynamic> result2 = {};
+
+    Map<String, dynamic> temp_result = json.decode(body);
+    temp_result.forEach((key, value) {
+      result2[label[int.parse(key)]] = value;
+    });
+
+    return result2;
   }
 }
