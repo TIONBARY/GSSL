@@ -1,8 +1,8 @@
 import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_user.dart';
-import 'package:GSSL/components/pet/pet_detail.dart';
 import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/constants.dart';
+import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_all_pet.dart';
 import 'package:GSSL/model/response_models/get_pet_detail.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
@@ -11,8 +11,6 @@ import 'package:GSSL/pages/main_page.dart';
 import 'package:GSSL/pages/pet_detail_page.dart';
 import 'package:GSSL/pages/signup_pet_page.dart';
 import 'package:flutter/material.dart';
-import 'package:GSSL/model/response_models/general_response.dart';
-import 'package:image_picker/image_picker.dart';
 
 class MainHeaderBar extends StatefulWidget {
   const MainHeaderBar({
@@ -60,7 +58,11 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return CustomDialog("알 수 없는 오류가 발생했습니다.", (context) => MainPage());
+            return CustomDialog(
+                userInfoResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : userInfoResponse.message!,
+                (context) => MainPage());
           });
     }
   }
@@ -82,7 +84,11 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return CustomDialog("알 수 없는 오류가 발생했습니다.", (context) => MainPage());
+            return CustomDialog(
+                getMainPetResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : getMainPetResponse.message!,
+                (context) => MainPage());
           });
     }
   }
@@ -103,7 +109,11 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return CustomDialog("알 수 없는 오류가 발생했습니다.", (context) => MainPage());
+            return CustomDialog(
+                getAllPetResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : getAllPetResponse.message!,
+                (context) => MainPage());
           });
     }
   }
@@ -114,32 +124,31 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
       children: [
         Flexible(
             child: Container(
-          margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
-          child: SizedBox(
-            width: 80.0,
-            height: 80.0,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          PetDetailScreen()),
-                );
-              },
-              child: mainPet?.animalPic == null || mainPet?.animalPic!.length == 0
-                  ? CircleAvatar(
-                      backgroundImage:
-                          basic_image,
-                    )
-                  : CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(S3Address + mainPet!.animalPic!),
-                      radius: 150.0),
+              margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
+              child: SizedBox(
+                width: 80.0,
+                height: 80.0,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PetDetailScreen()),
+                    );
+                  },
+                  child: mainPet?.animalPic == null ||
+                          mainPet?.animalPic!.length == 0
+                      ? CircleAvatar(
+                          backgroundImage: basic_image,
+                        )
+                      : CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(S3Address + mainPet!.animalPic!),
+                          radius: 150.0),
+                ),
+              ),
             ),
-          ),
-        ),
-        flex: 2),
+            flex: 2),
         Flexible(
           child: Container(
             child: Column(
@@ -156,7 +165,6 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                             : nickname! + "의 " + mainPet!.name!,
                         style: TextStyle(color: btnColor),
                       ),
-
                     ),
                   ),
                   flex: 1,
@@ -275,7 +283,6 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
               height: double.infinity,
             ),
           ),
-
         ),
       ],
     );
