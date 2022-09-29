@@ -18,7 +18,7 @@ class _WalkTimerState extends State<WalkTimer> {
   @override
   void dispose() async {
     super.dispose();
-    await widget._stopWatchTimer.onStopTimer(); // Need to call dispose function.
+    // await widget._stopWatchTimer.onStopTimer(); // Need to call dispose function.
   }
 
   @override
