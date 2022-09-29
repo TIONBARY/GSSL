@@ -18,15 +18,17 @@ import 'package:snapping_sheet/snapping_sheet.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../components/bottomNavBar.dart';
-import '../components/walk/walk_length.dart';
-import '../components/walk/walk_timer.dart';
-import '../constants.dart';
-
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 List<Position> positionList = [];
 StreamSubscription<Position>? _positionStreamSubscription;
 int totalWalkLength = 0;
+late WebViewController _mapController;
+late StopWatchTimer _stopWatchTimer =
+StopWatchTimer(mode: StopWatchMode.countUp);
+bool pressWalkBtn = false;
+DateTime startTime = DateTime.now();
+DateTime endTime = DateTime.now();
+String addrName = "";
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -56,15 +58,8 @@ class KakaoMapTest extends StatefulWidget {
 
 class _KakaoMapTestState extends State<KakaoMapTest> {
   late ScreenshotController screenshotController = ScreenshotController();
-  late WebViewController _mapController;
-  late StopWatchTimer _stopWatchTimer =
-      StopWatchTimer(mode: StopWatchMode.countUp);
   final directory =
       getApplicationDocumentsDirectory(); //from path_provide package
-  bool pressWalkBtn = false;
-  DateTime startTime = DateTime.now();
-  DateTime endTime = DateTime.now();
-  String addrName = "";
 
   Timer? timer;
 
