@@ -6,8 +6,8 @@ class tokenReissue {
 
   tokenReissue.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];
-    tokenInfo = json['token_info'] != null
-        ? new TokenInfo.fromJson(json['token_info'])
+    tokenInfo = json['tokenDto'] != null
+        ? new TokenInfo.fromJson(json['tokenDto'])
         : null;
   }
 
@@ -15,7 +15,7 @@ class tokenReissue {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['statusCode'] = this.statusCode;
     if (this.tokenInfo != null) {
-      data['token_info'] = this.tokenInfo!.toJson();
+      data['tokenDto'] = this.tokenInfo!.toJson();
     }
     return data;
   }
