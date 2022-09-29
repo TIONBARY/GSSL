@@ -203,7 +203,6 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                               // _stopWatchTimer.dispose();
                               _stopWatchTimer.onStopTimer();
                               endTime = DateTime.now();
-
                               // 백엔드 서버로 전송
                               List<int> pets = [1, 2, 3];
                               putWalk info = new putWalk(
