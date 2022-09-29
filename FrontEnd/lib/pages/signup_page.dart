@@ -11,6 +11,11 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('회원가입'), foregroundColor:nWColor,
+        backgroundColor: btnColor,
+        centerTitle: true,
+      ),
       backgroundColor: pColor,
       body: GestureDetector(
         onTap: () {
@@ -21,9 +26,6 @@ class SignUpScreen extends StatelessWidget {
             mobile: const MobileSignupScreen(),
             desktop: Row(
               children: [
-                const Expanded(
-                  child: Logo(heights : defaultPadding),
-                ),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +58,6 @@ class MobileSignupScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Logo(heights : defaultPadding),
         Row(
           children: const [
             Spacer(),
@@ -67,7 +68,6 @@ class MobileSignupScreen extends StatelessWidget {
             Spacer(),
           ],
         ),
-        // const SocalSignUp()
       ],
     );
   }

@@ -1,6 +1,9 @@
+import 'package:GSSL/components/main/main_header_bar.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/pages/bogam_page.dart';
+import 'package:GSSL/pages/community_page.dart';
 import 'package:GSSL/pages/diary_page.dart';
+import 'package:GSSL/pages/signup_pet_page.dart';
 import 'package:GSSL/pages/walk_map.dart';
 
 import 'package:flutter/material.dart';
@@ -28,11 +31,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MainPage(),
+      // title: 'Flutter Demo',
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
+      home: BottomNavBar(),
     );
   }
 }
@@ -45,6 +48,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +57,7 @@ class _MainPageState extends State<MainPage> {
         toolbarHeight: 0,
       ),
       body: Container(
-        color: Color(0xFFFFFDF4),
+        color: nWColor,
         child: Column(
           children: [
             Flexible(
@@ -75,13 +79,7 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
-      bottomNavigationBar: bottomNavBar(
-          back_com : pColor,
-          back_home : sColor,
-          back_loc : pColor,
-          icon_color_com: btnColor,
-          icon_color_home: Color(0xFFFFFDF4),
-          icon_color_loc: btnColor),
+      // bottomNavigationBar: ,
     );
   }
 }
@@ -98,150 +96,7 @@ class UserBar extends StatelessWidget {
           // borderRadius: BorderRadius.circular(45),
           // color: Color(0xFFFFE6BC),
           ),
-      child: Row(
-        children: [
-          Flexible(
-              child: Container(
-            margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
-            child: SizedBox(
-              width: 80.0,
-              height: 80.0,
-              child: GestureDetector(
-                onTap: () => print('이미지 클릭'),
-                child: CircleAvatar(
-                  backgroundColor: btnColor,
-                  // backgroundImage: NetworkImage(widget.user.photoUrl),
-                ),
-              ),
-            ),
-          )),
-          Flexible(
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: Container(
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                        child: Text(
-                          "주인의 멍멍이",
-                          style: TextStyle(color: btnColor),
-                        ),
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                    ),
-                    flex: 1,
-                  ),
-                  // Flexible(
-                  //   child: Container(
-                  //     child: Container(
-                  //       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  //       child: Text(
-                  //         "건강하자",
-                  //         style: TextStyle(
-                  //           color: Color(0xFF483434),
-                  //         ),
-                  //       ),
-                  //       width: double.infinity,
-                  //       height: double.infinity,
-                  //     ),
-                  //   ),
-                  //   flex: 1,
-                  // ),
-                ],
-              ),
-            ),
-            flex: 3,
-          ),
-          Flexible(
-            child: Container(
-              child: Container(
-                child: IconButton(
-                  icon: Icon(Icons.wifi_protected_setup),
-                  color: btnColor,
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      context: context,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
-                      builder: (BuildContext context) {
-                        return Container(
-                          height: 275,
-                          decoration: new BoxDecoration(
-                            color: pColor,
-                            borderRadius: new BorderRadius.only(
-                              topLeft: const Radius.circular(25.0),
-                              topRight: const Radius.circular(25.0),
-                            ),
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              // mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Row(
-                                  children: [
-                                    // petmodal 함수적용
-                                    Flexible(
-                                        child: Container(
-                                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                      child: SizedBox(
-                                        width: 65.0,
-                                        height: 65.0,
-                                        child: GestureDetector(
-                                          onTap: () => print('이미지 클릭'),
-                                          child: CircleAvatar(
-                                              // backgroundImage: NetworkImage(widget.user.photoUrl),
-                                              ),
-                                        ),
-                                      ),
-                                    )),
-                                    // Flexible(
-                                    //     child: Container(
-                                    //       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                    //       child: SizedBox(
-                                    //         width: 65.0,
-                                    //         height: 65.0,
-                                    //         child: GestureDetector(
-                                    //           onTap: () => print('이미지 클릭'),
-                                    //           child: CircleAvatar(
-                                    //             // backgroundImage: NetworkImage(widget.user.photoUrl),
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     )),
-                                  ],
-                                ),
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                  child: SizedBox(
-                                    child: IconButton(
-                                      icon: Icon(Icons.add),
-                                      iconSize: 50,
-                                      color: btnColor,
-                                      onPressed: () => Navigator.pop(context),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-                width: double.infinity,
-                height: double.infinity,
-              ),
-            ),
-            flex: 1,
-          ),
-        ],
-      ),
+      child: MainHeaderBar()
     );
   }
 }

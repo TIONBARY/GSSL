@@ -1,35 +1,25 @@
-class getAllPet {
-  int? statusCode;
-  String? message;
+import 'package:GSSL/model/response_models/general_response.dart';
+
+class getAllPet extends generalResponse {
   List<Pets>? pets;
 
-  getAllPet({this.statusCode, this.message, this.pets});
+  getAllPet(int statusCode, String message, List<Pets> pets) : super(statusCode, message){
+   this.pets = pets;
+  }
 
-  getAllPet.fromJson(Map<String, dynamic> json) {
-    statusCode = json['statusCode'];
-    message = json['message'];
-    if (json['pets'] != null) {
+  getAllPet.fromJson(Map<String, dynamic> json) : super(json['statusCode'], json['message']) {
+    if (json['petList'] != null) {
       pets = <Pets>[];
-      json['pets'].forEach((v) {
+      json['petList'].forEach((v) {
         pets!.add(new Pets.fromJson(v));
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['statusCode'] = this.statusCode;
-    data['message'] = this.message;
-    if (this.pets != null) {
-      data['pets'] = this.pets!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }
 
 class Pets {
-  String? id;
-  String? userId;
+  int? id;
+  int? userId;
   String? name;
   String? animalPic;
 

@@ -1,33 +1,28 @@
-class userInfo {
+import 'package:GSSL/model/response_models/general_response.dart';
+import 'package:image_picker/image_picker.dart';
+
+class userInfo extends generalResponse {
   int? statusCode;
   User? user;
 
-  userInfo({this.statusCode, this.user});
-
-  userInfo.fromJson(Map<String, dynamic> json) {
-    statusCode = json['statusCode'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+  userInfo(int statusCode, String message, User user) : super(statusCode, message) {
+    this.user = user;
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['statusCode'] = this.statusCode;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    return data;
+  userInfo.fromJson(Map<String, dynamic> json): super(json['statusCode'], json['message'])  {
+    user = json['userInfoDto'] != null ? new User.fromJson(json['userInfoDto']) : null;
   }
 }
 
 class User {
   String? memberId;
   String? nickname;
-  bool? gender;
+  String? gender;
   String? phone;
   String? email;
-  Null? profilePic;
-  Null? introduce;
-  Null? petId;
+  String? profilePic;
+  String? introduce;
+  int? petId;
   bool? leave;
 
   User(

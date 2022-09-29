@@ -25,6 +25,9 @@ public interface UserService {
 
     // 회원정보 수정
     void modify(String memberId, UserModifyRequestDto requestDto);
+    
+    // 메인 반려동물 수정
+    void modifyPet(String memberId, int petId);
 
     //로그아웃
     void logout(String refresh_token);
