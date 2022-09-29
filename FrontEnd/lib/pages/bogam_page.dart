@@ -133,10 +133,8 @@ class _BogamPageState extends State<BogamPage> {
                                     IconButton(
                                         onPressed: () async {
                                           Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(0));
-                                          if (await canLaunchUrl(_url)) {
-                                            await launchUrl(_url);
-                                          } else {
-                                            print('Could not launch');
+                                          if (!await launchUrl(_url)) {
+                                            throw 'Could not launch $_url';
                                           }
                                         },
                                         icon: Icon(Icons.help_outline))
@@ -151,10 +149,8 @@ class _BogamPageState extends State<BogamPage> {
                                     IconButton(
                                         onPressed: () async {
                                           Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(1));
-                                          if (await canLaunchUrl(_url)) {
-                                            await launchUrl(_url);
-                                          } else {
-                                            print('Could not launch');
+                                          if (!await launchUrl(_url)) {
+                                            throw 'Could not launch $_url';
                                           }
                                         },
                                         icon: Icon(Icons.help_outline))
@@ -169,10 +165,8 @@ class _BogamPageState extends State<BogamPage> {
                                     IconButton(
                                         onPressed: () async {
                                           Uri _url = Uri.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+ diagnosisResult.elementAt(2));
-                                          if (await canLaunchUrl(_url)) {
-                                            await launchUrl(_url);
-                                          } else {
-                                            print('Could not launch');
+                                          if (!await launchUrl(_url)) {
+                                            throw 'Could not launch $_url';
                                           }
                                         },
                                         icon: Icon(Icons.help_outline))
