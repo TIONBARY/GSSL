@@ -2,9 +2,11 @@ import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_user.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/get_pet_detail.dart';
+import 'package:GSSL/model/response_models/get_pet_kind.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:GSSL/pages/main_page.dart';
+import 'package:GSSL/pages/modify_pet_page.dart';
 import 'package:flutter/material.dart';
 
 import '../util/custom_dialog.dart';
@@ -24,6 +26,7 @@ class _PetDetailState extends State<PetDetail> {
   AssetImage basic_image = AssetImage("assets/images/basic_dog.png");
   Pet? pet;
   User? user;
+  String? kindName;
   TextEditingController dateinput = TextEditingController();
   ApiUser apiUser = ApiUser();
   ApiPet apiPet = ApiPet();
@@ -56,6 +59,10 @@ class _PetDetailState extends State<PetDetail> {
     if (getMainPetResponse.statusCode == 200) {
       setState(() {
         pet = getMainPetResponse.pet;
+      });
+      GetPetKind kind = await apiPet.getPetKindOne(pet!.id!);
+      setState(() {
+        kindName = kind?.kind?.name;
       });
     } else if (getMainPetResponse.statusCode == 401) {
       showDialog(
@@ -166,17 +173,18 @@ class _PetDetailState extends State<PetDetail> {
                       0,
                       MediaQuery.of(context).size.width / 40),
                   child: RichText(
-                      text: pet == null && pet?.kind == null
-                          ? TextSpan(text: "")
-                          : TextSpan(children: [
-                              WidgetSpan(child: Icon(Icons.pets)),
-                              TextSpan(
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                  text: pet!.kind!)
-                            ])),
+                      text:
+                          pet == null || pet?.kindId == null || kindName == null
+                              ? TextSpan(text: "")
+                              : TextSpan(children: [
+                                  WidgetSpan(child: Icon(Icons.pets)),
+                                  TextSpan(
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                      text: kindName!)
+                                ])),
                 ),
               ],
             ),
@@ -283,7 +291,14 @@ class _PetDetailState extends State<PetDetail> {
                   child: Hero(
                     tag: "next_btn",
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ModifyPetScreen(petId: pet!.id!)),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: btnColor,
                           shape: RoundedRectangleBorder(
