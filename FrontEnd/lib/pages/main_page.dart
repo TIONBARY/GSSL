@@ -10,7 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../components/bottomNavBar.dart';
 import '../components/main/main_function_box.dart';
-import '../components/util/double_click_pop.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -43,38 +42,32 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        bool result = doubleClickPop();
-        return await Future.value(result);
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          toolbarHeight: 0,
-        ),
-        body: Container(
-          color: nWColor,
-          child: Column(
-            children: [
-              Flexible(
-                child: UserBar(),
-                flex: 1,
-              ),
-              Flexible(
-                child: behavior_diagnosis(),
-                flex: 2,
-              ),
-              Flexible(
-                child: health_diagnosis(),
-                flex: 2,
-              ),
-              Flexible(
-                child: diary(),
-                flex: 2,
-              ),
-            ],
-          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
+      body: Container(
+        color: nWColor,
+        child: Column(
+          children: [
+            Flexible(
+              child: UserBar(),
+              flex: 1,
+            ),
+            Flexible(
+              child: behavior_diagnosis(),
+              flex: 2,
+            ),
+            Flexible(
+              child: health_diagnosis(),
+              flex: 2,
+            ),
+            Flexible(
+              child: diary(),
+              flex: 2,
+            ),
+          ],
         ),
       ),
     );
