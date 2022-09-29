@@ -1,14 +1,15 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:GSSL/api/interceptor.dart';
 import 'package:GSSL/components/bottomNavBar.dart';
+import 'package:GSSL/model/request_models/put_login_refresh.dart';
+import 'package:GSSL/pages/login_page.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http/http.dart';
-import 'dart:async';
-
-import './main_page.dart';
 
 /***
  * Container(
@@ -33,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
         Duration(seconds: 4),
-        () async => await checkLoggedIn()
+        () async => await checkLoggedIn() == false
             ? Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -60,12 +61,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<bool> checkLoggedIn() async {
-    String? refreshToken = await storage.read(key: 'RefreshToken');
+    String? refreshToken = null;
+    refreshToken = await storage.read(key: 'RefreshToken');
     if (refreshToken != null) {
       String url = "https://j7a204.p.ssafy.io/api/user/auth/reissue";
       Response response = await client.post(Uri.parse(url),
-          body: "{refreshToken:" + refreshToken.toString() + "}");
-
+          body: jsonEncode(
+              RefreshTokenRequestModel(refreshToken: refreshToken).toJson()));
+      debugPrint(response.statusCode.toString());
       return response.statusCode == 200;
     }
     return false;
