@@ -2,27 +2,27 @@ class updatePetInfo {
   int? kindId;
   bool? species;
   String? name;
-  bool? gender;
+  String? gender;
   bool? neutralize;
-  String? birth;
+  DateTime? birth;
   double? weight;
   String? animalPic;
   bool? death;
-  Null? diseases;
+  String? diseases;
   String? description;
 
   updatePetInfo(
       {this.kindId,
-        this.species,
-        this.name,
-        this.gender,
-        this.neutralize,
-        this.birth,
-        this.weight,
-        this.animalPic,
-        this.death,
-        this.diseases,
-        this.description});
+      this.species,
+      this.name,
+      this.gender,
+      this.neutralize,
+      this.birth,
+      this.weight,
+      this.animalPic,
+      this.death,
+      this.diseases,
+      this.description});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -31,7 +31,7 @@ class updatePetInfo {
     data['name'] = this.name;
     data['gender'] = this.gender;
     data['neutralize'] = this.neutralize;
-    data['birth'] = this.birth;
+    data['birth'] = this.birth?.toIso8601String();
     data['weight'] = this.weight;
     data['animal_pic'] = this.animalPic;
     data['death'] = this.death;
