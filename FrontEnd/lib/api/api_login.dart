@@ -22,7 +22,10 @@ class ApiLogin {
       // Write value
       await storage.write(key: 'Authorization', value: loginInfo.tokenInfo?.accessToken);
       await storage.write(key: 'RefreshToken', value: loginInfo.tokenInfo?.refreshToken);
-
+      print("++++++++++++++++++++++++++++++++++++++++");
+      print(loginInfo.tokenInfo?.accessToken);
+      String? authKey = await storage.read(key: 'Authorization');
+      print("${authKey}");
       return generalResponse(loginInfo.statusCode, loginInfo.message);
   }
 }
