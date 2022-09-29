@@ -1,10 +1,6 @@
-import 'package:GSSL/model/response_models/bogam_response.dart';
-import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
-import '../model/request_models/signup.dart';
-import 'package:http_parser/http_parser.dart';
 
 
 

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/api/api_bogam.dart';
-import 'package:GSSL/model/response_models/bogam_response.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
