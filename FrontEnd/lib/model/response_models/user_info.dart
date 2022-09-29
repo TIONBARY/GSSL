@@ -1,4 +1,5 @@
 import 'package:GSSL/model/response_models/general_response.dart';
+import 'package:image_picker/image_picker.dart';
 
 class userInfo extends generalResponse {
   int? statusCode;
@@ -9,19 +10,19 @@ class userInfo extends generalResponse {
   }
 
   userInfo.fromJson(Map<String, dynamic> json): super(json['statusCode'], json['message'])  {
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['userInfoDto'] != null ? new User.fromJson(json['userInfoDto']) : null;
   }
 }
 
 class User {
   String? memberId;
   String? nickname;
-  bool? gender;
+  String? gender;
   String? phone;
   String? email;
-  Null? profilePic;
-  Null? introduce;
-  Null? petId;
+  String? profilePic;
+  String? introduce;
+  int? petId;
   bool? leave;
 
   User(

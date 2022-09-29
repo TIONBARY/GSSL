@@ -1,16 +1,12 @@
+import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/model/request_models/put_login.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
-import 'package:GSSL/model/response_models/post_login.dart';
-import 'package:GSSL/pages/main_page.dart';
 import 'package:flutter/material.dart';
 
-import '../dont_have_an_Account.dart';
+import '../../api/api_login.dart';
 import '../../constants.dart';
 import '../../pages/signup_page.dart';
-
-import '../../api/api_login.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
+import '../dont_have_an_Account.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -51,13 +47,11 @@ class _LoginFormState extends State<LoginForm> {
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: renderTextFormField(
                   label: '비밀번호',
-
                   icon: Icon(Icons.lock, color: sColor),
                   onSaved: (val) {
                     pw = val;
                   },
-                  obscureText: true)
-          ),
+                  obscureText: true)),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(
@@ -71,11 +65,12 @@ class _LoginFormState extends State<LoginForm> {
                       loginFormKey.currentState?.save();
                       loginAuth = await apiLogin
                           .login(LoginRequestModel(id: id, password: pw));
-                      if(loginAuth?.statusCode == 200){
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => MainPage()));  
-                      }
-                      else{
+                      if (loginAuth?.statusCode == 200) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BottomNavBar()));
+                      } else {
                         // 모달에 loginAuth message 띄우기
                       }
                     }
@@ -127,6 +122,7 @@ renderTextFormField({
     onSaved: onSaved,
     obscureText: obscureText,
     decoration: InputDecoration(
+      contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
       hintText: label,
       hintStyle: TextStyle(color: sColor),
       prefixIcon: Padding(
