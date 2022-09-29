@@ -1,6 +1,6 @@
+import 'package:GSSL/components/diary/diary_detail_form.dart';
 import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:GSSL/components/diary/diary_detail_form.dart';
 
 List<ImageDetails> _images = [
   // ImageDetails(
@@ -45,7 +45,7 @@ List<ImageDetails> _images = [
     date: '2022년 9월 26일',
     title: '첫 검사',
     details:
-    '오늘 뽀롱이가 많이 아팠다. 눈을 박박 긁어서 첫 진단을 해보니 암검염이라고 판정됬다. 근처 동물 병원을 가서 치료를 받았다.',
+        '오늘 뽀롱이가 많이 아팠다. 눈을 박박 긁어서 첫 진단을 해보니 암검염이라고 판정됬다. 근처 동물 병원을 가서 치료를 받았다.',
   ),
   ImageDetails(
     imagePath: 'assets/images/4.png',
@@ -86,29 +86,29 @@ class DiaryPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: TextFormField(
-              cursorColor: btnColor,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search, color: sColor),
-                hintText: "검색",
-                hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
-
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: sColor)
-                ),
-                filled: true,
-                fillColor: nWColor,
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: btnColor)
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8),
+          //   child: TextFormField(
+          //     cursorColor: btnColor,
+          //     decoration: InputDecoration(
+          //       prefixIcon: Icon(Icons.search, color: sColor),
+          //       hintText: "검색",
+          //       hintStyle: TextStyle(color: sColor),
+          //       contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
+          //
+          //       enabledBorder: OutlineInputBorder(
+          //           borderRadius: BorderRadius.all(Radius.circular(10)),
+          //           borderSide: BorderSide(color: sColor)
+          //       ),
+          //       filled: true,
+          //       fillColor: nWColor,
+          //       focusedBorder: OutlineInputBorder(
+          //           borderRadius: BorderRadius.all(Radius.circular(10)),
+          //           borderSide: BorderSide(color: btnColor)
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Expanded(
             child: Container(
               padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
