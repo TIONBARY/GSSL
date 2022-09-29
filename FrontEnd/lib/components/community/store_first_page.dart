@@ -1,8 +1,9 @@
-import './utils_first/context_extension.dart';
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 
 import './constants/constants.dart';
 import './models/content_first_object.dart';
+import './utils_first/context_extension.dart';
 import './utils_first/database_helper.dart';
 import './utils_first/database_services.dart';
 import './utils_first/validator.dart';
@@ -33,8 +34,22 @@ class _AddNewFeedPageState extends State<AddNewFeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('반려견 자랑하기'),
-        leading: IconButtonWidget(iconData: Icons.arrow_back_sharp, onTap: () => Navigator.of(context).pop(insertSuccess)),
+        iconTheme: IconThemeData(
+          color: btnColor,
+          size: 20,
+        ),
+        toolbarHeight: 50,
+        backgroundColor: pColor,
+        title: const Text(
+          '반려견 자랑하기',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+          ),
+        ),
+        leading: IconButtonWidget(
+            iconData: Icons.arrow_back_sharp,
+            onTap: () => Navigator.of(context).pop(insertSuccess)),
       ),
       body: SingleChildScrollView(
         child: CardWidget(
@@ -72,8 +87,13 @@ class _AddNewFeedPageState extends State<AddNewFeedPage> {
                   name: '게시하기',
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
-                      ContentObject contentObject = ContentObject(name: nameController.text, body: bodyController.text, photo: photoUrlController.text);
-                      DatabaseServices().insertItem(contentObject.toMap(), tableContent).then((value) => context.back(true));
+                      ContentObject contentObject = ContentObject(
+                          name: nameController.text,
+                          body: bodyController.text,
+                          photo: photoUrlController.text);
+                      DatabaseServices()
+                          .insertItem(contentObject.toMap(), tableContent)
+                          .then((value) => context.back(true));
                     }
                   }),
             ],
