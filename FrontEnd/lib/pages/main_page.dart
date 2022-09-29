@@ -2,8 +2,6 @@ import 'package:GSSL/components/main/main_header_bar.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/pages/bogam_page.dart';
 import 'package:GSSL/pages/diary_page.dart';
-import 'package:GSSL/pages/jeongeum_page.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../components/bottomNavBar.dart';
 import '../components/main/main_function_box.dart';
+import '../components/util/double_click_pop.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -28,10 +27,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
       home: BottomNavBar(),
     );
   }
@@ -47,35 +42,40 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        toolbarHeight: 0,
-      ),
-      body: Container(
-        color: nWColor,
-        child: Column(
-          children: [
-            Flexible(
-              child: UserBar(),
-              flex: 1,
-            ),
-            Flexible(
-              child: behavior_diagnosis(),
-              flex: 2,
-            ),
-            Flexible(
-              child: health_diagnosis(),
-              flex: 2,
-            ),
-            Flexible(
-              child: diary(),
-              flex: 2,
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        bool result = doubleClickPop();
+        return await Future.value(result);
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          toolbarHeight: 0,
+        ),
+        body: Container(
+          color: nWColor,
+          child: Column(
+            children: [
+              Flexible(
+                child: UserBar(),
+                flex: 1,
+              ),
+              Flexible(
+                child: behavior_diagnosis(),
+                flex: 2,
+              ),
+              Flexible(
+                child: health_diagnosis(),
+                flex: 2,
+              ),
+              Flexible(
+                child: diary(),
+                flex: 2,
+              ),
+            ],
+          ),
         ),
       ),
-      // bottomNavigationBar: ,
     );
   }
 }
@@ -105,7 +105,7 @@ class behavior_diagnosis extends StatelessWidget {
       title: '견민정음',
       box_color: Color(0x80DFB45B),
       paddings: EdgeInsets.fromLTRB(30, 15.h, 30, 15.h),
-      nextPage: JeongeumPage(),
+      nextPage: GalleryApp(),
     );
   }
 }

@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:GSSL/components/diary/diary_detail_form.dart';
 import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
+import '../community/utils_third/color_constants.dart';
+
+XFile? _image;
+final picker = ImagePicker();
 List<ImageDetails> _images = [
   // ImageDetails(
   //   imagePath: 'assets/images/1.png',
@@ -77,93 +84,151 @@ List<ImageDetails> _images = [
   ),
 ];
 
-class DiaryPage extends StatelessWidget {
+class DiaryPage extends StatefulWidget {
   const DiaryPage({Key? key}) : super(key: key);
 
   @override
+  State<DiaryPage> createState() => _DiaryPageState();
+}
+
+class _DiaryPageState extends State<DiaryPage> {
+  Future getImage(ImageSource imageSource) async {
+    final image = await picker.pickImage(source: imageSource, imageQuality: 50);
+
+    setState(() {
+      _image = XFile(image!.path); // 가져온 이미지를 _image에 저장
+    });
+  }
+
+  Widget showImage() {
+    return Container(
+        color: const Color(0xffd0cece),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.width,
+        child: Center(
+            child: _image == null
+                ? Text('이미지를 촬영/선택 해주세요')
+                : Image.file(File(_image!.path))));
+  }
+
+  late Size _size;
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          // Padding(
-          //   padding: const EdgeInsets.all(8),
-          //   child: TextFormField(
-          //     cursorColor: btnColor,
-          //     decoration: InputDecoration(
-          //       prefixIcon: Icon(Icons.search, color: sColor),
-          //       hintText: "검색",
-          //       hintStyle: TextStyle(color: sColor),
-          //       contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
-          //
-          //       enabledBorder: OutlineInputBorder(
-          //           borderRadius: BorderRadius.all(Radius.circular(10)),
-          //           borderSide: BorderSide(color: sColor)
-          //       ),
-          //       filled: true,
-          //       fillColor: nWColor,
-          //       focusedBorder: OutlineInputBorder(
-          //           borderRadius: BorderRadius.all(Radius.circular(10)),
-          //           borderSide: BorderSide(color: btnColor)
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-              decoration: BoxDecoration(
-                color: nWColor,
-              ),
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+    _size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            // Padding(
+            //   padding: const EdgeInsets.all(8),
+            //   child: TextFormField(
+            //     cursorColor: btnColor,
+            //     decoration: InputDecoration(
+            //       prefixIcon: Icon(Icons.search, color: sColor),
+            //       hintText: "검색",
+            //       hintStyle: TextStyle(color: sColor),
+            //       contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
+            //
+            //       enabledBorder: OutlineInputBorder(
+            //           borderRadius: BorderRadius.all(Radius.circular(10)),
+            //           borderSide: BorderSide(color: sColor)
+            //       ),
+            //       filled: true,
+            //       fillColor: nWColor,
+            //       focusedBorder: OutlineInputBorder(
+            //           borderRadius: BorderRadius.all(Radius.circular(10)),
+            //           borderSide: BorderSide(color: btnColor)
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                decoration: BoxDecoration(
+                  color: nWColor,
                 ),
-                itemBuilder: (context, index) {
-                  return RawMaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailsPage(
-                            imagePath: _images[index].imagePath,
-                            title: _images[index].title,
-                            date: _images[index].date,
-                            disease: _images[index].disease,
-                            details: _images[index].details,
-                            index: index,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Hero(
-                      tag: 'logo$index',
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.7),
-                              blurRadius: 7,
-                              offset: Offset(3, 3),
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (context, index) {
+                    return RawMaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailsPage(
+                              imagePath: _images[index].imagePath,
+                              title: _images[index].title,
+                              date: _images[index].date,
+                              disease: _images[index].disease,
+                              details: _images[index].details,
+                              index: index,
                             ),
-                          ],
-                          image: DecorationImage(
-                            image: AssetImage(_images[index].imagePath),
-                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
+                      child: Hero(
+                        tag: 'logo$index',
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.7),
+                                blurRadius: 7,
+                                offset: Offset(3, 3),
+                              ),
+                            ],
+                            image: DecorationImage(
+                              image: AssetImage(_images[index].imagePath),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-                itemCount: _images.length,
+                    );
+                  },
+                  itemCount: _images.length,
+                ),
               ),
             ),
-          )
-        ],
+          ],
+        ),
+      ),
+      floatingActionButton: _buildAddNoteFAB(),
+    );
+  }
+
+  // 갤러리에서 사진 추가 + 버튼
+  Widget _buildAddNoteFAB() {
+    return TweenAnimationBuilder<Offset>(
+      duration: const Duration(seconds: 2),
+      tween: Tween<Offset>(
+        begin: const Offset(0, -800),
+        end: const Offset(0, 0),
+      ),
+      curve: Curves.bounceOut,
+      builder: (context, Offset offset, child) {
+        return Transform.translate(
+          offset: offset,
+          child: child,
+        );
+      },
+      child: FloatingActionButton(
+        onPressed: () {
+          getImage(ImageSource.gallery);
+        },
+        backgroundColor: AppColors.white,
+        child: Icon(
+          Icons.add,
+          color: AppColors.codGray,
+          size: _size.width * 0.08,
+        ),
       ),
     );
   }

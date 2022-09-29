@@ -60,8 +60,9 @@ dependencies:
   google_fonts: ^3.0.1
   flutter_screenutil: ^5.5.4
   url_launcher: ^6.1.6
-  video_player: ^2.4.7
+  persistent_bottom_nav_bar: ^5.0.2
 
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:
