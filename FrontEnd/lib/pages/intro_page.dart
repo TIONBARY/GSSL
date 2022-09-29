@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'dart:async';
@@ -20,6 +21,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  final assetAudioPlayer = AssetsAudioPlayer();
+
   @override
   void initState() {
     super.initState();
@@ -28,8 +31,9 @@ class _SplashScreenState extends State<SplashScreen> {
           () => Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => LoginScreen()),
-      ),
+          ),
     );
+    assetAudioPlayer.open(Audio("assets/sounds/DogBark.wav"));
   }
 
   @override
@@ -42,7 +46,6 @@ class _SplashScreenState extends State<SplashScreen> {
         image: DecorationImage(
             image: AssetImage('assets/images/loading.gif'), fit: BoxFit.contain),
       ),
-
     );
   }
 }
