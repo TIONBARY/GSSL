@@ -238,6 +238,10 @@ class _BogamPageState extends State<BogamPage> {
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
         builder: (BuildContext context) {
+          Future.delayed(Duration(milliseconds: 40000), () {
+            Navigator.pop(context);
+          });
+
           return AlertDialog(
             // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
             shape: RoundedRectangleBorder(
