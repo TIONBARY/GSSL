@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:GSSL/api/api_walk.dart';
-import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/components/walk/walk_length.dart';
 import 'package:GSSL/components/walk/walk_timer.dart';
 import 'package:GSSL/constants.dart';
@@ -12,11 +11,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../components/bottomNavBar.dart';
+import '../components/walk/walk_length.dart';
+import '../components/walk/walk_timer.dart';
+import '../constants.dart';
 
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 List<Position> positionList = [];
@@ -54,6 +59,8 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
   late WebViewController _mapController;
   late StopWatchTimer _stopWatchTimer =
       StopWatchTimer(mode: StopWatchMode.countUp);
+  final directory =
+      getApplicationDocumentsDirectory(); //from path_provide package
   bool pressWalkBtn = false;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
@@ -214,15 +221,14 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
                               apiWalk.enterWalk(info);
 
                               // 스크린샷 저장
-                              // final directory =
-                              //     (await getApplicationDocumentsDirectory())
-                              //         .path; //from path_provide package
-                              // String fileName = DateTime.now()
-                              //     .microsecondsSinceEpoch;
-                              // debugPrint(fileName);
-                              // path = '$directory';
-                              // screenshotController.captureAndSave(fileName);
+                              String fileName = DateTime.now()
+                                  .microsecondsSinceEpoch
+                                  .toString();
+                              debugPrint(fileName);
+                              debugPrint(directory.toString());
 
+                              // path = '$directory';
+                              screenshotController.captureAndSave(fileName);
                             }
                           });
                         }),
@@ -233,13 +239,13 @@ class _KakaoMapTestState extends State<KakaoMapTest> {
           ),
         ),
       ),
-      bottomNavigationBar: bottomNavBar(
-          back_com: pColor,
-          back_home: pColor,
-          back_loc: sColor,
-          icon_color_com: btnColor,
-          icon_color_home: btnColor,
-          icon_color_loc: Color(0xFFFFFDF4)),
+      // bottomNavigationBar: bottomNavBar(
+      //     back_com: pColor,
+      //     back_home: pColor,
+      //     back_loc: sColor,
+      //     icon_color_com: btnColor,
+      //     icon_color_home: btnColor,
+      //     icon_color_loc: Color(0xFFFFFDF4)),
     ); // 수정중
   }
 }
@@ -409,9 +415,12 @@ void stopWalk(_mapController) {
                           // LatLngBounds 객체에 좌표를 추가합니다
                           bounds.extend(boundList[i]);
                       }
-                     map.setBounds(bounds);
+                      if ( boundList.length > 1) {
+                        map.setBounds(bounds);                      
+                      }
                      // bounds[, paddingTop, paddingRight, paddingBottom, paddingLeft]
                      // map.setCenter(new kakao.maps.LatLng(latitude,longitude));
   ''');
+  positionList = [];
   debugPrint('산책 끝');
 }

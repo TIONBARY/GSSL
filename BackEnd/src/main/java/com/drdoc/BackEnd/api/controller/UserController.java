@@ -23,6 +23,7 @@ import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLoginResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.UserLogoutRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserModifyRequestDto;
+import com.drdoc.BackEnd.api.domain.dto.UserPetModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
 import com.drdoc.BackEnd.api.service.S3Service;
 import com.drdoc.BackEnd.api.service.UserService;
@@ -165,6 +166,17 @@ public class UserController {
 			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "파일 업로드에 실패했습니다."));
 		}
 		userService.modify(memberId, requestDto);
+		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
+	}
+	
+	@ApiOperation(value = "회원정보 수정", notes = "입력한 정보을 바탕으로 회원정보를 수정합니다.")
+	@PutMapping("/pet")
+	@ApiResponses({ @ApiResponse(code = 200, message = "회원정보를 성공적으로 수정했습니다."),
+			@ApiResponse(code = 400, message = "가입하지 않거나 탈퇴한 회원입니다. 또는 입력이 잘못되었습니다."), 
+			@ApiResponse(code = 401, message = "인증이 만료되어 로그인이 필요합니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<BaseResponseDto> modifyPet(@RequestBody UserPetModifyRequestDto requestDto) {
+		String memberId = SecurityUtil.getCurrentUsername();
+		userService.modifyPet(memberId, requestDto.getPet_id());
 		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
 	}
 	
