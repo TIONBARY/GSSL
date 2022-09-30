@@ -1,10 +1,10 @@
 import 'dart:io';
+
 import 'package:GSSL/api/api_jeongeum.dart';
-
 import 'package:GSSL/constants.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 String diagnosisResult = "";
@@ -23,7 +23,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
   // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
   Future getVideo(ImageSource imageSource) async {
     final image = await picker.pickVideo(
-        source: imageSource,
+      source: imageSource,
     );
 
     setState(() {
@@ -59,10 +59,10 @@ class _JeongeumPageState extends State<JeongeumPage> {
               icon: Icon(Icons.help_outline),
               color: btnColor,
             ),
-            SizedBox(height: 25.0),
+            SizedBox(height: 25.0.h),
             showImage(),
             SizedBox(
-              height: 50.0,
+              height: 50.0.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -88,7 +88,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                 ),
               ],
             ),
-            Padding(padding: EdgeInsets.all(15)),
+            Padding(padding: EdgeInsets.all(12.h)),
             FloatingActionButton(
                 child: Icon(Icons.search),
                 tooltip: 'diagnose',
@@ -123,13 +123,10 @@ class _JeongeumPageState extends State<JeongeumPage> {
                                 FloatingActionButton(
                                   child: Icon(Icons.save_alt_outlined),
                                   tooltip: 'save',
-                                  onPressed: () {
-
-                                  },
+                                  onPressed: () {},
                                   backgroundColor: btnColor,
                                 ),
                               ],
-
                             ),
                           );
                         },
@@ -165,7 +162,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                 Text(
                   "강아지가 가운데 오게 찍어주세요.",
                 ),
-               ],
+              ],
             ),
             actions: <Widget>[
               TextButton(
@@ -195,7 +192,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                 borderRadius: BorderRadius.circular(10.0)),
             //Dialog Main Title
             content: SizedBox(
-                height: 350,
+                height: 240.h,
                 child: Column(
                   children: [
                     Image.asset('assets/images/loadingDog.gif'),
@@ -203,15 +200,14 @@ class _JeongeumPageState extends State<JeongeumPage> {
                     Text('조금만 기다려주세요.'),
                     Text('20초 가량 소요됩니다.')
                   ],
-                )
-            ),
+                )),
           );
         });
   }
 
   void _diagnosis() async {
     print('진단중');
-    String result =  await apiJeongeum.diagnosis(_video);
+    String result = await apiJeongeum.diagnosis(_video);
     print(result);
     diagnosisResult = result;
   }
