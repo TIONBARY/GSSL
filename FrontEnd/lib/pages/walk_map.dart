@@ -95,7 +95,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
             ),
             SnappingPosition.pixels(
               // 원하는 높이만큼 보임
-              positionPixels: 150,
+              positionPixels: 100.h,
               snappingCurve: Curves.elasticOut,
               snappingDuration: Duration(milliseconds: 1750),
             ),
@@ -118,7 +118,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
                         padding: const EdgeInsets.all(0.0),
                         child: Text(
                           'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
-                          style: TextStyle(fontSize: 15),
+                          style: TextStyle(fontSize: 8.sp),
                         ),
                       );
                     }
@@ -134,7 +134,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
                               width: 360.w,
                               // height: size.height * 7 / 10,
                               // height: size.height - appBarHeight - 130,
-                              height: 600.h,
+                              height: 615.h,
                               kakaoMapKey: kakaoMapKey,
                               lat: initLat,
                               lng: initLon,
@@ -153,7 +153,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
                   })
             ],
           ),
-          grabbingHeight: 25,
+          grabbingHeight: 18.h,
           grabbing: Container(
               decoration: new BoxDecoration(
                 color: pColor,
@@ -163,7 +163,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
                 ),
               ),
               child: Container(
-                margin: EdgeInsets.fromLTRB(150, 10, 150, 10),
+                margin: EdgeInsets.fromLTRB(90.h, 7.w, 90.h, 7.w),
                 decoration: new BoxDecoration(
                   color: btnColor,
                   borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -173,76 +173,83 @@ class _KakaoMapTestState extends State<KakaoMapTest>
             draggable: true,
             child: Container(
               color: pColor,
-              child: Row(
+              child: ListView(
                 children: [
-                  WalkLength(totalWalkLength),
-                  CircleAvatar(
-                    backgroundColor: btnColor,
-                    radius: 20,
-                    child: IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: pressWalkBtn
-                            ? Icon(Icons.stop)
-                            : Icon(Icons.play_arrow),
-                        color: nWColor,
-                        iconSize: 30,
-                        onPressed: () {
-                          setState(() {
-                            if (pressWalkBtn == false) {
-                              // 버튼 변경
-                              pressWalkBtn = true;
-                              debugPrint(pressWalkBtn.toString());
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      WalkLength(totalWalkLength),
+                      CircleAvatar(
+                        backgroundColor: btnColor,
+                        radius: 20,
+                        child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: pressWalkBtn
+                                ? Icon(Icons.stop)
+                                : Icon(Icons.play_arrow),
+                            color: nWColor,
+                            iconSize: 25.h,
+                            onPressed: () {
+                              setState(() {
+                                if (pressWalkBtn == false) {
+                                  // 버튼 변경
+                                  pressWalkBtn = true;
+                                  debugPrint(pressWalkBtn.toString());
 
-                              // 카카오 맵 이동 기록 시작
-                              Future<Position> future = _determinePosition();
-                              future
-                                  .then((pos) => startWalk(pos, _mapController))
-                                  .catchError((error) => debugPrint(error));
+                                  // 카카오 맵 이동 기록 시작
+                                  Future<Position> future =
+                                      _determinePosition();
+                                  future
+                                      .then((pos) =>
+                                          startWalk(pos, _mapController))
+                                      .catchError((error) => debugPrint(error));
 
-                              // 타이머 정지
-                              startTime = DateTime.now();
-                              _stopWatchTimer =
-                                  StopWatchTimer(mode: StopWatchMode.countUp);
-                              _stopWatchTimer.onStartTimer();
-                              // _stopWatchTimer.secondTime
-                              //     .listen((value) => print('secondTime $value'));
-                            } else if (pressWalkBtn == true) {
-                              // 버튼 변경
-                              pressWalkBtn = false;
-                              debugPrint(pressWalkBtn.toString());
+                                  // 타이머 정지
+                                  startTime = DateTime.now();
+                                  _stopWatchTimer = StopWatchTimer(
+                                      mode: StopWatchMode.countUp);
+                                  _stopWatchTimer.onStartTimer();
+                                  // _stopWatchTimer.secondTime
+                                  //     .listen((value) => print('secondTime $value'));
+                                } else if (pressWalkBtn == true) {
+                                  // 버튼 변경
+                                  pressWalkBtn = false;
+                                  debugPrint(pressWalkBtn.toString());
 
-                              // 카카오 맵 이동 기록 중단
-                              stopWalk(_mapController);
+                                  // 카카오 맵 이동 기록 중단
+                                  stopWalk(_mapController);
 
-                              // 타이머 정지
-                              // _stopWatchTimer.dispose();
-                              _stopWatchTimer.onStopTimer();
-                              endTime = DateTime.now();
-                              // 백엔드 서버로 전송
-                              List<int> pets = [1, 2, 3];
-                              putWalk info = new putWalk(
-                                  startTime: startTime.toIso8601String(),
-                                  endTime: endTime.toIso8601String(),
-                                  distance: totalWalkLength,
-                                  pet_ids: pets);
-                              // 반려동물 1, 2, 3은 예시용(수정필요)
-                              ApiWalk apiWalk = ApiWalk();
-                              apiWalk.enterWalk(info);
+                                  // 타이머 정지
+                                  // _stopWatchTimer.dispose();
+                                  _stopWatchTimer.onStopTimer();
+                                  endTime = DateTime.now();
+                                  // 백엔드 서버로 전송
+                                  List<int> pets = [1, 2, 3];
+                                  putWalk info = new putWalk(
+                                      startTime: startTime.toIso8601String(),
+                                      endTime: endTime.toIso8601String(),
+                                      distance: totalWalkLength,
+                                      pet_ids: pets);
+                                  // 반려동물 1, 2, 3은 예시용(수정필요)
+                                  ApiWalk apiWalk = ApiWalk();
+                                  apiWalk.enterWalk(info);
 
-                              // 스크린샷 저장
-                              String fileName = DateTime.now()
-                                  .microsecondsSinceEpoch
-                                  .toString();
-                              debugPrint(fileName);
-                              debugPrint(directory.toString());
+                                  // 스크린샷 저장
+                                  String fileName = DateTime.now()
+                                      .microsecondsSinceEpoch
+                                      .toString();
+                                  debugPrint(fileName);
+                                  debugPrint(directory.toString());
 
-                              // path = '$directory';
-                              screenshotController.captureAndSave(fileName);
-                            }
-                          });
-                        }),
+                                  // path = '$directory';
+                                  screenshotController.captureAndSave(fileName);
+                                }
+                              });
+                            }),
+                      ),
+                      WalkTimer(_stopWatchTimer),
+                    ],
                   ),
-                  WalkTimer(_stopWatchTimer),
                 ],
               ),
             ),
