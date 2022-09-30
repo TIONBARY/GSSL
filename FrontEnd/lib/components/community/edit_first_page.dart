@@ -1,11 +1,15 @@
-import './utils_first/context_extension.dart';
-import './utils_first/validator.dart';
+import 'package:GSSL/api/api_community.dart';
+import 'package:GSSL/components/util/custom_dialog.dart';
+import 'package:GSSL/model/response_models/get_board_detail.dart';
+import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 import './constants/constants.dart';
 import './models/content_first_object.dart';
+import './utils_first/context_extension.dart';
 import './utils_first/database_helper.dart';
 import './utils_first/database_services.dart';
+import './utils_first/validator.dart';
 import './widgets/card_widget.dart';
 import './widgets/icon_button_widget.dart';
 import './widgets/my_box_widget.dart';
@@ -13,8 +17,9 @@ import './widgets/text_button_widget.dart';
 import './widgets/text_field_widget.dart';
 
 class EditPostPage extends StatefulWidget {
-  ContentObject contentObject;
-  EditPostPage(this.contentObject);
+  int boardId;
+  Board? contentObject;
+  EditPostPage(this.boardId);
 
   @override
   State<EditPostPage> createState() => _EditPostPageState();
@@ -29,12 +34,36 @@ class _EditPostPageState extends State<EditPostPage> {
 
   final _formKey = GlobalKey<FormState>();
 
+  ApiCommunity apiCommunity = ApiCommunity();
+
   @override
   void initState() {
     super.initState();
-    nameController.text = widget.contentObject.name;
-    photoUrlController.text = widget.contentObject.photo ?? '';
-    bodyController.text = widget.contentObject.body;
+    _getBoard();
+  }
+
+  Future<void> _getBoard() async {
+    getBoardDetail result =
+        await apiCommunity.getBoardDetailApi(widget.boardId);
+    if (result.statusCode == 200) {
+      setState(() {
+        widget.contentObject = result.board;
+      });
+      nameController.text = widget.contentObject!.title!;
+      bodyController.text = widget.contentObject!.content!;
+    } else if (result.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(result.message!, null);
+          });
+    }
   }
 
   @override
@@ -42,7 +71,9 @@ class _EditPostPageState extends State<EditPostPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Content'),
-        leading: IconButtonWidget(iconData: Icons.arrow_back_sharp, onTap: () => Navigator.of(context).pop(false)),
+        leading: IconButtonWidget(
+            iconData: Icons.arrow_back_sharp,
+            onTap: () => Navigator.of(context).pop(false)),
       ),
       body: SingleChildScrollView(
         child: CardWidget(
@@ -80,10 +111,15 @@ class _EditPostPageState extends State<EditPostPage> {
                   name: 'Save',
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
-                      ContentObject contentObject =
-                          ContentObject(id: widget.contentObject.id, name: nameController.text, body: bodyController.text, photo: photoUrlController.text);
+                      ContentObject contentObject = ContentObject(
+                          id: widget.contentObject!.id!,
+                          name: nameController.text,
+                          body: bodyController.text,
+                          photo: photoUrlController.text);
                       Map<String, dynamic> map = contentObject.toMap();
-                      DatabaseServices().updateItem(map, tableContent).then((value) {
+                      DatabaseServices()
+                          .updateItem(map, tableContent)
+                          .then((value) {
                         context.back(true);
                       });
                     }

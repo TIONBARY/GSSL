@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:GSSL/api/interceptor.dart';
 import 'package:GSSL/model/request_models/put_board.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
+import 'package:GSSL/model/response_models/get_board_detail.dart';
+import 'package:GSSL/model/response_models/get_board_list.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/http.dart';
@@ -42,18 +44,21 @@ class ApiCommunity {
     return result;
   }
 
-  // Future<getPetDetail> getBoardDetailApi(int? boardId) async {
-  //   String url = api_url + "/" + boardId.toString();
-  //   final response = await client.get(Uri.parse(url));
-  //   getPetDetail result = getPetDetail.fromJson(json.decode(response.body));
-  //   return result;
-  // }
+  Future<getBoardDetail> getBoardDetailApi(int? boardId) async {
+    String url = api_url + "/" + boardId.toString();
+    final response = await client.get(Uri.parse(url));
+    getBoardDetail result = getBoardDetail.fromJson(json.decode(response.body));
+    return result;
+  }
 
-  // Future<getAllPet> getAllBoardApi() async {
-  //   final response = await client.get(Uri.parse(api_url));
-  //   getAllPet result = getAllPet.fromJson(json.decode(response.body));
-  //   return result;
-  // }
+  Future<getBoardList> getAllBoardApi(int typeId, int page, int size) async {
+    final response = await client.get(Uri.parse(api_url),
+        params: {"type_id": typeId, "page": page, "size": size});
+    print(json.decode(response.body));
+    getBoardList result = getBoardList.fromJson(json.decode(response.body));
+
+    return result;
+  }
   //
   // Future<generalResponse> modify(
   //     File? file, int? petId, updatePetInfo requestModel) async {
