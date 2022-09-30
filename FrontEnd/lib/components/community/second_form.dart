@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 
 import './constants/constants.dart';
 import './edit_first_page.dart';
-import './store_first_page.dart';
+import './store_second_page.dart';
 import './utils_first/context_extension.dart';
 import './utils_first/database_services.dart';
 import './widgets/content_item_widget.dart';
