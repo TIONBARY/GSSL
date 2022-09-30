@@ -9,6 +9,7 @@ import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:GSSL/pages/user_info_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -187,7 +188,7 @@ class _ModifyFormState extends State<ModifyForm> {
                 isCollapsed: true,
                 hintText: "비밀번호",
                 hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 13.h, 10.w, 13.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white)),
@@ -228,7 +229,7 @@ class _ModifyFormState extends State<ModifyForm> {
               isCollapsed: true,
               hintText: "닉네임",
               hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+              contentPadding: EdgeInsets.fromLTRB(20.w, 13.h, 10.w, 13.h),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: Colors.white)),
@@ -362,7 +363,7 @@ class _ModifyFormState extends State<ModifyForm> {
               isCollapsed: true,
               hintText: "전화번호 (01011112222) 형태로 입력",
               hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
+              contentPadding: EdgeInsets.fromLTRB(20.w, 13.h, 10.w, 13.h),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: Colors.white)),
@@ -403,7 +404,7 @@ class _ModifyFormState extends State<ModifyForm> {
                 isCollapsed: true,
                 hintText: "이메일",
                 hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 13.h, 10.w, 13.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white)),
@@ -416,7 +417,7 @@ class _ModifyFormState extends State<ModifyForm> {
             ),
           ),
           Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 8.h),
               child: Divider(color: sColor, thickness: 2.0)),
           Column(
             children: [
@@ -487,7 +488,7 @@ class _ModifyFormState extends State<ModifyForm> {
                 isCollapsed: true,
                 hintText: "자기소개 (선택)",
                 hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 15.h, 20.w, 20.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white)),
