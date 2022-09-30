@@ -74,4 +74,11 @@ class ApiUser {
     generalResponse result = generalResponse.fromJson(json.decode(body));
     return result;
   }
+
+  Future<generalResponse> quitAPI() async {
+    final response = await client.put(Uri.parse(api_url + "/leave"));
+    generalResponse result =
+        generalResponse.fromJson(json.decode(response.body));
+    return result;
+  }
 }

@@ -71,17 +71,15 @@ class _LoginFormState extends State<LoginForm> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => BottomNavBar()));
-                      } else if (loginAuth?.statusCode == 401) {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog(loginAuth!.message!, null);
-                            });
                       } else {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return CustomDialog("알 수 없는 오류가 발생했습니다.", null);
+                              return CustomDialog(
+                                  loginAuth?.message == null
+                                      ? "알 수 없는 오류가 발생했습니다."
+                                      : loginAuth!.message!,
+                                  null);
                             });
                       }
                     }
