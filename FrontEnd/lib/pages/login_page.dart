@@ -1,6 +1,6 @@
 import 'package:GSSL/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:GSSL/responsive.dart';
+import 'package:flutter/material.dart';
 
 import '../components/login/login_form.dart';
 import '../components/logo.dart';
@@ -12,34 +12,34 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: pColor,
-        body: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: SingleChildScrollView(
-            child: Responsive(
-              mobile: const MobileLoginScreen(),
-              desktop: Row(
-                children: [
-                  const Expanded(
-                    child: Logo(heights : defaultPadding * 2),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Responsive(
+            mobile: const MobileLoginScreen(),
+            desktop: Row(
+              children: [
+                const Expanded(
+                  child: Logo(heights: defaultPadding * 2),
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      SizedBox(
+                        width: 450,
+                        child: LoginForm(),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        SizedBox(
-                          width: 450,
-                          child: LoginForm(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
+      ),
     );
   }
 }
@@ -54,7 +54,7 @@ class MobileLoginScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Logo(heights : defaultPadding * 2),
+        const Logo(heights: defaultPadding * 2),
         Row(
           children: const [
             Spacer(),
