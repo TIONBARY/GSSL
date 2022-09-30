@@ -1,4 +1,5 @@
 import 'package:GSSL/components/bottomNavBar.dart';
+import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/model/request_models/put_login.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:flutter/material.dart';
@@ -47,13 +48,11 @@ class _LoginFormState extends State<LoginForm> {
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: renderTextFormField(
                   label: '비밀번호',
-
                   icon: Icon(Icons.lock, color: sColor),
                   onSaved: (val) {
                     pw = val;
                   },
-                  obscureText: true)
-          ),
+                  obscureText: true)),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(
@@ -73,7 +72,15 @@ class _LoginFormState extends State<LoginForm> {
                             MaterialPageRoute(
                                 builder: (context) => BottomNavBar()));
                       } else {
-                        // 모달에 loginAuth message 띄우기
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialog(
+                                  loginAuth?.message == null
+                                      ? "알 수 없는 오류가 발생했습니다."
+                                      : loginAuth!.message!,
+                                  null);
+                            });
                       }
                     }
                   },
