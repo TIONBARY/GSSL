@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/responsive.dart';
+import 'package:flutter/material.dart';
 
 import '../components/logo.dart';
 import '../components/pet/register_pet_form.dart';
@@ -22,7 +22,7 @@ class SignUpPetScreen extends StatelessWidget {
             desktop: Row(
               children: [
                 const Expanded(
-                  child: Logo(heights : defaultPadding),
+                  child: Logo(heights: defaultPadding),
                 ),
                 Expanded(
                   child: Column(
@@ -56,7 +56,7 @@ class MobileSignupScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Logo(heights : defaultPadding),
+        const Logo(heights: defaultPadding),
         Row(
           children: const [
             Spacer(),

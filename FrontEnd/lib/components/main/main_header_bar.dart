@@ -190,7 +190,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                     builder: (BuildContext context) {
                       return Container(
                         padding: EdgeInsets.fromLTRB(0, 20.h, 0, 0),
-                        height: 275,
+                        height: 200.h,
                         decoration: new BoxDecoration(
                           color: pColor,
                           borderRadius: new BorderRadius.only(
@@ -257,11 +257,11 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                                       ),
                                     ),
                               Container(
-                                margin: EdgeInsets.fromLTRB(0, 30.h, 0, 10.h),
+                                margin: EdgeInsets.fromLTRB(0, 15.h, 0, 5.h),
                                 child: SizedBox(
                                   child: IconButton(
                                     icon: Icon(Icons.add),
-                                    iconSize: 50,
+                                    iconSize: 30.h,
                                     color: btnColor,
                                     onPressed: () => Navigator.push(
                                       context,
