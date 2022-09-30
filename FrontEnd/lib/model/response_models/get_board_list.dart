@@ -3,11 +3,13 @@ import 'package:GSSL/model/response_models/general_response.dart';
 class getBoardList extends generalResponse {
   BoardList? boardList;
 
-  getBoardList(int statusCode, String message, BoardList boardList):super(statusCode, message){
+  getBoardList(int statusCode, String message, BoardList boardList)
+      : super(statusCode, message) {
     this.boardList = boardList;
   }
 
-  getBoardList.fromJson(Map<String, dynamic> json) : super(json['statusCode'],json['message']) {
+  getBoardList.fromJson(Map<String, dynamic> json)
+      : super(json['statusCode'], json['message']) {
     boardList = json['boardList'] != null
         ? new BoardList.fromJson(json['boardList'])
         : null;
@@ -28,15 +30,15 @@ class BoardList {
 
   BoardList(
       {this.content,
-        this.pageable,
-        this.totalElements,
-        this.totalPages,
-        this.last,
-        this.size,
-        this.sort,
-        this.numberOfElements,
-        this.first,
-        this.empty});
+      this.pageable,
+      this.totalElements,
+      this.totalPages,
+      this.last,
+      this.size,
+      this.sort,
+      this.numberOfElements,
+      this.first,
+      this.empty});
 
   BoardList.fromJson(Map<String, dynamic> json) {
     if (json['content'] != null) {
@@ -45,9 +47,6 @@ class BoardList {
         content!.add(new Content.fromJson(v));
       });
     }
-    pageable = json['pageable'] != null
-        ? new Pageable.fromJson(json['pageable'])
-        : null;
     totalElements = json['totalElements'];
     totalPages = json['totalPages'];
     last = json['last'];
@@ -115,11 +114,11 @@ class Pageable {
 
   Pageable(
       {this.sort,
-        this.offset,
-        this.pageNumber,
-        this.pageSize,
-        this.paged,
-        this.unpaged});
+      this.offset,
+      this.pageNumber,
+      this.pageSize,
+      this.paged,
+      this.unpaged});
 
   Pageable.fromJson(Map<String, dynamic> json) {
     sort = json['sort'] != null ? new Sort.fromJson(json['sort']) : null;
