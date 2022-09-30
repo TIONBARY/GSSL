@@ -1,4 +1,5 @@
 import 'package:GSSL/model/response_models/general_response.dart';
+import 'package:GSSL/model/response_models/get_walk_detail.dart';
 
 class getWalkList extends generalResponse {
   WalkList? walkList;
@@ -17,7 +18,7 @@ class getWalkList extends generalResponse {
 }
 
 class WalkList {
-  List<Content>? content;
+  List<Detail>? content;
   String? pageable;
   bool? last;
   int? totalElements;
@@ -44,9 +45,10 @@ class WalkList {
 
   WalkList.fromJson(Map<String, dynamic> json) {
     if (json['content'] != null) {
-      content = <Content>[];
+      content = <Detail>[];
       json['content'].forEach((v) {
-        content!.add(new Content.fromJson(v));
+        print(Detail.fromJson(v));
+        content!.add(Detail.fromJson(v));
       });
     }
     pageable = json['pageable'];
@@ -78,74 +80,6 @@ class WalkList {
     data['numberOfElements'] = this.numberOfElements;
     data['first'] = this.first;
     data['empty'] = this.empty;
-    return data;
-  }
-}
-
-class Content {
-  int? walkId;
-  String? startTime;
-  String? endTime;
-  int? distance;
-  List<WalkPetsList>? walkPetsList;
-
-  Content(
-      {this.walkId,
-      this.startTime,
-      this.endTime,
-      this.distance,
-      this.walkPetsList});
-
-  Content.fromJson(Map<String, dynamic> json) {
-    walkId = json['walk_id'];
-    startTime = json['start_time'];
-    endTime = json['end_time'];
-    distance = json['distance'];
-    if (json['walkPetsList'] != null) {
-      walkPetsList = <WalkPetsList>[];
-      json['walkPetsList'].forEach((v) {
-        walkPetsList!.add(new WalkPetsList.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['walk_id'] = this.walkId;
-    data['start_time'] = this.startTime;
-    data['end_time'] = this.endTime;
-    data['distance'] = this.distance;
-    if (this.walkPetsList != null) {
-      data['walkPetsList'] = this.walkPetsList!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class WalkPetsList {
-  int? id;
-  int? userId;
-  String? name;
-  String? gender;
-  String? animalPic;
-
-  WalkPetsList({this.id, this.userId, this.name, this.gender, this.animalPic});
-
-  WalkPetsList.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
-    name = json['name'];
-    gender = json['gender'];
-    animalPic = json['animal_pic'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['name'] = this.name;
-    data['gender'] = this.gender;
-    data['animal_pic'] = this.animalPic;
     return data;
   }
 }
