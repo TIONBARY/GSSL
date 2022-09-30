@@ -3,11 +3,13 @@ import 'package:GSSL/model/response_models/general_response.dart';
 class getWalkList extends generalResponse {
   WalkList? walkList;
 
-  getWalkList(int statusCode, String message, WalkList walkList) : super(statusCode, message){
+  getWalkList(int statusCode, String message, WalkList walkList)
+      : super(statusCode, message) {
     this.walkList = walkList;
   }
 
-  getWalkList.fromJson(Map<String, dynamic> json) : super(json['statusCode'], json['message']){
+  getWalkList.fromJson(Map<String, dynamic> json)
+      : super(json['statusCode'], json['message']) {
     walkList = json['walkList'] != null
         ? new WalkList.fromJson(json['walkList'])
         : null;
@@ -29,16 +31,16 @@ class WalkList {
 
   WalkList(
       {this.content,
-        this.pageable,
-        this.last,
-        this.totalElements,
-        this.totalPages,
-        this.number,
-        this.size,
-        this.sort,
-        this.numberOfElements,
-        this.first,
-        this.empty});
+      this.pageable,
+      this.last,
+      this.totalElements,
+      this.totalPages,
+      this.number,
+      this.size,
+      this.sort,
+      this.numberOfElements,
+      this.first,
+      this.empty});
 
   WalkList.fromJson(Map<String, dynamic> json) {
     if (json['content'] != null) {
@@ -81,14 +83,21 @@ class WalkList {
 }
 
 class Content {
+  int? walkId;
   String? startTime;
   String? endTime;
   int? distance;
   List<WalkPetsList>? walkPetsList;
 
-  Content({this.startTime, this.endTime, this.distance, this.walkPetsList});
+  Content(
+      {this.walkId,
+      this.startTime,
+      this.endTime,
+      this.distance,
+      this.walkPetsList});
 
   Content.fromJson(Map<String, dynamic> json) {
+    walkId = json['walk_id'];
     startTime = json['start_time'];
     endTime = json['end_time'];
     distance = json['distance'];
@@ -102,6 +111,7 @@ class Content {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['walk_id'] = this.walkId;
     data['start_time'] = this.startTime;
     data['end_time'] = this.endTime;
     data['distance'] = this.distance;
