@@ -2,23 +2,23 @@ class updateUser {
   String? memberId;
   String? password;
   String? nickname;
-  bool? gender;
+  String? gender;
   String? phone;
   String? email;
-  Null? profilePic;
+  String? profilePic;
   String? introduce;
   int? petId;
 
   updateUser(
       {this.memberId,
-        this.password,
-        this.nickname,
-        this.gender,
-        this.phone,
-        this.email,
-        this.profilePic,
-        this.introduce,
-        this.petId});
+      this.password,
+      this.nickname,
+      this.gender,
+      this.phone,
+      this.email,
+      this.profilePic,
+      this.introduce,
+      this.petId});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
