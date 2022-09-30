@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http_interceptor/http_interceptor.dart';
 import 'package:GSSL/model/response_models/token_reissue.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_interceptor/http_interceptor.dart';
 
 class ApiInterceptor implements InterceptorContract {
   final storage = new FlutterSecureStorage();
@@ -20,7 +20,8 @@ class ApiInterceptor implements InterceptorContract {
   }
 
   @override
-  Future<ResponseData> interceptResponse({required ResponseData data}) async => data;
+  Future<ResponseData> interceptResponse({required ResponseData data}) async =>
+      data;
 }
 
 class ExpiredTokenRetryPolicy extends RetryPolicy {
@@ -31,24 +32,30 @@ class ExpiredTokenRetryPolicy extends RetryPolicy {
 
   @override
   Future<bool> shouldAttemptRetryOnResponse(ResponseData response) async {
-    if (response.statusCode == 401) {
+    String? refreshToken = null;
+    refreshToken = await storage.read(key: 'RefreshToken');
+    String reissue = "https://j7a204.p.ssafy.io/api/user/auth/reissue";
+    if (response.statusCode == 401 && refreshToken != null) {
       // 리이슈
-      String? refreshToken = await storage.read(key: 'RefreshToken');
-        String reissue = "https://j7a204.p.ssafy.io/api/user/auth/reissue";
-        final response = await http.post(Uri.parse(reissue),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: refreshToken);
+      final response = await http.post(Uri.parse(reissue),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode({'refreshToken': refreshToken}));
 
-        tokenReissue reissueInfo =
-        tokenReissue.fromJson(json.decode(response.body));
+      tokenReissue reissueInfo =
+          tokenReissue.fromJson(json.decode(response.body));
+      if (reissueInfo.tokenInfo?.accessToken != null &&
+          reissueInfo.tokenInfo?.refreshToken != null) {
+        // debugPrint(reissueInfo.tokenInfo?.refreshToken!);
         // Write value
         await storage.write(
             key: 'Authorization', value: reissueInfo.tokenInfo?.accessToken);
         await storage.write(
             key: 'RefreshToken', value: reissueInfo.tokenInfo?.refreshToken);
-      return response.statusCode == 200;
+
+        return response.statusCode == 200;
+      }
     }
     return false;
   }
