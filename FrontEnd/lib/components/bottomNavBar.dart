@@ -5,6 +5,7 @@ import 'package:GSSL/pages/main_page.dart';
 import 'package:GSSL/pages/user_info_page.dart';
 import 'package:GSSL/pages/walk_map.dart';
 import "package:flutter/material.dart";
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:persistent_bottom_nav_bar/persistent_tab_view.dart";
 
 PersistentTabController controller = PersistentTabController(initialIndex: 0);
@@ -71,7 +72,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         items: _items(),
         onItemSelected: (index) {},
         backgroundColor: pColor,
-        navBarHeight: 62,
+        navBarHeight: 48.0.h,
         navBarStyle: NavBarStyle.style10,
       ),
     );
