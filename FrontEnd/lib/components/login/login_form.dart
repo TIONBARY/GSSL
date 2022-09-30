@@ -3,6 +3,7 @@ import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/model/request_models/put_login.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../api/api_login.dart';
 import '../../constants.dart';
@@ -56,7 +57,7 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(
-              height: 48,
+              height: 36.h,
               width: double.maxFinite,
               child: Hero(
                 tag: "login_btn",
@@ -132,7 +133,7 @@ renderTextFormField({
     obscureText: obscureText,
     decoration: InputDecoration(
       // isCollapsed: true,
-      contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+      contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
       hintText: label,
       hintStyle: TextStyle(color: sColor),
       prefixIcon: Padding(

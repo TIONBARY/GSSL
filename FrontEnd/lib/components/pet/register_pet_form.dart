@@ -8,6 +8,7 @@ import 'package:GSSL/model/response_models/get_all_pet_kind.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:GSSL/pages/main_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -307,7 +308,7 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
               decoration: InputDecoration(
                 hintText: "이름",
                 hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
+                contentPadding: EdgeInsets.fromLTRB(15.w, 18.h, 18.w, 8.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white)),
@@ -338,7 +339,7 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
             decoration: InputDecoration(
               hintText: "몸무게 (선택)",
               hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
+              contentPadding: EdgeInsets.fromLTRB(15.w, 18.h, 18.w, 8.h),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: Colors.white)),
@@ -375,7 +376,7 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
               decoration: InputDecoration(
                 hintText: "앓고 있는 질환 (선택)",
                 hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
+                contentPadding: EdgeInsets.fromLTRB(15.w, 18.h, 18.w, 8.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white)),
@@ -410,7 +411,7 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
             decoration: InputDecoration(
               hintText: "반려견 소개 (선택)",
               hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
+              contentPadding: EdgeInsets.fromLTRB(15.w, 18.h, 18.w, 8.h),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: Colors.white)),
@@ -424,7 +425,7 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(
-              height: 48,
+              height: 35.h,
               width: double.maxFinite,
               child: Hero(
                 tag: "next_btn",
