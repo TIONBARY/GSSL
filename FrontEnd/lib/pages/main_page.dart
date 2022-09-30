@@ -80,7 +80,7 @@ class UserBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
+        margin: EdgeInsets.fromLTRB(0, 30.h, 0, 0),
         // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
         decoration: BoxDecoration(
             // borderRadius: BorderRadius.circular(45),
@@ -98,7 +98,7 @@ class behavior_diagnosis extends StatelessWidget {
     return function_box(
       title: '견민정음',
       box_color: Color(0x80DFB45B),
-      paddings: EdgeInsets.fromLTRB(30, 15.h, 30, 15.h),
+      paddings: EdgeInsets.fromLTRB(25.w, 15.h, 25.w, 15.h),
       nextPage: JeongeumPage(),
     );
   }
@@ -112,7 +112,7 @@ class health_diagnosis extends StatelessWidget {
     return function_box(
       title: '견의보감',
       box_color: Color(0x80506274),
-      paddings: EdgeInsets.fromLTRB(30, 15.h, 30, 15.h),
+      paddings: EdgeInsets.fromLTRB(25.w, 15.h, 25.w, 15.h),
       nextPage: BogamPage(),
     );
   }
@@ -131,7 +131,7 @@ class _diaryState extends State<diary> {
     return function_box(
       title: '견중일기',
       box_color: Color(0x80C66952),
-      paddings: EdgeInsets.fromLTRB(30, 15.h, 30, 15.h),
+      paddings: EdgeInsets.fromLTRB(25.w, 15.h, 25.w, 15.h),
       nextPage: GalleryApp(),
     );
   }
