@@ -180,7 +180,7 @@ class _ModifyFormState extends State<ModifyForm> {
                 if (!RegExp(
                         r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$")
                     .hasMatch(text)) {
-                  return '영문과 숫자, 특수문자를 포함해 8 ~ 16자를 입력해주세요.';
+                  return '영문과 숫자, 특수문자를 포함한 8 ~ 16자';
                 }
                 return null;
               },
@@ -229,7 +229,7 @@ class _ModifyFormState extends State<ModifyForm> {
               isCollapsed: true,
               hintText: "닉네임",
               hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20.w, 13.h, 10.w, 13.h),
+              contentPadding: EdgeInsets.fromLTRB(20.w, 8.h, 10.w, 8.h),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: Colors.white)),
