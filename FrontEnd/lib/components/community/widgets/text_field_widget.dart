@@ -56,14 +56,16 @@ class TextFieldWidget extends StatelessWidget {
                   return null;
                 }
               : (value) {
-                  return validator!();
+                  return validator!(value);
                 },
           controller: controller,
           obscureText: isObscured,
           keyboardType: textInputType,
           decoration: InputDecoration(
             isDense: true,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none),
             filled: true,
             fillColor: filledColor ?? Colors.blueGrey.withOpacity(0.15),
             errorBorder: OutlineInputBorder(
