@@ -3,12 +3,15 @@ import 'package:GSSL/model/response_models/general_response.dart';
 class getWalkDetail extends generalResponse {
   Detail? detail;
 
-  getWalkDetail(int statusCode, String message, Detail detail) : super(statusCode, message){
+  getWalkDetail(int statusCode, String message, Detail detail)
+      : super(statusCode, message) {
     this.detail = detail;
   }
 
-  getWalkDetail.fromJson(Map<String, dynamic> json) : super(json['statusCode'], json['message']) {
-    detail = json['detail'] != null ? new Detail.fromJson(json['detail']) : null;
+  getWalkDetail.fromJson(Map<String, dynamic> json)
+      : super(json['statusCode'], json['message']) {
+    detail =
+        json['detail'] != null ? new Detail.fromJson(json['detail']) : null;
   }
 }
 
@@ -21,10 +24,10 @@ class Detail {
 
   Detail(
       {this.walkId,
-        this.startTime,
-        this.endTime,
-        this.distance,
-        this.petsList});
+      this.startTime,
+      this.endTime,
+      this.distance,
+      this.petsList});
 
   Detail.fromJson(Map<String, dynamic> json) {
     walkId = json['walk_id'];
@@ -34,7 +37,7 @@ class Detail {
     if (json['petsList'] != null) {
       petsList = <PetsList>[];
       json['petsList'].forEach((v) {
-        petsList!.add(new PetsList.fromJson(v));
+        petsList!.add(PetsList.fromJson(v));
       });
     }
   }
