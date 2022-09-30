@@ -1,7 +1,7 @@
-import 'package:GSSL/components/signup/signup_form.dart';
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 
-import 'package:GSSL/constants.dart';
+import '../components/user/user_detail.dart';
 
 class UserInfoPage extends StatelessWidget {
   const UserInfoPage({Key? key}) : super(key: key);
@@ -12,12 +12,12 @@ class UserInfoPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('회원정보'),
         automaticallyImplyLeading: false,
-        foregroundColor:nWColor,
+        foregroundColor: nWColor,
         backgroundColor: btnColor,
         centerTitle: true,
       ),
       backgroundColor: pColor,
-      body: Container(),
+      body: UserDetail(),
     );
   }
 }
@@ -37,7 +37,7 @@ class MobileUserInfoPage extends StatelessWidget {
             Spacer(),
             Expanded(
               flex: 8,
-              child: SignUpForm(),
+              child: UserDetail(),
             ),
             Spacer(),
           ],
@@ -46,4 +46,3 @@ class MobileUserInfoPage extends StatelessWidget {
     );
   }
 }
-
