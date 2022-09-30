@@ -5,16 +5,15 @@ import 'package:GSSL/api/api_user.dart';
 import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/components/community/board_detail_page.dart';
 import 'package:GSSL/components/util/custom_dialog.dart';
+import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_board_list.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
-import './constants/constants.dart';
 import './edit_first_page.dart';
 import './store_first_page.dart';
 import './utils_first/context_extension.dart';
-import './utils_first/database_services.dart';
 import './widgets/content_item_widget.dart';
 import './widgets/dismissible_background_widget.dart';
 import './widgets/icon_button_widget.dart';
@@ -82,6 +81,29 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
       setState(() {
         _aidList = result.boardList!.content!;
       });
+    } else if (result.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(result.message!, null);
+          });
+    }
+    // final data = await dbHelper.queryAllRows(tableContent);
+    // setState(() {
+    //   _aidList = data;
+    // });
+  }
+
+  void _deleteBoard(int boardId) async {
+    generalResponse result = await apiCommunity.deleteAPI(boardId);
+    if (result.statusCode == 200) {
+      _getList(0, 30);
     } else if (result.statusCode == 401) {
       showDialog(
           context: context,
@@ -275,15 +297,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                             nameColor: Colors.white,
                                             btnColor: Colors.red,
                                             onTap: () {
-                                              DatabaseServices()
-                                                  .deleteItem(
-                                                      _aidList[index].id!,
-                                                      tableContent)
-                                                  .then((value) {
-                                                if (value != null) {
-                                                  context.back(true);
-                                                }
-                                              });
+                                              _deleteBoard(_aidList[index].id!);
+                                              return context.back(false);
                                             },
                                             isStretch: false,
                                           ),

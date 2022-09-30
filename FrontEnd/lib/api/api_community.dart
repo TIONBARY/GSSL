@@ -90,11 +90,13 @@ class ApiCommunity {
     generalResponse result = generalResponse.fromJson(json.decode(body));
     return result;
   }
+
   //
-  // Future<generalResponse> deletePetAPI(int? petId) async {
-  //   final response =
-  //       await client.delete(Uri.parse(api_url + "/" + petId.toString()));
-  //   generalResponse result = getAllPet.fromJson(json.decode(response.body));
-  //   return result;
-  // }
+  Future<generalResponse> deleteAPI(int? boardId) async {
+    final response =
+        await client.delete(Uri.parse(api_url + "/" + boardId.toString()));
+    generalResponse result =
+        generalResponse.fromJson(json.decode(response.body));
+    return result;
+  }
 }
