@@ -11,6 +11,7 @@ import 'package:GSSL/pages/main_page.dart';
 import 'package:GSSL/pages/pet_detail_page.dart';
 import 'package:GSSL/pages/signup_pet_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainHeaderBar extends StatefulWidget {
   const MainHeaderBar({
@@ -124,10 +125,10 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
       children: [
         Flexible(
             child: Container(
-              margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
+              margin: EdgeInsets.fromLTRB(25.w, 0, 0, 0),
               child: SizedBox(
-                width: 80.0,
-                height: 80.0,
+                width: 70.0.w,
+                height: 70.0.h,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -157,9 +158,9 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                 Flexible(
                   child: Container(
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
+                      padding: EdgeInsets.fromLTRB(20.w, 10.h, 0, 10.h),
                       child: Text(
-                        textScaleFactor: 1.5,
+                        textScaleFactor: 1.2.sp,
                         mainPet?.name == null
                             ? "등록된 반려견이 없습니다."
                             : nickname! + "의 " + mainPet!.name!,
@@ -188,7 +189,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                     ),
                     builder: (BuildContext context) {
                       return Container(
-                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        padding: EdgeInsets.fromLTRB(0, 20.h, 0, 0),
                         height: 275,
                         decoration: new BoxDecoration(
                           color: pColor,
@@ -215,11 +216,11 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                                           Pets pet = pets!.elementAt(index);
                                           return Container(
                                               margin: EdgeInsets.fromLTRB(
-                                                  20, 0, 20, 0),
+                                                  20.w, 0, 20.w, 0),
                                               child: Column(children: [
                                                 SizedBox(
-                                                  width: 65.0,
-                                                  height: 65.0,
+                                                  width: 65.0.w,
+                                                  height: 65.0.h,
                                                   child: GestureDetector(
                                                       onTap: () async {
                                                         generalResponse res =
@@ -256,7 +257,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                                       ),
                                     ),
                               Container(
-                                margin: EdgeInsets.fromLTRB(0, 30, 0, 10),
+                                margin: EdgeInsets.fromLTRB(0, 30.h, 0, 10.h),
                                 child: SizedBox(
                                   child: IconButton(
                                     icon: Icon(Icons.add),
