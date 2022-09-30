@@ -22,18 +22,18 @@ class ApiWalk {
     return walkPutResponse;
   }
 
-  // 산책 기록 목록 조회(작업중)
-  Future<WalkList> getWalkList() async {
+  // 산책 기록 목록 조회
+  Future<getWalkList> getAllWalk() async {
     final response = await client.get(Uri.parse(api_url));
-    WalkList result = WalkList.fromJson(json.decode(response.body));
+    getWalkList result = getWalkList.fromJson(json.decode(response.body));
     return result;
   }
 
-  // 산책 기록 상세 조회(작업중)
-  Future<Detail> getWalkDetail(int walkId) async {
+  // 산책 기록 상세 조회
+  Future<getWalkDetail> getWalk(int walkId) async {
     final response =
         await client.get(Uri.parse(api_url + "/" + walkId.toString()));
-    Detail result = Detail.fromJson(json.decode(response.body));
+    getWalkDetail result = getWalkDetail.fromJson(json.decode(response.body));
     return result;
   }
 
