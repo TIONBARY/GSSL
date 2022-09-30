@@ -48,7 +48,7 @@ class _AddNewFeedPageState extends State<AddNewFeedPage> {
     generalResponse result = await apiCommunity.register(
         image,
         putBoard(
-            typeId: 1,
+            typeId: 3,
             title: nameController.text,
             content: bodyController.text));
     if (result.statusCode == 201) {
@@ -83,7 +83,7 @@ class _AddNewFeedPageState extends State<AddNewFeedPage> {
         toolbarHeight: 50,
         backgroundColor: pColor,
         title: const Text(
-          '반려견 자랑하기',
+          '반려견 질문하기',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,

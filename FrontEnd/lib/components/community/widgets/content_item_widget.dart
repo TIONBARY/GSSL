@@ -6,9 +6,11 @@ import 'my_box_widget.dart';
 
 class ContentItemWidget extends StatelessWidget {
   final String name;
-  final String body;
+  // final String body;
   final String? photo;
-  ContentItemWidget({required this.name, required this.body, this.photo});
+  ContentItemWidget({required this.name, this.photo});
+
+  String S3Address = "https://a204drdoc.s3.ap-northeast-2.amazonaws.com/";
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class ContentItemWidget extends StatelessWidget {
                       height: 200,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      imageUrl: photo ?? '',
+                      imageUrl: S3Address + photo!,
                       errorWidget: (context, str, err) {
                         return const Icon(
                           Icons.photo,
@@ -62,10 +64,10 @@ class ContentItemWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 ),
                 MyBoxWidget(),
-                Text(
-                  body,
-                ),
-                MyBoxWidget(),
+                // Text(
+                //   body,
+                // ),
+                // MyBoxWidget(),
               ],
             ),
           ),
