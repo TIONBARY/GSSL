@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:GSSL/api/interceptor.dart';
 import 'package:GSSL/model/request_models/put_board.dart';
+import 'package:GSSL/model/request_models/update_board.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_board_detail.dart';
 import 'package:GSSL/model/response_models/get_board_list.dart';
@@ -59,34 +61,35 @@ class ApiCommunity {
 
     return result;
   }
+
   //
-  // Future<generalResponse> modify(
-  //     File? file, int? petId, updatePetInfo requestModel) async {
-  //   final httpUri = Uri.parse(api_url + "/" + petId.toString());
-  //   String? accessToken = await storage.read(key: "Authorization");
-  //   Map<String, String> headers = {"Authorization": "Bearer " + accessToken!};
-  //   var request = http.MultipartRequest('PUT', httpUri);
-  //   request.headers.addAll(headers);
-  //   if (file != null) {
-  //     final httpImage = await http.MultipartFile.fromPath('file', file!.path);
-  //     request.files.add(httpImage);
-  //   }
-  //   request.files.add(http.MultipartFile.fromBytes(
-  //     'pet',
-  //     utf8.encode(json.encode(requestModel.toJson())),
-  //     contentType: MediaType(
-  //       'application',
-  //       'json',
-  //       {'charset': 'utf-8'},
-  //     ),
-  //   ));
-  //   var response = await request.send();
-  //   http.Response httpResponse = await http.Response.fromStream(response);
-  //   print("Result: ${httpResponse.body}");
-  //   String body = httpResponse.body;
-  //   generalResponse result = generalResponse.fromJson(json.decode(body));
-  //   return result;
-  // }
+  Future<generalResponse> modify(
+      File? file, int? boardId, updateBoard requestModel) async {
+    final httpUri = Uri.parse(api_url + "/" + boardId.toString());
+    String? accessToken = await storage.read(key: "Authorization");
+    Map<String, String> headers = {"Authorization": "Bearer " + accessToken!};
+    var request = http.MultipartRequest('PUT', httpUri);
+    request.headers.addAll(headers);
+    if (file != null) {
+      final httpImage = await http.MultipartFile.fromPath('file', file!.path);
+      request.files.add(httpImage);
+    }
+    request.files.add(http.MultipartFile.fromBytes(
+      'board',
+      utf8.encode(json.encode(requestModel.toJson())),
+      contentType: MediaType(
+        'application',
+        'json',
+        {'charset': 'utf-8'},
+      ),
+    ));
+    var response = await request.send();
+    http.Response httpResponse = await http.Response.fromStream(response);
+    print("Result: ${httpResponse.body}");
+    String body = httpResponse.body;
+    generalResponse result = generalResponse.fromJson(json.decode(body));
+    return result;
+  }
   //
   // Future<generalResponse> deletePetAPI(int? petId) async {
   //   final response =
