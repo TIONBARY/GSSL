@@ -4,6 +4,7 @@ import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
+import 'package:GSSL/pages/modify_user_page.dart';
 import 'package:flutter/material.dart';
 
 import '../util/custom_dialog.dart';
@@ -70,6 +71,33 @@ class _UserDetailState extends State<UserDetail> {
                 logoutResponse.message == null
                     ? "알 수 없는 오류가 발생했습니다."
                     : logoutResponse.message!,
+                null);
+          });
+    }
+  }
+
+  Future<void> quit() async {
+    generalResponse? quitResponse = await apiUser.quitAPI();
+    if (quitResponse.statusCode == 200) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("회원탈퇴를 완료했습니다.", (context) => LoginScreen());
+          });
+    } else if (quitResponse.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(
+                quitResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : quitResponse.message!,
                 null);
           });
     }
@@ -167,20 +195,124 @@ class _UserDetailState extends State<UserDetail> {
               child: Container(
                 height: 48,
                 width: MediaQuery.of(context).size.width / 1.3,
-                child: Hero(
-                  tag: "next_btn",
-                  child: ElevatedButton(
-                    onPressed: () {
-                      logout();
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: btnColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        )),
-                    child: Text(
-                      "로그아웃",
-                    ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    logout();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: btnColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      )),
+                  child: Text(
+                    "로그아웃",
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              child: Container(
+                height: 48,
+                width: MediaQuery.of(context).size.width / 1.3,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ModifyUserScreen();
+                        },
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: btnColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      )),
+                  child: Text(
+                    "회원정보 수정",
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              child: Container(
+                height: 48,
+                width: MediaQuery.of(context).size.width / 1.3,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0)), //this right here
+                            child: Container(
+                              height: 150,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    12.0, 12.0, 12.0, 3.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Title(
+                                      color: Colors.black,
+                                      child: Text("정말 탈퇴하시겠습니까?",
+                                          style: TextStyle(fontSize: 13)),
+                                    ),
+                                    Title(
+                                      color: Colors.black,
+                                      child: Text("탈퇴 시 해당 아이디로 로그인할 수 없습니다.",
+                                          style: TextStyle(fontSize: 13)),
+                                    ),
+                                    Container(
+                                        width: 150.0,
+                                        margin:
+                                            EdgeInsets.fromLTRB(0, 15, 0, 0),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  quit();
+                                                },
+                                                child: Text(
+                                                  "확인",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(
+                                                  "취소",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ]))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      )),
+                  child: Text(
+                    "회원탈퇴",
                   ),
                 ),
               ),

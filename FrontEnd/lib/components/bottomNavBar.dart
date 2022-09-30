@@ -36,22 +36,18 @@ class _BottomNavBarState extends State<BottomNavBar> {
       _btnItem(
         title: "홈",
         icon: Icons.home,
-        activeColor: sColor,
       ),
       _btnItem(
         title: "게시판",
         icon: Icons.feed,
-        activeColor: sColor,
       ),
       _btnItem(
         title: "산책",
         icon: Icons.pets,
-        activeColor: sColor,
       ),
       _btnItem(
         title: "회원정보",
         icon: Icons.person,
-        activeColor: sColor,
       ),
     ];
   }
@@ -82,14 +78,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
 PersistentBottomNavBarItem _btnItem({
   required String title,
   required IconData icon,
-  required Color activeColor,
 }) {
   return PersistentBottomNavBarItem(
     title: title,
-    icon: Icon(icon, color: btnColor),
-    textStyle: const TextStyle(fontWeight: FontWeight.bold),
-    activeColorPrimary: activeColor,
-    inactiveColorPrimary: const Color.fromRGBO(195, 195, 195, 1),
+    icon: Icon(icon),
+    textStyle: const TextStyle(fontFamily: "Daehan"),
+    activeColorPrimary: sColor,
+    inactiveColorPrimary: btnColor,
     activeColorSecondary: Colors.white,
   );
 }
