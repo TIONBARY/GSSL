@@ -9,6 +9,7 @@ import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:GSSL/pages/modify_pet_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../util/custom_dialog.dart';
 
@@ -187,7 +188,7 @@ class _PetDetailState extends State<PetDetail> {
                               TextSpan(
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 18,
+                                    fontSize: 10.sp,
                                   ),
                                   text: "등록된 반려견이 없습니다.")
                             ])
@@ -195,7 +196,7 @@ class _PetDetailState extends State<PetDetail> {
                               TextSpan(
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 24,
+                                    fontSize: 26.sp,
                                   ),
                                   text: user!.nickname! + "의 " + pet!.name!),
                               WidgetSpan(
@@ -217,7 +218,7 @@ class _PetDetailState extends State<PetDetail> {
                             MediaQuery.of(context).size.width / 40),
                         child: Image.asset(
                           "assets/images/grave.png",
-                          height: 20,
+                          height: 20.h,
                         ))
                     : Container(),
               ],
@@ -240,7 +241,7 @@ class _PetDetailState extends State<PetDetail> {
                                   TextSpan(
                                       style: TextStyle(
                                         color: Colors.black,
-                                        fontSize: 18,
+                                        fontSize: 15.sp,
                                       ),
                                       text: kindName!)
                                 ])),
@@ -258,7 +259,7 @@ class _PetDetailState extends State<PetDetail> {
                   TextSpan(
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: 15.sp,
                     ),
                     text: pet == null || pet?.birth == null
                         ? " "
@@ -278,7 +279,7 @@ class _PetDetailState extends State<PetDetail> {
                   TextSpan(
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: 15.sp,
                     ),
                     text: pet == null ||
                             pet?.weight == null ||
@@ -300,7 +301,7 @@ class _PetDetailState extends State<PetDetail> {
                   TextSpan(
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: 15.sp,
                     ),
                     text: pet == null ||
                             pet?.diseases == null ||
@@ -344,9 +345,9 @@ class _PetDetailState extends State<PetDetail> {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                 child: Container(
-                  height: 48,
+                  height: 35.h,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -367,9 +368,9 @@ class _PetDetailState extends State<PetDetail> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                 child: Container(
-                  height: 48,
+                  height: 35.h,
                   child: ElevatedButton(
                     onPressed: () {
                       showDialog(
@@ -380,10 +381,10 @@ class _PetDetailState extends State<PetDetail> {
                                   borderRadius: BorderRadius.circular(
                                       20.0)), //this right here
                               child: Container(
-                                height: 150,
+                                height: 110.h,
                                 child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      12.0, 12.0, 12.0, 3.0),
+                                  padding: EdgeInsets.fromLTRB(
+                                      12.0.w, 12.0.h, 12.0.w, 3.0.h),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -392,12 +393,12 @@ class _PetDetailState extends State<PetDetail> {
                                       Title(
                                         color: Colors.black,
                                         child: Text("정말 삭제하시겠습니까?",
-                                            style: TextStyle(fontSize: 20)),
+                                            style: TextStyle(fontSize: 17.sp)),
                                       ),
                                       Container(
-                                          width: 150.0,
-                                          margin:
-                                              EdgeInsets.fromLTRB(0, 15, 0, 0),
+                                          width: 150.0.w,
+                                          margin: EdgeInsets.fromLTRB(
+                                              0, 15.h, 0, 0),
                                           child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceAround,
