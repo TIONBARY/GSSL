@@ -24,6 +24,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
     UserInfoPage(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    controller = PersistentTabController(initialIndex: 0);
+  }
+
   List<PersistentBottomNavBarItem> _items() {
     return [
       _btnItem(
