@@ -4,6 +4,7 @@ import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
+import 'package:GSSL/pages/modify_user_page.dart';
 import 'package:flutter/material.dart';
 
 import '../util/custom_dialog.dart';
@@ -167,20 +168,44 @@ class _UserDetailState extends State<UserDetail> {
               child: Container(
                 height: 48,
                 width: MediaQuery.of(context).size.width / 1.3,
-                child: Hero(
-                  tag: "next_btn",
-                  child: ElevatedButton(
-                    onPressed: () {
-                      logout();
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: btnColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        )),
-                    child: Text(
-                      "로그아웃",
-                    ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    logout();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: btnColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      )),
+                  child: Text(
+                    "로그아웃",
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              child: Container(
+                height: 48,
+                width: MediaQuery.of(context).size.width / 1.3,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ModifyUserScreen();
+                        },
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: btnColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      )),
+                  child: Text(
+                    "회원정보 수정",
                   ),
                 ),
               ),
