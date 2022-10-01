@@ -1,22 +1,19 @@
 import 'dart:io';
 
-import 'package:GSSL/model/response_models/get_walk_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WalkDetailsPage extends StatelessWidget {
   final String imagePath;
-  final String startTime;
-  final String endTime;
-  final int distance;
-  final List<PetsList> petsList;
+  final String title;
+  final String petNames;
+  final String distance;
   final int index;
   WalkDetailsPage(
       {required this.imagePath,
-      required this.startTime,
-      required this.endTime,
+      required this.title,
+      required this.petNames,
       required this.distance,
-      required this.petsList,
       required this.index});
   @override
   Widget build(BuildContext context) {
@@ -32,56 +29,61 @@ class WalkDetailsPage extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30)),
-                    image: DecorationImage(
-                      image: FileImage(File(imagePath)),
-                      fit: BoxFit.cover,
-                    ),
+                    image: File(imagePath).existsSync()
+                        ? DecorationImage(
+                            image: FileImage(File(imagePath)),
+                            fit: BoxFit.cover,
+                          )
+                        : DecorationImage(
+                            image: AssetImage("assets/images/basic_dog.png"),
+                            fit: BoxFit.contain,
+                          ),
                   ),
                 ),
               ),
             ),
             Container(
-              height: 200.h,
+              height: 150.h,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    padding: EdgeInsets.fromLTRB(15.w, 10.h, 15.w, 10.h),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          '$endTime',
+                          '$title',
                           style: TextStyle(
                             color: Colors.lightBlueAccent,
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         Text(
-                          '$startTime',
+                          '$petNames',
                           style: TextStyle(
                             fontSize: 10,
                           ),
                         ),
                         Text(
-                          '$distance',
+                          '이동거리: $distance',
                           style: TextStyle(
                             color: Colors.redAccent,
-                            fontSize: 18,
+                            fontSize: 8,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          '$index',
-                          style: TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Text(
+                        //   '$index',
+                        //   style: TextStyle(
+                        //     fontSize: 14,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -93,7 +95,7 @@ class WalkDetailsPage extends StatelessWidget {
                             Navigator.pop(context);
                           },
                           style: TextButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 15),
+                            padding: EdgeInsets.symmetric(vertical: 1.h),
                             foregroundColor: Colors.lightBlueAccent,
                             backgroundColor: Colors.lightBlueAccent,
                           ),
@@ -108,21 +110,6 @@ class WalkDetailsPage extends StatelessWidget {
                       SizedBox(
                         width: 0,
                       ),
-                      // Expanded(
-                      //   child: TextButton(
-                      //     onPressed: () {},
-                      //     style: TextButton.styleFrom(
-                      //       padding: EdgeInsets.symmetric(vertical: 15),
-                      //       foregroundColor: Colors.lightBlueAccent,
-                      //     ),
-                      //     child: Text(
-                      //       'Buy',
-                      //       style: TextStyle(
-                      //         color: Colors.white,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   )
                 ],

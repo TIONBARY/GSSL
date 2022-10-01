@@ -8,6 +8,7 @@ import 'package:GSSL/model/response_models/get_walk_detail.dart';
 import 'package:GSSL/model/response_models/get_walk_list.dart';
 import 'package:GSSL/pages/walk_map.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ApiWalk apiWalk = ApiWalk();
 ApiUser apiUser = ApiUser();
@@ -37,11 +38,14 @@ class _WalkPageState extends State<WalkPage> {
                     children: [
                       Expanded(
                           child: Container(
-                        padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                        padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
                         decoration: BoxDecoration(
                           color: Colors.white,
+                          image: DecorationImage(
+                              fit: BoxFit.contain,
+                              image:
+                                  AssetImage("assets/images/loadingDog.gif")),
                         ),
-                        child: CircularProgressIndicator(),
                       ))
                     ],
                   ),
@@ -80,7 +84,7 @@ class _WalkPageState extends State<WalkPage> {
                             children: [
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                          padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                           decoration: BoxDecoration(
                             color: Colors.white,
                           ),
@@ -113,34 +117,43 @@ class _WalkPageState extends State<WalkPage> {
                                     MaterialPageRoute(
                                       builder: (context) => WalkDetailsPage(
                                         index: infoList[index].walkId!,
-                                        distance: infoList[index].distance!,
+                                        distance: convertMeters(
+                                            infoList[index].distance!),
                                         imagePath: _imgPath,
-                                        startTime: infoList[index].startTime!,
-                                        endTime: infoList[index].endTime!,
-                                        petsList: infoList[index].petsList!,
+                                        title: convertWalkTime(
+                                            infoList[index].startTime!,
+                                            infoList[index].endTime!),
+                                        petNames: getPetNameString(
+                                            infoList[index].petsList!),
                                       ),
                                     ),
                                   );
                                 },
                                 child: Hero(
-                                  tag: 'logo$index',
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.7),
-                                          blurRadius: 7,
-                                          offset: Offset(3, 3),
-                                        ),
-                                      ],
-                                      image: DecorationImage(
-                                        image: FileImage(File(_imgPath)),
-                                        fit: BoxFit.cover,
+                                    tag: 'logo$index',
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.7),
+                                            blurRadius: 7,
+                                            offset: Offset(3, 3),
+                                          ),
+                                        ],
+                                        image: File(_imgPath).existsSync()
+                                            ? DecorationImage(
+                                                image:
+                                                    FileImage(File(_imgPath)),
+                                                fit: BoxFit.cover,
+                                              )
+                                            : DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/images/basic_dog.png"),
+                                                fit: BoxFit.contain,
+                                              ),
                                       ),
-                                    ),
-                                  ),
-                                ),
+                                    )),
                               );
                             },
                             itemCount: infoList.length,
@@ -169,7 +182,7 @@ class _WalkPageState extends State<WalkPage> {
               startTime: info.startTime,
               endTime: info.endTime,
               petsList: info.petsList,
-              distance: info.walkId));
+              distance: info.distance));
         });
       }
       return result;
@@ -184,6 +197,42 @@ class _WalkPageState extends State<WalkPage> {
     if (info != null) {
       debugPrint(info.endTime.toString());
     }
+  }
+
+  String convertMeters(int length) {
+    if (length > 1000) {
+      return (length / 1000).toString() + " km";
+    } else {
+      return length.toString() + " m";
+    }
+  }
+
+  String convertWalkTime(String startTime, String endTime) {
+    DateTime st = DateTime.parse(startTime);
+    DateTime et = DateTime.parse(endTime);
+    int stYear = st.year;
+    int stMonth = st.month;
+    int stDay = st.day;
+    int stHour = st.hour;
+    int stMin = st.minute;
+    int stSec = st.second;
+    int etYear = et.year;
+    int etMonth = et.month;
+    int etDay = et.day;
+    int etHour = et.hour;
+    int etMin = et.minute;
+    int etSec = et.second;
+    String stStr = '$stYear년 $stMonth월 $stDay일 $stHour시 $stMin분 $stSec초';
+    String etStr = '$etYear년 $etMonth월 $etDay일 $etHour시 $etMin분 $etSec초';
+    return stStr + " ~ " + etStr;
+  }
+
+  String getPetNameString(List<PetsList> list) {
+    String nameStr = "";
+    list.forEach((PetsList pet) {
+      nameStr += pet.name! + " ";
+    });
+    return nameStr;
   }
 }
 
