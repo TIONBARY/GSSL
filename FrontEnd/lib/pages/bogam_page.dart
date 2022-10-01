@@ -145,19 +145,45 @@ class _BogamPageState extends State<BogamPage> {
                                       topRight: const Radius.circular(25.0),
                                     ),
                                   ),
-                                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                                  padding:
+                                      EdgeInsets.fromLTRB(30.w, 0, 30.w, 0),
                                   child: Column(
                                     children: <Widget>[
-                                      Padding(padding: EdgeInsets.all(10)),
-                                      Text('해당 질병이 의심됩니다'),
+                                      Padding(
+                                        padding: EdgeInsets.all(10.h),
+                                        child: Text('해당 질병이 의심됩니다.',
+                                            style: TextStyle(
+                                                fontFamily: "Daehan",
+                                                color: btnColor)),
+                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(diagnosisResult.elementAt(0)),
-                                          Text(
-                                              '${diagnosisPercent.elementAt(0)}%'),
-                                          IconButton(
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3,
+                                            child: Text(
+                                                diagnosisResult.elementAt(0),
+                                                style: TextStyle(
+                                                    fontFamily: "Daehan",
+                                                    color: btnColor)),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3,
+                                            child: Text(
+                                                '${diagnosisPercent.elementAt(0)}%',
+                                                style: TextStyle(
+                                                    fontFamily: "Daehan",
+                                                    color: btnColor)),
+                                          ),
+                                          Container(
+                                            child: IconButton(
                                               onPressed: () async {
                                                 Uri _url = Uri.parse(
                                                     'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=' +
@@ -167,37 +193,82 @@ class _BogamPageState extends State<BogamPage> {
                                                   throw 'Could not launch $_url';
                                                 }
                                               },
-                                              icon: Icon(Icons.help_outline))
+                                              icon: Icon(Icons.help_outline),
+                                              color: btnColor,
+                                            ),
+                                          )
                                         ],
                                       ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(diagnosisResult.elementAt(1)),
-                                          Text(
-                                              '${diagnosisPercent.elementAt(1)}%'),
-                                          IconButton(
-                                              onPressed: () async {
-                                                Uri _url = Uri.parse(
-                                                    'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=' +
-                                                        diagnosisResult
-                                                            .elementAt(1));
-                                                if (!await launchUrl(_url)) {
-                                                  throw 'Could not launch $_url';
-                                                }
-                                              },
-                                              icon: Icon(Icons.help_outline))
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3,
+                                            child: Text(
+                                                diagnosisResult.elementAt(1),
+                                                style: TextStyle(
+                                                    fontFamily: "Daehan",
+                                                    color: btnColor)),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3,
+                                            child: Text(
+                                                '${diagnosisPercent.elementAt(1)}%',
+                                                style: TextStyle(
+                                                    fontFamily: "Daehan",
+                                                    color: btnColor)),
+                                          ),
+                                          Container(
+                                            child: IconButton(
+                                                onPressed: () async {
+                                                  Uri _url = Uri.parse(
+                                                      'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=' +
+                                                          diagnosisResult
+                                                              .elementAt(1));
+                                                  if (!await launchUrl(_url)) {
+                                                    throw 'Could not launch $_url';
+                                                  }
+                                                },
+                                                icon: Icon(Icons.help_outline),
+                                                color: btnColor),
+                                          )
                                         ],
                                       ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(diagnosisResult.elementAt(2)),
-                                          Text(
-                                              '${diagnosisPercent.elementAt(2)}%'),
-                                          IconButton(
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3,
+                                            child: Text(
+                                                diagnosisResult.elementAt(2),
+                                                style: TextStyle(
+                                                    fontFamily: "Daehan",
+                                                    color: btnColor)),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3,
+                                            child: Text(
+                                                '${diagnosisPercent.elementAt(2)}%',
+                                                style: TextStyle(
+                                                    fontFamily: "Daehan",
+                                                    color: btnColor)),
+                                          ),
+                                          Container(
+                                            child: IconButton(
                                               onPressed: () async {
                                                 Uri _url = Uri.parse(
                                                     'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=' +
@@ -207,14 +278,17 @@ class _BogamPageState extends State<BogamPage> {
                                                   throw 'Could not launch $_url';
                                                 }
                                               },
-                                              icon: Icon(Icons.help_outline))
+                                              icon: Icon(Icons.help_outline),
+                                              color: btnColor,
+                                            ),
+                                          )
                                         ],
                                       ),
-                                      FloatingActionButton(
-                                        child: Icon(Icons.save_alt_outlined),
-                                        tooltip: 'save',
+                                      IconButton(
+                                        padding: EdgeInsets.zero,
+                                        icon: Icon(Icons.save_alt_outlined,
+                                            color: btnColor),
                                         onPressed: () {},
-                                        backgroundColor: btnColor,
                                       ),
                                     ],
                                   ),
@@ -303,7 +377,7 @@ class _BogamPageState extends State<BogamPage> {
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
         builder: (BuildContext context) {
-          Future.delayed(Duration(milliseconds: 50000), () {
+          Future.delayed(Duration(milliseconds: 40000), () {
             Navigator.pop(context);
           });
 
