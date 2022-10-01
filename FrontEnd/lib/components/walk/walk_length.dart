@@ -31,9 +31,16 @@ class _WalkLengthState extends State<WalkLength> {
     super.dispose();
   }
 
+  String convertMeters(length) {
+    if (length > 1000) {
+      return (length / 1000).toString() + " \n거리(km)";
+    } else {
+      return length.toString() + " \n거리(m)";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
       child: Column(
         children: <Widget>[
@@ -57,13 +64,5 @@ class _WalkLengthState extends State<WalkLength> {
         ],
       ),
     );
-  }
-
-  String convertMeters(length) {
-    if (length > 1000) {
-      return (length / 1000).toString() + " \n거리(km)";
-    } else {
-      return length.toString() + " \n거리(m)";
-    }
   }
 }
