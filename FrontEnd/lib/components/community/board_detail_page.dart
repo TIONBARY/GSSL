@@ -8,12 +8,14 @@ import 'package:GSSL/components/community/widgets/icon_button_widget.dart';
 import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/request_models/put_comment.dart';
+import 'package:GSSL/model/request_models/update_comment.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_board_detail.dart';
 import 'package:GSSL/model/response_models/get_comment_list.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BoardDetailPage extends StatefulWidget {
   int boardId;
@@ -37,10 +39,13 @@ class _BoardDetailPageState extends State<BoardDetailPage>
   ApiComment apiComment = ApiComment();
 
   final TextEditingController commentController = TextEditingController();
+  final TextEditingController modifyCommentController = TextEditingController();
 
   AssetImage basic_image = AssetImage("assets/images/user.png");
 
   String? commentContent;
+
+  String? modifyCommentContent;
 
   Timer? _debounce;
 
@@ -121,6 +126,47 @@ class _BoardDetailPageState extends State<BoardDetailPage>
     generalResponse result = await apiComment.writeCommentAPI(
         putComment(boardId: widget.boardId, content: commentContent));
     if (result.statusCode == 201) {
+      _getComments();
+    } else if (result.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(result.message!, null);
+          });
+    }
+  }
+
+  void _modifyComment(int? commentId) async {
+    // set this variable to true when we try to submit
+    generalResponse result = await apiComment.modifyCommentAPI(
+        commentId, updateComment(content: modifyCommentContent));
+    if (result.statusCode == 200) {
+      _getComments();
+    } else if (result.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(result.message!, null);
+          });
+    }
+  }
+
+  void _deleteComment(int? commentId) async {
+    // set this variable to true when we try to submit
+    generalResponse result = await apiComment.deleteAPI(commentId);
+    if (result.statusCode == 200) {
       _getComments();
     } else if (result.statusCode == 401) {
       showDialog(
@@ -285,43 +331,288 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                     children: [
                         for (int i = 0; i < comments.length; i++)
                           Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(2.0, 8.0, 2.0, 0.0),
-                            child: ListTile(
-                              leading: GestureDetector(
-                                onTap: () async {
-                                  // Display the image in large form.
-                                  print("Comment Clicked");
+                              padding:
+                                  const EdgeInsets.fromLTRB(2.0, 8.0, 2.0, 0.0),
+                              child: ListTile(
+                                onTap: () {
+                                  if (user?.nickname == null ||
+                                      user!.nickname! != comments[i].nickname)
+                                    return;
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      20.0)), //this right here
+                                          child: Container(
+                                            height: 150.h,
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  12.0.w,
+                                                  12.0.h,
+                                                  12.0.w,
+                                                  3.0.h),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height /
+                                                                  40),
+                                                      child: Title(
+                                                        color: Colors.black,
+                                                        child: Text("댓글 수정",
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    18.sp)),
+                                                      )),
+                                                  TextFormField(
+                                                    controller:
+                                                        modifyCommentController
+                                                          ..text = comments[i]
+                                                              .content!
+                                                          ..selection = TextSelection
+                                                              .fromPosition(
+                                                                  TextPosition(
+                                                                      offset: modifyCommentController
+                                                                          .text
+                                                                          .length)),
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textInputAction:
+                                                        TextInputAction.next,
+                                                    cursorColor: btnColor,
+                                                    onChanged: (val) {
+                                                      final value = TextSelection
+                                                          .collapsed(
+                                                              offset:
+                                                                  modifyCommentController
+                                                                      .text
+                                                                      .length);
+                                                      modifyCommentController
+                                                          .selection = value;
+                                                      modifyCommentContent =
+                                                          val;
+                                                    },
+                                                    validator: (text) {
+                                                      if (text == null ||
+                                                          text.isEmpty) {
+                                                        return '댓글을 입력해주세요.';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      isCollapsed: true,
+                                                      hintText: "댓글을 입력하세요.",
+                                                      hintStyle: TextStyle(
+                                                          color: sColor),
+                                                      contentPadding:
+                                                          EdgeInsets.fromLTRB(
+                                                              20, 10, 10, 10),
+                                                      enabledBorder: OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .white)),
+                                                      filled: true,
+                                                      fillColor: Colors.white,
+                                                      focusedBorder: OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                          borderSide: BorderSide(
+                                                              color: btnColor)),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                      width: 150.0.w,
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0, 10.h, 0, 0),
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
+                                                            ElevatedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                Navigator.pop(
+                                                                    context);
+                                                                modifyCommentContent =
+                                                                    modifyCommentController
+                                                                        .text;
+                                                                _modifyComment(
+                                                                    comments[i]
+                                                                        .id);
+                                                              },
+                                                              child: Text(
+                                                                "확인",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ),
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Text(
+                                                                "취소",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ),
+                                                          ])),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      });
                                 },
-                                child: Container(
-                                  height: 50.0,
-                                  width: 50.0,
-                                  decoration: new BoxDecoration(
-                                      color: Colors.blue,
-                                      borderRadius: new BorderRadius.all(
-                                          Radius.circular(50))),
-                                  child: comments[i].image == null ||
-                                          comments[i].image!.length! == 0
-                                      ? CircleAvatar(
-                                          radius: 50,
-                                          backgroundImage: basic_image)
-                                      : CircleAvatar(
-                                          radius: 50,
-                                          backgroundImage: NetworkImage(
-                                              S3Address + comments[i].image!)),
+                                onLongPress: () {
+                                  if (user?.nickname == null ||
+                                      user!.nickname! != comments[i].nickname)
+                                    return;
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      20.0)), //this right here
+                                          child: Container(
+                                            height: 120.h,
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  12.0.w,
+                                                  18.0.h,
+                                                  12.0.w,
+                                                  3.0.h),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height /
+                                                                  40),
+                                                      child: Title(
+                                                        color: Colors.black,
+                                                        child: Text(
+                                                            "정말 이 댓글을 삭제하시겠습니까?",
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    15.sp)),
+                                                      )),
+                                                  Container(
+                                                      width: 150.0.w,
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0, 10.h, 0, 0),
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
+                                                            ElevatedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                Navigator.pop(
+                                                                    context);
+                                                                _deleteComment(
+                                                                    comments[i]
+                                                                        .id);
+                                                              },
+                                                              child: Text(
+                                                                "확인",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ),
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Text(
+                                                                "취소",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ),
+                                                          ])),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                },
+                                leading: GestureDetector(
+                                  child: Container(
+                                    height: 50.0,
+                                    width: 50.0,
+                                    decoration: new BoxDecoration(
+                                        color: Colors.blue,
+                                        borderRadius: new BorderRadius.all(
+                                            Radius.circular(50))),
+                                    child: comments[i].image == null ||
+                                            comments[i].image!.length! == 0
+                                        ? CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: basic_image)
+                                        : CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: NetworkImage(
+                                                S3Address +
+                                                    comments[i].image!)),
+                                  ),
                                 ),
-                              ),
-                              title: Text(
-                                comments[i].nickname == null
+                                title: Text(
+                                  comments[i].nickname == null
+                                      ? ""
+                                      : comments[i].nickname!,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(comments[i].content == null
                                     ? ""
-                                    : comments[i].nickname!,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(comments[i].content == null
-                                  ? ""
-                                  : comments[i].content!),
-                            ),
-                          )
+                                    : comments[i].content!),
+                              )),
                       ]),
           ])),
     );
