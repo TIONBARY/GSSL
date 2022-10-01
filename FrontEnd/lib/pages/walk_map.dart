@@ -284,6 +284,8 @@ class _KakaoMapTestState extends State<KakaoMapTest>
 Future<void> _capturePng() async {
   String? path = await NativeScreenshot.takeScreenshot();
   print("찍음");
+  debugPrint(path);
+  // Directory dir = File(path!).parent;
   String fileName = formatDateTime(endTime.toIso8601String()) + ".png";
   String topFolder = await getDirectory();
   moveFile(File(path!), topFolder + "/" + fileName);
@@ -312,7 +314,9 @@ Future<File> moveFile(File sourceFile, String newPath) async {
   } on FileSystemException catch (e) {
     // if rename fails, copy the source file and then delete it
     final newFile = await sourceFile.copy(newPath);
+    Directory tempDir = sourceFile.parent;
     await sourceFile.delete();
+    tempDir.deleteSync();
     return newFile;
   }
 }
