@@ -1,12 +1,10 @@
-class putComment {
-  int? boardId;
+class updateComment {
   String? content;
 
-  putComment({this.boardId, this.content});
+  updateComment({this.content});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['board_id'] = this.boardId;
     data['content'] = this.content;
     return data;
   }
