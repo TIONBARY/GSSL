@@ -132,10 +132,11 @@ renderTextFormField({
     onSaved: onSaved,
     obscureText: obscureText,
     decoration: InputDecoration(
-      // isCollapsed: true,
-      contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
+      contentPadding: EdgeInsets.all(10.h),
       hintText: label,
-      hintStyle: TextStyle(color: sColor),
+      hintStyle: TextStyle(
+        color: sColor,
+      ),
       prefixIcon: Padding(
         padding: const EdgeInsets.all(defaultPadding),
         child: icon,
