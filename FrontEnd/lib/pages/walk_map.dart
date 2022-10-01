@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:GSSL/api/api_walk.dart';
 import 'package:GSSL/components/walk/walk_length.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:native_screenshot/native_screenshot.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
@@ -222,10 +224,9 @@ class _KakaoMapTestState extends State<KakaoMapTest>
                                 // 반려동물 1, 2, 3은 예시용(수정필요)
                                 ApiWalk apiWalk = ApiWalk();
                                 apiWalk.enterWalk(info);
-                                _capturePng();
 
                                 // 스크린샷 저장
-
+                                _capturePng();
                               }
                             });
                           }),
@@ -282,7 +283,54 @@ class _KakaoMapTestState extends State<KakaoMapTest>
 /// 전체 웹뷰 캡쳐(전체 미디어 파일 접근 권한 필요)
 Future<void> _capturePng() async {
   String? path = await NativeScreenshot.takeScreenshot();
-  print(path);
+  print("찍음");
+  String fileName = formatDateTime(endTime.toIso8601String()) + ".png";
+  String topFolder = await getDirectory();
+  moveFile(File(path!), topFolder + "/" + fileName);
+  // print(path);
+}
+
+String formatDateTime(String inputTime) {
+  String converted = inputTime.trim().split(".").first;
+  converted = converted.replaceAll("-", "");
+  converted = converted.replaceAll(":", "");
+  converted = converted.replaceAll("T", "");
+  return converted;
+  // try {
+  //   int result = int.parse(converted);
+  //   return result;
+  // } catch (e) {
+  //   debugPrint(e.toString());
+  //   return 0;
+  // }
+}
+
+Future<File> moveFile(File sourceFile, String newPath) async {
+  try {
+    // prefer using rename as it is probably faster
+    return await sourceFile.rename(newPath);
+  } on FileSystemException catch (e) {
+    // if rename fails, copy the source file and then delete it
+    final newFile = await sourceFile.copy(newPath);
+    await sourceFile.delete();
+    return newFile;
+  }
+}
+
+Future<String> getDirectory() async {
+  Directory? directory =
+      await getExternalStorageDirectory(); //from path_provide package
+  if (directory != null) {
+    debugPrint(directory.toString());
+    String path = directory.path + '/' + 'walk';
+    new Directory(path).create(recursive: true)
+// The created directory is returned as a Future.
+        .then((Directory newDirectory) {
+      print('Path of New Dir: ' + newDirectory.path);
+    });
+    return path;
+  }
+  return "null";
 }
 
 /// 기능 functions
