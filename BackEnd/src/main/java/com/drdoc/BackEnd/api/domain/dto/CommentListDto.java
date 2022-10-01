@@ -19,12 +19,14 @@ public class CommentListDto {
 	
 	private int id;
 	private String nickname;
+	private String image;
 	private String content;
 	private LocalDateTime time;
 
 	public CommentListDto(Comment comment) {
 		this.id = comment.getId();
 		this.nickname = comment.getUser().getNickname();
+		this.image = comment.getUser().getProfilePic();
 		this.content = comment.getContent();
 		this.time = comment.getCreatedTime();
 	}
