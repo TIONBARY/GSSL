@@ -97,7 +97,7 @@ class behavior_diagnosis extends StatelessWidget {
   Widget build(BuildContext context) {
     return function_box(
       title: '견민정음',
-      box_color: Color(0x80DFB45B),
+      box_color: Color(0x80C66952),
       paddings: EdgeInsets.fromLTRB(25.w, 15.h, 25.w, 15.h),
       nextPage: JeongeumPage(),
     );
@@ -130,7 +130,7 @@ class _diaryState extends State<diary> {
   Widget build(BuildContext context) {
     return function_box(
       title: '견중일기',
-      box_color: Color(0x80C66952),
+      box_color: Color(0x80DFB45B),
       paddings: EdgeInsets.fromLTRB(25.w, 15.h, 25.w, 15.h),
       nextPage: GalleryApp(),
     );
