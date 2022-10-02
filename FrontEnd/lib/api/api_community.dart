@@ -53,9 +53,10 @@ class ApiCommunity {
     return result;
   }
 
-  Future<getBoardList> getAllBoardApi(int typeId, int page, int size) async {
+  Future<getBoardList> getAllBoardApi(
+      int typeId, String word, int page, int size) async {
     final response = await client.get(Uri.parse(api_url),
-        params: {"type_id": typeId, "page": page, "size": size});
+        params: {"type_id": typeId, "word": word, "page": page, "size": size});
     print(json.decode(response.body));
     getBoardList result = getBoardList.fromJson(json.decode(response.body));
 

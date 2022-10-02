@@ -31,6 +31,7 @@ class SecondPage extends StatefulWidget {
 class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
   TextEditingController searchController = TextEditingController();
   late Size _size;
+  bool isSearch = false;
   List<Content> _aidList = [];
   User? user;
 
@@ -64,20 +65,38 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
     }
   }
 
-  Future<bool> _getSearchList(String searchText) async {
-    // final data = await dbHelper.getSearchList(searchText);
-    // if (data.isNotEmpty) {
-    //   setState(() {
-    //     _aidList = data;
-    //     isSearch = true;
-    //   });
-    //   return true;
-    // }
+  Future<bool> _getSearchList(String searchText, int page, int size) async {
+    getBoardList result =
+        await apiCommunity.getAllBoardApi(1, searchText, page, size);
+    if (result.statusCode == 200) {
+      setState(() {
+        _aidList = result.boardList!.content!;
+      });
+      if (_aidList.isNotEmpty) {
+        setState(() {
+          isSearch = true;
+        });
+        return true;
+      }
+      return false;
+    } else if (result.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(result.message!, null);
+          });
+    }
     return false;
   }
 
   void _getList(int page, int size) async {
-    getBoardList result = await apiCommunity.getAllBoardApi(2, page, size);
+    getBoardList result = await apiCommunity.getAllBoardApi(2, "", page, size);
     if (result.statusCode == 200) {
       setState(() {
         _aidList = result.boardList!.content!;
@@ -122,10 +141,10 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
           onChanged: (v) {
             if (_debounce?.isActive ?? false) _debounce!.cancel();
             _debounce = Timer(const Duration(milliseconds: 1000), () {
-              _getSearchList(searchController.text).then((value) {
+              _getSearchList(searchController.text, 0, 30).then((value) {
                 if (!value) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Not Found!')),
+                    const SnackBar(content: Text('검색 결과가 없습니다.')),
                   );
                 }
               });
@@ -134,14 +153,14 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
           onSubmitted: (str) {
             if (str.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Type something to search')),
+                const SnackBar(content: Text('검색할 단어를 입력하세요.')),
               );
               return;
             } else {
-              _getSearchList(searchController.text).then((value) {
+              _getSearchList(searchController.text, 0, 30).then((value) {
                 if (!value) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Not Found!')),
+                    const SnackBar(content: Text('검색 결과가 없습니다.')),
                   );
                 }
               });
@@ -152,7 +171,7 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
                 onTap: () {
                   if (searchController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Type something to search')),
+                      const SnackBar(content: Text('검색할 단어를 입력하세요.')),
                     );
                     return;
                   }
@@ -161,7 +180,7 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
                   Icons.search,
                   color: Colors.black,
                 )),
-            hintText: 'Search',
+            hintText: '검색할 단어를 입력하세요.',
             contentPadding: EdgeInsets.all(10),
             border:
                 OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
