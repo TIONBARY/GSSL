@@ -39,6 +39,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
 
   Timer? _debounce;
 
+  bool _hasMore = true;
+  int _pageNumber = 0;
+  bool _error = false;
+  bool _loading = true;
+  final int _pageSize = 10;
+  final int _nextPageThreshold = 5;
+
   Future<void> getUser() async {
     userInfo? userInfoResponse = await apiUser.getUserInfo();
     if (userInfoResponse.statusCode == 200) {
@@ -69,7 +76,10 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
         await apiCommunity.getAllBoardApi(1, searchText, page, size);
     if (result.statusCode == 200) {
       setState(() {
-        _aidList = result.boardList!.content!;
+        _hasMore = result.boardList!.content!.length == _pageSize;
+        _loading = false;
+        _pageNumber = _pageNumber + 1;
+        _aidList.addAll(result.boardList!.content!);
       });
       if (_aidList.isNotEmpty) {
         setState(() {
@@ -84,41 +94,34 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
           builder: (BuildContext context) {
             return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
           });
+      setState(() {
+        _loading = false;
+        _error = true;
+      });
     } else {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return CustomDialog(result.message!, null);
           });
+      setState(() {
+        _loading = false;
+        _error = true;
+      });
     }
     return false;
-  }
-
-  void _getList(int page, int size) async {
-    getBoardList result = await apiCommunity.getAllBoardApi(1, "", page, size);
-    if (result.statusCode == 200) {
-      setState(() {
-        _aidList = result.boardList!.content!;
-      });
-    } else if (result.statusCode == 401) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
-          });
-    } else {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CustomDialog(result.message!, null);
-          });
-    }
   }
 
   void _deleteBoard(int boardId) async {
     generalResponse result = await apiCommunity.deleteAPI(boardId);
     if (result.statusCode == 200) {
-      _getList(0, 30);
+      setState(() {
+        _hasMore = true;
+        _loading = false;
+        _pageNumber = 0;
+        _aidList = [];
+      });
+      _getSearchList(searchController.text, _pageNumber, _pageSize);
     } else if (result.statusCode == 401) {
       showDialog(
           context: context,
@@ -137,7 +140,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _getList(0, 30);
+    _getSearchList(searchController.text, _pageNumber, _pageSize);
     getUser();
   }
 
@@ -153,9 +156,17 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
           controller: searchController,
           textInputAction: TextInputAction.search,
           onChanged: (v) {
+            setState(() {
+              _aidList = [];
+              _hasMore = true;
+              _pageNumber = 0;
+              _error = false;
+              _loading = true;
+            });
             if (_debounce?.isActive ?? false) _debounce!.cancel();
             _debounce = Timer(const Duration(milliseconds: 1000), () {
-              _getSearchList(searchController.text, 0, 30).then((value) {
+              _getSearchList(searchController.text, _pageNumber, _pageSize)
+                  .then((value) {
                 if (!value) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('검색 결과가 없습니다.')),
@@ -171,7 +182,15 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
               );
               return;
             } else {
-              _getSearchList(searchController.text, 0, 30).then((value) {
+              setState(() {
+                _aidList = [];
+                _hasMore = true;
+                _pageNumber = 0;
+                _error = false;
+                _loading = true;
+              });
+              _getSearchList(searchController.text, _pageNumber, _pageSize)
+                  .then((value) {
                 if (!value) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('검색 결과가 없습니다.')),
@@ -210,8 +229,14 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
             onTap: () => context.to(AddNewFeedPage()).then((value) {
               if (value != null) {
                 if (value == true) {
-                  setState(() {});
-                  _getList(0, 30);
+                  setState(() {
+                    _aidList = [];
+                    _hasMore = true;
+                    _pageNumber = 0;
+                    _error = false;
+                    _loading = true;
+                  });
+                  _getSearchList(searchController.text, _pageNumber, _pageSize);
                 }
               }
             }),
@@ -226,8 +251,38 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                   ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: _aidList.length,
+                      itemCount: _aidList.length + (_hasMore ? 1 : 0),
                       itemBuilder: (context, index) {
+                        if (_hasMore &&
+                            index == _aidList.length - _nextPageThreshold) {
+                          _getSearchList(
+                              searchController.text, _pageNumber, _pageSize);
+                        }
+                        if (index == _aidList.length) {
+                          if (_error) {
+                            return Center(
+                                child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _loading = true;
+                                  _error = false;
+                                  _getSearchList(searchController.text,
+                                      _pageNumber, _pageSize);
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Text("에러가 발생했습니다. 터치하여 다시 시도해주세요."),
+                              ),
+                            ));
+                          } else {
+                            return Center(
+                                child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: CircularProgressIndicator(),
+                            ));
+                          }
+                        }
                         return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -272,8 +327,17 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                   .then((value) {
                                                 if (value != null) {
                                                   if (value == true) {
-                                                    setState(() {});
-                                                    _getList(0, 30);
+                                                    setState(() {
+                                                      _aidList = [];
+                                                      _hasMore = true;
+                                                      _pageNumber = 0;
+                                                      _error = false;
+                                                      _loading = true;
+                                                    });
+                                                    _getSearchList(
+                                                        searchController.text,
+                                                        _pageNumber,
+                                                        _pageSize);
                                                   }
                                                 }
                                                 return context.back(false);
@@ -326,17 +390,11 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                 }
                                 return null;
                               },
-                              onDismissed: (direction) {
-                                if (direction == DismissDirection.startToEnd) {
-                                } else if (direction ==
-                                    DismissDirection.endToStart) {
-                                  _getList(0, 30);
-                                }
-                              },
                               key: Key(_aidList[index].id!.toString()),
                               child: ContentItemWidget(
                                   name: _aidList[index].title!,
-                                  // body: _aidList[index].,
+                                  profileImage: _aidList[index].image,
+                                  nickname: _aidList[index]!.nickname!,
                                   photo: _aidList[index].image),
                             ));
                       }),
