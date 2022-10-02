@@ -94,9 +94,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	@Transactional
-	public Page<BoardListDto> getBoardList(int typeId, int page, int size) {
+	public Page<BoardListDto> getBoardList(int typeId, String word, int page, int size) {
 		List<BoardListDto> boards = boardRepository
-				.findByTypeId(typeId, PageRequest.of(page, size, Sort.by("id").descending())).stream()
+				.findByTypeIdAndTitleContains(typeId, word, PageRequest.of(page, size, Sort.by("id").descending())).stream()
 				.map(BoardListDto::new).collect(Collectors.toList());
 		return new PageImpl<>(boards);
 	}

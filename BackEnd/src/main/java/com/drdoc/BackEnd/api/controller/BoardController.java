@@ -133,9 +133,9 @@ public class BoardController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "게시글 전체 조회에 성공했습니다."),
 			@ApiResponse(code = 400, message = "입력이 잘못되었습니다."),
 			@ApiResponse(code = 401, message = "인증이 만료되어 로그인이 필요합니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<? extends BaseResponseDto> boardList(@RequestParam("type_id") int typeId,
+	public ResponseEntity<? extends BaseResponseDto> boardList(@RequestParam("type_id") int typeId, @RequestParam("word") String word,
 			@RequestParam("page") int page, @RequestParam("size") int size) throws IOException {
-		Page<BoardListDto> boardList = boardService.getBoardList(typeId, page, size);
+		Page<BoardListDto> boardList = boardService.getBoardList(typeId, word, page, size);
 		return ResponseEntity.status(200).body(BoardListResponseDto.of(200, "Success", boardList));
 	}
 
