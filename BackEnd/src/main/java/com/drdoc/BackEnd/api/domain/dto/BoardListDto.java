@@ -16,12 +16,14 @@ import lombok.Setter;
 public class BoardListDto {
 
 	private int id;
+	private String profileImage;
 	private String nickname;
 	private String title;
 	private String image;
 
 	public BoardListDto(Board board) {
 		this.id = board.getId();
+		this.profileImage = board.getUser().getProfilePic();
 		this.nickname = board.getUser().getNickname();
 		this.title = board.getTitle();
 		this.image = board.getImage();
