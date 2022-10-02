@@ -328,6 +328,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                 : ListView(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
                         for (int i = 0; i < comments.length; i++)
                           Padding(
