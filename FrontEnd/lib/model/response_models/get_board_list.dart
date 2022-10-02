@@ -82,14 +82,16 @@ class BoardList {
 class Content {
   int? id;
   String? nickname;
+  String? profileImage;
   String? title;
   String? image;
 
-  Content({this.id, this.nickname, this.title, this.image});
+  Content({this.id, this.nickname, this.profileImage, this.title, this.image});
 
   Content.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nickname = json['nickname'];
+    profileImage = json['profileImage'];
     title = json['title'];
     image = json['image'];
   }
@@ -98,6 +100,7 @@ class Content {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['nickname'] = this.nickname;
+    data['profileImage'] = this.profileImage;
     data['title'] = this.title;
     data['image'] = this.image;
     return data;

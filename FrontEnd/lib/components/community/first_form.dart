@@ -393,7 +393,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                               key: Key(_aidList[index].id!.toString()),
                               child: ContentItemWidget(
                                   name: _aidList[index].title!,
-                                  profileImage: _aidList[index].image,
+                                  profileImage: _aidList[index].profileImage,
                                   nickname: _aidList[index]!.nickname!,
                                   photo: _aidList[index].image),
                             ));
