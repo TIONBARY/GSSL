@@ -6,11 +6,18 @@ import 'my_box_widget.dart';
 
 class ContentItemWidget extends StatelessWidget {
   final String name;
-  // final String body;
+  final String? profileImage;
+  final String nickname;
   final String? photo;
-  ContentItemWidget({required this.name, this.photo});
+  ContentItemWidget(
+      {required this.name,
+      this.profileImage,
+      required this.nickname,
+      this.photo});
 
   String S3Address = "https://a204drdoc.s3.ap-northeast-2.amazonaws.com/";
+
+  AssetImage basic_image = AssetImage("assets/images/user.png");
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +26,39 @@ class ContentItemWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 50.0,
+                  width: 50.0,
+                  margin: EdgeInsets.fromLTRB(
+                      0, 0, MediaQuery.of(context).size.width / 40, 0),
+                  decoration: new BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: new BorderRadius.all(Radius.circular(50))),
+                  child: profileImage == null || profileImage!.length! == 0
+                      ? CircleAvatar(radius: 50, backgroundImage: basic_image)
+                      : CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              NetworkImage(S3Address + profileImage!)),
+                ),
+                MyBoxWidget(),
+                Text(
+                  nickname,
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                ),
+                MyBoxWidget(),
+                // Text(
+                //   body,
+                // ),
+                // MyBoxWidget(),
+              ],
+            ),
+          ),
           Container(
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -55,13 +95,13 @@ class ContentItemWidget extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(15.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   name,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 MyBoxWidget(),
                 // Text(
