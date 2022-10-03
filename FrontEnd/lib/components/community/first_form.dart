@@ -10,6 +10,7 @@ import 'package:GSSL/model/response_models/get_board_list.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import './edit_first_page.dart';
 import './store_first_page.dart';
@@ -147,41 +148,35 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     _size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        centerTitle: false,
-        backgroundColor: Colors.white,
-        title: TextField(
-          controller: searchController,
-          textInputAction: TextInputAction.search,
-          onChanged: (v) {
-            setState(() {
-              _aidList = [];
-              _hasMore = true;
-              _pageNumber = 0;
-              _error = false;
-              _loading = true;
-            });
-            if (_debounce?.isActive ?? false) _debounce!.cancel();
-            _debounce = Timer(const Duration(milliseconds: 1000), () {
-              _getSearchList(searchController.text, _pageNumber, _pageSize)
-                  .then((value) {
-                if (!value) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('검색 결과가 없습니다.')),
-                  );
-                }
-              });
-            });
-          },
-          onSubmitted: (str) {
-            if (str.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('검색할 단어를 입력하세요.')),
-              );
-              return;
-            } else {
+    if (_loading) {
+      return Scaffold(
+          body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+                child: Container(
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                    fit: BoxFit.contain,
+                    image: AssetImage("assets/images/loadingDog.gif")),
+              ),
+            ))
+          ],
+        ),
+      ));
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 70,
+          centerTitle: false,
+          backgroundColor: Colors.white,
+          title: TextField(
+            controller: searchController,
+            textInputAction: TextInputAction.search,
+            onSubmitted: (str) {
               setState(() {
                 _aidList = [];
                 _hasMore = true;
@@ -197,222 +192,226 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                   );
                 }
               });
-            }
-          },
-          decoration: InputDecoration(
-            suffixIcon: InkWell(
-                onTap: () {
-                  if (searchController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('검색할 단어를 입력하세요.')),
-                    );
-                    return;
+            },
+            decoration: InputDecoration(
+              suffixIcon: InkWell(
+                  onTap: () {
+                    if (searchController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('검색할 단어를 입력하세요.')),
+                      );
+                      return;
+                    }
+                  },
+                  child: const Icon(
+                    Icons.search,
+                    color: Colors.black,
+                  )),
+              hintText: '검색할 단어를 입력하세요.',
+              contentPadding: EdgeInsets.all(10),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black)),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black)),
+            ),
+          ),
+          actions: [
+            IconButtonWidget(
+              color: Theme.of(context).primaryColor,
+              onTap: () => context.to(AddNewFeedPage()).then((value) {
+                if (value != null) {
+                  if (value == true) {
+                    setState(() {
+                      _aidList = [];
+                      _hasMore = true;
+                      _pageNumber = 0;
+                      _error = false;
+                      _loading = true;
+                    });
+                    _getSearchList(
+                        searchController.text, _pageNumber, _pageSize);
                   }
-                },
-                child: const Icon(
-                  Icons.search,
-                  color: Colors.black,
-                )),
-            hintText: '검색할 단어를 입력하세요.',
-            contentPadding: EdgeInsets.all(10),
-            border:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-            focusedBorder:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-            enabledBorder:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-          ),
-        ),
-        actions: [
-          IconButtonWidget(
-            color: Theme.of(context).primaryColor,
-            onTap: () => context.to(AddNewFeedPage()).then((value) {
-              if (value != null) {
-                if (value == true) {
-                  setState(() {
-                    _aidList = [];
-                    _hasMore = true;
-                    _pageNumber = 0;
-                    _error = false;
-                    _loading = true;
-                  });
-                  _getSearchList(searchController.text, _pageNumber, _pageSize);
                 }
-              }
-            }),
-            iconData: Icons.add_sharp,
-          ),
-        ],
-      ),
-      body: _aidList.isNotEmpty
-          ? SingleChildScrollView(
-              child: Column(
-                children: [
-                  ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _aidList.length + (_hasMore ? 1 : 0),
-                      itemBuilder: (context, index) {
-                        if (_hasMore &&
-                            index == _aidList.length - _nextPageThreshold) {
-                          _getSearchList(
-                              searchController.text, _pageNumber, _pageSize);
-                        }
-                        if (index == _aidList.length) {
-                          if (_error) {
-                            return Center(
-                                child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  _loading = true;
-                                  _error = false;
-                                  _getSearchList(searchController.text,
-                                      _pageNumber, _pageSize);
-                                });
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Text("에러가 발생했습니다. 터치하여 다시 시도해주세요."),
-                              ),
-                            ));
-                          } else {
-                            return Center(
-                                child: Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: CircularProgressIndicator(),
-                            ));
+              }),
+              iconData: Icons.add_sharp,
+            ),
+          ],
+        ),
+        body: _aidList.isNotEmpty
+            ? SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: _aidList.length + (_hasMore ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (_hasMore &&
+                              index == _aidList.length - _nextPageThreshold) {
+                            _getSearchList(
+                                searchController.text, _pageNumber, _pageSize);
                           }
-                        }
-                        return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BoardDetailPage(
-                                          _aidList[index].id!)));
-                            },
-                            child: Dismissible(
-                              background: DismissibleBackgroundWidget(
-                                  alignment: Alignment.centerRight,
-                                  icon: Icons.edit,
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor),
-                              secondaryBackground: DismissibleBackgroundWidget(
-                                alignment: Alignment.centerLeft,
-                                icon: Icons.delete_outline_sharp,
-                                backgroundColor: Colors.red,
-                                iconColor: Colors.white,
-                              ),
-                              confirmDismiss:
-                                  (DismissDirection direction) async {
-                                if (direction == DismissDirection.startToEnd &&
-                                    user?.nickname != null &&
-                                    user!.nickname ==
-                                        _aidList[index].nickname) {
-                                  return await showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("수정"),
-                                        content:
-                                            const Text("정말 해당 게시물을 수정하시겠습니까?"),
-                                        actions: <Widget>[
-                                          TextBtnWidget(
-                                            name: ' 수정 ',
-                                            isStretch: false,
-                                            onTap: () {
-                                              context
-                                                  .to(EditPostPage(
-                                                      _aidList[index].id!))
-                                                  .then((value) {
-                                                if (value != null) {
-                                                  if (value == true) {
-                                                    setState(() {
-                                                      _aidList = [];
-                                                      _hasMore = true;
-                                                      _pageNumber = 0;
-                                                      _error = false;
-                                                      _loading = true;
-                                                    });
-                                                    _getSearchList(
-                                                        searchController.text,
-                                                        _pageNumber,
-                                                        _pageSize);
-                                                  }
-                                                }
-                                                return context.back(false);
-                                              });
-                                            },
-                                          ),
-                                          TextBtnWidget(
-                                            name: '취소',
-                                            btnColor: Colors.white,
-                                            onTap: () => context.back(false),
-                                            isStretch: false,
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                } else if (direction ==
-                                        DismissDirection.endToStart &&
-                                    user?.nickname != null &&
-                                    user!.nickname ==
-                                        _aidList[index].nickname) {
-                                  return await showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("삭제"),
-                                        content:
-                                            const Text("정말 해당 게시물을 삭제하시겠습니까?"),
-                                        actions: <Widget>[
-                                          TextBtnWidget(
-                                            name: '삭제',
-                                            nameColor: Colors.white,
-                                            btnColor: Colors.red,
-                                            onTap: () {
-                                              _deleteBoard(_aidList[index].id!);
-                                              return context.back(false);
-                                            },
-                                            isStretch: false,
-                                          ),
-                                          TextBtnWidget(
-                                            name: '취소',
-                                            btnColor: Colors.white,
-                                            onTap: () => context.back(false),
-                                            isStretch: false,
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                                return null;
+                          if (index == _aidList.length) {
+                            if (_error) {
+                              return Center(
+                                  child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _loading = true;
+                                    _error = false;
+                                    _getSearchList(searchController.text,
+                                        _pageNumber, _pageSize);
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Text("에러가 발생했습니다. 터치하여 다시 시도해주세요."),
+                                ),
+                              ));
+                            } else {
+                              return Center(
+                                  child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: CircularProgressIndicator(),
+                              ));
+                            }
+                          }
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BoardDetailPage(
+                                            _aidList[index].id!)));
                               },
-                              key: Key(_aidList[index].id!.toString()),
-                              child: ContentItemWidget(
-                                  name: _aidList[index].title!,
-                                  profileImage: _aidList[index].profileImage,
-                                  nickname: _aidList[index]!.nickname!,
-                                  photo: _aidList[index].image),
-                            ));
-                      }),
-                ],
-              ),
-            )
-          : Center(
-              child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/images/no_data.png'),
-                MyBoxWidget(
-                  height: 5,
+                              child: Dismissible(
+                                background: DismissibleBackgroundWidget(
+                                    alignment: Alignment.centerRight,
+                                    icon: Icons.edit,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor),
+                                secondaryBackground:
+                                    DismissibleBackgroundWidget(
+                                  alignment: Alignment.centerLeft,
+                                  icon: Icons.delete_outline_sharp,
+                                  backgroundColor: Colors.red,
+                                  iconColor: Colors.white,
+                                ),
+                                confirmDismiss:
+                                    (DismissDirection direction) async {
+                                  if (direction ==
+                                          DismissDirection.startToEnd &&
+                                      user?.nickname != null &&
+                                      user!.nickname ==
+                                          _aidList[index].nickname) {
+                                    return await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text("수정"),
+                                          content: const Text(
+                                              "정말 해당 게시물을 수정하시겠습니까?"),
+                                          actions: <Widget>[
+                                            TextBtnWidget(
+                                              name: ' 수정 ',
+                                              isStretch: false,
+                                              onTap: () {
+                                                context
+                                                    .to(EditPostPage(
+                                                        _aidList[index].id!))
+                                                    .then((value) {
+                                                  if (value != null) {
+                                                    if (value == true) {
+                                                      setState(() {
+                                                        _aidList = [];
+                                                        _hasMore = true;
+                                                        _pageNumber = 0;
+                                                        _error = false;
+                                                        _loading = true;
+                                                      });
+                                                      _getSearchList(
+                                                          searchController.text,
+                                                          _pageNumber,
+                                                          _pageSize);
+                                                    }
+                                                  }
+                                                  return context.back(false);
+                                                });
+                                              },
+                                            ),
+                                            TextBtnWidget(
+                                              name: '취소',
+                                              btnColor: Colors.white,
+                                              onTap: () => context.back(false),
+                                              isStretch: false,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } else if (direction ==
+                                          DismissDirection.endToStart &&
+                                      user?.nickname != null &&
+                                      user!.nickname ==
+                                          _aidList[index].nickname) {
+                                    return await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text("삭제"),
+                                          content: const Text(
+                                              "정말 해당 게시물을 삭제하시겠습니까?"),
+                                          actions: <Widget>[
+                                            TextBtnWidget(
+                                              name: '삭제',
+                                              nameColor: Colors.white,
+                                              btnColor: Colors.red,
+                                              onTap: () {
+                                                _deleteBoard(
+                                                    _aidList[index].id!);
+                                                return context.back(false);
+                                              },
+                                              isStretch: false,
+                                            ),
+                                            TextBtnWidget(
+                                              name: '취소',
+                                              btnColor: Colors.white,
+                                              onTap: () => context.back(false),
+                                              isStretch: false,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                  return null;
+                                },
+                                key: Key(_aidList[index].id!.toString()),
+                                child: ContentItemWidget(
+                                    name: _aidList[index].title!,
+                                    profileImage: _aidList[index].profileImage,
+                                    nickname: _aidList[index]!.nickname!,
+                                    photo: _aidList[index].image),
+                              ));
+                        }),
+                  ],
                 ),
-                const Text('게시물이 없습니다.'),
-              ],
-            )),
-    );
+              )
+            : Center(
+                child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/no_data.png'),
+                  MyBoxWidget(
+                    height: 5,
+                  ),
+                  const Text('게시물이 없습니다.'),
+                ],
+              )),
+      );
+    }
   }
 
   @override
