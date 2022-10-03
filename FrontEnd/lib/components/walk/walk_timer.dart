@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:stop_watch_timer/stop_watch_timer.dart";
 
 class WalkTimer extends StatefulWidget {
@@ -32,13 +33,16 @@ class _WalkTimerState extends State<WalkTimer> {
         return Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8),
-              child: Text(
-                displayTime.split('.')[0],
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Helvetica',
-                    fontWeight: FontWeight.bold),
+              padding: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
+              child: Container(
+                height: 50.h,
+                child: Text(
+                  displayTime.split('.')[0],
+                  style: TextStyle(
+                    fontSize: 25.sp,
+                    fontFamily: 'Daehan',
+                  ),
+                ),
               ),
             ),
           ],
