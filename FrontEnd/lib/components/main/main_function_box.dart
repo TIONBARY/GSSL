@@ -55,11 +55,11 @@ class function_box extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsets.fromLTRB(22.w, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(20.w, 0, 0, 0),
                               child: Text(
                                 "${title}",
                                 style: TextStyle(
-                                  fontSize: 63.sp,
+                                  fontSize: 60.sp,
                                   color: btnColor,
                                   fontFamily: "Daehan",
                                 ),
@@ -70,8 +70,8 @@ class function_box extends StatelessWidget {
                               child: Text(
                                 description,
                                 style: TextStyle(
-                                  fontSize: 18.sp,
-                                  color: btnColor,
+                                  fontSize: 12.5.sp,
+                                  color: nWColor,
                                   fontFamily: "Daehan",
                                 ),
                               ),

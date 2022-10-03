@@ -1,5 +1,7 @@
 import 'package:GSSL/constants.dart';
+import 'package:GSSL/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../components/user/user_detail.dart';
 
@@ -10,14 +12,41 @@ class UserInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('회원정보'),
+        title: Text('내 정보'),
+        titleTextStyle: TextStyle(fontFamily: "Daehan", fontSize: 25.sp),
         automaticallyImplyLeading: false,
         foregroundColor: nWColor,
         backgroundColor: btnColor,
         centerTitle: true,
       ),
-      backgroundColor: pColor,
-      body: UserDetail(),
+      backgroundColor: nWColor,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Responsive(
+            mobile: const MobileUserInfoPage(),
+            desktop: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      SizedBox(
+                        width: 450,
+                        child: UserDetail(),
+                      ),
+                      SizedBox(height: defaultPadding / 2),
+                      // SocalSignUp()
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
