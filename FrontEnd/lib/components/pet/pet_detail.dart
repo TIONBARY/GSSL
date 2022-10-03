@@ -153,60 +153,10 @@ class _PetDetailState extends State<PetDetail> {
           children: [
             petPic(),
             petName(),
-            Row(
-              children: [
-                iconBox(
-                  iconName: Icon(Icons.pets),
-                  detail: "품종 : ",
-                ),
-                petType(),
-              ],
-            ),
-            Row(
-              children: [
-                iconBox(
-                  iconName: Icon(Icons.cake),
-                  detail: "생일 : ",
-                ),
-                petBirth(),
-              ],
-            ),
-            Row(
-              children: [
-                iconBox(
-                  iconName: Icon(Icons.monitor_weight),
-                  detail: "무게 : ",
-                ),
-                petWeight(),
-              ],
-            ),
-            Row(
-              children: [
-                iconBox(
-                  iconName: Icon(Icons.local_hospital),
-                  detail: "질병 : ",
-                ),
-                petHealth(),
-              ],
-            ),
-            Row(
-              children: [
-                iconBox(
-                  iconName: Icon(Icons.cut),
-                  detail: "중성화 : ",
-                ),
-                petNeutralize(),
-              ],
-            ),
-            Row(
-              children: [
-                iconBox(
-                  iconName: Icon(Icons.person_off),
-                  detail: "사망 : ",
-                ),
-                petDead(),
-              ],
-            ),
+            infoTitle(title: "기본 정보"),
+            basicInfoBox(),
+            infoTitle(title: "건강 정보"),
+            healthInfoBox(),
             petIntro(),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Padding(
@@ -367,19 +317,8 @@ class _petNameState extends State<petName> {
                         color: Colors.black,
                         fontSize: 26.sp,
                       ),
-                      text: user!.nickname! + "의 " + pet!.name!),
-                  WidgetSpan(
-                      child: pet!.gender! == 'M'
-                          ? Icon(
-                              Icons.male,
-                              color: Colors.blue,
-                              size: 25.h,
-                            )
-                          : Icon(
-                              Icons.female,
-                              color: Colors.red,
-                              size: 25.h,
-                            )),
+                      // text: user!.nickname! + "의 " + pet!.name!),
+                      text: pet!.name!),
                 ])),
     );
   }
@@ -408,6 +347,15 @@ class _petTypeState extends State<petType> {
                       text: kindName!)
                 ])),
     );
+  }
+}
+
+class petGender extends StatelessWidget {
+  const petGender({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(child: pet!.gender! == 'M' ? Text("여아") : Text("남아"));
   }
 }
 
@@ -478,7 +426,7 @@ class _petHealthState extends State<petHealth> {
           fontSize: 15.sp,
         ),
         text: pet == null || pet?.diseases == null || pet?.diseases!.length == 0
-            ? "건강함"
+            ? "없음"
             : pet!.diseases!,
       ),
     ]));
@@ -531,18 +479,16 @@ class iconBox extends StatelessWidget {
       : super(key: key);
   final iconName;
   final String detail;
+  // padding: EdgeInsets.fromLTRB(22.w, 5.h, 20.w, 5.h),
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(60.w, 0, 0, 0),
-      child: Row(
-        children: [
-          Container(
-            child: iconName,
-          ),
-          Text(detail),
-        ],
-      ),
+    return Row(
+      children: [
+        Container(
+          child: iconName,
+        ),
+        Text(detail),
+      ],
     );
   }
 }
@@ -558,7 +504,7 @@ class _petNeutralizeState extends State<petNeutralize> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: pet!.neutralize! ? Text("완료") : Text("미완료"),
+      child: pet!.neutralize! ? Text("중성화 완료") : Text("중성화 미완료"),
     );
   }
 }
@@ -577,13 +523,207 @@ class _petDeadState extends State<petDead> {
       child: pet?.death != null && pet!.death!
           ? Container(
               child: Text("무지개 다리를 건넜어요."),
-              // padding: EdgeInsets.fromLTRB(0, 34.5.h, 0, 17.25.h),
-              // child: Image.asset(
-              //   "assets/images/grave.png",
-              //   height: 20.h,
-              // )
             )
           : Text(""),
     );
+  }
+}
+
+class infoTitle extends StatelessWidget {
+  const infoTitle({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 20.sp,
+              color: btnColor,
+              fontFamily: "Daehan",
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class basicInfoBox extends StatelessWidget {
+  const basicInfoBox({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(15.h, 15.h, 10.h, 10.h),
+      decoration: BoxDecoration(
+          color: Color(0xffD9D9D9CD), borderRadius: BorderRadius.circular(15)),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            child: Row(
+              children: [
+                Flexible(
+                  // child: petGenderIcon(),
+                  child: iconBox(
+                    iconName: Icon(
+                      Icons.pets,
+                    ),
+                    detail: "견종",
+                  ),
+                  flex: 3,
+                ),
+                Flexible(
+                  child: petType(),
+                  flex: 8,
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            child: Row(
+              children: [
+                Flexible(
+                  // child: petGenderIcon(),
+                  child: iconBox(
+                    iconName: pet!.gender! == 'M'
+                        ? Icon(
+                            Icons.male,
+                            color: Colors.blue,
+                          )
+                        : Icon(
+                            Icons.female,
+                            color: Colors.red,
+                          ),
+                    detail: "성별",
+                  ),
+                  flex: 3,
+                ),
+                Flexible(
+                  child: petGender(),
+                  flex: 8,
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            child: Row(
+              children: [
+                Flexible(
+                  child: iconBox(
+                    iconName: Icon(Icons.cake),
+                    detail: "생일",
+                  ),
+                  flex: 3,
+                ),
+                Flexible(
+                  child: petBirth(),
+                  flex: 8,
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            child: Row(
+              children: [
+                Flexible(
+                  child: iconBox(
+                    iconName: Icon(Icons.monitor_weight),
+                    detail: "무게",
+                  ),
+                  flex: 3,
+                ),
+                Flexible(
+                  child: petWeight(),
+                  flex: 8,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class healthInfoBox extends StatelessWidget {
+  const healthInfoBox({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(15.h, 15.h, 10.h, 10.h),
+      decoration: BoxDecoration(
+          color: Color(0xffD9D9D9CD), borderRadius: BorderRadius.circular(15)),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            child: Row(
+              children: [
+                Flexible(
+                  child: iconBox(
+                    iconName: Icon(Icons.local_hospital),
+                    detail: "질환",
+                  ),
+                  flex: 3,
+                ),
+                Flexible(
+                  child: petHealth(),
+                  flex: 8,
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            child: Row(
+              children: [
+                Flexible(
+                  child: iconBox(
+                    iconName: Icon(Icons.cut),
+                    detail: "중성화",
+                  ),
+                  flex: 3,
+                ),
+                Flexible(
+                  child: petNeutralize(),
+                  flex: 8,
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            child: Row(
+              children: [
+                Flexible(
+                  child: iconBox(
+                    iconName: Icon(Icons.person_off),
+                    detail: "사망",
+                  ),
+                  flex: 3,
+                ),
+                Flexible(
+                  child: petDead(),
+                  flex: 8,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+    ;
   }
 }
