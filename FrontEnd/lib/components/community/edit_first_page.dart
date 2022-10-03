@@ -9,6 +9,7 @@ import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_board_detail.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -42,6 +43,8 @@ class _EditPostPageState extends State<EditPostPage> {
   ApiCommunity apiCommunity = ApiCommunity();
 
   bool insertSuccess = false;
+
+  bool _loading = true;
 
   Future<void> chooseImage() async {
     var choosedimage = await picker.pickImage(source: ImageSource.gallery);
@@ -82,6 +85,7 @@ class _EditPostPageState extends State<EditPostPage> {
       setState(() {
         image = file2;
       });
+      _loading = false;
     } else if (result.statusCode == 401) {
       showDialog(
           context: context,
@@ -129,103 +133,124 @@ class _EditPostPageState extends State<EditPostPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Content'),
-        leading: IconButtonWidget(
-            iconData: Icons.arrow_back_sharp,
-            onTap: () => Navigator.of(context).pop(false)),
-      ),
-      body: SingleChildScrollView(
-        child: CardWidget(
-          child: Column(
-            children: [
-              Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFieldWidget(
-                        controller: nameController,
-                        name: '제목',
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return '제목을 입력해주세요.';
-                          }
-                          if (text.length > 20) {
-                            return '제목은 20자 이내로 입력해주세요.';
-                          }
-                          return null;
-                        },
-                      ),
-                      MyBoxWidget(),
-                      TextFieldWidget(
-                        controller: bodyController,
-                        name: '내용',
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return '내용을 입력해주세요.';
-                          }
-                          if (text.length > 1000) {
-                            return '내용은 1000자 이내로 입력해주세요.';
-                          }
-                          return null;
-                        },
-                        maxLines: 8,
-                      ),
-                      MyBoxWidget(),
-                      Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: defaultPadding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                // color: const Color(0xffd0cece),
-                                width: MediaQuery.of(context).size.width / 5,
-                                height: MediaQuery.of(context).size.width / 5,
-                                child: Center(
-                                    child: image == null
-                                        ? Text('')
-                                        : new Image(
-                                            image: new FileImage(
-                                                File(image!.path)))),
-                              ),
-                              Container(
-                                child: ElevatedButton.icon(
-                                  onPressed: () {
-                                    chooseImage(); // call choose image function
-                                  },
-                                  icon: Icon(Icons.image),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: btnColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      )),
-                                  label: Text("게시글 이미지 선택"),
-                                ),
-                              ),
-                            ],
-                          ) // 이름
-                          ),
-                    ],
-                  )),
-              MyBoxWidget(
-                height: 30,
+    if (_loading) {
+      return Scaffold(
+          body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+                child: Container(
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                    fit: BoxFit.contain,
+                    image: AssetImage("assets/images/loadingDog.gif")),
               ),
-              TextBtnWidget(
-                  name: '게시하기',
-                  onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      _submit();
-                    }
-                  }),
-            ],
+            ))
+          ],
+        ),
+      ));
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Edit Content'),
+          leading: IconButtonWidget(
+              iconData: Icons.arrow_back_sharp,
+              onTap: () => Navigator.of(context).pop(false)),
+        ),
+        body: SingleChildScrollView(
+          child: CardWidget(
+            child: Column(
+              children: [
+                Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFieldWidget(
+                          controller: nameController,
+                          name: '제목',
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return '제목을 입력해주세요.';
+                            }
+                            if (text.length > 20) {
+                              return '제목은 20자 이내로 입력해주세요.';
+                            }
+                            return null;
+                          },
+                        ),
+                        MyBoxWidget(),
+                        TextFieldWidget(
+                          controller: bodyController,
+                          name: '내용',
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return '내용을 입력해주세요.';
+                            }
+                            if (text.length > 1000) {
+                              return '내용은 1000자 이내로 입력해주세요.';
+                            }
+                            return null;
+                          },
+                          maxLines: 8,
+                        ),
+                        MyBoxWidget(),
+                        Padding(
+                            padding:
+                                EdgeInsets.symmetric(vertical: defaultPadding),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
+                                  // color: const Color(0xffd0cece),
+                                  width: MediaQuery.of(context).size.width / 5,
+                                  height: MediaQuery.of(context).size.width / 5,
+                                  child: Center(
+                                      child: image == null
+                                          ? Text('')
+                                          : new Image(
+                                              image: new FileImage(
+                                                  File(image!.path)))),
+                                ),
+                                Container(
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      chooseImage(); // call choose image function
+                                    },
+                                    icon: Icon(Icons.image),
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: btnColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        )),
+                                    label: Text("게시글 이미지 선택"),
+                                  ),
+                                ),
+                              ],
+                            ) // 이름
+                            ),
+                      ],
+                    )),
+                MyBoxWidget(
+                  height: 30,
+                ),
+                TextBtnWidget(
+                    name: '게시하기',
+                    onTap: () {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        _submit();
+                      }
+                    }),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   @override
