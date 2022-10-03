@@ -137,7 +137,7 @@ class _BogamPageState extends State<BogamPage> {
                               ),
                               builder: (BuildContext context) {
                                 return Container(
-                                  height: 250,
+                                  height: 225.h,
                                   decoration: new BoxDecoration(
                                     color: pColor,
                                     borderRadius: new BorderRadius.only(
@@ -150,7 +150,7 @@ class _BogamPageState extends State<BogamPage> {
                                   child: Column(
                                     children: <Widget>[
                                       Padding(
-                                        padding: EdgeInsets.all(10.h),
+                                        padding: EdgeInsets.all(15.h),
                                         child: Text('해당 질병이 의심됩니다.',
                                             style: TextStyle(
                                                 fontFamily: "Daehan",
@@ -285,7 +285,7 @@ class _BogamPageState extends State<BogamPage> {
                                         ],
                                       ),
                                       IconButton(
-                                        padding: EdgeInsets.zero,
+                                        padding: EdgeInsets.all(10.h),
                                         icon: Icon(Icons.save_alt_outlined,
                                             color: btnColor),
                                         onPressed: () {},

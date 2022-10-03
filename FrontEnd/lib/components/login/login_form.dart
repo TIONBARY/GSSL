@@ -38,8 +38,8 @@ class _LoginFormState extends State<LoginForm> {
       key: this.loginFormKey,
       child: Column(
         children: [
-          renderTextFormField(
-              label: '아이디',
+          renderLoginTextFormField(
+              hint: '아이디',
               icon: Icon(Icons.person, color: sColor),
               onSaved: (val) {
                 id = val;
@@ -47,8 +47,8 @@ class _LoginFormState extends State<LoginForm> {
               obscureText: false),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-              child: renderTextFormField(
-                  label: '비밀번호',
+              child: renderLoginTextFormField(
+                  hint: '비밀번호',
                   icon: Icon(Icons.lock, color: sColor),
                   onSaved: (val) {
                     pw = val;
@@ -92,6 +92,9 @@ class _LoginFormState extends State<LoginForm> {
                       )),
                   child: Text(
                     "로그인".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
+                    ),
                   ),
                 ),
               ),
@@ -116,26 +119,28 @@ class _LoginFormState extends State<LoginForm> {
   }
 }
 
-renderTextFormField({
-  required String label,
+renderLoginTextFormField({
+  required String hint,
   required Icon icon,
   required FormFieldSetter onSaved,
   required bool obscureText,
 }) {
-  assert(label != null);
+  assert(hint != null);
   assert(onSaved != null);
 
   return TextFormField(
     keyboardType: TextInputType.text,
     textInputAction: TextInputAction.next,
+    style: TextStyle(fontFamily: "Daehan"),
     cursorColor: btnColor,
     onSaved: onSaved,
     obscureText: obscureText,
     decoration: InputDecoration(
       contentPadding: EdgeInsets.all(10.h),
-      hintText: label,
+      hintText: hint,
       hintStyle: TextStyle(
         color: sColor,
+        fontFamily: "Daehan",
       ),
       prefixIcon: Padding(
         padding: const EdgeInsets.all(defaultPadding),
