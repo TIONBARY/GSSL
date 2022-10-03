@@ -2,6 +2,7 @@ import 'package:GSSL/components/pet/pet_detail.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PetDetailScreen extends StatelessWidget {
   const PetDetailScreen({Key? key}) : super(key: key);
@@ -11,12 +12,12 @@ class PetDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('반려동물 정보'),
-        automaticallyImplyLeading: false,
+        titleTextStyle: TextStyle(fontFamily: "Daehan", fontSize: 25.sp),
         foregroundColor: nWColor,
         backgroundColor: btnColor,
         centerTitle: true,
       ),
-      backgroundColor: pColor,
+      backgroundColor: nWColor,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();

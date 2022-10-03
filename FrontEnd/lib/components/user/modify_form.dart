@@ -543,7 +543,7 @@ class _ModifyFormState extends State<ModifyForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(
-              height: 48,
+              height: 40.h,
               width: double.maxFinite,
               child: Hero(
                 tag: "modify_btn",
@@ -569,7 +569,7 @@ class _ModifyFormState extends State<ModifyForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
             child: Container(
-              height: 48,
+              height: 40.h,
               width: double.maxFinite,
               child: ElevatedButton(
                 onPressed: () {
