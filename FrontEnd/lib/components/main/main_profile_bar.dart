@@ -189,6 +189,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                   ),
                   color: btnColor,
                   onPressed: () {
+                    // 모달창
                     showModalBottomSheet<void>(
                       context: context,
                       shape: RoundedRectangleBorder(
@@ -196,8 +197,8 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                       ),
                       builder: (BuildContext context) {
                         return Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          height: 200.h,
+                          padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 0),
+                          height: 225.h,
                           decoration: new BoxDecoration(
                             color: pColor,
                             borderRadius: new BorderRadius.only(
@@ -223,7 +224,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                                             Pets pet = pets!.elementAt(index);
                                             return Container(
                                                 margin: EdgeInsets.fromLTRB(
-                                                    20.w, 0, 20.w, 0),
+                                                    0, 0, 0, 0),
                                                 child: Column(children: [
                                                   SizedBox(
                                                     width: 50.w,
@@ -258,27 +259,29 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
                                                                             pet.animalPic!),
                                                                 radius: 100.0)),
                                                   ),
-                                                  Text(pet.name!)
+                                                  Text(
+                                                    pet.name!,
+                                                    style: TextStyle(
+                                                        fontFamily: "Daehan",
+                                                        color: btnColor),
+                                                  )
                                                 ]));
                                           }),
                                         ),
                                       ),
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(0, 15.h, 0, 5.h),
-                                  child: SizedBox(
-                                    child: IconButton(
-                                      icon: Icon(Icons.add),
-                                      iconSize: 30.h,
-                                      color: btnColor,
-                                      onPressed: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SignUpPetScreen()),
-                                      ),
+                                  child: IconButton(
+                                    icon: Icon(Icons.add),
+                                    iconSize: 37.5.h,
+                                    color: btnColor,
+                                    onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SignUpPetScreen()),
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
