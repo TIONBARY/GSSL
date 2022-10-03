@@ -5,6 +5,7 @@ import 'package:GSSL/api/api_user.dart';
 import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/components/community/board_detail_page.dart';
 import 'package:GSSL/components/util/custom_dialog.dart';
+import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_board_list.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
@@ -219,7 +220,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
           ),
           actions: [
             IconButtonWidget(
-              color: Theme.of(context).primaryColor,
+              color: btnColor,
               onTap: () => context.to(AddNewFeedPage()).then((value) {
                 if (value != null) {
                   if (value == true) {
@@ -236,6 +237,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                 }
               }),
               iconData: Icons.add_sharp,
+              iconColor: Colors.white,
             ),
           ],
         ),
@@ -315,7 +317,9 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                               "정말 해당 게시물을 수정하시겠습니까?"),
                                           actions: <Widget>[
                                             TextBtnWidget(
-                                              name: ' 수정 ',
+                                              name: '수정',
+                                              btnColor: btnColor,
+                                              nameColor: Colors.white,
                                               isStretch: false,
                                               onTap: () {
                                                 context
