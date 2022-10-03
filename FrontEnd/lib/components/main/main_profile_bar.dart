@@ -124,7 +124,7 @@ class _MainHeaderBarState extends State<MainHeaderBar> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 25.w),
       decoration: new BoxDecoration(
-        color: pColor,
+        color: nWColor,
         borderRadius: new BorderRadius.all(Radius.circular(5)),
       ),
       child: Row(

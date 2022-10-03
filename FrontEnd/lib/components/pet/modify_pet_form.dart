@@ -550,6 +550,9 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                       )),
                   child: Text(
                     "반려견 수정".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
+                    ),
                   ),
                 ),
               ),
