@@ -335,6 +335,9 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                       ),
                       child: Text(
                         "등록".toUpperCase(),
+                        style: TextStyle(
+                          fontFamily: "Daehan",
+                        ),
                       ),
                     ),
                   ),

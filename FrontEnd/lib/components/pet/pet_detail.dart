@@ -148,118 +148,125 @@ class _PetDetailState extends State<PetDetail> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(0, 60.h, 0, 0),
-        child: Column(
-          children: [
-            petPic(),
-            petName(),
-            infoTitle(title: "기본 정보"),
-            basicInfoBox(),
-            infoTitle(title: "건강 정보"),
-            healthInfoBox(),
-            petIntro(),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
-                child: Container(
-                  height: 35.h,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ModifyPetScreen()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: btnColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        )),
-                    child: Text(
-                      "수정하기".toUpperCase(),
+      margin: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
+      child: Column(
+        children: [
+          petPic(),
+          petName(),
+          infoTitle(title: "기본 정보"),
+          basicInfoBox(),
+          infoTitle(title: "건강 정보"),
+          healthInfoBox(),
+          petIntro(),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: Container(
+                height: 35.h,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ModifyPetScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: btnColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      )),
+                  child: Text(
+                    "수정".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
-                child: Container(
-                  height: 35.h,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      20.0)), //this right here
-                              child: Container(
-                                height: 110.h,
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      12.0.w, 12.0.h, 12.0.w, 3.0.h),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Title(
-                                        color: Colors.black,
-                                        child: Text("정말 삭제하시겠습니까?",
-                                            style: TextStyle(fontSize: 17.sp)),
-                                      ),
-                                      Container(
-                                          width: 150.0.w,
-                                          margin: EdgeInsets.fromLTRB(
-                                              0, 15.h, 0, 0),
-                                          child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    deletePet();
-                                                  },
-                                                  child: Text(
-                                                    "확인",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: Container(
+                height: 35.h,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0)), //this right here
+                            child: Container(
+                              height: 110.h,
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                    12.0.w, 12.0.h, 12.0.w, 3.0.h),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Title(
+                                      color: Colors.black,
+                                      child: Text("정말 삭제하시겠습니까?",
+                                          style: TextStyle(fontSize: 17.sp)),
+                                    ),
+                                    Container(
+                                        width: 150.0.w,
+                                        margin:
+                                            EdgeInsets.fromLTRB(0, 15.h, 0, 0),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  deletePet();
+                                                },
+                                                child: Text(
+                                                  "확인",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
                                                 ),
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text(
-                                                    "취소",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(
+                                                  "취소",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
                                                 ),
-                                              ]))
-                                    ],
-                                  ),
+                                              ),
+                                            ]))
+                                  ],
                                 ),
                               ),
-                            );
-                          });
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        )),
-                    child: Text(
-                      "삭제하기".toUpperCase(),
+                            ),
+                          );
+                        });
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      )),
+                  child: Text(
+                    "삭제".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
                     ),
                   ),
                 ),
               ),
-            ])
-          ],
-        ));
+            ),
+          ]),
+          const SizedBox(height: defaultPadding),
+        ],
+      ),
+    );
   }
 }
 
@@ -274,9 +281,8 @@ class _petPicState extends State<petPic> {
   @override
   Widget build(BuildContext context) {
     return Container(
-// color: const Color(0xffd0cece),
-      width: MediaQuery.of(context).size.width / 5,
-      height: MediaQuery.of(context).size.width / 5,
+      width: 100.w,
+      height: 100.h,
       child: Center(
         child: pet?.animalPic == null || pet?.animalPic!.length == 0
             ? CircleAvatar(backgroundImage: basic_image, radius: 200.0)
@@ -300,24 +306,20 @@ class _petNameState extends State<petName> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 10.h, 0, 0),
+      padding: EdgeInsets.symmetric(vertical: defaultPadding / 2),
       child: RichText(
           text: pet?.name == null
               ? TextSpan(children: [
                   TextSpan(
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 10.sp,
-                      ),
+                      style: TextStyle(color: btnColor, fontFamily: "Daehan"),
                       text: "등록된 반려견이 없습니다.")
                 ])
               : TextSpan(children: [
                   TextSpan(
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 26.sp,
-                      ),
-                      // text: user!.nickname! + "의 " + pet!.name!),
+                          color: btnColor,
+                          fontFamily: "Daehan",
+                          fontSize: 25.sp),
                       text: pet!.name!),
                 ])),
     );
@@ -341,9 +343,9 @@ class _petTypeState extends State<petType> {
               : TextSpan(children: [
                   TextSpan(
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15.sp,
-                      ),
+                          color: btnColor,
+                          fontSize: 15.sp,
+                          fontFamily: "Daehan"),
                       text: kindName!)
                 ])),
     );
@@ -355,7 +357,16 @@ class petGender extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: pet!.gender! == 'M' ? Text("여아") : Text("남아"));
+    return Container(
+        child: pet!.gender! == 'M'
+            ? Text(
+                "남아",
+                style: TextStyle(fontFamily: "Daehan", color: btnColor),
+              )
+            : Text(
+                "여아",
+                style: TextStyle(fontFamily: "Daehan", color: btnColor),
+              ));
   }
 }
 
@@ -372,10 +383,8 @@ class _petBirthState extends State<petBirth> {
     return RichText(
         text: TextSpan(children: [
       TextSpan(
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 15.sp,
-        ),
+        style:
+            TextStyle(color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
         text:
             pet == null || pet?.birth == null ? " " : pet!.birth!.split("T")[0],
       ),
@@ -396,10 +405,8 @@ class _petWeightState extends State<petWeight> {
     return RichText(
         text: TextSpan(children: [
       TextSpan(
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 15.sp,
-        ),
+        style:
+            TextStyle(color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
         text: pet == null || pet?.weight == null || pet!.weight! == 0.0
             ? "기록하지 않음"
             : pet!.weight!.toString() + " kg",
@@ -421,10 +428,8 @@ class _petHealthState extends State<petHealth> {
     return RichText(
         text: TextSpan(children: [
       TextSpan(
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 15.sp,
-        ),
+        style:
+            TextStyle(color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
         text: pet == null || pet?.diseases == null || pet?.diseases!.length == 0
             ? "없음"
             : pet!.diseases!,
@@ -443,26 +448,25 @@ class petIntro extends StatefulWidget {
 class _petIntroState extends State<petIntro> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height / 5,
-      width: MediaQuery.of(context).size.width / 1.3,
-      alignment: Alignment.center,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: defaultPadding),
       child: TextFormField(
+        style: TextStyle(fontFamily: "Daehan", color: btnColor),
         controller: TextEditingController()
           ..text = pet?.description == null || pet?.description!.length == 0
               ? "작성한 반려동물 소개가 없습니다."
-              : pet!.description!,
+              : user!.introduce!,
         keyboardType: TextInputType.multiline,
         maxLines: 4,
         textInputAction: TextInputAction.done,
         cursorColor: btnColor,
         readOnly: true,
         decoration: InputDecoration(
-          hintStyle: TextStyle(color: sColor),
-          contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
+          hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+          contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(color: Colors.white)),
+              borderSide: BorderSide(color: sColor)),
           filled: true,
           fillColor: Colors.white,
           focusedBorder: OutlineInputBorder(
@@ -487,7 +491,10 @@ class iconBox extends StatelessWidget {
         Container(
           child: iconName,
         ),
-        Text(detail),
+        Text(
+          detail,
+          style: TextStyle(fontFamily: "Daehan"),
+        ),
       ],
     );
   }
@@ -504,7 +511,15 @@ class _petNeutralizeState extends State<petNeutralize> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: pet!.neutralize! ? Text("중성화 완료") : Text("중성화 미완료"),
+      child: pet!.neutralize!
+          ? Text(
+              "중성화 완료",
+              style: TextStyle(fontFamily: "Daehan", color: btnColor),
+            )
+          : Text(
+              "중성화 미완료",
+              style: TextStyle(fontFamily: "Daehan", color: btnColor),
+            ),
     );
   }
 }
@@ -540,7 +555,7 @@ class infoTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.fromLTRB(2.5.w, 10.h, 0, 2.5.h),
           child: Text(
             title,
             style: TextStyle(
@@ -561,13 +576,13 @@ class basicInfoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(15.h, 15.h, 10.h, 10.h),
+      padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
       decoration: BoxDecoration(
-          color: Color(0xffD9D9D9CD), borderRadius: BorderRadius.circular(15)),
+          color: Color(0x80C3B091), borderRadius: BorderRadius.circular(15)),
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
             child: Row(
               children: [
                 Flexible(
@@ -588,7 +603,7 @@ class basicInfoBox extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
             child: Row(
               children: [
                 Flexible(
@@ -615,7 +630,7 @@ class basicInfoBox extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
             child: Row(
               children: [
                 Flexible(
@@ -633,7 +648,7 @@ class basicInfoBox extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
             child: Row(
               children: [
                 Flexible(
@@ -662,13 +677,13 @@ class healthInfoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(15.h, 15.h, 10.h, 10.h),
+      padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
       decoration: BoxDecoration(
-          color: Color(0xffD9D9D9CD), borderRadius: BorderRadius.circular(15)),
+          color: Color(0x80C3B091), borderRadius: BorderRadius.circular(15)),
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
             child: Row(
               children: [
                 Flexible(
@@ -686,7 +701,7 @@ class healthInfoBox extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
             child: Row(
               children: [
                 Flexible(
@@ -704,7 +719,7 @@ class healthInfoBox extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
             child: Row(
               children: [
                 Flexible(

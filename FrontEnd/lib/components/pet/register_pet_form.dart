@@ -440,6 +440,9 @@ class _RegisterPetFormState extends State<RegisterPetForm> {
                       )),
                   child: Text(
                     "반려견 등록".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
+                    ),
                   ),
                 ),
               ),
