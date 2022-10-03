@@ -101,7 +101,7 @@ class behavior_diagnosis extends StatelessWidget {
       title: '견민정음',
       box_color: Color(0x80C66952),
       paddings: EdgeInsets.fromLTRB(25.w, 15.h, 25.w, 15.h),
-      description: "멍멍이는 지금 어떤 생각을 하고 있을까? \n카메라로 찍어보세요!",
+      description: "멍멍이는 지금 어떤 생각을 하고 있을까? 카메라로 찍어보세요!",
       nextPage: JeongeumPage(),
     );
   }
@@ -116,7 +116,7 @@ class health_diagnosis extends StatelessWidget {
       title: '견의보감',
       box_color: Color(0x80506274),
       paddings: EdgeInsets.fromLTRB(25.w, 15.h, 25.w, 15.h),
-      description: "혹시 아픈 곳이 있지 않을까? \n인공지능을 통한 간이 진단을 해보세요!",
+      description: "혹시 아픈 곳이 있지 않을까? AI를 통해 간이 진단을 해보세요!",
       nextPage: BogamPage(),
     );
   }
