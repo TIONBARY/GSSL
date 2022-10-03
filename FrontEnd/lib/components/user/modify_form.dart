@@ -104,6 +104,33 @@ class _ModifyFormState extends State<ModifyForm> {
     }
   }
 
+  Future<void> quit() async {
+    generalResponse? quitResponse = await apiUser.quitAPI();
+    if (quitResponse.statusCode == 200) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("회원탈퇴를 완료했습니다.", (context) => LoginScreen());
+          });
+    } else if (quitResponse.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(
+                quitResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : quitResponse.message!,
+                null);
+          });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -163,6 +190,7 @@ class _ModifyFormState extends State<ModifyForm> {
             // 비밀번호
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              style: TextStyle(fontFamily: "Daehan"),
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.done,
               obscureText: true,
@@ -187,11 +215,11 @@ class _ModifyFormState extends State<ModifyForm> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 hintText: "비밀번호",
-                hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20.w, 13.h, 10.w, 13.h),
+                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: Colors.white)),
+                    borderSide: BorderSide(color: sColor)),
                 filled: true,
                 fillColor: Colors.white,
                 focusedBorder: OutlineInputBorder(
@@ -202,6 +230,7 @@ class _ModifyFormState extends State<ModifyForm> {
           ),
           TextFormField(
             // 닉네임
+            style: TextStyle(fontFamily: "Daehan"),
             controller: nicknameController,
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
@@ -228,11 +257,11 @@ class _ModifyFormState extends State<ModifyForm> {
             decoration: InputDecoration(
               isCollapsed: true,
               hintText: "닉네임",
-              hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20.w, 8.h, 10.w, 8.h),
+              hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+              contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.white)),
+                  borderSide: BorderSide(color: sColor)),
               filled: true,
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
@@ -287,6 +316,9 @@ class _ModifyFormState extends State<ModifyForm> {
                 ),
                 child: Text(
                   "중복검사".toUpperCase(),
+                  style: TextStyle(
+                    fontFamily: "Daehan",
+                  ),
                 ),
               ),
             ),
@@ -302,7 +334,7 @@ class _ModifyFormState extends State<ModifyForm> {
                         child: ListTile(
                       title: const Text(
                         '남자',
-                        style: TextStyle(color: btnColor),
+                        style: TextStyle(color: btnColor, fontFamily: "Daehan"),
                       ),
                       leading: Radio<String>(
                         value: "M",
@@ -320,7 +352,7 @@ class _ModifyFormState extends State<ModifyForm> {
                         child: ListTile(
                       title: const Text(
                         '여자',
-                        style: TextStyle(color: btnColor),
+                        style: TextStyle(color: btnColor, fontFamily: "Daehan"),
                       ),
                       leading: Radio<String>(
                         value: "F",
@@ -339,6 +371,7 @@ class _ModifyFormState extends State<ModifyForm> {
               ])),
           TextFormField(
             // 전화번호
+            style: TextStyle(fontFamily: "Daehan"),
             controller: TextEditingController()
               ..text = phone == null || phone!.length == 0 ? "" : phone!,
             keyboardType: TextInputType.number,
@@ -362,11 +395,11 @@ class _ModifyFormState extends State<ModifyForm> {
             decoration: InputDecoration(
               isCollapsed: true,
               hintText: "전화번호 (01011112222) 형태로 입력",
-              hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20.w, 13.h, 10.w, 13.h),
+              hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+              contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.white)),
+                  borderSide: BorderSide(color: sColor)),
               filled: true,
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
@@ -378,6 +411,7 @@ class _ModifyFormState extends State<ModifyForm> {
             // 이메일
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              style: TextStyle(fontFamily: "Daehan"),
               controller: TextEditingController()
                 ..text = email == null || email!.length == 0 ? "" : email!,
               textInputAction: TextInputAction.done,
@@ -403,11 +437,11 @@ class _ModifyFormState extends State<ModifyForm> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 hintText: "이메일",
-                hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20.w, 13.h, 10.w, 13.h),
+                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: Colors.white)),
+                    borderSide: BorderSide(color: sColor)),
                 filled: true,
                 fillColor: Colors.white,
                 focusedBorder: OutlineInputBorder(
@@ -450,7 +484,12 @@ class _ModifyFormState extends State<ModifyForm> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                           )),
-                      label: Text("프로필 이미지 (선택)"),
+                      label: Text(
+                        "프로필 이미지 (선택)",
+                        style: TextStyle(
+                          fontFamily: "Daehan",
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -461,6 +500,7 @@ class _ModifyFormState extends State<ModifyForm> {
             // 자기소개
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              style: TextStyle(fontFamily: "Daehan"),
               controller: TextEditingController()
                 ..text = introduce == null || introduce!.length == 0
                     ? ""
@@ -487,11 +527,11 @@ class _ModifyFormState extends State<ModifyForm> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 hintText: "자기소개 (선택)",
-                hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20.w, 15.h, 20.w, 20.h),
+                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: Colors.white)),
+                    borderSide: BorderSide(color: sColor)),
                 filled: true,
                 fillColor: Colors.white,
                 focusedBorder: OutlineInputBorder(
@@ -506,7 +546,7 @@ class _ModifyFormState extends State<ModifyForm> {
               height: 48,
               width: double.maxFinite,
               child: Hero(
-                tag: "next_btn",
+                tag: "modify_btn",
                 child: ElevatedButton(
                   onPressed: () {
                     _submit();
@@ -518,12 +558,96 @@ class _ModifyFormState extends State<ModifyForm> {
                       )),
                   child: Text(
                     "회원정보 수정".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: defaultPadding / 2),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
+            child: Container(
+              height: 48,
+              width: double.maxFinite,
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  20.0)), //this right here
+                          child: Container(
+                            height: 150,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  12.0, 12.0, 12.0, 3.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Title(
+                                    color: Colors.black,
+                                    child: Text("정말 탈퇴하시겠습니까?",
+                                        style: TextStyle(fontSize: 13)),
+                                  ),
+                                  Title(
+                                    color: Colors.black,
+                                    child: Text("탈퇴 시 해당 아이디로 로그인할 수 없습니다.",
+                                        style: TextStyle(fontSize: 13)),
+                                  ),
+                                  Container(
+                                      width: 150.0,
+                                      margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                quit();
+                                              },
+                                              child: Text(
+                                                "확인",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text(
+                                                "취소",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          ]))
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    )),
+                child: Text(
+                  "회원탈퇴".toUpperCase(),
+                  style: TextStyle(
+                    fontFamily: "Daehan",
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
