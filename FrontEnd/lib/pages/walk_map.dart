@@ -97,7 +97,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
               ),
               SnappingPosition.pixels(
                 // 원하는 높이만큼 보임
-                positionPixels: 150,
+                positionPixels: 100.h,
                 snappingCurve: Curves.elasticOut,
                 snappingDuration: Duration(milliseconds: 1750),
               ),
@@ -169,6 +169,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
               child: Container(
                 color: pColor,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     WalkLength(totalWalkLength),
                     CircleAvatar(

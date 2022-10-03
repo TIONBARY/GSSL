@@ -33,9 +33,9 @@ class _WalkLengthState extends State<WalkLength> {
 
   String convertMeters(length) {
     if (length > 1000) {
-      return (length / 1000).toString() + " \n거리(km)";
+      return (length / 1000).toString() + " (km)";
     } else {
-      return length.toString() + " \n거리(m)";
+      return length.toString() + " (m)";
     }
   }
 
@@ -45,17 +45,16 @@ class _WalkLengthState extends State<WalkLength> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
             child: Container(
-              width: 75.w,
+              width: 87.w,
               height: 50.h,
               child: Text(
                 convertMeters(widget.totalWalkLength),
                 style: TextStyle(
-                  fontSize: 20.sp,
+                  fontSize: 25.sp,
                   color: btnColor,
-                  fontFamily: 'Helvetica',
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Daehan',
                 ),
                 textAlign: TextAlign.center,
               ),
