@@ -76,33 +76,6 @@ class _UserDetailState extends State<UserDetail> {
     }
   }
 
-  Future<void> quit() async {
-    generalResponse? quitResponse = await apiUser.quitAPI();
-    if (quitResponse.statusCode == 200) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CustomDialog("회원탈퇴를 완료했습니다.", (context) => LoginScreen());
-          });
-    } else if (quitResponse.statusCode == 401) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
-          });
-    } else {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CustomDialog(
-                quitResponse.message == null
-                    ? "알 수 없는 오류가 발생했습니다."
-                    : quitResponse.message!,
-                null);
-          });
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -151,9 +124,9 @@ class _UserDetailState extends State<UserDetail> {
                                     : user!.nickname!,
                                 style: TextStyle(fontSize: 20)),
                             Text(
-                                user?.email == null
+                                user?.memberId == null
                                     ? "잠시만 기다려주세요..."
-                                    : user!.email!,
+                                    : user!.memberId!,
                                 style: TextStyle(fontSize: 15))
                           ]))
                 ],
@@ -197,26 +170,6 @@ class _UserDetailState extends State<UserDetail> {
                 width: MediaQuery.of(context).size.width / 1.3,
                 child: ElevatedButton(
                   onPressed: () {
-                    logout();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: btnColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      )),
-                  child: Text(
-                    "로그아웃",
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-              child: Container(
-                height: 48,
-                width: MediaQuery.of(context).size.width / 1.3,
-                child: ElevatedButton(
-                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -244,75 +197,15 @@ class _UserDetailState extends State<UserDetail> {
                 width: MediaQuery.of(context).size.width / 1.3,
                 child: ElevatedButton(
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20.0)), //this right here
-                            child: Container(
-                              height: 150,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    12.0, 12.0, 12.0, 3.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Title(
-                                      color: Colors.black,
-                                      child: Text("정말 탈퇴하시겠습니까?",
-                                          style: TextStyle(fontSize: 13)),
-                                    ),
-                                    Title(
-                                      color: Colors.black,
-                                      child: Text("탈퇴 시 해당 아이디로 로그인할 수 없습니다.",
-                                          style: TextStyle(fontSize: 13)),
-                                    ),
-                                    Container(
-                                        width: 150.0,
-                                        margin:
-                                            EdgeInsets.fromLTRB(0, 15, 0, 0),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  quit();
-                                                },
-                                                child: Text(
-                                                  "확인",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text(
-                                                  "취소",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ]))
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        });
+                    logout();
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: btnColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
                       )),
                   child: Text(
-                    "회원탈퇴",
+                    "로그아웃",
                   ),
                 ),
               ),

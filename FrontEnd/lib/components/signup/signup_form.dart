@@ -5,10 +5,11 @@ import 'package:GSSL/model/request_models/signup.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import '../util/custom_dialog.dart';
 
 import '../../constants.dart';
+import '../util/custom_dialog.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({
@@ -94,7 +95,9 @@ class _SignupFormState extends State<SignUpForm> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-            child: TextFormField( // 아이디
+            child: TextFormField(
+              // 아이디
+              style: TextStyle(fontFamily: "Daehan"),
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               cursorColor: btnColor,
@@ -121,11 +124,11 @@ class _SignupFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 hintText: "아이디",
-                hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: Colors.white)),
+                    borderSide: BorderSide(color: sColor)),
                 filled: true,
                 fillColor: Colors.white,
                 focusedBorder: OutlineInputBorder(
@@ -171,6 +174,9 @@ class _SignupFormState extends State<SignUpForm> {
                   ),
                   child: Text(
                     "중복검사".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
+                    ),
                   ),
                 ),
               ),
@@ -180,6 +186,7 @@ class _SignupFormState extends State<SignUpForm> {
             // 비밀번호
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              style: TextStyle(fontFamily: "Daehan"),
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.done,
               obscureText: true,
@@ -204,11 +211,11 @@ class _SignupFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 hintText: "비밀번호",
-                hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
+                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: Colors.white)),
+                    borderSide: BorderSide(color: sColor)),
                 filled: true,
                 fillColor: Colors.white,
                 focusedBorder: OutlineInputBorder(
@@ -219,6 +226,7 @@ class _SignupFormState extends State<SignUpForm> {
           ),
           TextFormField(
             // 닉네임
+            style: TextStyle(fontFamily: "Daehan"),
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
             cursorColor: btnColor,
@@ -241,11 +249,11 @@ class _SignupFormState extends State<SignUpForm> {
             decoration: InputDecoration(
               isCollapsed: true,
               hintText: "닉네임",
-              hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+              hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+              contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.white)),
+                  borderSide: BorderSide(color: sColor)),
               filled: true,
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
@@ -292,6 +300,9 @@ class _SignupFormState extends State<SignUpForm> {
                 ),
                 child: Text(
                   "중복검사".toUpperCase(),
+                  style: TextStyle(
+                    fontFamily: "Daehan",
+                  ),
                 ),
               ),
             ),
@@ -307,7 +318,7 @@ class _SignupFormState extends State<SignUpForm> {
                         child: ListTile(
                       title: const Text(
                         '남자',
-                        style: TextStyle(color: btnColor),
+                        style: TextStyle(color: btnColor, fontFamily: "Daehan"),
                       ),
                       leading: Radio<String>(
                         value: "M",
@@ -325,7 +336,7 @@ class _SignupFormState extends State<SignUpForm> {
                         child: ListTile(
                       title: const Text(
                         '여자',
-                        style: TextStyle(color: btnColor),
+                        style: TextStyle(color: btnColor, fontFamily: "Daehan"),
                       ),
                       leading: Radio<String>(
                         value: "F",
@@ -344,6 +355,7 @@ class _SignupFormState extends State<SignUpForm> {
               ])),
           TextFormField(
             // 전화번호
+            style: TextStyle(fontFamily: "Daehan"),
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.next,
             cursorColor: btnColor,
@@ -365,11 +377,11 @@ class _SignupFormState extends State<SignUpForm> {
             decoration: InputDecoration(
               isCollapsed: true,
               hintText: "전화번호",
-              hintStyle: TextStyle(color: sColor),
-              contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
+              hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+              contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.white)),
+                  borderSide: BorderSide(color: sColor)),
               filled: true,
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
@@ -381,6 +393,7 @@ class _SignupFormState extends State<SignUpForm> {
             // 이메일
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              style: TextStyle(fontFamily: "Daehan"),
               textInputAction: TextInputAction.done,
               keyboardType: TextInputType.emailAddress,
               obscureText: false,
@@ -404,11 +417,11 @@ class _SignupFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 hintText: "이메일",
-                hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 17.5, 10, 17.5),
+                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: Colors.white)),
+                    borderSide: BorderSide(color: sColor)),
                 filled: true,
                 fillColor: Colors.white,
                 focusedBorder: OutlineInputBorder(
@@ -451,7 +464,12 @@ class _SignupFormState extends State<SignUpForm> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                           )),
-                      label: Text("프로필 이미지 (선택)"),
+                      label: Text(
+                        "프로필 이미지 (선택)",
+                        style: TextStyle(
+                          fontFamily: "Daehan",
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -462,6 +480,7 @@ class _SignupFormState extends State<SignUpForm> {
             // 자기소개
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              style: TextStyle(fontFamily: "Daehan"),
               keyboardType: TextInputType.multiline,
               maxLines: 4,
               textInputAction: TextInputAction.done,
@@ -484,11 +503,11 @@ class _SignupFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 hintText: "자기소개 (선택)",
-                hintStyle: TextStyle(color: sColor),
-                contentPadding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: Colors.white)),
+                    borderSide: BorderSide(color: sColor)),
                 filled: true,
                 fillColor: Colors.white,
                 focusedBorder: OutlineInputBorder(
@@ -503,7 +522,7 @@ class _SignupFormState extends State<SignUpForm> {
               height: 48,
               width: double.maxFinite,
               child: Hero(
-                tag: "next_btn",
+                tag: "signUp_btn",
                 child: ElevatedButton(
                   onPressed: () {
                     _submit();
@@ -515,6 +534,9 @@ class _SignupFormState extends State<SignUpForm> {
                       )),
                   child: Text(
                     "회원가입".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
+                    ),
                   ),
                 ),
               ),

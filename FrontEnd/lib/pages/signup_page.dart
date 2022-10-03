@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/responsive.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../components/logo.dart';
 import '../components/signup/signup_form.dart';
-import '../components/signup/signup_pet_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -13,11 +12,13 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('회원가입'), foregroundColor:nWColor,
+        title: Text('회원가입'),
+        titleTextStyle: TextStyle(fontFamily: "Daehan", fontSize: 25.sp),
+        foregroundColor: nWColor,
         backgroundColor: btnColor,
         centerTitle: true,
       ),
-      backgroundColor: pColor,
+      backgroundColor: nWColor,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
