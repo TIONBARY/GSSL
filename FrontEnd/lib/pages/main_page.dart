@@ -1,5 +1,5 @@
 import 'package:GSSL/api/api_pet.dart';
-import 'package:GSSL/components/main/main_header_bar.dart';
+import 'package:GSSL/components/main/main_profile_bar.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/get_pet_detail.dart';
 import 'package:GSSL/pages/bogam_page.dart';
@@ -82,7 +82,7 @@ class UserBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(0, 30.h, 0, 0),
+        margin: EdgeInsets.fromLTRB(0, 15.h, 0, 0),
         // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
         decoration: BoxDecoration(
             // borderRadius: BorderRadius.circular(45),

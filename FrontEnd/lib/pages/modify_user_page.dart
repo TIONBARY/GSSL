@@ -2,6 +2,7 @@ import 'package:GSSL/components/user/modify_form.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ModifyUserScreen extends StatelessWidget {
   const ModifyUserScreen({Key? key}) : super(key: key);
@@ -10,12 +11,13 @@ class ModifyUserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('회원정보 수정'),
+        title: Text('내 정보 수정'),
+        titleTextStyle: TextStyle(fontFamily: "Daehan", fontSize: 25.sp),
         foregroundColor: nWColor,
         backgroundColor: btnColor,
         centerTitle: true,
       ),
-      backgroundColor: pColor,
+      backgroundColor: nWColor,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
