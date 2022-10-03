@@ -6,6 +6,7 @@ import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:GSSL/pages/modify_user_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../util/custom_dialog.dart';
 
@@ -18,11 +19,16 @@ class UserDetail extends StatefulWidget {
   State<UserDetail> createState() => _UserDetailState();
 }
 
+final UserDetailFormKey = GlobalKey<FormState>();
+String S3Address = "https://a204drdoc.s3.ap-northeast-2.amazonaws.com/";
+User? user;
+ApiUser apiUser = ApiUser();
+
 class _UserDetailState extends State<UserDetail> {
-  final UserDetailFormKey = GlobalKey<FormState>();
-  String S3Address = "https://a204drdoc.s3.ap-northeast-2.amazonaws.com/";
-  User? user;
-  ApiUser apiUser = ApiUser();
+  // final UserDetailFormKey = GlobalKey<FormState>();
+  // String S3Address = "https://a204drdoc.s3.ap-northeast-2.amazonaws.com/";
+  // User? user;
+  // ApiUser apiUser = ApiUser();
 
   Future<void> getUser() async {
     userInfo? userInfoResponse = await apiUser.getUserInfo();
@@ -85,89 +91,46 @@ class _UserDetailState extends State<UserDetail> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(
-            0, MediaQuery.of(context).size.height / 20, 0, 0),
+        margin: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
         child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.width / 9, 0, 0, 0),
-              child: Row(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 5,
-                    height: MediaQuery.of(context).size.width / 5,
-                    child: Center(
-                      child: user?.profilePic == null ||
-                              user?.profilePic!.length == 0
-                          ? CircleAvatar(
-                              backgroundColor: Colors.black, radius: 200.0)
-                          : CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(S3Address + user!.profilePic!),
-                              radius: 200.0),
-                    ),
-                    decoration: BoxDecoration(
-                        color: Colors.black, shape: BoxShape.circle),
-                  ),
-                  Container(
-                      height: MediaQuery.of(context).size.width / 5,
-                      margin: EdgeInsets.fromLTRB(
-                          MediaQuery.of(context).size.width / 20, 0, 0, 0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                                user?.nickname == null
-                                    ? "불러오는 중입니다..."
-                                    : user!.nickname!,
-                                style: TextStyle(fontSize: 20)),
-                            Text(
-                                user?.memberId == null
-                                    ? "잠시만 기다려주세요..."
-                                    : user!.memberId!,
-                                style: TextStyle(fontSize: 15))
-                          ]))
-                ],
+            userPic(),
+            userNickName(),
+            userInfoTitle(title: "기본 정보"),
+            userInfoBox(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              child: TextFormField(
+                style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                controller: TextEditingController()
+                  ..text =
+                      user?.introduce == null || user?.introduce!.length == 0
+                          ? "작성한 자기소개가 없습니다."
+                          : user!.introduce!,
+                keyboardType: TextInputType.multiline,
+                maxLines: 4,
+                textInputAction: TextInputAction.done,
+                cursorColor: btnColor,
+                readOnly: true,
+                decoration: InputDecoration(
+                  hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                  contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(color: sColor)),
+                  filled: true,
+                  fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(color: btnColor)),
+                ),
               ),
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
-                height: MediaQuery.of(context).size.height / 5,
-                width: MediaQuery.of(context).size.width / 1.3,
-                alignment: Alignment.center,
-                child: TextFormField(
-                  controller: TextEditingController()
-                    ..text =
-                        user?.introduce == null || user?.introduce!.length == 0
-                            ? "작성한 자기소개가 없습니다."
-                            : user!.introduce!,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 4,
-                  textInputAction: TextInputAction.done,
-                  cursorColor: btnColor,
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    hintStyle: TextStyle(color: sColor),
-                    contentPadding: EdgeInsets.fromLTRB(20, 25, 25, 15),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.white)),
-                    filled: true,
-                    fillColor: Colors.white,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: btnColor)),
-                  ),
-                ),
-              )
-            ]),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: Container(
-                height: 48,
-                width: MediaQuery.of(context).size.width / 1.3,
+                height: 40.h,
+                width: double.maxFinite,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -185,16 +148,19 @@ class _UserDetailState extends State<UserDetail> {
                         borderRadius: BorderRadius.circular(25.0),
                       )),
                   child: Text(
-                    "회원정보 수정",
+                    "회원정보 수정".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
+                    ),
                   ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
               child: Container(
-                height: 48,
-                width: MediaQuery.of(context).size.width / 1.3,
+                height: 40.h,
+                width: double.maxFinite,
                 child: ElevatedButton(
                   onPressed: () {
                     logout();
@@ -205,12 +171,257 @@ class _UserDetailState extends State<UserDetail> {
                         borderRadius: BorderRadius.circular(25.0),
                       )),
                   child: Text(
-                    "로그아웃",
+                    "로그아웃".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
+                    ),
                   ),
                 ),
               ),
             ),
           ],
         ));
+  }
+}
+
+class userPic extends StatefulWidget {
+  const userPic({Key? key}) : super(key: key);
+
+  @override
+  State<userPic> createState() => _userPicState();
+}
+
+class _userPicState extends State<userPic> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100.w,
+      height: 100.h,
+      child: Center(
+        child: user?.profilePic == null || user?.profilePic!.length == 0
+            ? CircleAvatar(backgroundColor: Colors.black, radius: 200.0)
+            : CircleAvatar(
+                backgroundImage: NetworkImage(S3Address + user!.profilePic!),
+                radius: 200.0),
+      ),
+      decoration: BoxDecoration(color: Colors.black, shape: BoxShape.circle),
+    );
+  }
+}
+
+class userNickName extends StatefulWidget {
+  const userNickName({Key? key}) : super(key: key);
+
+  @override
+  State<userNickName> createState() => _userNickNameState();
+}
+
+class _userNickNameState extends State<userNickName> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: defaultPadding / 2),
+      child: Text(
+        user?.nickname == null ? "불러오는 중입니다..." : user!.nickname!,
+        style:
+            TextStyle(color: btnColor, fontFamily: "Daehan", fontSize: 25.sp),
+      ),
+    );
+  }
+}
+
+class userInfoTitle extends StatelessWidget {
+  const userInfoTitle({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(2.5.w, 10.h, 0, 2.5.h),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 20.sp,
+              color: btnColor,
+              fontFamily: "Daehan",
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class userInfoBox extends StatelessWidget {
+  const userInfoBox({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
+      decoration: BoxDecoration(
+          color: Color(0x80C3B091), borderRadius: BorderRadius.circular(15)),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
+            child: Row(children: [
+              Flexible(
+                child: Container(
+                  child: RichText(
+                      text: TextSpan(
+                    text: '아이디',
+                    style: TextStyle(
+                        color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+                  )),
+                ),
+                flex: 3,
+              ),
+              const SizedBox(width: defaultPadding),
+              Flexible(
+                child: Text(
+                    user?.memberId == null ? "잠시만 기다려주세요..." : user!.memberId!,
+                    style: TextStyle(fontSize: 15.sp, fontFamily: "Daehan")),
+                flex: 8,
+              ),
+            ]),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
+            child: Row(children: [
+              Flexible(
+                child: Container(
+                  child: RichText(
+                      text: TextSpan(
+                    text: '성별',
+                    style: TextStyle(
+                        color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+                  )),
+                ),
+                flex: 3,
+              ),
+              const SizedBox(width: defaultPadding),
+              Flexible(
+                child: Text(user!.gender! == 'M' ? "남자" : "여자",
+                    style: TextStyle(fontSize: 15.sp, fontFamily: "Daehan")),
+                flex: 8,
+              ),
+            ]),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
+            child: Row(children: [
+              Flexible(
+                child: Container(
+                  child: RichText(
+                      text: TextSpan(
+                    text: '전화번호',
+                    style: TextStyle(
+                        color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+                  )),
+                ),
+                flex: 3,
+              ),
+              const SizedBox(width: defaultPadding),
+              Flexible(
+                child: Text(
+                    user?.phone == null ? "잠시만 기다려주세요..." : user!.phone!,
+                    style: TextStyle(fontSize: 15.sp, fontFamily: "Daehan")),
+                flex: 8,
+              ),
+            ]),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
+            child: Row(children: [
+              Flexible(
+                child: Container(
+                  child: RichText(
+                      text: TextSpan(
+                    text: '이메일',
+                    style: TextStyle(
+                        color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+                  )),
+                ),
+                flex: 3,
+              ),
+              const SizedBox(width: defaultPadding),
+              Flexible(
+                child: Text(
+                    user?.email == null ? "잠시만 기다려주세요..." : user!.email!,
+                    style: TextStyle(fontSize: 15.sp, fontFamily: "Daehan")),
+                flex: 8,
+              ),
+            ]),
+          ),
+          // Padding(
+          //   padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+          //   child: Row(
+          //     children: [
+          //       Flexible(
+          //         child: iconBox(
+          //           iconName: pet!.gender! == 'M'
+          //               ? Icon(
+          //                   Icons.male,
+          //                   color: Colors.blue,
+          //                 )
+          //               : Icon(
+          //                   Icons.female,
+          //                   color: Colors.red,
+          //                 ),
+          //           detail: "성별",
+          //         ),
+          //         flex: 3,
+          //       ),
+          //       Flexible(
+          //         child: petGender(),
+          //         flex: 8,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+          //   child: Row(
+          //     children: [
+          //       Flexible(
+          //         child: iconBox(
+          //           iconName: Icon(Icons.cake),
+          //           detail: "생일",
+          //         ),
+          //         flex: 3,
+          //       ),
+          //       Flexible(
+          //         child: petBirth(),
+          //         flex: 8,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.fromLTRB(0, 0, 0, 10.h),
+          //   child: Row(
+          //     children: [
+          //       Flexible(
+          //         child: iconBox(
+          //           iconName: Icon(Icons.monitor_weight),
+          //           detail: "무게",
+          //         ),
+          //         flex: 3,
+          //       ),
+          //       Flexible(
+          //         child: petWeight(),
+          //         flex: 8,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+        ],
+      ),
+    );
   }
 }

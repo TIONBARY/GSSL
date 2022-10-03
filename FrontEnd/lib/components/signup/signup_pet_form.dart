@@ -1,11 +1,8 @@
 import 'package:GSSL/pages/main_page.dart';
 import 'package:flutter/material.dart';
 
-import '../dont_have_an_Account.dart';
 import '../../constants.dart';
-import '../../pages/login_page.dart';
-import '../signup/signup_pet_form.dart';
-import '../logo.dart';
+
 class SignUpPetForm extends StatelessWidget {
   const SignUpPetForm({
     Key? key,
@@ -221,6 +218,9 @@ class SignUpPetForm extends StatelessWidget {
                       )),
                   child: Text(
                     "반려동물 추가".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: "Daehan",
+                    ),
                   ),
                 ),
               ),
@@ -232,4 +232,3 @@ class SignUpPetForm extends StatelessWidget {
     );
   }
 }
-
