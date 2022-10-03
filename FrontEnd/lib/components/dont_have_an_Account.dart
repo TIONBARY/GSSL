@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:GSSL/constants.dart';
+import 'package:flutter/material.dart';
 
 class DontHaveAnAccount extends StatelessWidget {
   final bool login;
@@ -17,7 +17,7 @@ class DontHaveAnAccount extends StatelessWidget {
       children: <Widget>[
         Text(
           login ? " 계정이 없으신가요? " : "Already have an Account ? ",
-          style: const TextStyle(color: btnColor),
+          style: TextStyle(fontFamily: "Daehan", color: btnColor),
         ),
         GestureDetector(
           onTap: press as void Function()?,
@@ -26,6 +26,7 @@ class DontHaveAnAccount extends StatelessWidget {
             style: const TextStyle(
               color: btnColor,
               fontWeight: FontWeight.bold,
+              fontFamily: "Daehan",
             ),
           ),
         )
