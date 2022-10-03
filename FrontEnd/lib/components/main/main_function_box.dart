@@ -8,12 +8,14 @@ class function_box extends StatelessWidget {
       required this.title,
       required this.box_color,
       required this.paddings,
-      required this.nextPage})
+      required this.nextPage,
+      required this.description})
       : super(key: key);
   final title;
   final box_color;
   final paddings;
   final nextPage;
+  final description;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,16 @@ class function_box extends StatelessWidget {
                   width: 480.w,
                   height: 400.h,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: box_color,
-                  ),
+                      borderRadius: BorderRadius.circular(15),
+                      color: box_color,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
+                        )
+                      ]),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -59,7 +68,7 @@ class function_box extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.fromLTRB(15.w, 0, 0, 0),
                               child: Text(
-                                "설명",
+                                description,
                                 style: TextStyle(
                                   fontSize: 18.sp,
                                   color: btnColor,
