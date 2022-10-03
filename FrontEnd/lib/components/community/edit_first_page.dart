@@ -155,9 +155,18 @@ class _EditPostPageState extends State<EditPostPage> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Edit Content'),
+          backgroundColor: pColor,
+          title: const Text(
+            '게시글 수정하기',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+            ),
+          ),
           leading: IconButtonWidget(
+              color: btnColor,
               iconData: Icons.arrow_back_sharp,
+              iconColor: Colors.white,
               onTap: () => Navigator.of(context).pop(false)),
         ),
         body: SingleChildScrollView(
@@ -238,7 +247,9 @@ class _EditPostPageState extends State<EditPostPage> {
                   height: 30,
                 ),
                 TextBtnWidget(
-                    name: '게시하기',
+                    name: '수정하기',
+                    btnColor: btnColor,
+                    nameColor: Colors.white,
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
