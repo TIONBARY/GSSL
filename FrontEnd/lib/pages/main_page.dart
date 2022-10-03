@@ -1,5 +1,7 @@
+import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/components/main/main_header_bar.dart';
 import 'package:GSSL/constants.dart';
+import 'package:GSSL/model/response_models/get_pet_detail.dart';
 import 'package:GSSL/pages/bogam_page.dart';
 import 'package:GSSL/pages/diary_page.dart';
 import 'package:GSSL/pages/jeongeum_page.dart';
@@ -99,6 +101,7 @@ class behavior_diagnosis extends StatelessWidget {
       title: '견민정음',
       box_color: Color(0x80C66952),
       paddings: EdgeInsets.fromLTRB(25.w, 15.h, 25.w, 15.h),
+      description: "멍멍이는 지금 어떤 생각을 하고 있을까? \n카메라로 찍어보세요!",
       nextPage: JeongeumPage(),
     );
   }
@@ -113,6 +116,7 @@ class health_diagnosis extends StatelessWidget {
       title: '견의보감',
       box_color: Color(0x80506274),
       paddings: EdgeInsets.fromLTRB(25.w, 15.h, 25.w, 15.h),
+      description: "혹시 아픈 곳이 있지 않을까? \n인공지능을 통한 간이 진단을 해보세요!",
       nextPage: BogamPage(),
     );
   }
@@ -126,12 +130,21 @@ class diary extends StatefulWidget {
 }
 
 class _diaryState extends State<diary> {
+  Pet? pet;
+  ApiPet apiPet = ApiPet();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return function_box(
       title: '견중일기',
       box_color: Color(0x80DFB45B),
       paddings: EdgeInsets.fromLTRB(25.w, 15.h, 25.w, 15.h),
+      description: "${pet?.name}의 진단 기록을 볼 수 있어요.",
       nextPage: GalleryApp(),
     );
   }
