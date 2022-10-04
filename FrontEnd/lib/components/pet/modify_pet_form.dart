@@ -53,6 +53,8 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
 
   final picker = ImagePicker();
 
+  bool _loading = true;
+
   Future<void> chooseImage() async {
     var choosedimage = await picker.pickImage(source: ImageSource.gallery);
     //set source: ImageSource.camera to get image from camera
@@ -150,6 +152,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
       file2.writeAsBytesSync(response.bodyBytes); // <-- 3
       setState(() {
         animalPicture = file2;
+        _loading = false;
       });
       print(animalPicture);
     } else if (getMainPetResponse.statusCode == 401) {
@@ -222,307 +225,53 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: ModifyPetFormKey,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: TextFormField(
-              // 반려견 이름
-              style: TextStyle(fontFamily: "Daehan"),
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.next,
-              cursorColor: btnColor,
-              controller: TextEditingController()
-                ..text = name == null || name!.length == 0 ? "" : name!,
-              onChanged: (val) {
-                name = val;
-              },
-              autovalidateMode: _submitted
-                  ? AutovalidateMode.onUserInteraction
-                  : AutovalidateMode.disabled,
-              validator: (text) {
-                if (text == null || text.isEmpty) {
-                  return '반려견의 이름을 입력해주세요.';
-                }
-                if (text.length > 10) {
-                  return '10자 이내로 입력해주세요.';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                isCollapsed: true,
-                hintText: "이름",
-                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
-                contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: sColor)),
-                filled: true,
-                fillColor: Colors.white,
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: btnColor)),
-              ),
-            ),
-          ),
-          DropdownButtonFormField(
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.fromLTRB(20.w, 14.h, 10.w, 14.h),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: sColor)),
-              filled: true,
-              fillColor: Colors.white,
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: btnColor)),
-            ),
-            isExpanded: true,
-            value: kind_id,
-            items: kinds?.map((Kind item) {
-              return DropdownMenuItem<int>(
-                child: Text(
-                  item.name!,
-                  style: TextStyle(color: btnColor, fontFamily: "Daehan"),
-                ),
-                value: item.id,
-              );
-            }).toList(),
-            onChanged: (dynamic val) {
-              setState(() {
-                kind_id = val;
-              });
-            },
-          ),
-          Column(children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                    child: ListTile(
-                  title: const Text(
-                    '남아',
-                    style: TextStyle(color: btnColor, fontFamily: "Daehan"),
-                  ),
-                  leading: Radio<String>(
-                    value: "M",
-                    groupValue: gender,
-                    fillColor:
-                        MaterialStateColor.resolveWith((states) => btnColor),
-                    onChanged: (String? value) {
-                      setState(() {
-                        gender = value;
-                      });
-                    },
-                  ),
-                )),
-                Expanded(
-                    child: ListTile(
-                  title: const Text(
-                    '여아',
-                    style: TextStyle(color: btnColor, fontFamily: "Daehan"),
-                  ),
-                  leading: Radio<String>(
-                    value: "F",
-                    groupValue: gender,
-                    fillColor:
-                        MaterialStateColor.resolveWith((states) => btnColor),
-                    onChanged: (String? value) {
-                      setState(() {
-                        gender = value;
-                      });
-                    },
-                  ),
-                )),
-              ],
-            )
-          ]),
-          Padding(
-              padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
-              child: Column(children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    if (_loading) {
+      return Container(
+          margin: EdgeInsets.fromLTRB(0, 130.h, 0, 0),
+          child: Column(children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      '중성화 수술을 했어요',
-                      style: TextStyle(color: btnColor, fontFamily: "Daehan"),
-                    ),
-                    Transform.scale(
-                      scale: 1.25,
-                      child: Checkbox(
-                        activeColor: btnColor,
-                        checkColor: nWColor,
-                        value: neutralize,
-                        onChanged: (value) {
-                          setState(() {
-                            neutralize = value;
-                          });
-                        },
-                      ),
-                    ),
+                    Image.asset("assets/images/loadingDog.gif"),
                   ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '무지개 다리를 건넜어요...',
-                      style: TextStyle(color: btnColor, fontFamily: "Daehan"),
-                    ),
-                    Transform.scale(
-                      scale: 1.25,
-                      child: Checkbox(
-                        activeColor: btnColor,
-                        checkColor: nWColor,
-                        value: death,
-                        onChanged: (value) {
-                          setState(() {
-                            death = value;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ])),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: TextField(
-              style: TextStyle(fontFamily: "Daehan"),
-              controller: dateinput, //editing controller of this TextField
-              decoration: InputDecoration(
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.calendar_today, color: sColor),
-                ),
-                hintText: "반려견의 생년월일",
-                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
-                contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: sColor)),
-                filled: true,
-                fillColor: Colors.white,
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: btnColor)),
-              ),
-              readOnly:
-                  true, //set it true, so that user will not able to edit text
-              onTap: () async {
-                DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(
-                        1990), //DateTime.now() - not to allow to choose before today.
-                    lastDate: DateTime(2023),
-                    builder: (context, child) {
-                      return Theme(
-                        data: Theme.of(context).copyWith(
-                          colorScheme: ColorScheme.light(
-                            primary: sColor,
-                            onPrimary: btnColor,
-                            onSurface: btnColor,
-                          ),
-                          textButtonTheme: TextButtonThemeData(
-                            style: TextButton.styleFrom(
-                              primary: btnColor, // button text color
-                            ),
-                          ),
-                        ),
-                        child: child!,
-                      );
-                    });
-
-                if (pickedDate != null) {
-                  print(
-                      pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000//formatted date output using intl package =>  2021-03-16
-                  //you can implement different kind of Date Format here according to your requirement
-
-                  setState(() {
-                    dateinput.text =
-                        DateFormat("yyyy-MM-dd").format(pickedDate);
-                    birth = pickedDate; //set output date to TextField value.
-                  });
-                } else {
-                  print("반려견 생년월일을 입력해주세요.");
-                }
-              },
-            ),
-          ),
-          Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Divider(color: sColor, thickness: 2.0)),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    // color: const Color(0xffd0cece),
-                    width: MediaQuery.of(context).size.width / 5,
-                    height: MediaQuery.of(context).size.width / 5,
-                    child: Center(
-                        child: animalPicture == null
-                            ? Text('')
-                            : new CircleAvatar(
-                                backgroundImage:
-                                    new FileImage(File(animalPicture!.path)),
-                                radius: 200.0,
-                              )),
-                    decoration:
-                        BoxDecoration(color: sColor, shape: BoxShape.circle),
-                  ),
-                  Container(
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        chooseImage(); // call choose image function
-                      },
-                      icon: Icon(Icons.image),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: btnColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          )),
-                      label: Text(
-                        "반려견 이미지 (선택)",
-                        style: TextStyle(
-                          fontFamily: "Daehan",
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: TextFormField(
-              // 몸무게
-              style: TextStyle(fontFamily: "Daehan"),
-              keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.next,
-              controller: TextEditingController()
-                ..text =
-                    weight == null || weight == 0.0 ? "" : weight.toString(),
-              cursorColor: btnColor,
-              onSaved: (val) {
-                setState(() {
-                  weight = double.tryParse(val!);
-                });
-              },
-              autovalidateMode: _submitted
-                  ? AutovalidateMode.onUserInteraction
-                  : AutovalidateMode.disabled,
-              validator: (text) {
-                return null;
-              },
-              decoration: InputDecoration(
+                ))),
+          ]));
+    } else {
+      return Form(
+        key: ModifyPetFormKey,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              child: TextFormField(
+                // 반려견 이름
+                style: TextStyle(fontFamily: "Daehan"),
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
+                cursorColor: btnColor,
+                controller: TextEditingController()
+                  ..text = name == null || name!.length == 0 ? "" : name!,
+                onChanged: (val) {
+                  name = val;
+                },
+                autovalidateMode: _submitted
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
+                validator: (text) {
+                  if (text == null || text.isEmpty) {
+                    return '반려견의 이름을 입력해주세요.';
+                  }
+                  if (text.length > 10) {
+                    return '10자 이내로 입력해주세요.';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
                   isCollapsed: true,
-                  hintText: "몸무게 (선택)",
+                  hintText: "이름",
                   hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
                   contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                   enabledBorder: OutlineInputBorder(
@@ -533,62 +282,290 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: btnColor)),
-                  suffix: Text("kg")),
+                ),
+              ),
             ),
-          ),
-          TextFormField(
-            // 질환
-            style: TextStyle(fontFamily: "Daehan"),
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            cursorColor: btnColor,
-            controller: TextEditingController()
-              ..text =
-                  diseases == null || diseases!.length == 0 ? "" : diseases!,
-            onChanged: (val) {
-              diseases = val;
-            },
-            autovalidateMode: _submitted
-                ? AutovalidateMode.onUserInteraction
-                : AutovalidateMode.disabled,
-            validator: (text) {
-              if (text == null) {
-                return null;
-              }
-              if (text.length > 15) {
-                return '앓고 있는 질환은 최대 15자까지 입력할 수 있어요.';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              isCollapsed: true,
-              hintText: "앓고 있는 질환 (선택)",
-              hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
-              contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: sColor)),
-              filled: true,
-              fillColor: Colors.white,
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: btnColor)),
+            DropdownButtonFormField(
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(20.w, 14.h, 10.w, 14.h),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: sColor)),
+                filled: true,
+                fillColor: Colors.white,
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: btnColor)),
+              ),
+              isExpanded: true,
+              value: kind_id,
+              items: kinds?.map((Kind item) {
+                return DropdownMenuItem<int>(
+                  child: Text(
+                    item.name!,
+                    style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                  ),
+                  value: item.id,
+                );
+              }).toList(),
+              onChanged: (dynamic val) {
+                setState(() {
+                  kind_id = val;
+                });
+              },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: TextFormField(
+            Column(children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                      child: ListTile(
+                    title: const Text(
+                      '남아',
+                      style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                    ),
+                    leading: Radio<String>(
+                      value: "M",
+                      groupValue: gender,
+                      fillColor:
+                          MaterialStateColor.resolveWith((states) => btnColor),
+                      onChanged: (String? value) {
+                        setState(() {
+                          gender = value;
+                        });
+                      },
+                    ),
+                  )),
+                  Expanded(
+                      child: ListTile(
+                    title: const Text(
+                      '여아',
+                      style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                    ),
+                    leading: Radio<String>(
+                      value: "F",
+                      groupValue: gender,
+                      fillColor:
+                          MaterialStateColor.resolveWith((states) => btnColor),
+                      onChanged: (String? value) {
+                        setState(() {
+                          gender = value;
+                        });
+                      },
+                    ),
+                  )),
+                ],
+              )
+            ]),
+            Padding(
+                padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
+                child: Column(children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '중성화 수술을 했어요',
+                        style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                      ),
+                      Transform.scale(
+                        scale: 1.25,
+                        child: Checkbox(
+                          activeColor: btnColor,
+                          checkColor: nWColor,
+                          value: neutralize,
+                          onChanged: (value) {
+                            setState(() {
+                              neutralize = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '무지개 다리를 건넜어요...',
+                        style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                      ),
+                      Transform.scale(
+                        scale: 1.25,
+                        child: Checkbox(
+                          activeColor: btnColor,
+                          checkColor: nWColor,
+                          value: death,
+                          onChanged: (value) {
+                            setState(() {
+                              death = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ])),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              child: TextField(
+                style: TextStyle(fontFamily: "Daehan"),
+                controller: dateinput,
+                //editing controller of this TextField
+                decoration: InputDecoration(
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(defaultPadding),
+                    child: Icon(Icons.calendar_today, color: sColor),
+                  ),
+                  hintText: "반려견의 생년월일",
+                  hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                  contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(color: sColor)),
+                  filled: true,
+                  fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(color: btnColor)),
+                ),
+                readOnly: true,
+                //set it true, so that user will not able to edit text
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1990),
+                      //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2023),
+                      builder: (context, child) {
+                        return Theme(
+                          data: Theme.of(context).copyWith(
+                            colorScheme: ColorScheme.light(
+                              primary: sColor,
+                              onPrimary: btnColor,
+                              onSurface: btnColor,
+                            ),
+                            textButtonTheme: TextButtonThemeData(
+                              style: TextButton.styleFrom(
+                                primary: btnColor, // button text color
+                              ),
+                            ),
+                          ),
+                          child: child!,
+                        );
+                      });
+
+                  if (pickedDate != null) {
+                    print(
+                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000//formatted date output using intl package =>  2021-03-16
+                    //you can implement different kind of Date Format here according to your requirement
+
+                    setState(() {
+                      dateinput.text =
+                          DateFormat("yyyy-MM-dd").format(pickedDate);
+                      birth = pickedDate; //set output date to TextField value.
+                    });
+                  } else {
+                    print("반려견 생년월일을 입력해주세요.");
+                  }
+                },
+              ),
+            ),
+            Container(
+                margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                child: Divider(color: sColor, thickness: 2.0)),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      // color: const Color(0xffd0cece),
+                      width: MediaQuery.of(context).size.width / 5,
+                      height: MediaQuery.of(context).size.width / 5,
+                      child: Center(
+                          child: animalPicture == null
+                              ? Text('')
+                              : new CircleAvatar(
+                                  backgroundImage:
+                                      new FileImage(File(animalPicture!.path)),
+                                  radius: 200.0,
+                                )),
+                      decoration:
+                          BoxDecoration(color: sColor, shape: BoxShape.circle),
+                    ),
+                    Container(
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          chooseImage(); // call choose image function
+                        },
+                        icon: Icon(Icons.image),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: btnColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            )),
+                        label: Text(
+                          "반려견 이미지 (선택)",
+                          style: TextStyle(
+                            fontFamily: "Daehan",
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              child: TextFormField(
+                // 몸무게
+                style: TextStyle(fontFamily: "Daehan"),
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.next,
+                controller: TextEditingController()
+                  ..text =
+                      weight == null || weight == 0.0 ? "" : weight.toString(),
+                cursorColor: btnColor,
+                onSaved: (val) {
+                  setState(() {
+                    weight = double.tryParse(val!);
+                  });
+                },
+                autovalidateMode: _submitted
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
+                validator: (text) {
+                  return null;
+                },
+                decoration: InputDecoration(
+                    isCollapsed: true,
+                    hintText: "몸무게 (선택)",
+                    hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                    contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: sColor)),
+                    filled: true,
+                    fillColor: Colors.white,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: btnColor)),
+                    suffix: Text("kg")),
+              ),
+            ),
+            TextFormField(
+              // 질환
               style: TextStyle(fontFamily: "Daehan"),
-              keyboardType: TextInputType.multiline,
-              maxLines: 4,
-              textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
               cursorColor: btnColor,
               controller: TextEditingController()
-                ..text = description == null || description!.length == 0
-                    ? ""
-                    : description!,
+                ..text =
+                    diseases == null || diseases!.length == 0 ? "" : diseases!,
               onChanged: (val) {
-                description = val;
+                diseases = val;
               },
               autovalidateMode: _submitted
                   ? AutovalidateMode.onUserInteraction
@@ -597,16 +574,16 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                 if (text == null) {
                   return null;
                 }
-                if (text.length > 50) {
-                  return '반려견 소개는 최대 50자까지 입력할 수 있어요.';
+                if (text.length > 15) {
+                  return '앓고 있는 질환은 최대 15자까지 입력할 수 있어요.';
                 }
                 return null;
               },
               decoration: InputDecoration(
                 isCollapsed: true,
-                hintText: "반려견 소개 (선택)",
+                hintText: "앓고 있는 질환 (선택)",
                 hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
-                contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: sColor)),
@@ -617,36 +594,79 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                     borderSide: BorderSide(color: btnColor)),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: Container(
-              height: 35.h,
-              width: double.maxFinite,
-              child: Hero(
-                tag: "modify_btn",
-                child: ElevatedButton(
-                  onPressed: () {
-                    _submit();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: btnColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      )),
-                  child: Text(
-                    "반려견 정보 수정".toUpperCase(),
-                    style: TextStyle(
-                      fontFamily: "Daehan",
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              child: TextFormField(
+                style: TextStyle(fontFamily: "Daehan"),
+                keyboardType: TextInputType.multiline,
+                maxLines: 4,
+                textInputAction: TextInputAction.done,
+                cursorColor: btnColor,
+                controller: TextEditingController()
+                  ..text = description == null || description!.length == 0
+                      ? ""
+                      : description!,
+                onChanged: (val) {
+                  description = val;
+                },
+                autovalidateMode: _submitted
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
+                validator: (text) {
+                  if (text == null) {
+                    return null;
+                  }
+                  if (text.length > 50) {
+                    return '반려견 소개는 최대 50자까지 입력할 수 있어요.';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  isCollapsed: true,
+                  hintText: "반려견 소개 (선택)",
+                  hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                  contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(color: sColor)),
+                  filled: true,
+                  fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(color: btnColor)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              child: Container(
+                height: 35.h,
+                width: double.maxFinite,
+                child: Hero(
+                  tag: "modify_btn",
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _submit();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: btnColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        )),
+                    child: Text(
+                      "반려견 정보 수정".toUpperCase(),
+                      style: TextStyle(
+                        fontFamily: "Daehan",
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: defaultPadding / 2),
-        ],
-      ),
-    );
+            const SizedBox(height: defaultPadding / 2),
+          ],
+        ),
+      );
+    }
   }
 }
