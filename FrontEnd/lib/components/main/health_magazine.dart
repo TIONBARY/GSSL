@@ -9,11 +9,11 @@ class health_magazine extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 480.h,
-      width: double.infinity,
+      width: 230.w,
       padding: EdgeInsets.all(5.h),
       // color: Colors.red,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
             children: [
@@ -33,14 +33,15 @@ class health_magazine extends StatelessWidget {
   }
 }
 
-class magazineBox extends StatelessWidget {
-  const magazineBox({Key? key}) : super(key: key);
+class magazineBoxTitle extends StatelessWidget {
+  const magazineBoxTitle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 170.w,
+        width: 180.w,
         height: 230.h,
+        margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
         child: Column(
           children: [
             Image.asset('assets/images/tooth/001.png'),
@@ -48,7 +49,7 @@ class magazineBox extends StatelessWidget {
               child: Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 5.w, 0),
+                    padding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
                     child: Text(
                         style: TextStyle(
                           color: Color(0xff424242),
@@ -71,5 +72,75 @@ class magazineBox extends StatelessWidget {
             )
           ],
         ));
+  }
+}
+
+class magazineBox extends StatelessWidget {
+  const magazineBox({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (BuildContext context) {
+            return Container(
+                height: 700.h,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    )),
+                child: magazineBoxContent()); // 내부
+          },
+        );
+      },
+      child: magazineBoxTitle(), // 보이는 화면
+    );
+  }
+}
+
+class magazineBoxContent extends StatelessWidget {
+  const magazineBoxContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        photos(
+          adrs: "assets/images/tooth/001.png",
+        ),
+        photos(
+          adrs: "assets/images/tooth/002.png",
+        ),
+        photos(
+          adrs: "assets/images/tooth/003.png",
+        ),
+        photos(
+          adrs: "assets/images/tooth/004.png",
+        ),
+        photos(
+          adrs: "assets/images/tooth/005.png",
+        ),
+        photos(
+          adrs: "assets/images/tooth/006.png",
+        ),
+      ],
+    );
+  }
+}
+
+class photos extends StatelessWidget {
+  const photos({Key? key, this.adrs}) : super(key: key);
+  final adrs;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Image.asset(adrs),
+    );
   }
 }
