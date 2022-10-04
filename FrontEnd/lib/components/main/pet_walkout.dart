@@ -63,7 +63,7 @@ class _pet_walkoutState extends State<pet_walkout> {
     getWalkDone? getWalkDoneResponse = await apiWalk.getIsDone(user!.petId!);
     if (getWalkDoneResponse.statusCode == 200) {
       setState(() {
-        done = getWalkDoneResponse!.done!;
+        done = getWalkDoneResponse.done!;
       });
     }
   }
@@ -104,7 +104,7 @@ class _pet_walkoutState extends State<pet_walkout> {
                     fontFamily: "Sub",
                     fontSize: 20.sp,
                   ),
-                  "${walkInfo?.distance_sum}m, ${walkInfo?.time_passed}분"),
+                  "${walkInfo?.distance_sum}m, ${(walkInfo!.time_passed! / 60).round()}분"),
             ),
           ],
         ));
