@@ -22,6 +22,7 @@ class _pet_walkoutState extends State<pet_walkout> {
   TotalInfo? walkInfo;
   bool done = false;
   User? user;
+  int passedMinute = 0;
 
   ApiUser apiUser = ApiUser();
   ApiPet apiPet = ApiPet();
@@ -36,6 +37,7 @@ class _pet_walkoutState extends State<pet_walkout> {
       getMainPet();
       getTotalInfo();
       getIsDone();
+      passedMinute = walkInfo!.time_passed!;
     }
   }
 
@@ -71,7 +73,9 @@ class _pet_walkoutState extends State<pet_walkout> {
   @override
   void initState() {
     super.initState();
-    getUser();
+    if (mounted) {
+      getUser();
+    }
   }
 
   @override
@@ -89,7 +93,7 @@ class _pet_walkoutState extends State<pet_walkout> {
                     fontFamily: "Sub",
                     fontSize: 25.sp,
                   ),
-                  done ? "아직 산책을 못했어요.." : "오늘은 산책을 다녀왔어요!"),
+                  !done ? "아직 산책을 못했어요.." : "오늘은 산책을 다녀왔어요!"),
             ),
             Text(
                 style: TextStyle(
@@ -104,7 +108,7 @@ class _pet_walkoutState extends State<pet_walkout> {
                     fontFamily: "Sub",
                     fontSize: 20.sp,
                   ),
-                  "${walkInfo?.distance_sum}m, ${(walkInfo!.time_passed! / 60).round()}분"),
+                  "${walkInfo?.distance_sum}m, ${(passedMinute / 60).round()}분"),
             ),
           ],
         ));
