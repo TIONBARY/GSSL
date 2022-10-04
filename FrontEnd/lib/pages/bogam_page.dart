@@ -28,8 +28,8 @@ final label = [
   '유루증',
   '핵경화'
 ];
-List<String> diagnosisResult = ['1등', '2등', '3등'];
-List<int> diagnosisPercent = [50, 50, 50];
+List<String> diagnosisResult = ['', '', ''];
+List<int> diagnosisPercent = [0, 0, 0];
 ApiBogam apiBogam = ApiBogam();
 XFile? _image;
 final picker = ImagePicker();
