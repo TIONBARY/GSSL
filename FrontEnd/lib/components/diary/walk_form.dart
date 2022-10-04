@@ -4,6 +4,7 @@ import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_user.dart';
 import 'package:GSSL/api/api_walk.dart';
 import 'package:GSSL/components/diary/walk_detail_form.dart';
+import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/get_walk_detail.dart';
 import 'package:GSSL/model/response_models/get_walk_list.dart';
 import 'package:GSSL/pages/walk_map.dart';
@@ -23,6 +24,10 @@ class WalkPage extends StatefulWidget {
 }
 
 class _WalkPageState extends State<WalkPage> {
+  List<int> selectedArticles = [];
+  List<int> selectedWalkIds = [];
+  bool selectionMode = false;
+
   @override
   Widget build(BuildContext context) {
     return // 임시 버튼
@@ -88,76 +93,161 @@ class _WalkPageState extends State<WalkPage> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                           ),
-                          child: GridView.builder(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                            ),
-                            itemBuilder: (context, index) {
-                              String _imgPath = "";
-                              if (prefix != "null") {
-                                if (File(prefix +
+                          child: Stack(children: [
+                            GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
+                              itemBuilder: (context, index) {
+                                String _imgPath = "";
+                                if (prefix != "null") {
+                                  if (File(prefix +
+                                          formatDateTime(infoList[index]
+                                              .endTime
+                                              .toString()) +
+                                          ".png")
+                                      .existsSync()) {
+                                    _imgPath = prefix +
                                         formatDateTime(infoList[index]
                                             .endTime
                                             .toString()) +
-                                        ".png")
-                                    .existsSync()) {
-                                  _imgPath = prefix +
-                                      formatDateTime(
-                                          infoList[index].endTime.toString()) +
-                                      ".png";
+                                        ".png";
+                                  }
                                 }
-                              }
-                              return RawMaterialButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => WalkDetailsPage(
-                                        index: infoList[index].walkId!,
-                                        distance: convertMeters(
-                                            infoList[index].distance!),
-                                        imagePath: _imgPath,
-                                        title: convertWalkTime(
-                                            infoList[index].startTime!,
-                                            infoList[index].endTime!),
-                                        petNames: getPetNameString(
-                                            infoList[index].petsList!),
+                                return RawMaterialButton(
+                                  onLongPress: () {
+                                    if (selectionMode) {
+                                      enterIntoArticle(
+                                          infoList, index, _imgPath);
+                                    } else {
+                                      selectArticle(infoList, index);
+                                    }
+                                  },
+                                  onPressed: () {
+                                    if (!selectionMode) {
+                                      enterIntoArticle(
+                                          infoList, index, _imgPath);
+                                    } else {
+                                      selectArticle(infoList, index);
+                                    }
+                                  },
+                                  child: Hero(
+                                    tag: '$index',
+                                    child: Stack(children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.7),
+                                              blurRadius: 7,
+                                              offset: Offset(3, 3),
+                                            ),
+                                          ],
+                                          image: File(_imgPath).existsSync()
+                                              ? DecorationImage(
+                                                  image:
+                                                      FileImage(File(_imgPath)),
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : DecorationImage(
+                                                  image: AssetImage(
+                                                      "assets/images/basic_dog.png"),
+                                                  fit: BoxFit.contain,
+                                                ),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                child: Hero(
-                                    tag: 'logo$index',
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.7),
-                                            blurRadius: 7,
-                                            offset: Offset(3, 3),
+                                      (selectionMode)
+                                          ? Checkbox(
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  5.0))),
+                                              // Rounded Checkbox
+                                              value: selectedArticles
+                                                  .contains(index),
+                                              onChanged: (inputValue) {
+                                                setState(() {
+                                                  // selectedArticles = [];
+                                                });
+                                              },
+                                            )
+                                          : Container(),
+                                      Positioned(
+                                        top: 90.w,
+                                        left: 70.w,
+                                        child: Text(
+                                          toMonth(infoList[index].endTime!),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 10.sp,
+                                            color: btnColor,
+                                            fontFamily: 'Daehan',
                                           ),
-                                        ],
-                                        image: File(_imgPath).existsSync()
-                                            ? DecorationImage(
-                                                image:
-                                                    FileImage(File(_imgPath)),
-                                                fit: BoxFit.cover,
-                                              )
-                                            : DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/images/basic_dog.png"),
-                                                fit: BoxFit.contain,
-                                              ),
+                                        ),
                                       ),
-                                    )),
-                              );
-                            },
-                            itemCount: infoList.length,
-                          ),
+                                    ]),
+                                  ),
+                                );
+                              },
+                              itemCount: infoList.length,
+                            ),
+                            Positioned(
+                              top: 450.h,
+                              left: 280.w,
+                              child: (selectedArticles.isNotEmpty)
+                                  ? FloatingActionButton(
+                                      child: Icon(Icons.delete),
+                                      elevation: 5,
+                                      hoverElevation: 10,
+                                      tooltip: "선택된 항목 삭제",
+                                      backgroundColor: Colors.red,
+                                      onPressed: () {
+                                        // debugPrint("삭제");
+
+                                        // 스크린샷 삭제
+                                        selectedArticles.forEach((e) => {
+                                              if (File(prefix +
+                                                      formatDateTime(infoList[e]
+                                                          .endTime
+                                                          .toString()) +
+                                                      ".png")
+                                                  .existsSync())
+                                                {
+                                                  File(prefix +
+                                                          formatDateTime(
+                                                              infoList[e]
+                                                                  .endTime
+                                                                  .toString()) +
+                                                          ".png")
+                                                      .deleteSync()
+                                                }
+                                            });
+
+                                        // 삭제 요청 전송;
+                                        selectedArticles.forEach((e) =>
+                                            selectedWalkIds
+                                                .add(infoList[e].walkId!));
+                                        apiWalk.deleteAllWalk(selectedWalkIds);
+                                        // 선택 리스트 비우기
+                                        setState(() {
+                                          selectedArticles = [];
+                                          selectedWalkIds = [];
+                                          selectionMode = false;
+                                        });
+                                        // 새로고침
+                                        setState(() {});
+                                      })
+                                  : Container(),
+                            ),
+                          ]),
                         ),
                       ),
                     ])));
@@ -176,7 +266,7 @@ class _WalkPageState extends State<WalkPage> {
       List<Detail> result = <Detail>[];
       if (content != null) {
         content.forEach((info) {
-          print(info.walkId.toString());
+          // print(info.walkId.toString());
           result.add(new Detail(
               walkId: info.walkId,
               startTime: info.startTime,
@@ -192,10 +282,10 @@ class _WalkPageState extends State<WalkPage> {
 
   void getWalkInfo() async {
     getWalkDetail response = await apiWalk.getWalk(90);
-    debugPrint("단일");
+    // debugPrint("단일");
     Detail? info = response.detail;
     if (info != null) {
-      debugPrint(info.endTime.toString());
+      // debugPrint(info.endTime.toString());
     }
   }
 
@@ -227,12 +317,54 @@ class _WalkPageState extends State<WalkPage> {
     return stStr + " ~ " + etStr;
   }
 
+  String toMonth(String endTime) {
+    DateTime et = DateTime.parse(endTime);
+    int etMonth = et.month;
+    int etDay = et.day;
+    String etStr = '$etMonth월 $etDay일';
+    return etStr;
+  }
+
   String getPetNameString(List<PetsList> list) {
     String nameStr = "";
     list.forEach((PetsList pet) {
       nameStr += pet.name! + " ";
     });
     return nameStr;
+  }
+
+  void selectArticle(List infoList, int index) {
+    if (selectedArticles.contains(index)) {
+      selectedArticles.remove(index);
+    } else {
+      selectedArticles.add(index);
+    }
+    setState(() {
+      selectedArticles = selectedArticles;
+      if (selectedArticles.isNotEmpty) {
+        selectionMode = true;
+      } else {
+        selectionMode = false;
+      }
+    });
+    // 새로고침
+    setState(() {});
+  }
+
+  void enterIntoArticle(List<Detail> infoList, int index, String _imgPath) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WalkDetailsPage(
+          walkId: infoList[index].walkId!,
+          distance: convertMeters(infoList[index].distance!),
+          imagePath: _imgPath,
+          title: convertWalkTime(
+              infoList[index].startTime!, infoList[index].endTime!),
+          petNames: getPetNameString(infoList[index].petsList!),
+        ),
+      ),
+    );
   }
 }
 
