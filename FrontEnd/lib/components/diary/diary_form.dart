@@ -105,6 +105,10 @@ class _DiaryPageState extends State<DiaryPage> {
   final int _pageSize = 10;
   final int _nextPageThreshold = 5;
 
+  List<int> selectedArticles = [];
+  List<int> selectedJournalIds = [];
+  bool selectionMode = false;
+
   String S3Address = "https://a204drdoc.s3.ap-northeast-2.amazonaws.com/";
   AssetImage basic_image = AssetImage("assets/images/basic_dog.png");
 
@@ -160,6 +164,36 @@ class _DiaryPageState extends State<DiaryPage> {
   //               ? Text('이미지를 촬영/선택 해주세요')
   //               : Image.file(File(_image!.path))));
   // }
+  void enterIntoArticle(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetailsPage(
+          _aidList[index].journalId!,
+          index,
+        ),
+      ),
+    );
+  }
+
+  void selectArticle(int index) {
+    if (selectedArticles.contains(index)) {
+      selectedArticles.remove(index);
+    } else {
+      selectedArticles.add(index);
+    }
+    setState(() {
+      selectedArticles = selectedArticles;
+      if (selectedArticles.isNotEmpty) {
+        selectionMode = true;
+      } else {
+        selectionMode = false;
+      }
+    });
+    // 새로고침
+    print(selectedArticles);
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -222,90 +256,159 @@ class _DiaryPageState extends State<DiaryPage> {
                     // ),
                     Expanded(
                       child: Container(
-                        padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                        decoration: BoxDecoration(
-                          color: nWColor,
-                        ),
-                        child: GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
+                          padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                          decoration: BoxDecoration(
+                            color: nWColor,
                           ),
-                          itemBuilder: (context, index) {
-                            if (_hasMore &&
-                                index == _aidList.length - _nextPageThreshold) {
-                              _getList(_pageNumber, _pageSize);
-                            }
-                            if (index == _aidList.length) {
-                              if (_error) {
-                                return Center(
-                                    child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _loading = true;
-                                      _error = false;
-                                      _getList(_pageNumber, _pageSize);
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Text("에러가 발생했습니다. 터치하여 다시 시도해주세요."),
-                                  ),
-                                ));
-                              } else {
-                                return Center(
-                                    child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: CircularProgressIndicator(),
-                                ));
-                              }
-                            }
-                            return RawMaterialButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailsPage(
-                                      _aidList[index].journalId!,
-                                      index,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Hero(
-                                tag: 'logo$index',
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.7),
-                                        blurRadius: 7,
-                                        offset: Offset(3, 3),
-                                      ),
-                                    ],
-                                    image: _aidList[index]?.picture == null ||
-                                            _aidList[index]!.picture!.length! ==
-                                                0
-                                        ? DecorationImage(
-                                            image: basic_image,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : DecorationImage(
-                                            image: NetworkImage(S3Address +
-                                                _aidList[index]!.picture!),
-                                            fit: BoxFit.cover,
-                                          ),
-                                  ),
-                                ),
+                          child: Stack(children: [
+                            GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
                               ),
-                            );
-                          },
-                          itemCount: _aidList.length,
-                        ),
-                      ),
+                              itemBuilder: (context, index) {
+                                if (_hasMore &&
+                                    index ==
+                                        _aidList.length - _nextPageThreshold) {
+                                  _getList(_pageNumber, _pageSize);
+                                }
+                                if (index == _aidList.length) {
+                                  if (_error) {
+                                    return Center(
+                                        child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _loading = true;
+                                          _error = false;
+                                          _getList(_pageNumber, _pageSize);
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16),
+                                        child:
+                                            Text("에러가 발생했습니다. 터치하여 다시 시도해주세요."),
+                                      ),
+                                    ));
+                                  } else {
+                                    return Center(
+                                        child: Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: CircularProgressIndicator(),
+                                    ));
+                                  }
+                                }
+                                return RawMaterialButton(
+                                    onLongPress: () {
+                                      if (selectionMode) {
+                                        enterIntoArticle(index);
+                                      } else {
+                                        selectArticle(index);
+                                      }
+                                    },
+                                    onPressed: () {
+                                      if (!selectionMode) {
+                                        enterIntoArticle(index);
+                                      } else {
+                                        selectArticle(index);
+                                      }
+                                    },
+                                    child: Hero(
+                                        tag: 'logo$index',
+                                        child: Stack(children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.7),
+                                                  blurRadius: 7,
+                                                  offset: Offset(3, 3),
+                                                ),
+                                              ],
+                                              image: _aidList[index]?.picture ==
+                                                          null ||
+                                                      _aidList[index]!
+                                                              .picture!
+                                                              .length! ==
+                                                          0
+                                                  ? DecorationImage(
+                                                      image: basic_image,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : DecorationImage(
+                                                      image: NetworkImage(
+                                                          S3Address +
+                                                              _aidList[index]!
+                                                                  .picture!),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                            ),
+                                          ),
+                                          (selectionMode)
+                                              ? Checkbox(
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          5.0))),
+                                                  // Rounded Checkbox
+                                                  value: selectedArticles
+                                                      .contains(index),
+                                                  onChanged: (inputValue) {
+                                                    setState(() {
+                                                      // selectedArticles = [];
+                                                    });
+                                                  },
+                                                )
+                                              : Container(),
+                                        ])));
+                              },
+                              itemCount: _aidList.length,
+                            ),
+                            Positioned(
+                              top: 450.h,
+                              left: 280.w,
+                              child: (selectedArticles.isNotEmpty)
+                                  ? FloatingActionButton(
+                                      child: Icon(Icons.delete),
+                                      elevation: 5,
+                                      hoverElevation: 10,
+                                      tooltip: "선택된 항목 삭제",
+                                      backgroundColor: Colors.red,
+                                      onPressed: () {
+                                        // debugPrint("삭제");
+                                        selectedArticles.forEach((e) =>
+                                            selectedJournalIds
+                                                .add(_aidList[e].journalId!));
+                                        // 삭제 요청 전송;
+                                        print(selectedJournalIds);
+                                        apiDiary
+                                            .deleteAllAPI(selectedJournalIds);
+                                        // 선택 리스트 비우기
+                                        setState(() {
+                                          selectedArticles = [];
+                                          selectedJournalIds = [];
+                                          selectionMode = false;
+                                        });
+                                        // 새로고침
+                                        setState(() {
+                                          _aidList = [];
+                                          _hasMore = true;
+                                          _pageNumber = 0;
+                                          _error = false;
+                                          _loading = true;
+                                        });
+                                        _getList(_pageNumber, _pageSize);
+                                      })
+                                  : Container(),
+                            ),
+                          ])),
                     ),
                   ],
                 ),

@@ -13,6 +13,8 @@ import 'package:http_interceptor/http/http.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../model/request_models/batch_delete_journal.dart';
+
 class ApiDiary {
   final client = InterceptedClient.build(interceptors: [ApiInterceptor()]);
 
@@ -96,6 +98,14 @@ class ApiDiary {
   Future<generalResponse> deleteAPI(int? boardId) async {
     final response =
         await client.delete(Uri.parse(api_url + "/" + boardId.toString()));
+    generalResponse result =
+        generalResponse.fromJson(json.decode(response.body));
+    return result;
+  }
+
+  Future<generalResponse> deleteAllAPI(List<int> journalIds) async {
+    final response = await client.post(Uri.parse(api_url + '/delete'),
+        body: jsonEncode(batchDeleteJournal(journalIds).toJson()));
     generalResponse result =
         generalResponse.fromJson(json.decode(response.body));
     return result;
