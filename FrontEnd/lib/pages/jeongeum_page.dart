@@ -22,12 +22,12 @@ class JeongeumPage extends StatefulWidget {
 class _JeongeumPageState extends State<JeongeumPage> {
   // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
   Future getVideo(ImageSource imageSource) async {
-    final image = await picker.pickVideo(
+    final video = await picker.pickVideo(
       source: imageSource,
     );
 
     setState(() {
-      _video = XFile(image!.path); // 가져온 이미지를 _image에 저장
+      _video = XFile(video!.path); // 가져온 이미지를 _image에 저장
     });
   }
 
@@ -271,6 +271,6 @@ class _JeongeumPageState extends State<JeongeumPage> {
     print('진단중');
     String result = await apiJeongeum.diagnosis(_video);
     print(result);
-    diagnosisResult = result;
+    diagnosisResult = result.substring(11,result.length-1);
   }
 }
