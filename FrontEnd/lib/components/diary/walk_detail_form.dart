@@ -1,25 +1,37 @@
 import 'dart:io';
 
 import 'package:GSSL/components/diary/walk_pet_selection_form.dart';
-import 'package:GSSL/components/util/custom_dialog.dart';
-import 'package:GSSL/components/walk/delete_one_walk.dart';
+import 'package:GSSL/components/util/custom_dialog_function.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class WalkDetailsPage extends StatelessWidget {
+class WalkDetailsPage extends StatefulWidget {
   final String imagePath;
   final String title;
   final String petNames;
   final String distance;
   final int walkId;
+
   WalkDetailsPage(
       {required this.imagePath,
       required this.title,
       required this.petNames,
       required this.distance,
       required this.walkId});
+
+  @override
+  State<WalkDetailsPage> createState() => _WalkDetailsPageState();
+}
+
+class _WalkDetailsPageState extends State<WalkDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    int walkId = widget.walkId;
+    String imagePath = widget.imagePath;
+    String title = widget.title;
+    String petNames = widget.petNames;
+    String distance = widget.distance;
+
     return Scaffold(
       body: Container(
         child: Column(
@@ -58,23 +70,22 @@ class WalkDetailsPage extends StatelessWidget {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return CustomDialog(
-                                  "정말로 삭제하시겠습니까?",
-                                  (context) => DeleteOneWalk(
-                                        walkId: walkId,
-                                        imagePath: imagePath,
-                                      ));
-                            });
-
-                        // debugPrint("삭제");
-                        // 스크린샷 삭제
-                        // if (File(imagePath).existsSync()) {
-                        //   File(imagePath).deleteSync();
-                        // }
-                        // // 삭제 요청 전송
-                        // apiWalk.deleteWalk(walkId);
-                        // // 뒤로가기
-                        // Navigator.pop(context);
+                              return CustomDialogWithFunction("정말로 삭제하시겠습니까?",
+                                  () {
+                                // 스크린샷 삭제
+                                if (File(imagePath).existsSync()) {
+                                  File(imagePath).deleteSync();
+                                }
+                                // 삭제 요청 전송
+                                apiWalk.deleteWalk(walkId);
+                                // 뒤로가기
+                                Navigator.pop(context);
+                              });
+                            }).then((value) {
+                          // 뒤로가기
+                          Navigator.pop(context);
+                          setState(() {});
+                        });
                       }),
                 ),
                 Positioned(
