@@ -99,7 +99,6 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
           alignment: Alignment.centerLeft,
           child: Container(
             padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
-            child: Text("최근 올라온 질문", style: TextStyle(fontSize: 20)),
           ),
         ),
         _aidList.isNotEmpty
