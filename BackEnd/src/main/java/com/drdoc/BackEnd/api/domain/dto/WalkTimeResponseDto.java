@@ -15,15 +15,15 @@ import lombok.Setter;
 public class WalkTimeResponseDto extends BaseResponseDto {
 	
 	@ApiModelProperty(name="WalkTimeDto")
-	private WalkTimeDto detail;
+	private WalkTimeDto totalInfo;
 	
-	public WalkTimeResponseDto(Integer statusCode, String message, WalkTimeDto detail) {
+	public WalkTimeResponseDto(Integer statusCode, String message, WalkTimeDto totalInfo) {
 		super(statusCode, message);
-		this.detail = detail;
+		this.totalInfo = totalInfo;
 	}
 	
-	public static WalkTimeResponseDto of(Integer statusCode, String message, WalkTimeDto detail) {
-		WalkTimeResponseDto body = new WalkTimeResponseDto(statusCode, message, detail);
+	public static WalkTimeResponseDto of(Integer statusCode, String message, WalkTimeDto totalInfo) {
+		WalkTimeResponseDto body = new WalkTimeResponseDto(statusCode, message, totalInfo);
 		return body;
 	}
 
