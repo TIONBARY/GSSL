@@ -1,8 +1,8 @@
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../components/logo.dart';
 import '../components/pet/register_pet_form.dart';
 
 class SignUpPetScreen extends StatelessWidget {
@@ -11,7 +11,14 @@ class SignUpPetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: pColor,
+      appBar: AppBar(
+        title: Text('반려견 추가'),
+        titleTextStyle: TextStyle(fontFamily: "Daehan", fontSize: 25.sp),
+        foregroundColor: nWColor,
+        backgroundColor: btnColor,
+        centerTitle: true,
+      ),
+      backgroundColor: nWColor,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -21,9 +28,6 @@ class SignUpPetScreen extends StatelessWidget {
             mobile: const MobileSignupScreen(),
             desktop: Row(
               children: [
-                const Expanded(
-                  child: Logo(heights: defaultPadding),
-                ),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +60,6 @@ class MobileSignupScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Logo(heights: defaultPadding),
         Row(
           children: const [
             Spacer(),
