@@ -14,7 +14,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../components/bottomNavBar.dart';
+import '../components/main/health_magazine.dart';
 import '../components/main/main_function_box.dart';
+import '../components/main/main_question_area.dart';
+import '../components/main/pet_walkout.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -54,48 +57,11 @@ class _MainPageState extends State<MainPage> {
         diagnosis(),
         health_magazine(),
         pet_boast(),
-        recent_board(),
+        MainQuestionArea(),
       ],
     );
   }
 }
-
-//기존 코드, 클릭시 열림
-//Scaffold(
-//       resizeToAvoidBottomInset: false,
-//       appBar: AppBar(
-//         toolbarHeight: 0,
-//       ),
-//       body: Container(
-//         color: nWColor,
-//         child: Column(
-//           children: [
-//             Flexible(
-//               child: UserBar(),
-//               flex: 2,
-//             ),
-//             Flexible(
-//               child: Container(
-//                 color: Colors.grey,
-//               ),
-//               flex: 1,
-//             ),
-//             Flexible(
-//               child: behavior_diagnosis(),
-//               flex: 3,
-//             ),
-//             Flexible(
-//               child: health_diagnosis(),
-//               flex: 3,
-//             ),
-//             Flexible(
-//               child: diary(),
-//               flex: 3,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
 
 class UserBar extends StatelessWidget {
   const UserBar({Key? key}) : super(key: key);
@@ -115,24 +81,6 @@ class UserBar extends StatelessWidget {
   }
 }
 
-class pet_walkout extends StatefulWidget {
-  const pet_walkout({Key? key}) : super(key: key);
-
-  @override
-  State<pet_walkout> createState() => _pet_walkoutState();
-}
-
-class _pet_walkoutState extends State<pet_walkout> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 60.h,
-      color: Colors.grey,
-    );
-  }
-}
-
 class diagnosis extends StatelessWidget {
   const diagnosis({Key? key}) : super(key: key);
 
@@ -149,81 +97,12 @@ class diagnosis extends StatelessWidget {
           builder: (BuildContext context) {
             return Container(
               width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
               decoration: BoxDecoration(color: Colors.white),
               child: i,
             );
           },
         );
       }).toList(),
-    );
-  }
-}
-
-class health_magazine extends StatelessWidget {
-  const health_magazine({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 230.h,
-      width: double.infinity,
-      padding: EdgeInsets.all(5.h),
-      color: Colors.red,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Column(
-            children: [
-              Container(
-                width: 130.w,
-                height: 80.h,
-                padding: EdgeInsets.all(5.h),
-                margin: EdgeInsets.all(10.h),
-                color: Colors.blue,
-              ),
-              Container(
-                width: 130.w,
-                height: 80.h,
-                padding: EdgeInsets.all(5.h),
-                margin: EdgeInsets.all(10.h),
-                color: Colors.black,
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              Container(
-                width: 130.w,
-                height: 80.h,
-                padding: EdgeInsets.all(5.h),
-                margin: EdgeInsets.all(10.h),
-                color: Colors.grey,
-              ),
-              Container(
-                width: 130.w,
-                height: 80.h,
-                padding: EdgeInsets.all(5.h),
-                margin: EdgeInsets.all(10.h),
-                color: Colors.white,
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class recent_board extends StatelessWidget {
-  const recent_board({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 150.h,
-      color: Colors.green,
     );
   }
 }
