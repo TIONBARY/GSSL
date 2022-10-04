@@ -1,5 +1,6 @@
 import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_user.dart';
+import 'package:GSSL/components/main/main_boast_area.dart';
 import 'package:GSSL/components/main/main_profile_bar.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/get_pet_detail.dart';
@@ -56,10 +57,19 @@ class _MainPageState extends State<MainPage> {
         pet_walkout(),
         diagnosis(),
         health_magazine(),
-        pet_boast(),
+        MainBoastArea(),
         MainQuestionArea(),
       ],
     );
+  }
+}
+
+class blockTitle extends StatelessWidget {
+  const blockTitle({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(width: 40.w, height: 30.h, child: Text("견생실록 中 꿀팁실록"));
   }
 }
 
@@ -104,32 +114,6 @@ class diagnosis extends StatelessWidget {
         );
       }).toList(),
     );
-  }
-}
-
-class pet_boast extends StatelessWidget {
-  const pet_boast({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(height: 300.0),
-      items: [1, 2, 3, 4, 5].map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-                width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(color: Colors.blue),
-                child: Text(
-                  'text $i',
-                  style: TextStyle(fontSize: 16.sp),
-                ));
-          },
-        );
-      }).toList(),
-    );
-    ;
   }
 }
 
