@@ -41,7 +41,15 @@ class _PetDetailState extends State<PetDetail> {
       setState(() {
         user = userInfoResponse.user;
       });
-      if (user?.petId != 0) getMainPet();
+      if (user?.petId != 0)
+        getMainPet();
+      else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomDialog("반려동물을 등록해주세요.", (context) => BottomNavBar());
+            });
+      }
     } else if (userInfoResponse.statusCode == 401) {
       showDialog(
           context: context,
