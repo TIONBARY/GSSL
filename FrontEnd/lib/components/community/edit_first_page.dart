@@ -66,6 +66,7 @@ class _EditPostPageState extends State<EditPostPage> {
     if (result.statusCode == 200) {
       setState(() {
         widget.contentObject = result.board;
+        _loading = false;
       });
       nameController.text = widget.contentObject!.title!;
       bodyController.text = widget.contentObject!.content!;
@@ -85,7 +86,7 @@ class _EditPostPageState extends State<EditPostPage> {
       setState(() {
         image = file2;
       });
-      _loading = false;
+
     } else if (result.statusCode == 401) {
       showDialog(
           context: context,
