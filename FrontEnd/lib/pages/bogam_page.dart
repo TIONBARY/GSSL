@@ -1,7 +1,15 @@
 import 'dart:io';
 
 import 'package:GSSL/api/api_bogam.dart';
+import 'package:GSSL/api/api_diary.dart';
+import 'package:GSSL/api/api_user.dart';
+import 'package:GSSL/components/bottomNavBar.dart';
+import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/constants.dart';
+import 'package:GSSL/model/request_models/put_pet_journal.dart';
+import 'package:GSSL/model/response_models/general_response.dart';
+import 'package:GSSL/model/response_models/user_info.dart';
+import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,6 +49,77 @@ class _BogamPageState extends State<BogamPage> {
     setState(() {
       _image = XFile(image!.path); // 가져온 이미지를 _image에 저장
     });
+  }
+
+  ApiDiary apiDiary = ApiDiary();
+  ApiUser apiUser = ApiUser();
+
+  User? user;
+
+  Future<void> getUser() async {
+    userInfo? userInfoResponse = await apiUser.getUserInfo();
+    if (userInfoResponse.statusCode == 200) {
+      setState(() {
+        user = userInfoResponse.user;
+      });
+    } else if (userInfoResponse.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(
+                userInfoResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : userInfoResponse.message!,
+                (context) => BottomNavBar());
+          });
+    }
+  }
+
+  Future<void> _writeJournal() async {
+    // set this variable to true when we try to submit
+    if (user?.petId == null) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(
+                "메인 반려동물을 설정해주세요.", (context) => BottomNavBar());
+          });
+    }
+    generalResponse result = await apiDiary.register(
+        _image,
+        putPetJournal(
+            petId: user!.petId!, part: "눈", result: diagnosisResult[0]));
+    if (result.statusCode == 201) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("일지 등록에 성공했습니다.", (context) => BottomNavBar());
+          });
+    } else if (result.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(result.message!, null);
+          });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
   }
 
   // 이미지를 보여주는 위젯
@@ -288,7 +367,9 @@ class _BogamPageState extends State<BogamPage> {
                                         padding: EdgeInsets.all(10.h),
                                         icon: Icon(Icons.save_alt_outlined,
                                             color: btnColor),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          _writeJournal();
+                                        },
                                       ),
                                     ],
                                   ),
