@@ -6,7 +6,9 @@ import 'package:GSSL/model/request_models/put_walk.dart';
 import 'package:GSSL/model/request_models/update_walk.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/model/response_models/get_walk_detail.dart';
+import 'package:GSSL/model/response_models/get_walk_done.dart';
 import 'package:GSSL/model/response_models/get_walk_list.dart';
+import 'package:GSSL/model/response_models/get_walk_total.dart';
 import 'package:http_interceptor/http/http.dart';
 
 class ApiWalk {
@@ -62,6 +64,23 @@ class ApiWalk {
         body: jsonEncode(batchDeleteWalk(walkIds).toJson()));
     generalResponse result =
         generalResponse.fromJson(json.decode(response.body));
+    return result;
+  }
+
+  // 반려동물 1마리의 산책 합산 기록 조회
+  Future<getWalkTotalInfo> getTotalInfo(int petId) async {
+    final response =
+        await client.get(Uri.parse(api_url + "/total/" + petId.toString()));
+    getWalkTotalInfo result =
+        getWalkTotalInfo.fromJson(json.decode(response.body));
+    return result;
+  }
+
+  // 반려동물 1마리의 오늘 산책 여부 조회
+  Future<getWalkDone> getIsDone(int petId) async {
+    final response = await await client
+        .get(Uri.parse(api_url + "/done/" + petId.toString()));
+    getWalkDone result = getWalkDone.fromJson(json.decode(response.body));
     return result;
   }
 }
