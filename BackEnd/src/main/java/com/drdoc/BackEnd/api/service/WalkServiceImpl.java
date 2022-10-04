@@ -162,7 +162,7 @@ public class WalkServiceImpl implements WalkService {
 			Duration duration = Duration.between(walk.getEnd_time(), walk.getStart_time());
 			totalTimeSpent += Math.abs(duration.getSeconds());
 		}
-		LocalDateTime sumTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(totalTimeSpent*1000), ZoneOffset.UTC).minusYears(1970).minusDays(1);
+		LocalDateTime sumTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(totalTimeSpent*1000), ZoneOffset.UTC).minusYears(1970);
 		if (!LocalDateTime.ofInstant(Instant.ofEpochMilli(totalTimeSpent), ZoneOffset.UTC).isEqual(LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.UTC))) {
 			WalkTimeDto timeDto = new WalkTimeDto(sumTime, totalDistance);
 			
