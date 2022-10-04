@@ -1,10 +1,7 @@
 package com.drdoc.BackEnd.api.service;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -162,13 +159,6 @@ public class WalkServiceImpl implements WalkService {
 			Duration duration = Duration.between(walk.getEnd_time(), walk.getStart_time());
 			totalTimeSpent += Math.abs(duration.getSeconds());
 		}
-		LocalDateTime sumTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(totalTimeSpent*1000), ZoneOffset.UTC).minusYears(1970).minusDays(1);
-		if (!LocalDateTime.ofInstant(Instant.ofEpochMilli(totalTimeSpent), ZoneOffset.UTC).isEqual(LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.UTC))) {
-			WalkTimeDto timeDto = new WalkTimeDto(sumTime, totalDistance);
-			
-			return timeDto;
-		} else {
-			return null;
-		}
+		return new WalkTimeDto(totalTimeSpent, totalDistance);
 	}
 }
