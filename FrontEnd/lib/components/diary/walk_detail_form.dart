@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:GSSL/api/api_walk.dart';
 import 'package:GSSL/components/diary/walk_pet_selection_form.dart';
+import 'package:GSSL/components/util/custom_dialog.dart';
+import 'package:GSSL/components/walk/delete_one_walk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,8 +20,6 @@ class WalkDetailsPage extends StatelessWidget {
       required this.walkId});
   @override
   Widget build(BuildContext context) {
-    ApiWalk apiWalk = ApiWalk();
-
     return Scaffold(
       body: Container(
         child: Column(
@@ -56,16 +55,26 @@ class WalkDetailsPage extends StatelessWidget {
                       backgroundColor: Colors.red,
                       mini: true,
                       onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialog(
+                                  "정말로 삭제하시겠습니까?",
+                                  (context) => DeleteOneWalk(
+                                        walkId: walkId,
+                                        imagePath: imagePath,
+                                      ));
+                            });
+
                         // debugPrint("삭제");
                         // 스크린샷 삭제
-
-                        if (File(imagePath).existsSync()) {
-                          File(imagePath).deleteSync();
-                        }
-                        // 삭제 요청 전송
-                        apiWalk.deleteWalk(walkId);
-                        // 뒤로가기
-                        Navigator.pop(context);
+                        // if (File(imagePath).existsSync()) {
+                        //   File(imagePath).deleteSync();
+                        // }
+                        // // 삭제 요청 전송
+                        // apiWalk.deleteWalk(walkId);
+                        // // 뒤로가기
+                        // Navigator.pop(context);
                       }),
                 ),
                 Positioned(
