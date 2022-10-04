@@ -66,13 +66,13 @@ class function_box extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(15.w, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(15.w, 10.h, 0, 0),
                               child: Text(
                                 description,
                                 style: TextStyle(
                                   fontSize: 12.5.sp,
                                   color: nWColor,
-                                  fontFamily: "Daehan",
+                                  fontFamily: "Sub",
                                 ),
                               ),
                             ),
