@@ -34,8 +34,8 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
       getAllPet allPet = await ApiPet().getAllPetApi();
       getWalkDetail walk = await apiWalk.getWalk(walkId);
       List<PetsList> petsList = walk.detail!.petsList!;
-      // selectedPets = [];
       if (init) {
+        selectedPets = [];
         for (PetsList pl in petsList) {
           selectedPets.add(pl.petId!);
         }
