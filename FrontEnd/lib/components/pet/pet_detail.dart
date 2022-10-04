@@ -251,6 +251,10 @@ class _PetDetailState extends State<PetDetail> {
                                                   onPressed: () {
                                                     deletePet();
                                                   },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.red),
                                                   child: Text(
                                                     "확인",
                                                     style: TextStyle(
@@ -261,10 +265,14 @@ class _PetDetailState extends State<PetDetail> {
                                                   onPressed: () {
                                                     Navigator.of(context).pop();
                                                   },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.white),
                                                   child: Text(
                                                     "취소",
                                                     style: TextStyle(
-                                                        color: Colors.white),
+                                                        color: Colors.black),
                                                   ),
                                                 ),
                                               ]))
