@@ -152,7 +152,7 @@ public class WalkServiceImpl implements WalkService {
 	@Override
 	public WalkTimeDto walkTimeSum(int petId) {
 		Pet pet = petRepository.findById(petId).orElseThrow(() -> new IllegalArgumentException("해당 반려동물이 없습니다."));
-		List<WalkPet> walkPetList = walkPetRepository.findByPet(pet).orElseThrow(() -> new IllegalArgumentException("해당 반려동물의 오늘 산책기록이 없습니다."));
+		List<WalkPet> walkPetList = walkPetRepository.findByPet(pet).orElseThrow(() -> new IllegalArgumentException("해당 반려동물의 산책기록이 없습니다."));
 		int totalDistance = 0;
 		int totalTimeSpent = 0;
 		
@@ -160,9 +160,9 @@ public class WalkServiceImpl implements WalkService {
 			Walk walk = wp.getWalk();
 			totalDistance += walk.getDistance();
 			Duration duration = Duration.between(walk.getEnd_time(), walk.getStart_time());
-			totalTimeSpent += duration.getNano();
+			totalTimeSpent += Math.abs(duration.getSeconds());
 		}
-		LocalDateTime sumTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(totalTimeSpent), ZoneOffset.UTC).minusYears(1970).minusDays(1);
+		LocalDateTime sumTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(totalTimeSpent*1000), ZoneOffset.UTC).minusYears(1970).minusDays(1);
 		if (!LocalDateTime.ofInstant(Instant.ofEpochMilli(totalTimeSpent), ZoneOffset.UTC).isEqual(LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.UTC))) {
 			WalkTimeDto timeDto = new WalkTimeDto(sumTime, totalDistance);
 			
