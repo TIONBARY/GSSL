@@ -56,8 +56,15 @@ class _MainPageState extends State<MainPage> {
         UserBar(),
         pet_walkout(),
         diagnosis(),
+        blockTitle(
+          title: "견생실록 꿀팁 매거진",
+        ),
         health_magazine(),
+        blockTitle(title: "견생실록 내새끼 자랑하기"),
         MainBoastArea(),
+        blockTitle(
+          title: "최근 질문 게시글",
+        ),
         MainQuestionArea(),
       ],
     );
@@ -65,11 +72,27 @@ class _MainPageState extends State<MainPage> {
 }
 
 class blockTitle extends StatelessWidget {
-  const blockTitle({Key? key}) : super(key: key);
+  const blockTitle({Key? key, required this.title}) : super(key: key);
+
+  final title;
 
   @override
   Widget build(BuildContext context) {
-    return Container(width: 40.w, height: 30.h, child: Text("견생실록 中 꿀팁실록"));
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 10.h, 0, 0),
+      child: Container(
+          padding: EdgeInsets.fromLTRB(13.w, 15.h, 0, 0),
+          margin: EdgeInsets.fromLTRB(0, 0, 0, 13.h),
+          width: 40.w,
+          height: 35.h,
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 20.sp,
+              fontFamily: "Sub",
+            ),
+          )),
+    );
   }
 }
 
