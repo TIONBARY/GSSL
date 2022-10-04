@@ -78,7 +78,7 @@ class _pet_walkoutState extends State<pet_walkout> {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        height: 100.h,
+        height: 130.h,
         // color: Colors.grey,
         child: Column(
           children: [
