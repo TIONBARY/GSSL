@@ -483,13 +483,12 @@ class iconBox extends StatelessWidget {
       : super(key: key);
   final iconName;
   final String detail;
-  // padding: EdgeInsets.fromLTRB(22.w, 5.h, 20.w, 5.h),
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Container(
-          child: iconName,
+          child: Text(iconName),
         ),
         Text(
           detail,
@@ -537,7 +536,10 @@ class _petDeadState extends State<petDead> {
     return Container(
       child: pet?.death != null && pet!.death!
           ? Container(
-              child: Text("무지개 다리를 건넜어요."),
+              child: Text(
+                "무지개 다리를 건넜어요.",
+                style: TextStyle(fontFamily: "Daehan"),
+              ),
             )
           : Text(""),
     );
@@ -588,10 +590,8 @@ class basicInfoBox extends StatelessWidget {
                 Flexible(
                   // child: petGenderIcon(),
                   child: iconBox(
-                    iconName: Icon(
-                      Icons.pets,
-                    ),
-                    detail: "견종",
+                    iconName: "🐶",
+                    detail: " 견종",
                   ),
                   flex: 3,
                 ),
@@ -609,16 +609,8 @@ class basicInfoBox extends StatelessWidget {
                 Flexible(
                   // child: petGenderIcon(),
                   child: iconBox(
-                    iconName: pet!.gender! == 'M'
-                        ? Icon(
-                            Icons.male,
-                            color: Colors.blue,
-                          )
-                        : Icon(
-                            Icons.female,
-                            color: Colors.red,
-                          ),
-                    detail: "성별",
+                    iconName: pet!.gender! == 'M' ? "👦" : "🧒",
+                    detail: " 성별",
                   ),
                   flex: 3,
                 ),
@@ -635,8 +627,8 @@ class basicInfoBox extends StatelessWidget {
               children: [
                 Flexible(
                   child: iconBox(
-                    iconName: Icon(Icons.cake),
-                    detail: "생일",
+                    iconName: "🎉",
+                    detail: " 생일",
                   ),
                   flex: 3,
                 ),
@@ -653,8 +645,8 @@ class basicInfoBox extends StatelessWidget {
               children: [
                 Flexible(
                   child: iconBox(
-                    iconName: Icon(Icons.monitor_weight),
-                    detail: "무게",
+                    iconName: "🎛",
+                    detail: " 무게",
                   ),
                   flex: 3,
                 ),
@@ -688,8 +680,8 @@ class healthInfoBox extends StatelessWidget {
               children: [
                 Flexible(
                   child: iconBox(
-                    iconName: Icon(Icons.local_hospital),
-                    detail: "질환",
+                    iconName: "😢",
+                    detail: " 질환",
                   ),
                   flex: 3,
                 ),
@@ -706,8 +698,8 @@ class healthInfoBox extends StatelessWidget {
               children: [
                 Flexible(
                   child: iconBox(
-                    iconName: Icon(Icons.cut),
-                    detail: "중성화",
+                    iconName: "🖖",
+                    detail: " 중성화",
                   ),
                   flex: 3,
                 ),
@@ -724,8 +716,8 @@ class healthInfoBox extends StatelessWidget {
               children: [
                 Flexible(
                   child: iconBox(
-                    iconName: Icon(Icons.person_off),
-                    detail: "사망",
+                    iconName: "👼",
+                    detail: " 사망",
                   ),
                   flex: 3,
                 ),
