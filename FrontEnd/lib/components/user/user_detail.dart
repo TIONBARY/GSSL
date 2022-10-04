@@ -30,11 +30,14 @@ class _UserDetailState extends State<UserDetail> {
   // User? user;
   // ApiUser apiUser = ApiUser();
 
+  bool _loading = true;
+
   Future<void> getUser() async {
     userInfo? userInfoResponse = await apiUser.getUserInfo();
     if (userInfoResponse.statusCode == 200) {
       setState(() {
         user = userInfoResponse.user;
+        _loading = false;
       });
     } else if (userInfoResponse.statusCode == 401) {
       showDialog(
@@ -90,97 +93,114 @@ class _UserDetailState extends State<UserDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
-        child: Column(
-          children: [
-            userPic(),
-            userNickName(),
-            userInfoTitle(title: "기본 정보"),
-            userInfoBox(),
+    if (_loading) {
+      return Container(
+          margin: EdgeInsets.fromLTRB(0, 130.h, 0, 0),
+          child: Column(children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-              child: TextFormField(
-                style: TextStyle(fontFamily: "Daehan", color: btnColor),
-                controller: TextEditingController()
-                  ..text =
-                      user?.introduce == null || user?.introduce!.length == 0
-                          ? "작성한 자기소개가 없습니다."
-                          : user!.introduce!,
-                keyboardType: TextInputType.multiline,
-                maxLines: 4,
-                textInputAction: TextInputAction.done,
-                cursorColor: btnColor,
-                readOnly: true,
-                decoration: InputDecoration(
-                  hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
-                  contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(color: sColor)),
-                  filled: true,
-                  fillColor: Colors.white,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(color: btnColor)),
+                padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/images/loadingDog.gif"),
+                  ],
+                ))),
+          ]));
+    } else {
+      return Container(
+          margin: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
+          child: Column(
+            children: [
+              userPic(),
+              userNickName(),
+              userInfoTitle(title: "기본 정보"),
+              userInfoBox(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+                child: TextFormField(
+                  style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                  controller: TextEditingController()
+                    ..text =
+                        user?.introduce == null || user?.introduce!.length == 0
+                            ? "작성한 자기소개가 없습니다."
+                            : user!.introduce!,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 4,
+                  textInputAction: TextInputAction.done,
+                  cursorColor: btnColor,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                    contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: sColor)),
+                    filled: true,
+                    fillColor: Colors.white,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: btnColor)),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-              child: Container(
-                height: 40.h,
-                width: double.maxFinite,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return ModifyUserScreen();
-                        },
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+                child: Container(
+                  height: 40.h,
+                  width: double.maxFinite,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ModifyUserScreen();
+                          },
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: btnColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        )),
+                    child: Text(
+                      "회원정보 수정".toUpperCase(),
+                      style: TextStyle(
+                        fontFamily: "Daehan",
                       ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: btnColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      )),
-                  child: Text(
-                    "회원정보 수정".toUpperCase(),
-                    style: TextStyle(
-                      fontFamily: "Daehan",
                     ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
-              child: Container(
-                height: 40.h,
-                width: double.maxFinite,
-                child: ElevatedButton(
-                  onPressed: () {
-                    logout();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: btnColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      )),
-                  child: Text(
-                    "로그아웃".toUpperCase(),
-                    style: TextStyle(
-                      fontFamily: "Daehan",
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: defaultPadding / 2),
+                child: Container(
+                  height: 40.h,
+                  width: double.maxFinite,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      logout();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: btnColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        )),
+                    child: Text(
+                      "로그아웃".toUpperCase(),
+                      style: TextStyle(
+                        fontFamily: "Daehan",
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ));
+            ],
+          ));
+    }
   }
 }
 
