@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkBatchDeleteRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkDetailResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.WalkDoneResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkListResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkRegisterRequestDto;
+import com.drdoc.BackEnd.api.domain.dto.WalkTimeResponseDto;
 import com.drdoc.BackEnd.api.service.WalkService;
 
 import io.swagger.annotations.Api;
@@ -89,13 +91,33 @@ public class WalkController {
 		return ResponseEntity.status(200).body(WalkListResponseDto.of(200, "Success", walkService.listAll()));
 	}
 
-	@ApiOperation(value = "산책 기록 상세 조회", notes = "내가 작성한 산책 기록를 상세 조회")
+	@ApiOperation(value = "산책 기록 상세 조회", notes = "내가 작성한 산책 기록을 상세 조회")
 	@GetMapping("/{walkId}")
 	@ApiResponses({ @ApiResponse(code = 200, message = "산책 기록 조회"), @ApiResponse(code = 401, message = "인증이 필요합니다."),
 			@ApiResponse(code = 403, message = "권한이 없습니다."), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<WalkDetailResponseDto> getDetail(@PathVariable int walkId) {
 		return ResponseEntity.status(200)
 				.body(WalkDetailResponseDto.of(200, "Success", walkService.detail(walkId)));
+	}
+
+	@ApiOperation(value = "산책 전체 시간/거리 조회", notes = "현재 반려동물의 산책 기록을 합하여 총 산책 시간과 거리를 조회")
+	@GetMapping("/total/{petId}")
+	@ApiResponses({ @ApiResponse(code = 200, message = "산책 시간 조회"), @ApiResponse(code = 401, message = "인증이 필요합니다."),
+			@ApiResponse(code = 403, message = "권한이 없습니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<WalkTimeResponseDto> getTotalInfo(@PathVariable("petId") int petId) {
+		return ResponseEntity.status(200)
+				.body(WalkTimeResponseDto.of(200, "Success", walkService.walkTimeSum(petId)));
+	}
+
+	@ApiOperation(value = "오늘 산책 여부 조회", notes = "오늘 산책 했는지 여부 조회(반려동물 단위)")
+	@GetMapping("/done/{petId}")
+	@ApiResponses({ @ApiResponse(code = 200, message = "산책 기록 조회"), @ApiResponse(code = 401, message = "인증이 필요합니다."),
+			@ApiResponse(code = 403, message = "권한이 없습니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<WalkDoneResponseDto> isTodayDone(@PathVariable("petId") int petId) {
+
+		
+		return ResponseEntity.status(200)
+				.body(WalkDoneResponseDto.of(200, "Success", walkService.isDone(petId)));
 	}
 
 }
