@@ -1,6 +1,7 @@
 import 'package:GSSL/api/api_diary.dart';
 import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/components/util/custom_dialog.dart';
+import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/detail_pet_journal.dart';
 import 'package:GSSL/model/response_models/get_pet_detail.dart';
 import 'package:GSSL/pages/login_page.dart';
@@ -158,9 +159,9 @@ class _DiaryPageState extends State<DetailsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            pet?.name == null ? '' : pet!.name!,
+                            pet?.name == null ? '' : pet!.name! + '의 진단 결과',
                             style: TextStyle(
-                              color: Colors.lightBlueAccent,
+                              color: btnColor,
                               fontSize: 22,
                               fontWeight: FontWeight.w600,
                             ),
@@ -172,11 +173,13 @@ class _DiaryPageState extends State<DetailsPage> {
                                     " " +
                                     detail!.createdDate!.split("T")[1],
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 14,
                             ),
                           ),
                           Text(
-                            detail?.symptom == null ? '' : detail!.symptom!,
+                            detail?.symptom == null
+                                ? ''
+                                : '증상 : ' + detail!.symptom!,
                             style: TextStyle(
                               color: Colors.redAccent,
                               fontSize: 18,
@@ -187,9 +190,11 @@ class _DiaryPageState extends State<DetailsPage> {
                             height: 10,
                           ),
                           Text(
-                            detail?.result == null ? '' : detail!.result!,
+                            detail?.result == null
+                                ? '진단 결과가 없습니다.'
+                                : '진단 결과 : ' + detail!.result!,
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 18,
                             ),
                           ),
                         ],
@@ -204,8 +209,8 @@ class _DiaryPageState extends State<DetailsPage> {
                             },
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(vertical: 15),
-                              foregroundColor: Colors.lightBlueAccent,
-                              backgroundColor: Colors.lightBlueAccent,
+                              foregroundColor: btnColor,
+                              backgroundColor: btnColor,
                             ),
                             child: Text(
                               '뒤로가기',
