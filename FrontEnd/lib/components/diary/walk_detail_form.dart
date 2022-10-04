@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:GSSL/api/api_walk.dart';
+import 'package:GSSL/components/diary/walk_pet_selection_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,7 +28,7 @@ class WalkDetailsPage extends StatelessWidget {
             Expanded(
               child: Stack(children: [
                 Hero(
-                  tag: '$walkId',
+                  tag: 'WalkDetail$walkId',
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -76,8 +77,15 @@ class WalkDetailsPage extends StatelessWidget {
                       backgroundColor: Colors.grey,
                       mini: true,
                       onPressed: () {
-                        // debugPrint("삭제");
-                        // Navigator.push(context);
+                        // debugPrint("삭제");{
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                WalkPetSelectionPage(walkId: walkId),
+                          ),
+                        );
+                        // Navigator.pop(context);
                       }),
                 )
               ]),
