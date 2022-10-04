@@ -151,6 +151,8 @@ class _KakaoMapTestState extends State<KakaoMapTest>
         toolbarHeight: 0,
       ),
       body: Container(
+        alignment: Alignment.center,
+        constraints: BoxConstraints.tight(ScreenUtil.defaultSize),
         child: SnappingSheet(
           // 슬라이드 모달창
           snappingPositions: [
@@ -169,6 +171,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
           ],
           lockOverflowDrag: true,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FutureBuilder(
                   future: _future(),
