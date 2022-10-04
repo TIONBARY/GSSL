@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:GSSL/api/api_walk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,39 +9,78 @@ class WalkDetailsPage extends StatelessWidget {
   final String title;
   final String petNames;
   final String distance;
-  final int index;
+  final int walkId;
   WalkDetailsPage(
       {required this.imagePath,
       required this.title,
       required this.petNames,
       required this.distance,
-      required this.index});
+      required this.walkId});
   @override
   Widget build(BuildContext context) {
+    ApiWalk apiWalk = ApiWalk();
+
     return Scaffold(
       body: Container(
         child: Column(
           children: <Widget>[
             Expanded(
-              child: Hero(
-                tag: 'logo$index',
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30)),
-                    image: File(imagePath).existsSync()
-                        ? DecorationImage(
-                            image: FileImage(File(imagePath)),
-                            fit: BoxFit.cover,
-                          )
-                        : DecorationImage(
-                            image: AssetImage("assets/images/basic_dog.png"),
-                            fit: BoxFit.contain,
-                          ),
+              child: Stack(children: [
+                Hero(
+                  tag: '$walkId',
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)),
+                      image: File(imagePath).existsSync()
+                          ? DecorationImage(
+                              image: FileImage(File(imagePath)),
+                              fit: BoxFit.cover)
+                          : DecorationImage(
+                              image: AssetImage("assets/images/basic_dog.png"),
+                              fit: BoxFit.contain,
+                            ),
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  top: 440.h,
+                  left: 300.w,
+                  child: FloatingActionButton(
+                      child: Icon(Icons.delete),
+                      elevation: 5,
+                      hoverElevation: 10,
+                      tooltip: "삭제",
+                      backgroundColor: Colors.red,
+                      mini: true,
+                      onPressed: () {
+                        // debugPrint("삭제");
+                        // 스크린샷 삭제
+                        File(imagePath).deleteSync();
+
+                        // 삭제 요청 전송
+                        apiWalk.deleteWalk(walkId);
+                        // 뒤로가기
+                        Navigator.pop(context);
+                      }),
+                ),
+                Positioned(
+                  top: 440.h,
+                  left: 240.w,
+                  child: FloatingActionButton(
+                      child: Icon(Icons.edit),
+                      elevation: 5,
+                      hoverElevation: 10,
+                      tooltip: "수정",
+                      backgroundColor: Colors.grey,
+                      mini: true,
+                      onPressed: () {
+                        // debugPrint("삭제");
+                        // Navigator.push(context);
+                      }),
+                )
+              ]),
             ),
             Container(
               height: 150.h,
@@ -95,7 +135,7 @@ class WalkDetailsPage extends StatelessWidget {
                             Navigator.pop(context);
                           },
                           style: TextButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 1.h),
+                            padding: EdgeInsets.symmetric(vertical: 0.h),
                             foregroundColor: Colors.lightBlueAccent,
                             backgroundColor: Colors.lightBlueAccent,
                           ),
@@ -106,9 +146,6 @@ class WalkDetailsPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 0,
                       ),
                     ],
                   )
