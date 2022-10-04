@@ -1,7 +1,5 @@
 package com.drdoc.BackEnd.api.domain.dto;
 
-import java.time.LocalDateTime;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,8 +14,8 @@ import lombok.Setter;
 @Builder
 public class WalkTimeDto {
 
-	@ApiModelProperty(name="time_passed", example="0000-01-08T03:23:05.224")
-	private LocalDateTime time_passed;
+	@ApiModelProperty(name="time_passed", example="11111")
+	private int time_passed;
 	@ApiModelProperty(name="distance_sum", example="10959")
 	private int distance_sum;
 
