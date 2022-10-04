@@ -289,8 +289,15 @@ class _BoardDetailPageState extends State<BoardDetailPage>
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(board?.content == null ? "" : board!.content!,
-                      style: TextStyle(fontSize: 20)),
+                  Flexible(
+                    child: RichText(
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 10,
+                        text: TextSpan(
+                            text: board?.content == null ? "" : board!.content!,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20))),
+                  )
                 ],
               ),
               Padding(
