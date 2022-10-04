@@ -33,6 +33,8 @@ ApiUser apiUser = ApiUser();
 ApiPet apiPet = ApiPet();
 
 class _PetDetailState extends State<PetDetail> {
+  bool _loading = true;
+
   Future<void> getUser() async {
     userInfo? userInfoResponse = await apiUser.getUserInfo();
     if (userInfoResponse.statusCode == 200) {
@@ -65,6 +67,7 @@ class _PetDetailState extends State<PetDetail> {
     if (getMainPetResponse.statusCode == 200) {
       setState(() {
         pet = getMainPetResponse.pet;
+        _loading = false;
       });
       GetPetKind kind = await apiPet.getPetKindOne(pet!.kindId!);
       setState(() {
@@ -147,126 +150,143 @@ class _PetDetailState extends State<PetDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
-      child: Column(
-        children: [
-          petPic(),
-          petName(),
-          infoTitle(title: "기본 정보"),
-          basicInfoBox(),
-          infoTitle(title: "건강 정보"),
-          healthInfoBox(),
-          petIntro(),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+    if (_loading) {
+      return Container(
+          margin: EdgeInsets.fromLTRB(0, 130.h, 0, 0),
+          child: Column(children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Container(
-                height: 35.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ModifyPetScreen()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: btnColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      )),
-                  child: Text(
-                    "수정".toUpperCase(),
-                    style: TextStyle(
-                      fontFamily: "Daehan",
+                padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/images/loadingDog.gif"),
+                  ],
+                ))),
+          ]));
+    } else {
+      return Container(
+        margin: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
+        child: Column(
+          children: [
+            petPic(),
+            petName(),
+            infoTitle(title: "기본 정보"),
+            basicInfoBox(),
+            infoTitle(title: "건강 정보"),
+            healthInfoBox(),
+            petIntro(),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: Container(
+                  height: 35.h,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ModifyPetScreen()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: btnColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        )),
+                    child: Text(
+                      "수정".toUpperCase(),
+                      style: TextStyle(
+                        fontFamily: "Daehan",
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Container(
-                height: 35.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20.0)), //this right here
-                            child: Container(
-                              height: 110.h,
-                              child: Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                    12.0.w, 12.0.h, 12.0.w, 3.0.h),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Title(
-                                      color: Colors.black,
-                                      child: Text("정말 삭제하시겠습니까?",
-                                          style: TextStyle(fontSize: 17.sp)),
-                                    ),
-                                    Container(
-                                        width: 150.0.w,
-                                        margin:
-                                            EdgeInsets.fromLTRB(0, 15.h, 0, 0),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  deletePet();
-                                                },
-                                                child: Text(
-                                                  "확인",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: Container(
+                  height: 35.h,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0)), //this right here
+                              child: Container(
+                                height: 110.h,
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                      12.0.w, 12.0.h, 12.0.w, 3.0.h),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Title(
+                                        color: Colors.black,
+                                        child: Text("정말 삭제하시겠습니까?",
+                                            style: TextStyle(fontSize: 17.sp)),
+                                      ),
+                                      Container(
+                                          width: 150.0.w,
+                                          margin: EdgeInsets.fromLTRB(
+                                              0, 15.h, 0, 0),
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    deletePet();
+                                                  },
+                                                  child: Text(
+                                                    "확인",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
                                                 ),
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text(
-                                                  "취소",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    "취소",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
                                                 ),
-                                              ),
-                                            ]))
-                                  ],
+                                              ]))
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        });
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      )),
-                  child: Text(
-                    "삭제".toUpperCase(),
-                    style: TextStyle(
-                      fontFamily: "Daehan",
+                            );
+                          });
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        )),
+                    child: Text(
+                      "삭제".toUpperCase(),
+                      style: TextStyle(
+                        fontFamily: "Daehan",
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ]),
-          const SizedBox(height: defaultPadding),
-        ],
-      ),
-    );
+            ]),
+            const SizedBox(height: defaultPadding),
+          ],
+        ),
+      );
+    }
   }
 }
 
