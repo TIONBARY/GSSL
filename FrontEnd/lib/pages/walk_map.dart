@@ -1,11 +1,18 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_walk.dart';
+import 'package:GSSL/components/pet/pet_detail.dart';
+import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/components/walk/walk_length.dart';
 import 'package:GSSL/components/walk/walk_timer.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/request_models/put_walk.dart';
+import 'package:GSSL/model/response_models/get_all_pet.dart';
+import 'package:GSSL/model/response_models/user_info.dart';
+import 'package:GSSL/pages/login_page.dart';
+import 'package:GSSL/pages/main_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,6 +42,7 @@ String addrName = "";
 String kakaoMapKey = "";
 double initLat = 0.0;
 double initLon = 0.0;
+ApiPet apiPet = ApiPet();
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -58,6 +66,8 @@ class _KakaoMapTestState extends State<KakaoMapTest>
 
   ScreenshotController screenshotController = ScreenshotController();
   Timer? timer;
+  User? user;
+  List<Pets>? allPets;
 
   void initTimer() {
     if (timer != null && timer!.isActive) return;
@@ -72,6 +82,63 @@ class _KakaoMapTestState extends State<KakaoMapTest>
   void dispose() {
     timer?.cancel();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
+  Future<void> getUser() async {
+    userInfo? userInfoResponse = await apiUser.getUserInfo();
+    if (userInfoResponse.statusCode == 200) {
+      setState(() {
+        user = userInfoResponse.user;
+      });
+      getAllPetList();
+    } else if (userInfoResponse.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(
+                userInfoResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : userInfoResponse.message!,
+                (context) => MainPage());
+          });
+    }
+  }
+
+  Future<void> getAllPetList() async {
+    getAllPet? getAllPetResponse = await apiPet.getAllPetApi();
+    if (getAllPetResponse.statusCode == 200) {
+      setState(() {
+        allPets = getAllPetResponse.pets;
+      });
+    } else if (getAllPetResponse.statusCode == 401) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("로그인이 필요합니다.", (context) => LoginScreen());
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog(
+                getAllPetResponse.message == null
+                    ? "알 수 없는 오류가 발생했습니다."
+                    : getAllPetResponse.message!,
+                (context) => MainPage());
+          });
+    }
   }
 
   @override
@@ -216,13 +283,16 @@ class _KakaoMapTestState extends State<KakaoMapTest>
                                 _stopWatchTimer.onStopTimer();
                                 endTime = DateTime.now();
                                 // 백엔드 서버로 전송
-                                List<int> pets = [1, 2, 3];
+                                List<int> pets = [];
+                                for (Pets p in allPets!) {
+                                  pets.add(p.id!);
+                                }
                                 putWalk info = new putWalk(
                                     startTime: startTime.toIso8601String(),
                                     endTime: endTime.toIso8601String(),
                                     distance: totalWalkLength,
                                     pet_ids: pets);
-                                // 반려동물 1, 2, 3은 예시용(수정필요)
+
                                 ApiWalk apiWalk = ApiWalk();
                                 apiWalk.enterWalk(info);
 
@@ -314,6 +384,7 @@ Future<File> moveFile(File sourceFile, String newPath) async {
     return await sourceFile.rename(newPath);
   } on FileSystemException catch (e) {
     // if rename fails, copy the source file and then delete it
+    debugPrint(e.message);
     final newFile = await sourceFile.copy(newPath);
     Directory tempDir = sourceFile.parent;
     await sourceFile.delete();
