@@ -113,9 +113,7 @@ public class WalkController {
 	@GetMapping("/done/{petId}")
 	@ApiResponses({ @ApiResponse(code = 200, message = "산책 기록 조회"), @ApiResponse(code = 401, message = "인증이 필요합니다."),
 			@ApiResponse(code = 403, message = "권한이 없습니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<WalkDoneResponseDto> isTodayDone(@PathVariable("petId") int petId) {
-
-		
+	public ResponseEntity<WalkDoneResponseDto> isTodayDone(@PathVariable("petId") int petId) {		
 		return ResponseEntity.status(200)
 				.body(WalkDoneResponseDto.of(200, "Success", walkService.isDone(petId)));
 	}
