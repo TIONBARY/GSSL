@@ -58,8 +58,10 @@ class WalkDetailsPage extends StatelessWidget {
                       onPressed: () {
                         // debugPrint("삭제");
                         // 스크린샷 삭제
-                        File(imagePath).deleteSync();
 
+                        if (File(imagePath).existsSync()) {
+                          File(imagePath).deleteSync();
+                        }
                         // 삭제 요청 전송
                         apiWalk.deleteWalk(walkId);
                         // 뒤로가기
