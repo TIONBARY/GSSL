@@ -1,5 +1,10 @@
 package com.drdoc.BackEnd.api.service;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,6 +25,7 @@ import com.drdoc.BackEnd.api.domain.dto.WalkDetailDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkPetDetailDto;
 import com.drdoc.BackEnd.api.domain.dto.WalkRegisterRequestDto;
+import com.drdoc.BackEnd.api.domain.dto.WalkTimeDto;
 import com.drdoc.BackEnd.api.repository.PetRepository;
 import com.drdoc.BackEnd.api.repository.UserRepository;
 import com.drdoc.BackEnd.api.repository.WalkPetRepository;
@@ -129,5 +135,40 @@ public class WalkServiceImpl implements WalkService {
 		String memberId = SecurityUtil.getCurrentUsername();
 		Optional<User> user = userRepository.findByMemberId(memberId);
 		return user.get();
+	}
+
+	@Override
+	public boolean isDone(int petId) {
+		Pet pet = petRepository.findById(petId).orElseThrow(() -> new IllegalArgumentException("해당 반려동물이 없습니다."));
+		WalkPet lastHistory = walkPetRepository.findFirstByPetOrderByIdDesc(pet).orElseThrow(() -> new IllegalArgumentException("해당 반려동물의 산책기록이 없습니다."));
+		Walk walk = lastHistory.getWalk();
+		LocalDate finished = walk.getEnd_time().toLocalDate();
+		if (finished.equals(LocalDate.now())) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public WalkTimeDto walkTimeSum(int petId) {
+		Pet pet = petRepository.findById(petId).orElseThrow(() -> new IllegalArgumentException("해당 반려동물이 없습니다."));
+		List<WalkPet> walkPetList = walkPetRepository.findByPet(pet).orElseThrow(() -> new IllegalArgumentException("해당 반려동물의 오늘 산책기록이 없습니다."));
+		int totalDistance = 0;
+		int totalTimeSpent = 0;
+		
+		for (WalkPet wp : walkPetList) {
+			Walk walk = wp.getWalk();
+			totalDistance += walk.getDistance();
+			Duration duration = Duration.between(walk.getEnd_time(), walk.getStart_time());
+			totalTimeSpent += duration.getNano();
+		}
+		LocalDateTime sumTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(totalTimeSpent), ZoneOffset.UTC).minusYears(1970).minusDays(1);
+		if (!LocalDateTime.ofInstant(Instant.ofEpochMilli(totalTimeSpent), ZoneOffset.UTC).isEqual(LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.UTC))) {
+			WalkTimeDto timeDto = new WalkTimeDto(sumTime, totalDistance);
+			
+			return timeDto;
+		} else {
+			return null;
+		}
 	}
 }
