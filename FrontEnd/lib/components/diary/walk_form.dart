@@ -135,7 +135,7 @@ class _WalkPageState extends State<WalkPage> {
                                     }
                                   },
                                   child: Hero(
-                                    tag: '$index',
+                                    tag: 'walkThumb$index',
                                     child: Stack(children: [
                                       Container(
                                         decoration: BoxDecoration(
@@ -355,6 +355,8 @@ class _WalkPageState extends State<WalkPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
+        settings:
+            RouteSettings(name: "/walk" + infoList[index].walkId!.toString()),
         builder: (context) => WalkDetailsPage(
           walkId: infoList[index].walkId!,
           distance: convertMeters(infoList[index].distance!),
