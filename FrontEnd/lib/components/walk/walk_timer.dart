@@ -40,7 +40,7 @@ class _WalkTimerState extends State<WalkTimer> {
                   displayTime.split('.')[0],
                   style: TextStyle(
                     fontSize: 25.sp,
-                    fontFamily: 'Daehan',
+                    fontFamily: 'Title',
                   ),
                 ),
               ),

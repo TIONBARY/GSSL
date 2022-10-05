@@ -168,7 +168,8 @@ class _UserDetailState extends State<UserDetail> {
                     child: Text(
                       "회원정보 수정".toUpperCase(),
                       style: TextStyle(
-                        fontFamily: "Daehan",
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "Sub",
                       ),
                     ),
                   ),
@@ -192,7 +193,8 @@ class _UserDetailState extends State<UserDetail> {
                     child: Text(
                       "로그아웃".toUpperCase(),
                       style: TextStyle(
-                        fontFamily: "Daehan",
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "Sub",
                       ),
                     ),
                   ),
@@ -243,8 +245,7 @@ class _userNickNameState extends State<userNickName> {
       padding: EdgeInsets.symmetric(vertical: defaultPadding / 2),
       child: Text(
         user?.nickname == null ? "불러오는 중입니다..." : user!.nickname!,
-        style:
-            TextStyle(color: btnColor, fontFamily: "Daehan", fontSize: 25.sp),
+        style: TextStyle(color: btnColor, fontFamily: "Sub", fontSize: 25.sp),
       ),
     );
   }
@@ -261,13 +262,14 @@ class userInfoTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(2.5.w, 10.h, 0, 2.5.h),
+          padding: EdgeInsets.fromLTRB(10.w, 10.h, 0, 10.h),
           child: Text(
             title,
             style: TextStyle(
               fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
               color: btnColor,
-              fontFamily: "Daehan",
+              fontFamily: "Sub",
             ),
           ),
         ),
@@ -296,7 +298,7 @@ class userInfoBox extends StatelessWidget {
                       text: TextSpan(
                     text: '아이디',
                     style: TextStyle(
-                        color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+                        color: btnColor, fontSize: 15.sp, fontFamily: "Title"),
                   )),
                 ),
                 flex: 3,
@@ -319,7 +321,7 @@ class userInfoBox extends StatelessWidget {
                       text: TextSpan(
                     text: '성별',
                     style: TextStyle(
-                        color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+                        color: btnColor, fontSize: 15.sp, fontFamily: "Title"),
                   )),
                 ),
                 flex: 3,
@@ -341,7 +343,7 @@ class userInfoBox extends StatelessWidget {
                       text: TextSpan(
                     text: '전화번호',
                     style: TextStyle(
-                        color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+                        color: btnColor, fontSize: 15.sp, fontFamily: "Title"),
                   )),
                 ),
                 flex: 3,
@@ -364,7 +366,7 @@ class userInfoBox extends StatelessWidget {
                       text: TextSpan(
                     text: '이메일',
                     style: TextStyle(
-                        color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+                        color: btnColor, fontSize: 15.sp, fontFamily: "Title"),
                   )),
                 ),
                 flex: 3,
