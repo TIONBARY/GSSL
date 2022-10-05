@@ -379,9 +379,7 @@ class _petTypeState extends State<petType> {
               : TextSpan(children: [
                   TextSpan(
                       style: TextStyle(
-                          color: btnColor,
-                          fontSize: 15.sp,
-                          fontFamily: "Daehan"),
+                          color: btnColor, fontSize: 15.sp, fontFamily: "Sub"),
                       text: kindName!)
                 ])),
     );
@@ -397,11 +395,11 @@ class petGender extends StatelessWidget {
         child: pet!.gender! == 'M'
             ? Text(
                 "남아",
-                style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                style: TextStyle(fontFamily: "Sub", color: btnColor),
               )
             : Text(
                 "여아",
-                style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                style: TextStyle(fontFamily: "Sub", color: btnColor),
               ));
   }
 }
@@ -419,8 +417,7 @@ class _petBirthState extends State<petBirth> {
     return RichText(
         text: TextSpan(children: [
       TextSpan(
-        style:
-            TextStyle(color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+        style: TextStyle(color: btnColor, fontSize: 15.sp, fontFamily: "Sub"),
         text:
             pet == null || pet?.birth == null ? " " : pet!.birth!.split("T")[0],
       ),
@@ -441,8 +438,7 @@ class _petWeightState extends State<petWeight> {
     return RichText(
         text: TextSpan(children: [
       TextSpan(
-        style:
-            TextStyle(color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+        style: TextStyle(color: btnColor, fontSize: 15.sp, fontFamily: "Sub"),
         text: pet == null || pet?.weight == null || pet!.weight! == 0.0
             ? "기록하지 않음"
             : pet!.weight!.toString() + " kg",
@@ -464,8 +460,7 @@ class _petHealthState extends State<petHealth> {
     return RichText(
         text: TextSpan(children: [
       TextSpan(
-        style:
-            TextStyle(color: btnColor, fontSize: 15.sp, fontFamily: "Daehan"),
+        style: TextStyle(color: btnColor, fontSize: 15.sp, fontFamily: "Sub"),
         text: pet == null || pet?.diseases == null || pet?.diseases!.length == 0
             ? "없음"
             : pet!.diseases!,
@@ -528,7 +523,7 @@ class iconBox extends StatelessWidget {
         ),
         Text(
           detail,
-          style: TextStyle(fontFamily: "Daehan"),
+          style: TextStyle(fontFamily: "Sub"),
         ),
       ],
     );
@@ -549,11 +544,11 @@ class _petNeutralizeState extends State<petNeutralize> {
       child: pet!.neutralize!
           ? Text(
               "중성화 완료",
-              style: TextStyle(fontFamily: "Daehan", color: btnColor),
+              style: TextStyle(fontFamily: "Sub", color: btnColor),
             )
           : Text(
               "중성화 미완료",
-              style: TextStyle(fontFamily: "Daehan", color: btnColor),
+              style: TextStyle(fontFamily: "Sub", color: btnColor),
             ),
     );
   }
@@ -574,7 +569,7 @@ class _petDeadState extends State<petDead> {
           ? Container(
               child: Text(
                 "무지개 다리를 건넜어요.",
-                style: TextStyle(fontFamily: "Daehan"),
+                style: TextStyle(fontFamily: "Sub"),
               ),
             )
           : Text(""),
@@ -624,7 +619,6 @@ class basicInfoBox extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                  // child: petGenderIcon(),
                   child: iconBox(
                     iconName: "🐶",
                     detail: " 견종",
