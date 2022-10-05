@@ -219,13 +219,6 @@ class _JeongeumPageState extends State<JeongeumPage> {
                   "강아지가 가운데 오도록 찍어주세요.",
                   style: TextStyle(fontFamily: "Daehan", color: btnColor),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.asset("assets/images/1.png"),
-                  ),
-                )
               ],
             ),
             // actions: <Widget>[
