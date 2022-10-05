@@ -1,5 +1,6 @@
 import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_user.dart';
+import 'package:GSSL/components/main/main_boast_area.dart';
 import 'package:GSSL/components/main/main_profile_bar.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/get_pet_detail.dart';
@@ -14,7 +15,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../components/bottomNavBar.dart';
+import '../components/main/health_magazine.dart';
 import '../components/main/main_function_box.dart';
+import '../components/main/main_question_area.dart';
+import '../components/main/pet_walkout.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -52,50 +56,45 @@ class _MainPageState extends State<MainPage> {
         UserBar(),
         pet_walkout(),
         diagnosis(),
+        blockTitle(
+          title: "견생실록 꿀팁 매거진",
+        ),
         health_magazine(),
-        pet_boast(),
-        recent_board(),
+        blockTitle(title: "견생실록 내새끼 자랑하기"),
+        MainBoastArea(),
+        blockTitle(
+          title: "최근 질문 게시글",
+        ),
+        MainQuestionArea(),
       ],
     );
   }
 }
 
-//기존 코드, 클릭시 열림
-//Scaffold(
-//       resizeToAvoidBottomInset: false,
-//       appBar: AppBar(
-//         toolbarHeight: 0,
-//       ),
-//       body: Container(
-//         color: nWColor,
-//         child: Column(
-//           children: [
-//             Flexible(
-//               child: UserBar(),
-//               flex: 2,
-//             ),
-//             Flexible(
-//               child: Container(
-//                 color: Colors.grey,
-//               ),
-//               flex: 1,
-//             ),
-//             Flexible(
-//               child: behavior_diagnosis(),
-//               flex: 3,
-//             ),
-//             Flexible(
-//               child: health_diagnosis(),
-//               flex: 3,
-//             ),
-//             Flexible(
-//               child: diary(),
-//               flex: 3,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
+class blockTitle extends StatelessWidget {
+  const blockTitle({Key? key, required this.title}) : super(key: key);
+
+  final title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 10.h, 0, 0),
+      child: Container(
+          padding: EdgeInsets.fromLTRB(13.w, 15.h, 0, 0),
+          margin: EdgeInsets.fromLTRB(0, 0, 0, 13.h),
+          width: 40.w,
+          height: 35.h,
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 20.sp,
+              fontFamily: "Sub",
+            ),
+          )),
+    );
+  }
+}
 
 class UserBar extends StatelessWidget {
   const UserBar({Key? key}) : super(key: key);
@@ -115,24 +114,6 @@ class UserBar extends StatelessWidget {
   }
 }
 
-class pet_walkout extends StatefulWidget {
-  const pet_walkout({Key? key}) : super(key: key);
-
-  @override
-  State<pet_walkout> createState() => _pet_walkoutState();
-}
-
-class _pet_walkoutState extends State<pet_walkout> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 60.h,
-      color: Colors.grey,
-    );
-  }
-}
-
 class diagnosis extends StatelessWidget {
   const diagnosis({Key? key}) : super(key: key);
 
@@ -149,7 +130,6 @@ class diagnosis extends StatelessWidget {
           builder: (BuildContext context) {
             return Container(
               width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
               decoration: BoxDecoration(color: Colors.white),
               child: i,
             );
@@ -157,100 +137,6 @@ class diagnosis extends StatelessWidget {
         );
       }).toList(),
     );
-  }
-}
-
-class health_magazine extends StatelessWidget {
-  const health_magazine({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 230.h,
-      width: double.infinity,
-      padding: EdgeInsets.all(5.h),
-      color: Colors.red,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Column(
-            children: [
-              Container(
-                width: 130.w,
-                height: 80.h,
-                padding: EdgeInsets.all(5.h),
-                margin: EdgeInsets.all(10.h),
-                color: Colors.blue,
-              ),
-              Container(
-                width: 130.w,
-                height: 80.h,
-                padding: EdgeInsets.all(5.h),
-                margin: EdgeInsets.all(10.h),
-                color: Colors.black,
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              Container(
-                width: 130.w,
-                height: 80.h,
-                padding: EdgeInsets.all(5.h),
-                margin: EdgeInsets.all(10.h),
-                color: Colors.grey,
-              ),
-              Container(
-                width: 130.w,
-                height: 80.h,
-                padding: EdgeInsets.all(5.h),
-                margin: EdgeInsets.all(10.h),
-                color: Colors.white,
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class recent_board extends StatelessWidget {
-  const recent_board({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 150.h,
-      color: Colors.green,
-    );
-  }
-}
-
-class pet_boast extends StatelessWidget {
-  const pet_boast({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(height: 300.0),
-      items: [1, 2, 3, 4, 5].map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-                width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(color: Colors.blue),
-                child: Text(
-                  'text $i',
-                  style: TextStyle(fontSize: 16.sp),
-                ));
-          },
-        );
-      }).toList(),
-    );
-    ;
   }
 }
 

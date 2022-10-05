@@ -145,59 +145,62 @@ class _KakaoMapTestState extends State<KakaoMapTest>
   Widget build(BuildContext context) {
     super.build(context);
     initTimer();
-    return Screenshot(
-      controller: screenshotController,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          toolbarHeight: 0,
-        ),
-        body: Container(
-          child: SnappingSheet(
-            // 슬라이드 모달창
-            snappingPositions: [
-              SnappingPosition.factor(
-                positionFactor: 0,
-                snappingCurve: Curves.easeOutExpo,
-                snappingDuration: Duration(seconds: 1),
-                grabbingContentOffset: GrabbingContentOffset.top,
-              ),
-              SnappingPosition.pixels(
-                // 원하는 높이만큼 보임
-                positionPixels: 100.h,
-                snappingCurve: Curves.elasticOut,
-                snappingDuration: Duration(milliseconds: 1750),
-              ),
-            ],
-            lockOverflowDrag: true,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FutureBuilder(
-                    future: _future(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      //해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
-                      if (snapshot.hasData == false) {
-                        return CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
-                      }
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        constraints: BoxConstraints.tight(ScreenUtil.defaultSize),
+        child: SnappingSheet(
+          // 슬라이드 모달창
+          snappingPositions: [
+            SnappingPosition.factor(
+              positionFactor: 0,
+              snappingCurve: Curves.easeOutExpo,
+              snappingDuration: Duration(seconds: 1),
+              grabbingContentOffset: GrabbingContentOffset.top,
+            ),
+            SnappingPosition.pixels(
+              // 원하는 높이만큼 보임
+              positionPixels: 100.h,
+              snappingCurve: Curves.elasticOut,
+              snappingDuration: Duration(milliseconds: 1750),
+            ),
+          ],
+          lockOverflowDrag: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FutureBuilder(
+                  future: _future(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    //해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
+                    if (snapshot.hasData == false) {
+                      return CircularProgressIndicator();
+                    }
 
-                      //error가 발생하게 될 경우 반환하게 되는 부분
-                      else if (snapshot.hasError) {
-                        return Text(
-                          'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
-                          style: TextStyle(fontSize: 15),
-                        );
-                      }
+                    //error가 발생하게 될 경우 반환하게 되는 부분
+                    else if (snapshot.hasError) {
+                      return Text(
+                        'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
+                        style: TextStyle(fontSize: 15),
+                      );
+                    }
 
-                      // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
-                      else {
-                        // debugPrint(snapshot.data); Container(
-                        // child: Text(snapshot.data),
-                        return KakaoMapView(
-                          width: 360.w,
+                    // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
+                    else {
+                      // debugPrint(snapshot.data); Container(
+                      // child: Text(snapshot.data),
+                      return Flexible(
+                        flex: 1,
+                        fit: FlexFit.loose,
+                        child: KakaoMapView(
+                          width: 1.sw,
                           // height: size.height * 7 / 10,
                           // height: size.height - appBarHeight - 130,
-                          height: 600.h,
+                          height: 1.sh,
                           kakaoMapKey: kakaoMapKey,
                           lat: initLat,
                           lng: initLon,
@@ -210,99 +213,101 @@ class _KakaoMapTestState extends State<KakaoMapTest>
                             _mapController = controller;
                           },
                           polyline: KakaoFigure(path: []),
-                        );
-                      }
-                    })
-              ],
-            ),
-            grabbingHeight: 25,
-            grabbing: Container(
-                decoration: new BoxDecoration(
-                  color: pColor,
-                  borderRadius: new BorderRadius.only(
-                    topLeft: const Radius.circular(25.0),
-                    topRight: const Radius.circular(25.0),
-                  ),
-                ),
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(150, 10, 150, 10),
-                  decoration: new BoxDecoration(
-                    color: btnColor,
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
-                  ),
-                )),
-            sheetBelow: SnappingSheetContent(
-              draggable: true,
-              child: Container(
+                        ),
+                      );
+                    }
+                  })
+            ],
+          ),
+          grabbingHeight: 25,
+          grabbing: Container(
+              decoration: new BoxDecoration(
                 color: pColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    WalkLength(totalWalkLength),
-                    CircleAvatar(
-                      backgroundColor: btnColor,
-                      radius: 20,
-                      child: IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: pressWalkBtn
-                              ? Icon(Icons.stop)
-                              : Icon(Icons.play_arrow),
-                          color: nWColor,
-                          iconSize: 30,
-                          onPressed: () {
-                            setState(() {
-                              if (pressWalkBtn == false) {
-                                // 버튼 변경
-                                pressWalkBtn = true;
-                                debugPrint(pressWalkBtn.toString());
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(25.0),
+                  topRight: const Radius.circular(25.0),
+                ),
+              ),
+              child: Container(
+                margin: EdgeInsets.fromLTRB(150, 10, 150, 10),
+                decoration: new BoxDecoration(
+                  color: btnColor,
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                ),
+              )),
+          sheetBelow: SnappingSheetContent(
+            draggable: true,
+            child: Container(
+              color: pColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  WalkLength(totalWalkLength),
+                  CircleAvatar(
+                    backgroundColor: btnColor,
+                    radius: 20,
+                    child: IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: pressWalkBtn
+                            ? Icon(Icons.stop)
+                            : Icon(Icons.play_arrow),
+                        color: nWColor,
+                        iconSize: 30,
+                        onPressed: () {
+                          setState(() {
+                            if (pressWalkBtn == false) {
+                              // 버튼 변경
+                              pressWalkBtn = true;
+                              debugPrint(pressWalkBtn.toString());
 
-                                // 카카오 맵 이동 기록 시작
-                                Future<Position> future = _determinePosition();
-                                future
-                                    .then(
-                                        (pos) => startWalk(pos, _mapController))
-                                    .catchError((error) => debugPrint(error));
+                              // 카카오 맵 이동 기록 시작
+                              Future<Position> future = _determinePosition();
+                              future
+                                  .then((pos) => startWalk(pos, _mapController))
+                                  .catchError((error) => debugPrint(error));
 
-                                // 타이머 정지
-                                startTime = DateTime.now();
-                                _stopWatchTimer =
-                                    StopWatchTimer(mode: StopWatchMode.countUp);
-                                _stopWatchTimer.onStartTimer();
-                                // _stopWatchTimer.secondTime
-                                //     .listen((value) => print('secondTime $value'));
-                              } else if (pressWalkBtn == true) {
-                                // 버튼 변경
-                                pressWalkBtn = false;
-                                debugPrint(pressWalkBtn.toString());
+                              // 타이머 정지
+                              startTime = DateTime.now();
+                              _stopWatchTimer =
+                                  StopWatchTimer(mode: StopWatchMode.countUp);
+                              _stopWatchTimer.onStartTimer();
+                              // _stopWatchTimer.secondTime
+                              //     .listen((value) => print('secondTime $value'));
+                            } else if (pressWalkBtn == true) {
+                              // 버튼 변경
+                              pressWalkBtn = false;
+                              debugPrint(pressWalkBtn.toString());
 
-                                // 카카오 맵 이동 기록 중단
-                                stopWalk(_mapController);
+                              // 카카오 맵 이동 기록 중단
+                              stopWalk(_mapController!);
 
-                                // 타이머 정지
-                                // _stopWatchTimer.dispose();
-                                _stopWatchTimer.onStopTimer();
-                                endTime = DateTime.now();
-                                // 백엔드 서버로 전송
-                                List<int> pets = [];
-                                for (Pets p in allPets!) {
-                                  pets.add(p.id!);
-                                }
-                                putWalk info = new putWalk(
-                                    startTime: startTime.toIso8601String(),
-                                    endTime: endTime.toIso8601String(),
-                                    distance: totalWalkLength,
-                                    pet_ids: pets);
-
-                                ApiWalk apiWalk = ApiWalk();
-                                apiWalk.enterWalk(info);
-
-                                // 스크린샷 저장
-                                _capturePng();
+                              // 타이머 정지
+                              // _stopWatchTimer.dispose();
+                              _stopWatchTimer.onStopTimer();
+                              endTime = DateTime.now();
+                              // 백엔드 서버로 전송
+                              List<int> pets = [];
+                              for (Pets p in allPets!) {
+                                pets.add(p.id!);
                               }
-                            });
-                          }),
-                    ),
-                    WalkTimer(_stopWatchTimer),
+
+                              putWalk info = new putWalk(
+                                  startTime: startTime.toIso8601String(),
+                                  endTime: endTime.toIso8601String(),
+                                  distance: totalWalkLength,
+                                  pet_ids: pets);
+
+                              ApiWalk apiWalk = ApiWalk();
+                              apiWalk.enterWalk(info);
+
+                              sleep(Duration(milliseconds: 500));
+                              // 스크린샷 저장
+                              _capturePng();
+                            }
+                          });
+                        }),
+                  ),
+                  WalkTimer(_stopWatchTimer),
 //                     // 임시 버튼
 //                     CircleAvatar(
 //                       child: IconButton(
@@ -340,8 +345,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
 //                           },
 //                           icon: Icon(Icons.screenshot)),
 //                     ),
-                  ],
-                ),
+                ],
               ),
             ),
           ),
@@ -489,7 +493,7 @@ void startWalk(Position position, _mapController) {
       .listen((Position? position) {
     if (!positionList.contains(position)) {
       if (positionList.length > 0) {
-        drawLine(_mapController, position, positionList.last);
+        drawLine(_mapController, position!, positionList.last);
       }
       positionList.add(position!);
     }
@@ -522,7 +526,8 @@ void startWalk(Position position, _mapController) {
   }
 }
 
-void drawLine(_mapController, position, beforePos) {
+void drawLine(
+    WebViewController _mapController, Position position, Position beforePos) {
   var lat = 0.0, lon = 0.0;
   var beforeLat = 0.0, beforeLon = 0.0;
 
@@ -573,7 +578,7 @@ void drawLine(_mapController, position, beforePos) {
             ''');
 }
 
-void stopWalk(_mapController) {
+void stopWalk(WebViewController _mapController) {
   debugPrint(totalWalkLength.toString());
   _positionStreamSubscription?.cancel(); // 위치 기록 종료
   _mapController.runJavascript('''
@@ -590,9 +595,7 @@ void stopWalk(_mapController) {
                      // bounds[, paddingTop, paddingRight, paddingBottom, paddingLeft]
                      // map.setCenter(new kakao.maps.LatLng(latitude,longitude));
   ''');
-  _mapController.runJavascript('''
-  
-  ''');
+
   positionList = [];
   debugPrint('산책 끝');
 }

@@ -38,9 +38,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceHeight = MediaQuery.of(context).size.height;
     ScreenUtil.init(context);
     return ScreenUtilInit(
-      designSize: const Size(360, 690),
+      designSize: Size(deviceWidth, deviceHeight),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
