@@ -220,7 +220,7 @@ class _BogamPageState extends State<BogamPage> {
                               ),
                               builder: (BuildContext context) {
                                 return Container(
-                                  height: 225.h,
+                                  height: 300.h,
                                   decoration: new BoxDecoration(
                                     color: pColor,
                                     borderRadius: new BorderRadius.only(
@@ -389,7 +389,7 @@ class _BogamPageState extends State<BogamPage> {
                 borderRadius: BorderRadius.circular(15.0)),
             //Dialog Main Title
             content: SizedBox(
-                height: 300.h,
+                height: 333.h,
                 child: Column(
                   children: [
                     Padding(
