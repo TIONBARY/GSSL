@@ -216,35 +216,41 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
                     color: Colors.black,
                   )),
               hintText: '검색할 단어를 입력하세요.',
-              contentPadding: EdgeInsets.all(10),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
+              hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+              contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
               enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(color: btnColor)),
+              filled: true,
+              fillColor: Colors.white,
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(color: btnColor)),
             ),
           ),
           actions: [
-            IconButtonWidget(
-              color: btnColor,
-              onTap: () => context.to(AddNewFeedPage()).then((value) {
-                if (value != null) {
-                  if (value == true) {
-                    setState(() {
-                      _aidList = [];
-                      _hasMore = true;
-                      _pageNumber = 0;
-                      _error = false;
-                      _loading = true;
-                    });
-                    _getSearchList(
-                        searchController.text, _pageNumber, _pageSize);
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 12.5.w, 0),
+              child: IconButtonWidget(
+                color: btnColor,
+                onTap: () => context.to(AddNewFeedPage()).then((value) {
+                  if (value != null) {
+                    if (value == true) {
+                      setState(() {
+                        _aidList = [];
+                        _hasMore = true;
+                        _pageNumber = 0;
+                        _error = false;
+                        _loading = true;
+                      });
+                      _getSearchList(
+                          searchController.text, _pageNumber, _pageSize);
+                    }
                   }
-                }
-              }),
-              iconData: Icons.add_sharp,
-              iconColor: Colors.white,
+                }),
+                iconData: Icons.add_sharp,
+                iconColor: Colors.white,
+              ),
             ),
           ],
         ),
