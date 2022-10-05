@@ -70,7 +70,8 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                 children: [
                   Expanded(
                       child: Container(
-                    padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
+                    padding:
+                        EdgeInsets.fromLTRB(0.05.sw, 0.05.sh, 0.05.sw, 0.05.sh),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       image: DecorationImage(
