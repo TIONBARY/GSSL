@@ -1,16 +1,25 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:GSSL/api/api_jeongeum.dart';
+import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 
 String diagnosisResult = "";
 ApiJeongeum apiJeongeum = ApiJeongeum();
 XFile? _video;
 final picker = ImagePicker();
+bool _loading = true;
+
+BuildContext? loadingContext;
+
+VideoPlayerController? _controller;
+Future<void>? _initializeVideoPlayerFuture;
 
 class JeongeumPage extends StatefulWidget {
   const JeongeumPage({Key? key}) : super(key: key);
@@ -22,32 +31,67 @@ class JeongeumPage extends StatefulWidget {
 class _JeongeumPageState extends State<JeongeumPage> {
   // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
   Future getVideo(ImageSource imageSource) async {
-    final image = await picker.pickVideo(
+    final video = await picker.pickVideo(
       source: imageSource,
     );
 
     setState(() {
-      _video = XFile(image!.path); // 가져온 이미지를 _image에 저장
+      _video = XFile(video!.path); // 가져온 이미지를 _image에 저장
+    });
+
+    _controller = VideoPlayerController.file(
+      File(_video!.path),
+    );
+    _initializeVideoPlayerFuture = _controller!.initialize();
+    _controller!.addListener(() {
+      setState(() {});
     });
   }
 
   // 이미지를 보여주는 위젯
   Widget showImage() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 10.h, 0, 25.h),
-      child: Container(
-          color: const Color(0xffd0cece),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.width,
-          child: Center(
-              child: _video == null
+        padding: EdgeInsets.fromLTRB(0, 10.h, 0, 25.h),
+        child: Container(
+            color: const Color(0xffd0cece),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.width,
+            child: Center(
+              child: _controller == null
                   ? Text(
-                      '이미지를 촬영 또는 선택 해주세요',
+                      '동영상을 촬영 또는 선택 해주세요',
                       style: TextStyle(
-                          fontFamily: "Daehan", fontSize: 20.sp, color: btnColor),
+                          fontFamily: "Daehan",
+                          fontSize: 20.sp,
+                          color: btnColor),
                     )
-                  : Image.file(File(_video!.path)))),
-    );
+                  : Stack(
+                      children: [
+                        VideoPlayer(
+                          _controller!,
+                        ),
+                        Center(
+                            child: GestureDetector(
+                          onTap: () async {
+                            await createVideo();
+                          },
+                          child: Visibility(
+                            visible: true,
+                            child: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.white60,
+                              child: Icon(
+                                  _controller!.value.isPlaying == true
+                                      ? Icons.pause
+                                      : Icons.play_arrow,
+                                  size: 26,
+                                  color: Colors.blue),
+                            ),
+                          ),
+                        ))
+                      ],
+                    ),
+            )));
   }
 
   @override
@@ -114,41 +158,6 @@ class _JeongeumPageState extends State<JeongeumPage> {
                         } else {
                           _diagnosis();
                           loadingDialog();
-                          Future.delayed(const Duration(milliseconds: 20000),
-                              () {
-                            showModalBottomSheet<void>(
-                              context: context,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              builder: (BuildContext context) {
-                                return Container(
-                                  height: 250,
-                                  decoration: new BoxDecoration(
-                                    color: pColor,
-                                    borderRadius: new BorderRadius.only(
-                                      topLeft: const Radius.circular(25.0),
-                                      topRight: const Radius.circular(25.0),
-                                    ),
-                                  ),
-                                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(padding: EdgeInsets.all(10)),
-                                      Text(
-                                          '강아지는 현재 ${diagnosisResult}한 상태입니다.'),
-                                      FloatingActionButton(
-                                        child: Icon(Icons.save_alt_outlined),
-                                        tooltip: 'save',
-                                        onPressed: () {},
-                                        backgroundColor: btnColor,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          });
                         }
                       }),
                   // 갤러리에서 이미지를 가져오는 버튼
@@ -164,6 +173,21 @@ class _JeongeumPageState extends State<JeongeumPage> {
             ),
           ],
         ));
+  }
+
+  Future<void> createVideo() async {
+    if (_controller == null) {
+      return;
+    } else {
+      if (_controller!.value.isPlaying) {
+        _controller!.pause();
+        setState(() {});
+      } else {
+        _controller!.initialize();
+        await _controller!.play();
+        setState(() {});
+      }
+    }
   }
 
   void guideDialog() {
@@ -195,13 +219,6 @@ class _JeongeumPageState extends State<JeongeumPage> {
                   "강아지가 가운데 오도록 찍어주세요.",
                   style: TextStyle(fontFamily: "Daehan", color: btnColor),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.asset("assets/images/1.png"),
-                  ),
-                )
               ],
             ),
             // actions: <Widget>[
@@ -230,17 +247,14 @@ class _JeongeumPageState extends State<JeongeumPage> {
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
         builder: (BuildContext context) {
-          Future.delayed(Duration(milliseconds: 20000), () {
-            Navigator.pop(context);
-          });
-
+          loadingContext = context;
           return AlertDialog(
             // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0)),
             //Dialog Main Title
             content: SizedBox(
-                height: 277.h,
+                height: 333.h,
                 child: Column(
                   children: [
                     Padding(
@@ -255,7 +269,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                               TextStyle(fontFamily: "Daehan", color: btnColor),
                         ),
                         Text(
-                          '20초 가량 소요됩니다.',
+                          '30초 가량 소요됩니다.',
                           style:
                               TextStyle(fontFamily: "Daehan", color: btnColor),
                         ),
@@ -268,9 +282,59 @@ class _JeongeumPageState extends State<JeongeumPage> {
   }
 
   void _diagnosis() async {
-    print('진단중');
     String result = await apiJeongeum.diagnosis(_video);
-    print(result);
-    diagnosisResult = result;
+    if (json.decode(result)['emotion'] != null) {
+      diagnosisResult = json.decode(result)['emotion'];
+      print(diagnosisResult);
+      setState(() {
+        _loading = false;
+      });
+      diagnosisResult = diagnosisResult.replaceAll("_", " 또는 ");
+      if (!_loading) {
+        Navigator.pop(loadingContext!);
+        showModalBottomSheet<void>(
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          builder: (BuildContext context) {
+            return Container(
+              height: 250,
+              decoration: new BoxDecoration(
+                color: pColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(25.0),
+                  topRight: const Radius.circular(25.0),
+                ),
+              ),
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('강아지는 현재'),
+                  Padding(padding: EdgeInsets.all(10)),
+                  Text('${diagnosisResult}', style: TextStyle(fontSize: 24)),
+                  Padding(padding: EdgeInsets.all(10)),
+                  Text('한 상태입니다.')
+                  // FloatingActionButton(
+                  //   child: Icon(Icons.save_alt_outlined),
+                  //   tooltip: 'save',
+                  //   onPressed: () {},
+                  //   backgroundColor: btnColor,
+                  // ),
+                ],
+              ),
+            );
+          },
+        );
+      }
+    } else {
+      Navigator.pop(loadingContext!);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("분석에 실패했습니다.", null);
+          });
+    }
   }
 }
