@@ -15,6 +15,7 @@ ApiJeongeum apiJeongeum = ApiJeongeum();
 XFile? _video;
 final picker = ImagePicker();
 bool _loading = true;
+String emoticon = "";
 
 BuildContext? loadingContext;
 
@@ -290,6 +291,15 @@ class _JeongeumPageState extends State<JeongeumPage> {
         _loading = false;
       });
       diagnosisResult = diagnosisResult.replaceAll("_", " 또는 ");
+      if (diagnosisResult == "행복 또는 즐거움") {
+        emoticon = "😊";
+      } else if (diagnosisResult == "편안 또는 안정") {
+        emoticon = "😌";
+      } else if (diagnosisResult == "화남 또는 불쾌") {
+        emoticon = "😡";
+      } else if (diagnosisResult == "불안 또는 슬픔") {
+        emoticon = "😥";
+      }
       if (!_loading) {
         Navigator.pop(loadingContext!);
         showModalBottomSheet<void>(
@@ -311,11 +321,29 @@ class _JeongeumPageState extends State<JeongeumPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('강아지는 현재'),
+                  Text(
+                    '강아지는 현재',
+                    style: TextStyle(
+                        fontFamily: "Daehan",
+                        fontSize: 20.sp,
+                        color: Colors.black),
+                  ),
                   Padding(padding: EdgeInsets.all(10)),
-                  Text('${diagnosisResult}', style: TextStyle(fontSize: 24)),
+                  Text(
+                    emoticon + ' ${diagnosisResult}',
+                    style: TextStyle(
+                        fontFamily: "Daehan",
+                        fontSize: 30.sp,
+                        color: Colors.black),
+                  ),
                   Padding(padding: EdgeInsets.all(10)),
-                  Text('한 상태입니다.')
+                  Text(
+                    '상태입니다.',
+                    style: TextStyle(
+                        fontFamily: "Daehan",
+                        fontSize: 20.sp,
+                        color: Colors.black),
+                  )
                   // FloatingActionButton(
                   //   child: Icon(Icons.save_alt_outlined),
                   //   tooltip: 'save',
