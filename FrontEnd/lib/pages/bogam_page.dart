@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:GSSL/api/api_bogam.dart';
 import 'package:GSSL/api/api_diary.dart';
+import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_user.dart';
 import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/request_models/put_pet_journal.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
+import 'package:GSSL/model/response_models/get_pet_detail.dart';
 import 'package:GSSL/model/response_models/user_info.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +35,7 @@ List<int> diagnosisPercent = [0, 0, 0];
 ApiBogam apiBogam = ApiBogam();
 XFile? _image;
 final picker = ImagePicker();
-bool _loading = true;
 int count = 0;
-
-BuildContext? loadingContext;
 
 class BogamPage extends StatefulWidget {
   const BogamPage({Key? key}) : super(key: key);
@@ -57,8 +56,10 @@ class _BogamPageState extends State<BogamPage> {
 
   ApiDiary apiDiary = ApiDiary();
   ApiUser apiUser = ApiUser();
+  ApiPet apiPet = ApiPet();
 
   User? user;
+  Pet? mainPet;
 
   Future<void> getUser() async {
     userInfo? userInfoResponse = await apiUser.getUserInfo();
@@ -66,6 +67,7 @@ class _BogamPageState extends State<BogamPage> {
       setState(() {
         user = userInfoResponse.user;
       });
+      getMainPet();
     } else if (userInfoResponse.statusCode == 401) {
       showDialog(
           context: context,
@@ -82,6 +84,16 @@ class _BogamPageState extends State<BogamPage> {
                     : userInfoResponse.message!,
                 (context) => BottomNavBar());
           });
+    }
+  }
+
+  Future<void> getMainPet() async {
+    getPetDetail? getMainPetResponse =
+    await apiPet.getPetDetailApi(user?.petId);
+    if (getMainPetResponse.statusCode == 200) {
+      setState(() {
+        mainPet = getMainPetResponse.pet;
+      });
     }
   }
 
@@ -231,8 +243,16 @@ class _BogamPageState extends State<BogamPage> {
                                   padding:
                                       EdgeInsets.fromLTRB(30.w, 0, 30.w, 0),
                                   child: count == 0
-                                    ? Text('강아지는 건강합니다.')
-                                    : Column(
+                                      ? Center(
+                                    child: Text('${mainPet?.name}는 건강합니다.',
+                                      style: TextStyle(
+                                          fontFamily: "Daehan",
+                                          fontSize: 20.sp,
+                                          color: Colors.black
+                                      ),
+                                    ),
+                                  )
+                                      : Column(
                                     children: <Widget>[
                                       Padding(
                                         padding: EdgeInsets.all(15.h),
@@ -244,12 +264,12 @@ class _BogamPageState extends State<BogamPage> {
                                       for(int i = 0; i < count; i++)
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
                                               width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
+                                                  .size
+                                                  .width /
                                                   3,
                                               child: Text(
                                                   diagnosisResult.elementAt(i),
@@ -259,8 +279,8 @@ class _BogamPageState extends State<BogamPage> {
                                             ),
                                             Container(
                                               width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
+                                                  .size
+                                                  .width /
                                                   3,
                                               child: Text(
                                                   '${diagnosisPercent.elementAt(i)}%',
