@@ -4,6 +4,7 @@ import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_user.dart';
 import 'package:GSSL/api/api_walk.dart';
 import 'package:GSSL/components/diary/walk_detail_form.dart';
+import 'package:GSSL/components/util/custom_dialog_function.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/get_walk_detail.dart';
 import 'package:GSSL/model/response_models/get_walk_list.dart';
@@ -210,40 +211,33 @@ class _WalkPageState extends State<WalkPage> {
                                       tooltip: "선택된 항목 삭제",
                                       backgroundColor: Colors.red,
                                       onPressed: () {
-                                        // debugPrint("삭제");
-
-                                        // 스크린샷 삭제
-                                        selectedArticles.forEach((e) => {
-                                              if (File(prefix +
-                                                      formatDateTime(infoList[e]
-                                                          .endTime
-                                                          .toString()) +
-                                                      ".png")
-                                                  .existsSync())
-                                                {
-                                                  File(prefix +
-                                                          formatDateTime(
-                                                              infoList[e]
-                                                                  .endTime
-                                                                  .toString()) +
-                                                          ".png")
-                                                      .deleteSync()
-                                                }
-                                            });
-
-                                        // 삭제 요청 전송;
-                                        selectedArticles.forEach((e) =>
-                                            selectedWalkIds
-                                                .add(infoList[e].walkId!));
-                                        apiWalk.deleteAllWalk(selectedWalkIds);
-                                        // 선택 리스트 비우기
-                                        setState(() {
-                                          selectedArticles = [];
-                                          selectedWalkIds = [];
-                                          selectionMode = false;
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return CustomDialogWithFunction(
+                                                  "정말로 " +
+                                                      selectedArticles.length
+                                                          .toString() +
+                                                      "개의 산책기록을 삭제하시겠습니까?", () {
+                                                // 삭제 요청 전송;
+                                                selectedArticles.forEach((e) =>
+                                                    selectedWalkIds.add(
+                                                        infoList[e].walkId!));
+                                                apiWalk.deleteAllWalk(
+                                                    selectedWalkIds);
+                                                // 선택 리스트 비우기
+                                                setState(() {
+                                                  selectedArticles = [];
+                                                  selectedWalkIds = [];
+                                                  selectionMode = false;
+                                                });
+                                                // 뒤로가기
+                                                Navigator.pop(context);
+                                              });
+                                            }).then((value) {
+                                          // 새로고침
+                                          setState(() {});
                                         });
-                                        // 새로고침
-                                        setState(() {});
                                       })
                                   : Container(),
                             ),

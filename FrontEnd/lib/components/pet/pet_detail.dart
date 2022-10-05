@@ -41,7 +41,15 @@ class _PetDetailState extends State<PetDetail> {
       setState(() {
         user = userInfoResponse.user;
       });
-      if (user?.petId != 0) getMainPet();
+      if (user?.petId != 0)
+        getMainPet();
+      else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomDialog("반려동물을 등록해주세요.", (context) => BottomNavBar());
+            });
+      }
     } else if (userInfoResponse.statusCode == 401) {
       showDialog(
           context: context,
@@ -243,6 +251,10 @@ class _PetDetailState extends State<PetDetail> {
                                                   onPressed: () {
                                                     deletePet();
                                                   },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.red),
                                                   child: Text(
                                                     "확인",
                                                     style: TextStyle(
@@ -253,10 +265,14 @@ class _PetDetailState extends State<PetDetail> {
                                                   onPressed: () {
                                                     Navigator.of(context).pop();
                                                   },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.white),
                                                   child: Text(
                                                     "취소",
                                                     style: TextStyle(
-                                                        color: Colors.white),
+                                                        color: Colors.black),
                                                   ),
                                                 ),
                                               ]))
