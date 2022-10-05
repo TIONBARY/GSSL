@@ -8,6 +8,7 @@ import 'package:GSSL/model/request_models/put_board.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 import './widgets/card_widget.dart';
@@ -76,116 +77,125 @@ class _AddNewFeedPageState extends State<AddNewFeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         iconTheme: IconThemeData(
           color: btnColor,
-          size: 20,
+          size: 20.sp,
         ),
         toolbarHeight: 50,
         backgroundColor: pColor,
+        titleTextStyle: TextStyle(
+          fontFamily: "Daehan",
+          fontSize: 20.sp,
+          color: btnColor,
+        ),
         title: const Text(
           '반려견 자랑하기',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-          ),
         ),
         leading: IconButtonWidget(
             color: btnColor,
             iconData: Icons.arrow_back_sharp,
-            iconColor: Colors.white,
+            iconColor: nWColor,
             onTap: () => Navigator.of(context).pop(insertSuccess)),
       ),
-      body: SingleChildScrollView(
-        child: CardWidget(
-          child: Column(
-            children: [
-              Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFieldWidget(
-                        controller: nameController,
-                        name: '제목',
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return '제목을 입력해주세요.';
-                          }
-                          if (text.length > 20) {
-                            return '제목은 20자 이내로 입력해주세요.';
-                          }
-                          return null;
-                        },
-                      ),
-                      MyBoxWidget(),
-                      TextFieldWidget(
-                        controller: bodyController,
-                        name: '내용',
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return '내용을 입력해주세요.';
-                          }
-                          if (text.length > 1000) {
-                            return '내용은 1000자 이내로 입력해주세요.';
-                          }
-                          return null;
-                        },
-                        maxLines: 8,
-                      ),
-                      MyBoxWidget(),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: defaultPadding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                // color: const Color(0xffd0cece),
-                                width: MediaQuery.of(context).size.width / 5,
-                                height: MediaQuery.of(context).size.width / 5,
-                                child: Center(
-                                    child: image == null
-                                        ? Text('')
-                                        : new Image(
-                                            image: new FileImage(
-                                                File(image!.path)))),
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    shape: BoxShape.rectangle),
-                              ),
-                              Container(
-                                child: ElevatedButton.icon(
-                                  onPressed: () {
-                                    chooseImage(); // call choose image function
-                                  },
-                                  icon: Icon(Icons.image),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: btnColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      )),
-                                  label: Text("게시글 이미지 선택"),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(5.w, 15.h, 5.w, 15.h),
+        child: SingleChildScrollView(
+          child: CardWidget(
+            child: Column(
+              children: [
+                Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFieldWidget(
+                          controller: nameController,
+                          name: '제목',
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return '제목을 입력해주세요.';
+                            }
+                            if (text.length > 20) {
+                              return '제목은 20자 이내로 입력해주세요.';
+                            }
+                            return null;
+                          },
+                        ),
+                        MyBoxWidget(),
+                        TextFieldWidget(
+                          controller: bodyController,
+                          name: '내용',
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return '내용을 입력해주세요.';
+                            }
+                            if (text.length > 1000) {
+                              return '내용은 1000자 이내로 입력해주세요.';
+                            }
+                            return null;
+                          },
+                          maxLines: 8,
+                        ),
+                        MyBoxWidget(),
+                        Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
+                                  // color: const Color(0xffd0cece),
+                                  width: MediaQuery.of(context).size.width / 5,
+                                  height: MediaQuery.of(context).size.width / 5,
+                                  child: Center(
+                                      child: image == null
+                                          ? Text('')
+                                          : new Image(
+                                              image: new FileImage(
+                                                  File(image!.path)))),
+                                  decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      shape: BoxShape.rectangle),
                                 ),
-                              ),
-                            ],
-                          ) // 이름
-                          ),
-                    ],
-                  )),
-              MyBoxWidget(
-                height: 30,
-              ),
-              TextBtnWidget(
-                  name: '게시하기',
-                  btnColor: btnColor,
-                  nameColor: Colors.white,
-                  onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      _submit();
-                    }
-                  }),
-            ],
+                                Container(
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      chooseImage(); // call choose image function
+                                    },
+                                    icon: Icon(Icons.image),
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: btnColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        )),
+                                    label: Text(
+                                      "게시글 이미지 선택",
+                                      style: TextStyle(
+                                        fontFamily: "Daehan",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ) // 이름
+                            ),
+                      ],
+                    )),
+                MyBoxWidget(
+                  height: 10.h,
+                ),
+                TextBtnWidget(
+                    name: '게시하기',
+                    btnColor: btnColor,
+                    nameColor: Colors.white,
+                    onTap: () {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        _submit();
+                      }
+                    }),
+              ],
+            ),
           ),
         ),
       ),

@@ -86,7 +86,6 @@ class _EditPostPageState extends State<EditPostPage> {
       setState(() {
         image = file2;
       });
-
     } else if (result.statusCode == 401) {
       showDialog(
           context: context,
@@ -156,18 +155,20 @@ class _EditPostPageState extends State<EditPostPage> {
     } else {
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: pColor,
+          titleTextStyle: TextStyle(
+            fontFamily: "Daehan",
+            fontSize: 20.sp,
+            color: btnColor,
+          ),
           title: const Text(
             '게시글 수정하기',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
           ),
           leading: IconButtonWidget(
               color: btnColor,
               iconData: Icons.arrow_back_sharp,
-              iconColor: Colors.white,
+              iconColor: nWColor,
               onTap: () => Navigator.of(context).pop(false)),
         ),
         body: SingleChildScrollView(
