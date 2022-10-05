@@ -8,7 +8,7 @@ class health_magazine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 480.sm,
+      height: 500.sm,
       width: 480.sm,
       padding: EdgeInsets.all(5.sm),
       // color: Colors.red,
@@ -41,7 +41,7 @@ class magazineBoxTitle extends StatelessWidget {
     return Container(
         width: 0.45.sw,
         height: 230.sm,
-        margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
+        margin: EdgeInsets.fromLTRB(0, 5.h, 10.w, 0),
         child: Column(
           children: [
             Image.asset('assets/images/tooth/001.png'),
