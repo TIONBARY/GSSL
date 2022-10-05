@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 
 String diagnosisResult = "";
 ApiJeongeum apiJeongeum = ApiJeongeum();
@@ -16,6 +17,9 @@ final picker = ImagePicker();
 bool _loading = true;
 
 BuildContext? loadingContext;
+
+VideoPlayerController? _controller;
+Future<void>? _initializeVideoPlayerFuture;
 
 class JeongeumPage extends StatefulWidget {
   const JeongeumPage({Key? key}) : super(key: key);
@@ -34,27 +38,60 @@ class _JeongeumPageState extends State<JeongeumPage> {
     setState(() {
       _video = XFile(video!.path); // 가져온 이미지를 _image에 저장
     });
+
+    _controller = VideoPlayerController.file(
+      File(_video!.path),
+    );
+    _initializeVideoPlayerFuture = _controller!.initialize();
+    _controller!.addListener(() {
+      setState(() {});
+    });
   }
 
   // 이미지를 보여주는 위젯
   Widget showImage() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 10.h, 0, 25.h),
-      child: Container(
-          color: const Color(0xffd0cece),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.width,
-          child: Center(
-              child: _video == null
+        padding: EdgeInsets.fromLTRB(0, 10.h, 0, 25.h),
+        child: Container(
+            color: const Color(0xffd0cece),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.width,
+            child: Center(
+              child: _controller == null
                   ? Text(
-                      '이미지를 촬영 또는 선택 해주세요',
+                      '동영상을 촬영 또는 선택 해주세요',
                       style: TextStyle(
                           fontFamily: "Daehan",
                           fontSize: 20.sp,
                           color: btnColor),
                     )
-                  : Image.file(File(_video!.path)))),
-    );
+                  : Stack(
+                      children: [
+                        VideoPlayer(
+                          _controller!,
+                        ),
+                        Center(
+                            child: GestureDetector(
+                          onTap: () async {
+                            await createVideo();
+                          },
+                          child: Visibility(
+                            visible: true,
+                            child: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.white60,
+                              child: Icon(
+                                  _controller!.value.isPlaying == true
+                                      ? Icons.pause
+                                      : Icons.play_arrow,
+                                  size: 26,
+                                  color: Colors.blue),
+                            ),
+                          ),
+                        ))
+                      ],
+                    ),
+            )));
   }
 
   @override
@@ -136,6 +173,21 @@ class _JeongeumPageState extends State<JeongeumPage> {
             ),
           ],
         ));
+  }
+
+  Future<void> createVideo() async {
+    if (_controller == null) {
+      return;
+    } else {
+      if (_controller!.value.isPlaying) {
+        _controller!.pause();
+        setState(() {});
+      } else {
+        _controller!.initialize();
+        await _controller!.play();
+        setState(() {});
+      }
+    }
   }
 
   void guideDialog() {
