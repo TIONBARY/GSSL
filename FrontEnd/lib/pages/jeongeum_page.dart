@@ -194,7 +194,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          Future.delayed(Duration(seconds: 3), () {
+          Future.delayed(Duration(seconds: 5), () {
             Navigator.pop(context);
           });
           return AlertDialog(
@@ -216,7 +216,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  "강아지가 가운데 오도록 찍어주세요.",
+                  "강아지가 가운데 오도록 찍어주세요.\n동영상 길이는 5초 이내로 해주세요.",
                   style: TextStyle(fontFamily: "Daehan", color: btnColor),
                 ),
               ],
@@ -269,7 +269,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                               TextStyle(fontFamily: "Daehan", color: btnColor),
                         ),
                         Text(
-                          '30초 가량 소요됩니다.',
+                          '1분 가량 소요됩니다.',
                           style:
                               TextStyle(fontFamily: "Daehan", color: btnColor),
                         ),
