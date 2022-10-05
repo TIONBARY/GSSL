@@ -249,6 +249,11 @@ class _WalkPageState extends State<WalkPage> {
             });
   }
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future<List<Detail>?> getAllWalkInfo() async {
     getWalkList response = await apiWalk.getAllWalk();
     String topFolder = await getDirectory();
