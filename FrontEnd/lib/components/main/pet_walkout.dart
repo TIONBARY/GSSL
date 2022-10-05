@@ -113,7 +113,7 @@ class _pet_walkoutState extends State<pet_walkout> {
                       fontFamily: "Sub",
                       fontSize: 25.sp,
                     ),
-                    done ? "아직 산책을 못했어요.." : "오늘은 산책을 다녀왔어요!"),
+                    done ? "오늘은 산책을 다녀왔어요!" : "아직 산책을 못했어요.."),
               ),
               Text(
                   style: TextStyle(
