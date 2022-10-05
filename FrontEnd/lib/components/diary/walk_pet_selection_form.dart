@@ -70,10 +70,9 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                 children: [
                   Expanded(
                       child: Container(
-                    padding:
-                        EdgeInsets.fromLTRB(0.05.sw, 0.05.sh, 0.05.sw, 0.05.sh),
+                    padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 15.h),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: nWColor,
                       image: DecorationImage(
                           fit: BoxFit.contain,
                           image: AssetImage("assets/images/loadingDog.gif")),
@@ -113,7 +112,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                           children: [
                     Expanded(
                       child: Container(
-                        padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                        padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 15.h),
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
@@ -158,6 +157,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                                       ),
                                     ),
                                     Checkbox(
+                                      activeColor: btnColor,
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(5.0))),
@@ -169,13 +169,13 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                                       },
                                     ),
                                     Positioned(
-                                      top: 90.w,
-                                      left: 70.w,
+                                      top: 90.h,
+                                      left: 80.w,
                                       child: Text(
                                         petList[index].name!,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
-                                          fontSize: 10.sp,
+                                          fontSize: 15.sp,
                                           color: btnColor,
                                           fontFamily: 'Daehan',
                                         ),
@@ -199,15 +199,16 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                               Navigator.pop(context);
                             },
                             style: TextButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 0.h),
-                              foregroundColor: Colors.lightBlueAccent,
-                              backgroundColor: Colors.lightBlueAccent,
+                              padding: EdgeInsets.symmetric(vertical: 10.h),
+                              foregroundColor: btnColor,
+                              backgroundColor: btnColor,
                             ),
                             child: Text(
                               '저장',
                               style: TextStyle(
-                                color: Colors.white,
-                              ),
+                                  color: nWColor,
+                                  fontFamily: "Daehan",
+                                  fontSize: 15.sp),
                             ),
                           ),
                         ),
@@ -217,14 +218,16 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                               Navigator.pop(context);
                             },
                             style: TextButton.styleFrom(
-                              padding: EdgeInsets.symmetric(horizontal: 1.h),
-                              foregroundColor: Colors.grey,
-                              backgroundColor: Colors.grey,
+                              padding: EdgeInsets.symmetric(vertical: 10.h),
+                              foregroundColor: sColor,
+                              backgroundColor: sColor,
                             ),
                             child: Text(
                               '뒤로가기',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: nWColor,
+                                fontFamily: "Daehan",
+                                fontSize: 15.sp,
                               ),
                             ),
                           ),
@@ -247,14 +250,16 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                       Navigator.pop(context);
                     },
                     style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 0.h),
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.grey,
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      foregroundColor: sColor,
+                      backgroundColor: sColor,
                     ),
                     child: Text(
                       '뒤로가기',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: nWColor,
+                        fontFamily: "Daehan",
+                        fontSize: 15.sp,
                       ),
                     ),
                   ),
