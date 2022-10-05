@@ -256,7 +256,7 @@ class _DiaryPageState extends State<DiaryPage> {
                     // ),
                     Expanded(
                       child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                          padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 15.h),
                           decoration: BoxDecoration(
                             color: nWColor,
                           ),
@@ -349,31 +349,36 @@ class _DiaryPageState extends State<DiaryPage> {
                                             ),
                                           ),
                                           (selectionMode)
-                                              ? Checkbox(
-                                                  shape:
-                                                      const RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          5.0))),
-                                                  // Rounded Checkbox
-                                                  value: selectedArticles
-                                                      .contains(index),
-                                                  onChanged: (inputValue) {
-                                                    setState(() {
-                                                      // selectedArticles = [];
-                                                    });
-                                                  },
-                                                )
+                                              ? Theme(
+                                                  data: Theme.of(context)
+                                                      .copyWith(
+                                                    unselectedWidgetColor:
+                                                        nWColor,
+                                                  ),
+                                                  child: Checkbox(
+                                                    activeColor: btnColor,
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    5.0))),
+                                                    // Rounded Checkbox
+                                                    value: selectedArticles
+                                                        .contains(index),
+                                                    onChanged: (inputValue) {
+                                                      setState(() {
+                                                        // selectedArticles = [];
+                                                      });
+                                                    },
+                                                  ))
                                               : Container(),
                                         ])));
                               },
                               itemCount: _aidList.length,
                             ),
                             Positioned(
-                              top: 450.h,
-                              left: 280.w,
+                              top: 550.h,
+                              left: 325.w,
                               child: (selectedArticles.isNotEmpty)
                                   ? FloatingActionButton(
                                       child: Icon(Icons.delete),
