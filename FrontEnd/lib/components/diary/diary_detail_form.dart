@@ -148,23 +148,23 @@ class _DiaryPageState extends State<DetailsPage> {
                 ),
               ),
               Container(
-                height: 260,
+                height: 250.h,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      padding: EdgeInsets.fromLTRB(20.w, 15.h, 20.w, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
                             pet?.name == null ? '' : pet!.name! + '의 진단 결과',
                             style: TextStyle(
-                              color: btnColor,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600,
-                            ),
+                                color: btnColor,
+                                fontSize: 25.sp,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Daehan"),
                           ),
                           Text(
                             detail?.createdDate == null
@@ -173,29 +173,32 @@ class _DiaryPageState extends State<DetailsPage> {
                                     " " +
                                     detail!.createdDate!.split("T")[1],
                             style: TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                          Text(
-                            detail?.symptom == null
-                                ? ''
-                                : '증상 : ' + detail!.symptom!,
-                            style: TextStyle(
-                              color: Colors.redAccent,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                            ),
+                                fontSize: 12.5.sp,
+                                fontFamily: "Daehan",
+                                color: sColor),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 25.h,
                           ),
                           Text(
                             detail?.result == null
                                 ? '진단 결과가 없습니다.'
                                 : '진단 결과 : ' + detail!.result!,
                             style: TextStyle(
-                              fontSize: 18,
-                            ),
+                                color: btnColor,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w300,
+                                fontFamily: "Daehan"),
+                          ),
+                          Text(
+                            detail?.symptom == null
+                                ? ''
+                                : '증상 : ' + detail!.symptom!,
+                            style: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w300,
+                                fontFamily: "Daehan"),
                           ),
                         ],
                       ),
@@ -208,15 +211,16 @@ class _DiaryPageState extends State<DetailsPage> {
                               Navigator.pop(context);
                             },
                             style: TextButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 15),
+                              padding: EdgeInsets.symmetric(vertical: 10.h),
                               foregroundColor: btnColor,
                               backgroundColor: btnColor,
                             ),
                             child: Text(
                               '뒤로가기',
                               style: TextStyle(
-                                color: Colors.white,
-                              ),
+                                  color: nWColor,
+                                  fontFamily: "Daehan",
+                                  fontSize: 15.sp),
                             ),
                           ),
                         ),
