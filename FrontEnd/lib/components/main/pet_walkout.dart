@@ -66,7 +66,7 @@ class PetWorkout extends StatelessWidget {
                     // fontFamily: "Sub",
                     fontSize: 15.sp,
                   ),
-                  "${mainPet?.name}와 이만큼 산책했어요."),
+                  "${user?.nickname}님과 ${mainPet?.name}님은 이만큼 산책했어요."),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
                 child: Text(
