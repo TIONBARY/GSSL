@@ -57,8 +57,8 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                   ),
                 ),
                 Positioned(
-                  top: 440.h,
-                  left: 300.w,
+                  top: 0.65.sh,
+                  left: 0.85.sw,
                   child: FloatingActionButton(
                       child: Icon(Icons.delete),
                       elevation: 5,
@@ -89,8 +89,8 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                       }),
                 ),
                 Positioned(
-                  top: 440.h,
-                  left: 240.w,
+                  top: 0.65.sh,
+                  left: 0.70.sw,
                   child: FloatingActionButton(
                       child: Icon(Icons.edit),
                       elevation: 5,
@@ -113,35 +113,37 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
               ]),
             ),
             Container(
-              height: 150.h,
+              height: 0.21.sh,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.fromLTRB(15.w, 10.h, 15.w, 10.h),
+                    padding:
+                        EdgeInsets.fromLTRB(0.05.sw, 0.025.sh, 0.05.sw, 0.0.sh),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text(
                           '$title',
                           style: TextStyle(
                             color: Colors.lightBlueAccent,
-                            fontSize: 20,
+                            fontSize: 11.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         Text(
                           '$petNames',
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 24.sp,
                           ),
                         ),
                         Text(
                           '이동거리: $distance',
                           style: TextStyle(
                             color: Colors.redAccent,
-                            fontSize: 8,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -160,12 +162,12 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                   Row(
                     children: <Widget>[
                       Expanded(
+                        flex: 1,
                         child: TextButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
                           style: TextButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 0.h),
                             foregroundColor: Colors.lightBlueAccent,
                             backgroundColor: Colors.lightBlueAccent,
                           ),
@@ -178,7 +180,7 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
