@@ -8,9 +8,9 @@ class health_magazine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 480.h,
-      width: 230.w,
-      padding: EdgeInsets.all(5.h),
+      height: 480.sm,
+      width: 480.sm,
+      padding: EdgeInsets.all(5.sm),
       // color: Colors.red,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -39,8 +39,8 @@ class magazineBoxTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 180.w,
-        height: 230.h,
+        width: 0.45.sw,
+        height: 230.sm,
         margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
         child: Column(
           children: [
@@ -49,7 +49,7 @@ class magazineBoxTitle extends StatelessWidget {
               child: Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
+                    padding: EdgeInsets.fromLTRB(3.5.w, 0, 3.5.w, 0),
                     child: Text(
                         style: TextStyle(
                           color: Color(0xff424242),
@@ -87,7 +87,7 @@ class magazineBox extends StatelessWidget {
           isScrollControlled: true,
           builder: (BuildContext context) {
             return Container(
-                height: 700.h,
+                height: 0.8.sh,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
