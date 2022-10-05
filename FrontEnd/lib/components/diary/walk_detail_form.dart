@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:GSSL/components/diary/walk_pet_selection_form.dart';
 import 'package:GSSL/components/util/custom_dialog_function.dart';
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -51,14 +52,116 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                               fit: BoxFit.cover)
                           : DecorationImage(
                               image: AssetImage("assets/images/basic_dog.png"),
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                             ),
                     ),
                   ),
                 ),
+              ]),
+            ),
+            Stack(
+              children: [
+                Container(
+                  height: 250.h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20.w, 15.h, 20.w, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              '$petNames',
+                              style: TextStyle(
+                                  color: btnColor,
+                                  fontSize: 25.sp,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Daehan"),
+                            ),
+                            Text(
+                              '$title',
+                              style: TextStyle(
+                                fontFamily: "Daehan",
+                                color: sColor,
+                                fontSize: 11.sp,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 25.h,
+                            ),
+                            Text(
+                              '이동거리: $distance',
+                              style: TextStyle(
+                                color: btnColor,
+                                fontSize: 20.sp,
+                                fontFamily: "Daehan",
+                              ),
+                            ),
+                            // Text(
+                            //   '$index',
+                            //   style: TextStyle(
+                            //     fontSize: 14,
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical: 10.h),
+                                foregroundColor: btnColor,
+                                backgroundColor: btnColor,
+                              ),
+                              child: Text(
+                                '뒤로가기',
+                                style: TextStyle(
+                                  color: nWColor,
+                                  fontFamily: "Daehan",
+                                  fontSize: 15.sp,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 Positioned(
-                  top: 0.65.sh,
-                  left: 0.85.sw,
+                  top: 12.5.h,
+                  left: 300.w,
+                  child: FloatingActionButton(
+                      child: Icon(Icons.edit),
+                      elevation: 5,
+                      hoverElevation: 10,
+                      tooltip: "수정",
+                      backgroundColor: sColor,
+                      mini: true,
+                      onPressed: () {
+                        // debugPrint("삭제");{
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                WalkPetSelectionPage(walkId: walkId),
+                          ),
+                        );
+                        // Navigator.pop(context);
+                      }),
+                ),
+                Positioned(
+                  top: 12.5.h,
+                  left: 350.w,
                   child: FloatingActionButton(
                       child: Icon(Icons.delete),
                       elevation: 5,
@@ -88,101 +191,7 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                         });
                       }),
                 ),
-                Positioned(
-                  top: 0.65.sh,
-                  left: 0.70.sw,
-                  child: FloatingActionButton(
-                      child: Icon(Icons.edit),
-                      elevation: 5,
-                      hoverElevation: 10,
-                      tooltip: "수정",
-                      backgroundColor: Colors.grey,
-                      mini: true,
-                      onPressed: () {
-                        // debugPrint("삭제");{
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                WalkPetSelectionPage(walkId: walkId),
-                          ),
-                        );
-                        // Navigator.pop(context);
-                      }),
-                )
-              ]),
-            ),
-            Container(
-              height: 0.21.sh,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Padding(
-                    padding:
-                        EdgeInsets.fromLTRB(0.05.sw, 0.025.sh, 0.05.sw, 0.0.sh),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          '$title',
-                          style: TextStyle(
-                            color: Colors.lightBlueAccent,
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          '$petNames',
-                          style: TextStyle(
-                            fontSize: 24.sp,
-                          ),
-                        ),
-                        Text(
-                          '이동거리: $distance',
-                          style: TextStyle(
-                            color: Colors.redAccent,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        // SizedBox(
-                        //   height: 10,
-                        // ),
-                        // Text(
-                        //   '$index',
-                        //   style: TextStyle(
-                        //     fontSize: 14,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.lightBlueAccent,
-                            backgroundColor: Colors.lightBlueAccent,
-                          ),
-                          child: Text(
-                            '뒤로가기',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              ],
             ),
           ],
         ),
