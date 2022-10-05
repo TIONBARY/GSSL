@@ -49,7 +49,7 @@ class PetWorkout extends StatelessWidget {
       return Container(
           width: double.infinity,
           height: 130.h,
-          // color: Colors.grey,
+          color: nWColor,
           child: Column(
             children: [
               Container(
