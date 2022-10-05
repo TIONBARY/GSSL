@@ -192,6 +192,7 @@ class _MainPageState extends State<MainPage> {
       children: [
         _loadingPet
             ? Container(
+                // color: Colors.black,
                 margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
                 child: Column(children: [
                   Padding(
@@ -417,32 +418,27 @@ class blockTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 10.h, 0, 0),
-      child: Container(
-          padding: EdgeInsets.fromLTRB(13.w, 15.h, 0, 0),
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 13.h),
-          width: 40.w,
-          height: 35.h,
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontFamily: "Sub",
-            ),
-          )),
+    return Container(
+      color: nWColor,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, 10.h, 0, 0),
+        child: Container(
+            color: nWColor,
+            padding: EdgeInsets.fromLTRB(13.w, 15.h, 0, 0),
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 13.h),
+            width: 40.w,
+            height: 35.h,
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontFamily: "Sub",
+              ),
+            )),
+      ),
     );
   }
 }
-
-// class UserBar extends StatelessWidget {
-//   const UserBar({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
 
 class diagnosis extends StatelessWidget {
   const diagnosis({Key? key, this.mainPetName}) : super(key: key);
@@ -462,7 +458,7 @@ class diagnosis extends StatelessWidget {
           builder: (BuildContext context) {
             return Container(
               width: double.infinity,
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: BoxDecoration(color: nWColor),
               child: i,
             );
           },
