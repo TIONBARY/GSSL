@@ -90,9 +90,9 @@ class _WalkPageState extends State<WalkPage> {
                             children: [
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                          padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 15.h),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: nWColor,
                           ),
                           child: Stack(children: [
                             GridView.builder(
@@ -182,8 +182,8 @@ class _WalkPageState extends State<WalkPage> {
                                             )
                                           : Container(),
                                       Positioned(
-                                        top: 90.w,
-                                        left: 70.w,
+                                        top: 100.h,
+                                        left: 75.w,
                                         child: Text(
                                           toMonth(infoList[index].endTime!),
                                           textAlign: TextAlign.right,
@@ -201,7 +201,7 @@ class _WalkPageState extends State<WalkPage> {
                               itemCount: infoList.length,
                             ),
                             Positioned(
-                              top: 450.h,
+                              top: 445.h,
                               left: 280.w,
                               child: (selectedArticles.isNotEmpty)
                                   ? FloatingActionButton(
