@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:GSSL/api/api_jeongeum.dart';
+import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +13,9 @@ String diagnosisResult = "";
 ApiJeongeum apiJeongeum = ApiJeongeum();
 XFile? _video;
 final picker = ImagePicker();
+bool _loading = true;
+
+BuildContext? loadingContext;
 
 class JeongeumPage extends StatefulWidget {
   const JeongeumPage({Key? key}) : super(key: key);
@@ -44,7 +49,9 @@ class _JeongeumPageState extends State<JeongeumPage> {
                   ? Text(
                       '이미지를 촬영 또는 선택 해주세요',
                       style: TextStyle(
-                          fontFamily: "Daehan", fontSize: 20.sp, color: btnColor),
+                          fontFamily: "Daehan",
+                          fontSize: 20.sp,
+                          color: btnColor),
                     )
                   : Image.file(File(_video!.path)))),
     );
@@ -114,41 +121,6 @@ class _JeongeumPageState extends State<JeongeumPage> {
                         } else {
                           _diagnosis();
                           loadingDialog();
-                          Future.delayed(const Duration(milliseconds: 20000),
-                              () {
-                            showModalBottomSheet<void>(
-                              context: context,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              builder: (BuildContext context) {
-                                return Container(
-                                  height: 250,
-                                  decoration: new BoxDecoration(
-                                    color: pColor,
-                                    borderRadius: new BorderRadius.only(
-                                      topLeft: const Radius.circular(25.0),
-                                      topRight: const Radius.circular(25.0),
-                                    ),
-                                  ),
-                                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(padding: EdgeInsets.all(10)),
-                                      Text(
-                                          '강아지는 현재 ${diagnosisResult}한 상태입니다.'),
-                                      FloatingActionButton(
-                                        child: Icon(Icons.save_alt_outlined),
-                                        tooltip: 'save',
-                                        onPressed: () {},
-                                        backgroundColor: btnColor,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          });
                         }
                       }),
                   // 갤러리에서 이미지를 가져오는 버튼
@@ -230,17 +202,14 @@ class _JeongeumPageState extends State<JeongeumPage> {
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
         builder: (BuildContext context) {
-          Future.delayed(Duration(milliseconds: 20000), () {
-            Navigator.pop(context);
-          });
-
+          loadingContext = context;
           return AlertDialog(
             // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0)),
             //Dialog Main Title
             content: SizedBox(
-                height: 277.h,
+                height: 333.h,
                 child: Column(
                   children: [
                     Padding(
@@ -255,7 +224,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                               TextStyle(fontFamily: "Daehan", color: btnColor),
                         ),
                         Text(
-                          '20초 가량 소요됩니다.',
+                          '30초 가량 소요됩니다.',
                           style:
                               TextStyle(fontFamily: "Daehan", color: btnColor),
                         ),
@@ -268,9 +237,59 @@ class _JeongeumPageState extends State<JeongeumPage> {
   }
 
   void _diagnosis() async {
-    print('진단중');
     String result = await apiJeongeum.diagnosis(_video);
-    print(result);
-    diagnosisResult = result.substring(11,result.length-1);
+    if (json.decode(result)['emotion'] != null) {
+      diagnosisResult = json.decode(result)['emotion'];
+      print(diagnosisResult);
+      setState(() {
+        _loading = false;
+      });
+      diagnosisResult = diagnosisResult.replaceAll("_", " 또는 ");
+      if (!_loading) {
+        Navigator.pop(loadingContext!);
+        showModalBottomSheet<void>(
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          builder: (BuildContext context) {
+            return Container(
+              height: 250,
+              decoration: new BoxDecoration(
+                color: pColor,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(25.0),
+                  topRight: const Radius.circular(25.0),
+                ),
+              ),
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('강아지는 현재'),
+                  Padding(padding: EdgeInsets.all(10)),
+                  Text('${diagnosisResult}', style: TextStyle(fontSize: 24)),
+                  Padding(padding: EdgeInsets.all(10)),
+                  Text('한 상태입니다.')
+                  // FloatingActionButton(
+                  //   child: Icon(Icons.save_alt_outlined),
+                  //   tooltip: 'save',
+                  //   onPressed: () {},
+                  //   backgroundColor: btnColor,
+                  // ),
+                ],
+              ),
+            );
+          },
+        );
+      }
+    } else {
+      Navigator.pop(loadingContext!);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("분석에 실패했습니다.", null);
+          });
+    }
   }
 }

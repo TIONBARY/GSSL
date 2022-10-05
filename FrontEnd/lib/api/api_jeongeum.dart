@@ -18,8 +18,8 @@ class ApiJeongeum {
     final httpUri = Uri.parse(url);
     var request = http.MultipartRequest('POST', httpUri);
     if (info != null) {
-      final httpImage = await http.MultipartFile.fromPath(
-          'info',info.file!.path);
+      final httpImage =
+          await http.MultipartFile.fromPath('file', info.file!.path);
       request.files.add(httpImage);
     }
     var response = await request.send();
