@@ -80,6 +80,7 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
   Widget build(BuildContext context) {
     if (_loading) {
       return Container(
+          color: nWColor,
           margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
           child: Column(children: [
             Padding(
@@ -98,12 +99,13 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
         Align(
           alignment: Alignment.centerLeft,
           child: Container(
+            color: nWColor,
             padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
           ),
         ),
         _aidList.isNotEmpty
             ? Container(
-                color: Colors.white,
+                color: nWColor,
                 padding: EdgeInsets.all(20.0),
                 child: DataTable(columns: [
                   DataColumn(
