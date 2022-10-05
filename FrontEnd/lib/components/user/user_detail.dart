@@ -119,7 +119,7 @@ class _UserDetailState extends State<UserDetail> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: defaultPadding),
                 child: TextFormField(
-                  style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                  style: TextStyle(fontFamily: "Sub", color: btnColor),
                   controller: TextEditingController()
                     ..text =
                         user?.introduce == null || user?.introduce!.length == 0
@@ -305,7 +305,7 @@ class userInfoBox extends StatelessWidget {
               Flexible(
                 child: Text(
                     user?.memberId == null ? "잠시만 기다려주세요..." : user!.memberId!,
-                    style: TextStyle(fontSize: 15.sp, fontFamily: "Daehan")),
+                    style: TextStyle(fontSize: 15.sp, fontFamily: "Sub")),
                 flex: 8,
               ),
             ]),
@@ -327,7 +327,7 @@ class userInfoBox extends StatelessWidget {
               const SizedBox(width: defaultPadding),
               Flexible(
                 child: Text(user!.gender! == 'M' ? "남자" : "여자",
-                    style: TextStyle(fontSize: 15.sp, fontFamily: "Daehan")),
+                    style: TextStyle(fontSize: 15.sp, fontFamily: "Sub")),
                 flex: 8,
               ),
             ]),
@@ -350,7 +350,7 @@ class userInfoBox extends StatelessWidget {
               Flexible(
                 child: Text(
                     user?.phone == null ? "잠시만 기다려주세요..." : user!.phone!,
-                    style: TextStyle(fontSize: 15.sp, fontFamily: "Daehan")),
+                    style: TextStyle(fontSize: 15.sp, fontFamily: "Sub")),
                 flex: 8,
               ),
             ]),
@@ -373,7 +373,7 @@ class userInfoBox extends StatelessWidget {
               Flexible(
                 child: Text(
                     user?.email == null ? "잠시만 기다려주세요..." : user!.email!,
-                    style: TextStyle(fontSize: 15.sp, fontFamily: "Daehan")),
+                    style: TextStyle(fontSize: 15.sp, fontFamily: "Sub")),
                 flex: 8,
               ),
             ]),
