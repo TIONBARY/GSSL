@@ -94,6 +94,9 @@ flutter:
   assets:
     - assets/images/
     - assets/images/tooth/
+    - assets/images/behave_news/
+    - assets/images/food_ad/
+    - assets/images/salon_ad/
     - assets/icons/
     - assets/sounds/
     - .env
