@@ -21,26 +21,27 @@ class health_magazine extends StatelessWidget {
                 picAdr: 'assets/images/tooth/001.png',
                 category: '건강',
                 title: "반짝 반짝 건치를 위한\n양치 꿀팁 대방출!",
+                content: tooth_health_news(),
               ),
               magazineBox(
-                picAdr: 'assets/images/tooth/001.png',
-                category: '건강',
-                title: "반짝 반짝 건치를 위한\n양치 꿀팁 대방출!",
-              ),
+                  picAdr: 'assets/images/food_ad/001.png',
+                  category: '사료',
+                  title: "우리 아이가 좋아하는 간식!\n견생실록이 책임질게요.",
+                  content: food_ad()),
             ],
           ),
           Column(
             children: [
               magazineBox(
-                picAdr: 'assets/images/tooth/001.png',
-                category: '건강',
-                title: "반짝 반짝 건치를 위한\n양치 꿀팁 대방출!",
-              ),
+                  picAdr: 'assets/images/behave_news/001.png',
+                  category: '톡톡',
+                  title: "강아지 콧구멍이 촉촉한 이유.\n그것을 알려드림",
+                  content: pet_behave_news()),
               magazineBox(
-                picAdr: 'assets/images/tooth/001.png',
-                category: '건강',
-                title: "반짝 반짝 건치를 위한\n양치 꿀팁 대방출!",
-              ),
+                  picAdr: 'assets/images/salon_ad/001.jpg',
+                  category: '협찬',
+                  title: "멍멍살롱이 오픈 했어요.\n오픈 기념 할인권 대방출!",
+                  content: salon_ad()),
             ],
           )
         ],
@@ -54,12 +55,14 @@ class magazineBox extends StatelessWidget {
       {Key? key,
       required this.picAdr,
       required this.category,
-      required this.title})
+      required this.title,
+      required this.content})
       : super(key: key);
 
   final picAdr;
   final category;
   final title;
+  final content;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +80,7 @@ class magazineBox extends StatelessWidget {
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
                     )),
-                child: magazineBoxContent()); // 내부
+                child: content); // 내부
           },
         );
       },
@@ -110,7 +113,7 @@ class magazineBoxTitle extends StatelessWidget {
         margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
         child: Column(
           children: [
-            Image.asset("${picAdr}"),
+            Expanded(child: Image.asset("${picAdr}")),
             Container(
               child: Row(
                 children: [
@@ -141,8 +144,8 @@ class magazineBoxTitle extends StatelessWidget {
   }
 }
 
-class magazineBoxContent extends StatelessWidget {
-  const magazineBoxContent({Key? key}) : super(key: key);
+class tooth_health_news extends StatelessWidget {
+  const tooth_health_news({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +168,90 @@ class magazineBoxContent extends StatelessWidget {
         ),
         photos(
           adrs: "assets/images/tooth/006.png",
+        ),
+      ],
+    );
+  }
+}
+
+class pet_behave_news extends StatelessWidget {
+  const pet_behave_news({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        photos(
+          adrs: "assets/images/behave_news/001.png",
+        ),
+        photos(
+          adrs: "assets/images/behave_news/002.png",
+        ),
+        photos(
+          adrs: "assets/images/behave_news/003.png",
+        ),
+        photos(
+          adrs: "assets/images/behave_news/004.png",
+        ),
+        photos(
+          adrs: "assets/images/behave_news/005.png",
+        ),
+        photos(
+          adrs: "assets/images/behave_news/006.png",
+        ),
+      ],
+    );
+  }
+}
+
+class food_ad extends StatelessWidget {
+  const food_ad({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        photos(
+          adrs: "assets/images/food_ad/001.png",
+        ),
+        photos(
+          adrs: "assets/images/food_ad/002.png",
+        ),
+        photos(
+          adrs: "assets/images/food_ad/003.png",
+        ),
+        photos(
+          adrs: "assets/images/food_ad/004.png",
+        ),
+        photos(
+          adrs: "assets/images/food_ad/005.png",
+        ),
+        photos(
+          adrs: "assets/images/food_ad/006.png",
+        ),
+      ],
+    );
+  }
+}
+
+class salon_ad extends StatelessWidget {
+  const salon_ad({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        photos(
+          adrs: "assets/images/salon_ad/001.jpg",
+        ),
+        photos(
+          adrs: "assets/images/salon_ad/002.jpg",
+        ),
+        photos(
+          adrs: "assets/images/salon_ad/003.jpg",
+        ),
+        photos(
+          adrs: "assets/images/salon_ad/004.jpg",
         ),
       ],
     );
