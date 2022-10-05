@@ -252,26 +252,30 @@ class _MainPageState extends State<MainPage> {
                             ),
                           ),
                           flex: 2),
-                      Flexible(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: Container(
-                                child: Text(
-                                  textScaleFactor: 1.25.sp,
-                                  mainPet?.name == null
-                                      ? "등록된 반려견이 없습니다."
-                                      : nickname! + "의 " + mainPet!.name!,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: btnColor, fontFamily: "Daehan"),
+                      Container(
+                        child: Flexible(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                child: Container(
+                                  child: Text(
+                                    textScaleFactor: 1.25.sp,
+                                    mainPet?.name == null
+                                        ? "등록된 반려견이 없습니다."
+                                        : nickname! + "의 " + mainPet!.name!,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        color: btnColor,
+                                        fontFamily: "Sub"),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          flex: 4,
                         ),
-                        flex: 4,
                       ),
                       Container(
                         child: Flexible(
@@ -310,7 +314,7 @@ class _MainPageState extends State<MainPage> {
                                               MainAxisAlignment.center,
                                           // mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            pets == null || pets!.length! == 0
+                                            pets == null || pets!.length == 0
                                                 ? Text("등록된 반려견이 없습니다.")
                                                 : Expanded(
                                                     child: GridView.count(
@@ -351,7 +355,7 @@ class _MainPageState extends State<MainPage> {
                                                                     pet.name!,
                                                                     style: TextStyle(
                                                                         fontFamily:
-                                                                            "Daehan",
+                                                                            "Sub",
                                                                         color:
                                                                             btnColor),
                                                                   )
@@ -424,7 +428,7 @@ class blockTitle extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(0, 10.h, 0, 0),
         child: Container(
             color: nWColor,
-            padding: EdgeInsets.fromLTRB(13.w, 15.h, 0, 0),
+            padding: EdgeInsets.fromLTRB(13.w, 8.h, 0, 0),
             margin: EdgeInsets.fromLTRB(0, 0, 0, 13.h),
             width: 40.w,
             height: 35.h,
@@ -432,6 +436,7 @@ class blockTitle extends StatelessWidget {
               title,
               style: TextStyle(
                 fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
                 fontFamily: "Sub",
               ),
             )),

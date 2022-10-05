@@ -54,7 +54,7 @@ class _WalkLengthState extends State<WalkLength> {
                 style: TextStyle(
                   fontSize: 25.sp,
                   color: btnColor,
-                  fontFamily: 'Daehan',
+                  fontFamily: 'Title',
                 ),
                 textAlign: TextAlign.center,
               ),

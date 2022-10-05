@@ -119,9 +119,10 @@ class magazineBoxTitle extends StatelessWidget {
             Container(
               color: Colors.white,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 5.h, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 2.h, 0, 0),
                 child: Flexible(
                   child: Container(
+                    color: nWColor,
                     child: Text(
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -138,23 +139,6 @@ class magazineBoxTitle extends StatelessWidget {
         ));
   }
 }
-
-// Padding(
-//   padding: EdgeInsets.fromLTRB(3.5.w, 0, 3.5.w, 0),
-//   child: Flexible(
-//     child: Container(
-//       child: Text(
-//           overflow: TextOverflow.ellipsis,
-//           style: TextStyle(
-//             color: Color(0xff424242),
-//             fontFamily: "sub",
-//             fontSize: 15.sp,
-//           ),
-//           "${category}"),
-//     ),
-//     flex: 1,
-//   ),
-// ),
 
 class tooth_health_news extends StatelessWidget {
   const tooth_health_news({Key? key}) : super(key: key);
