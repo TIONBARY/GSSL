@@ -481,7 +481,7 @@ class behavior_diagnosis extends StatelessWidget {
   Widget build(BuildContext context) {
     return function_box(
       title: '견민정음',
-      box_color: Color(0x80C66952),
+      box_color: Color(0x30C66952),
       paddings: EdgeInsets.fromLTRB(0.035.sw, 0.015.sh, 0.015.sw, 0.035.sh),
       description:
           "${mainPetName == null ? '강아지' : mainPetName}의 속마음, \nAI 영상 분석을 통해 알려드릴게요.",
@@ -499,10 +499,10 @@ class health_diagnosis extends StatelessWidget {
   Widget build(BuildContext context) {
     return function_box(
       title: '견의보감',
-      box_color: Color(0x80506274),
+      box_color: Color(0x30506274),
       paddings: EdgeInsets.fromLTRB(0.035.sw, 0.015.sh, 0.015.sw, 0.035.sh),
       description:
-          "${mainPetName == null ? '강아지' : mainPetName}가 아픈 것 같나요?\nAI를 통해 1차 진단을 받을 수 있어요.",
+          "${mainPetName == null ? '강아지' : mainPetName}의 건강이 걱정 되시나요?\nAI를 통해 1차 진단을 받을 수 있어요.",
       nextPage: BogamPage(),
     );
   }
@@ -517,7 +517,7 @@ class diary extends StatelessWidget {
   Widget build(BuildContext context) {
     return function_box(
       title: '견중일기',
-      box_color: Color(0x80DFB45B),
+      box_color: Color(0x30DFB45B),
       paddings: EdgeInsets.fromLTRB(0.035.sw, 0.015.sh, 0.015.sw, 0.035.sh),
       description:
           "${mainPetName == null ? '강아지' : mainPetName}의 지금까지의 진단 기록을 볼 수 있어요.",
