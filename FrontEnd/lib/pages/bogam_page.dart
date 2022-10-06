@@ -373,16 +373,34 @@ class _BogamPageState extends State<BogamPage> {
             ),
           ),
           padding: EdgeInsets.fromLTRB(30.w, 0, 30.w, 0),
-          child: Column(
-            children: [
-              count == 0
+          child: count == 0
                   ? Center(
-                child: Text(
-                  '${mainPet?.name}는 건강합니다.',
-                  style: TextStyle(
-                      fontFamily: "Daehan",
-                      fontSize: 20.sp,
-                      color: Colors.black),
+                child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('▼・ᴥ・▼', style: TextStyle(fontSize: 50),),
+                        Padding(padding: EdgeInsets.all(10)),
+                        Text(
+                          '${mainPet?.name}는 건강합니다.',
+                          style: TextStyle(
+                              fontFamily: "Daehan",
+                              fontSize: 20.sp,
+                              color: Colors.black),
+                        ),
+                        Padding(padding: EdgeInsets.all(10)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.campaign, color: Colors.red),
+                            Text(' 결과는 참고용으로만 사용하세요.',
+                              style: TextStyle(
+                                  fontFamily: "Daehan",
+                                  fontSize: 20.sp,
+                                  color: Colors.red),
+                            ),
+                          ],
+                        ),
+                      ],
                 ),
               )
                   : Column(
@@ -446,8 +464,6 @@ class _BogamPageState extends State<BogamPage> {
                   ),
                 ],
               ),
-            ],
-          )
         );
       },
     );
