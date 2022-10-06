@@ -83,8 +83,8 @@ class _JeongeumPageState extends State<JeongeumPage> {
                                   _controller!.value.isPlaying == true
                                       ? Icons.pause
                                       : Icons.play_arrow,
-                                  size: 26,
-                                  color: Colors.blue),
+                                  size: 25.sp,
+                                  color: btnColor),
                             ),
                           ),
                         ))
