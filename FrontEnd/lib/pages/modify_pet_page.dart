@@ -14,7 +14,7 @@ class ModifyPetScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('반려견 정보 수정'),
-        titleTextStyle: TextStyle(fontFamily: "Daehan", fontSize: 25.sp),
+        titleTextStyle: TextStyle(fontFamily: "Sub", fontSize: 25.sp),
         foregroundColor: nWColor,
         backgroundColor: btnColor,
         centerTitle: true,

@@ -57,7 +57,7 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: Container(
-              height: 36.h,
+              height: 40.h,
               width: double.maxFinite,
               child: Hero(
                 tag: "login_btn",
@@ -93,7 +93,8 @@ class _LoginFormState extends State<LoginForm> {
                   child: Text(
                     "로그인".toUpperCase(),
                     style: TextStyle(
-                      fontFamily: "Daehan",
+                      fontFamily: "Sub",
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -131,7 +132,7 @@ renderLoginTextFormField({
   return TextFormField(
     keyboardType: TextInputType.text,
     textInputAction: TextInputAction.next,
-    style: TextStyle(fontFamily: "Daehan"),
+    style: TextStyle(fontFamily: "Sub"),
     cursorColor: btnColor,
     onSaved: onSaved,
     obscureText: obscureText,
@@ -140,7 +141,7 @@ renderLoginTextFormField({
       hintText: hint,
       hintStyle: TextStyle(
         color: sColor,
-        fontFamily: "Daehan",
+        fontFamily: "Sub",
       ),
       prefixIcon: Padding(
         padding: const EdgeInsets.all(defaultPadding),

@@ -13,7 +13,7 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('회원가입'),
-        titleTextStyle: TextStyle(fontFamily: "Daehan", fontSize: 25.sp),
+        titleTextStyle: TextStyle(fontFamily: "Sub", fontSize: 25.sp),
         foregroundColor: nWColor,
         backgroundColor: btnColor,
         centerTitle: true,

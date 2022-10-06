@@ -178,7 +178,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                                         style: TextStyle(
                                           fontSize: 15.sp,
                                           color: btnColor,
-                                          fontFamily: 'Daehan',
+                                          fontFamily: 'Sub',
                                         ),
                                       ),
                                     ),
@@ -211,7 +211,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                               '저장',
                               style: TextStyle(
                                   color: nWColor,
-                                  fontFamily: "Daehan",
+                                  fontFamily: "Sub",
                                   fontSize: 15.sp),
                             ),
                           ),
@@ -230,7 +230,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                               '뒤로가기',
                               style: TextStyle(
                                 color: nWColor,
-                                fontFamily: "Daehan",
+                                fontFamily: "Sub",
                                 fontSize: 15.sp,
                               ),
                             ),
@@ -262,7 +262,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                       '뒤로가기',
                       style: TextStyle(
                         color: nWColor,
-                        fontFamily: "Daehan",
+                        fontFamily: "Sub",
                         fontSize: 15.sp,
                       ),
                     ),

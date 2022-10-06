@@ -35,7 +35,7 @@ class CommunityApp extends StatelessWidget {
               labelColor: btnColor,
               labelStyle: TextStyle(
                 fontSize: 15.sp,
-                fontFamily: "Daehan",
+                fontFamily: "Sub",
               ),
             ),
           ),
