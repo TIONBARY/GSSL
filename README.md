@@ -46,6 +46,29 @@
 <img src="https://img.shields.io/badge/Jenkins-white?style=for-the-badge&logo=Jenkins&logoColor=black">
 <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=NGINX&logoColor=white">
 
+# [와이어 프레임](https://www.figma.com/file/qmCytyAf5nAPNjQYtNmeko/%ED%8A%B9%ED%99%942%EB%B0%984%EC%A1%B0?node-id=290%3A707)
+![와이어프레임](images/와이어프레임.PNG)
+
+# [기능 명세서](https://docs.google.com/spreadsheets/d/1DXBRwETHU8s8ROTroCsyaH2wRtd7KreSTcCGwis-wJw/edit#gid=0)
+![기능명세서](images/기능명세서.PNG)
+
+# [API 명세서](https://docs.google.com/spreadsheets/d/1DXBRwETHU8s8ROTroCsyaH2wRtd7KreSTcCGwis-wJw/edit#gid=40925604)
+![API명세서](images/API명세서.PNG)
+
+# [ERD](https://www.erdcloud.com/d/bYryjRKzAEF8EDqK5)
+![ERD](images/ERD.PNG)
+
+# 컬러팔레트
+<img src="https://img.shields.io/badge/483434-483434?style=for-the-badge&logo=&logoColor=white">
+<img src="https://img.shields.io/badge/C3B091-C3B091?style=for-the-badge&logo=&logoColor=white">
+<img src="https://img.shields.io/badge/FFE6BC-FFE6BC?style=for-the-badge&logo=&logoColor=white">
+<img src="https://img.shields.io/badge/FFFDF4-FFFDF4?style=for-the-badge&logo=&logoColor=white">
+
+# JIRA 
+
+
+
+
 
 
 ### Gitmoji의 이모지 설명
