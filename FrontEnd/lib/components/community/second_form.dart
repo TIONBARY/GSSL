@@ -218,7 +218,7 @@ class _SecondPageState extends State<SecondPage> with TickerProviderStateMixin {
                     },
                     child: const Icon(
                       Icons.search,
-                      color: Colors.black,
+                      color: btnColor,
                     )),
                 hintText: '검색할 단어를 입력하세요.',
                 hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),

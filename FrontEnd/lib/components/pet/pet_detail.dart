@@ -235,7 +235,7 @@ class _PetDetailState extends State<PetDetail> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Title(
-                                        color: Colors.black,
+                                        color: btnColor,
                                         child: Text("정말 삭제하시겠습니까?",
                                             style: TextStyle(fontSize: 17.sp)),
                                       ),
@@ -272,7 +272,7 @@ class _PetDetailState extends State<PetDetail> {
                                                   child: Text(
                                                     "취소",
                                                     style: TextStyle(
-                                                        color: Colors.black),
+                                                        color: btnColor),
                                                   ),
                                                 ),
                                               ]))
@@ -326,7 +326,7 @@ class _petPicState extends State<petPic> {
                 backgroundImage: NetworkImage(S3Address + pet!.animalPic!),
                 radius: 200.0),
       ),
-      decoration: BoxDecoration(color: Colors.black, shape: BoxShape.circle),
+      decoration: BoxDecoration(color: sColor, shape: BoxShape.circle),
     );
   }
 }
