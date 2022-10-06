@@ -47,6 +47,7 @@ class _WalkLengthState extends State<WalkLength> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
             child: Container(
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
               height: 50.h,
               width: MediaQuery.of(context).size.width / 3,
               child: Text(

@@ -150,6 +150,7 @@ class _ModifyFormState extends State<ModifyForm> {
           builder: (BuildContext context) {
             return CustomDialog("비밀번호를 입력해주세요.", null);
           });
+      return;
     }
     if (checkDupId &&
         checkDupNickname &&
@@ -186,6 +187,12 @@ class _ModifyFormState extends State<ModifyForm> {
               return CustomDialog(result.message!, null);
             });
       }
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("필수 정보를 입력해주세요.", null);
+          });
     }
   }
 
