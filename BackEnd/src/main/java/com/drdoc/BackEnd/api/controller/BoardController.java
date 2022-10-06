@@ -70,12 +70,13 @@ public class BoardController {
 				String imgPath = s3Service.upload("", file);
 				requestDto.setImage(imgPath);
 			}
-			boardService.writeBoard(memberId, requestDto);
-			return ResponseEntity.status(201).body(BaseResponseDto.of(201, "Created"));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "파일 업로드에 실패했습니다."));
 		}
+		boardService.writeBoard(memberId, requestDto);
+		return ResponseEntity.status(201).body(BaseResponseDto.of(201, "Created"));
 	}
 
 	@PutMapping("/{boardId}")
@@ -104,12 +105,12 @@ public class BoardController {
 			} else {
 				s3Service.delete(boardService.getBoardImage(boardId));
 			}
-			boardService.modifyBoard(boardId, memberId, requestDto);
-			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "파일 업로드에 실패했습니다."));
 		}
+		boardService.modifyBoard(boardId, memberId, requestDto);
+		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
 	}
 
 	@DeleteMapping("/{boardId}")
