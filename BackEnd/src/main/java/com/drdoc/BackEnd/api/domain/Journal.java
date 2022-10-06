@@ -38,7 +38,7 @@ public class Journal {
 	private User user;
 
     @Column(name = "pet_id", nullable = false)
-    private int pet_id;
+    private int petId;
     
     @Column(name = "picture", nullable = false, length = 256)
     private String picture;
@@ -59,7 +59,7 @@ public class Journal {
     @Builder
     public Journal(JournalRequestDto request, User user) {
     	this.user = user;
-        this.pet_id = request.getPet_id();
+        this.petId = request.getPet_id();
         this.picture = request.getPicture();
         this.part = request.getPart();
         this.symptom = request.getSymptom();
@@ -80,8 +80,8 @@ public class Journal {
         if("".equals(request.getResult()) == false && request.getResult()!=null){
             this.result = request.getResult();
         }
-        if(request.getPet_id() != this.pet_id){
-            this.pet_id = request.getPet_id();
+        if(request.getPet_id() != this.petId){
+            this.petId = request.getPet_id();
         }
     }
     
