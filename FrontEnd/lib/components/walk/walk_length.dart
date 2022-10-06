@@ -45,10 +45,10 @@ class _WalkLengthState extends State<WalkLength> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(17.w, 25.h, 17.w, 0),
+            padding: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
             child: Container(
-              width: 87.w,
               height: 50.h,
+              width: MediaQuery.of(context).size.width / 3,
               child: Text(
                 convertMeters(widget.totalWalkLength),
                 style: TextStyle(
