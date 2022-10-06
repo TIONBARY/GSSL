@@ -1,7 +1,6 @@
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../constants.dart';
 
 class Logo extends StatelessWidget {
   const Logo({
@@ -20,7 +19,10 @@ class Logo extends StatelessWidget {
             const Spacer(),
             Expanded(
               flex: 8,
-              child: SvgPicture.asset("assets/icons/mainlogo2.svg"),
+              child: SvgPicture.asset(
+                "assets/icons/mainlogo2.svg",
+                color: btnColor,
+              ),
             ),
             const Spacer(),
           ],
