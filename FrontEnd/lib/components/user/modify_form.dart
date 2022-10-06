@@ -214,7 +214,7 @@ class _ModifyFormState extends State<ModifyForm> {
               // 비밀번호
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: TextFormField(
-                style: TextStyle(fontFamily: "Daehan"),
+                style: TextStyle(fontFamily: "Sub"),
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.done,
                 obscureText: true,
@@ -239,8 +239,8 @@ class _ModifyFormState extends State<ModifyForm> {
                 decoration: InputDecoration(
                   isCollapsed: true,
                   hintText: "비밀번호",
-                  hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
-                  contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
+                  hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
+                  contentPadding: EdgeInsets.fromLTRB(20.w, 17.h, 10.w, 17.h),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: sColor)),
@@ -254,7 +254,7 @@ class _ModifyFormState extends State<ModifyForm> {
             ),
             TextFormField(
               // 닉네임
-              style: TextStyle(fontFamily: "Daehan"),
+              style: TextStyle(fontFamily: "Sub"),
               controller: nicknameController,
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
@@ -281,7 +281,7 @@ class _ModifyFormState extends State<ModifyForm> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 hintText: "닉네임",
-                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
                 contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -341,7 +341,7 @@ class _ModifyFormState extends State<ModifyForm> {
                   child: Text(
                     "중복검사".toUpperCase(),
                     style: TextStyle(
-                      fontFamily: "Daehan",
+                      fontFamily: "Sub",
                     ),
                   ),
                 ),
@@ -359,8 +359,7 @@ class _ModifyFormState extends State<ModifyForm> {
                           child: ListTile(
                         title: const Text(
                           '남자',
-                          style:
-                              TextStyle(color: btnColor, fontFamily: "Daehan"),
+                          style: TextStyle(color: btnColor, fontFamily: "Sub"),
                         ),
                         leading: Radio<String>(
                           value: "M",
@@ -378,8 +377,7 @@ class _ModifyFormState extends State<ModifyForm> {
                           child: ListTile(
                         title: const Text(
                           '여자',
-                          style:
-                              TextStyle(color: btnColor, fontFamily: "Daehan"),
+                          style: TextStyle(color: btnColor, fontFamily: "Sub"),
                         ),
                         leading: Radio<String>(
                           value: "F",
@@ -398,7 +396,7 @@ class _ModifyFormState extends State<ModifyForm> {
                 ])),
             TextFormField(
               // 전화번호
-              style: TextStyle(fontFamily: "Daehan"),
+              style: TextStyle(fontFamily: "Sub"),
               controller: TextEditingController()
                 ..text = phone == null || phone!.length == 0 ? "" : phone!,
               keyboardType: TextInputType.number,
@@ -422,8 +420,8 @@ class _ModifyFormState extends State<ModifyForm> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 hintText: "전화번호 (01011112222) 형태로 입력",
-                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
-                contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
+                hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 17.h, 10.w, 17.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: sColor)),
@@ -438,7 +436,7 @@ class _ModifyFormState extends State<ModifyForm> {
               // 이메일
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: TextFormField(
-                style: TextStyle(fontFamily: "Daehan"),
+                style: TextStyle(fontFamily: "Sub"),
                 controller: TextEditingController()
                   ..text = email == null || email!.length == 0 ? "" : email!,
                 textInputAction: TextInputAction.done,
@@ -464,8 +462,8 @@ class _ModifyFormState extends State<ModifyForm> {
                 decoration: InputDecoration(
                   isCollapsed: true,
                   hintText: "이메일",
-                  hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
-                  contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
+                  hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
+                  contentPadding: EdgeInsets.fromLTRB(20.w, 17.h, 10.w, 17.h),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: sColor)),
@@ -514,7 +512,7 @@ class _ModifyFormState extends State<ModifyForm> {
                         label: Text(
                           "프로필 이미지 (선택)",
                           style: TextStyle(
-                            fontFamily: "Daehan",
+                            fontFamily: "Sub",
                           ),
                         ),
                       ),
@@ -527,7 +525,7 @@ class _ModifyFormState extends State<ModifyForm> {
               // 자기소개
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: TextFormField(
-                style: TextStyle(fontFamily: "Daehan"),
+                style: TextStyle(fontFamily: "Sub"),
                 controller: TextEditingController()
                   ..text = introduce == null || introduce!.length == 0
                       ? ""
@@ -554,8 +552,8 @@ class _ModifyFormState extends State<ModifyForm> {
                 decoration: InputDecoration(
                   isCollapsed: true,
                   hintText: "자기소개 (선택)",
-                  hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
-                  contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
+                  hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
+                  contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: sColor)),
@@ -568,7 +566,7 @@ class _ModifyFormState extends State<ModifyForm> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
               child: Container(
                 height: 40.h,
                 width: double.maxFinite,
@@ -586,7 +584,7 @@ class _ModifyFormState extends State<ModifyForm> {
                     child: Text(
                       "회원정보 수정".toUpperCase(),
                       style: TextStyle(
-                        fontFamily: "Daehan",
+                        fontFamily: "Sub",
                       ),
                     ),
                   ),
@@ -594,7 +592,7 @@ class _ModifyFormState extends State<ModifyForm> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
+              padding: EdgeInsets.fromLTRB(0, 10.h, 0, 15.h),
               child: Container(
                 height: 40.h,
                 width: double.maxFinite,
@@ -676,7 +674,7 @@ class _ModifyFormState extends State<ModifyForm> {
                   child: Text(
                     "회원탈퇴".toUpperCase(),
                     style: TextStyle(
-                      fontFamily: "Daehan",
+                      fontFamily: "Sub",
                     ),
                   ),
                 ),
