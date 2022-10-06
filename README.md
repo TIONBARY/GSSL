@@ -68,11 +68,22 @@
 ![JIRA](images/지라.PNG)
 
 # 기능별 화면
+### 인트로
+<img src="./images/Intro1.jpg" width="250" height="500"/>
+
+### 로그인화면
+<img src="./images/Login1.jpg" width="250" height="500"/>
+
+### 회원가입화면
+<img src="./images/Signup1.jpg" width="250" height="500"/>
+
 ### 메인화면
 <img src="./images/MainPage1.jpg" width="250" height="500"/>
 <img src="./images/MainPage2.jpg" width="250" height="500"/>
 
 ### 회원
+<img src="./images/User1.jpg" width="250" height="500"/>
+<img src="./images/User2.jpg" width="250" height="500"/>
 
 ### 반려견
 <img src="./images/Pet1.jpg" width="250" height="500"/>
@@ -89,20 +100,25 @@
 <img src="./images/Bogam5.jpg" width="250" height="500"/>
 
 ### 견민정음
+<img src="./images/Jeongeum1.jpg" width="250" height="500"/>
+<img src="./images/Jeongeum2.jpg" width="250" height="500"/>
+<img src="./images/Jeongeum3.jpg" width="250" height="500"/>
 
 ### 견중일기
+<img src="./images/Diary1.jpg" width="250" height="500"/>
+<img src="./images/Diary2.jpg" width="250" height="500"/>
 
 ### 산책
+<img src="./images/Walk1.jpg" width="250" height="500"/>
 
 ### 게시판
-
-
-
-
-
-
-
-
+<img src="./images/Community1.jpg" width="250" height="500"/>
+<img src="./images/Community2.jpg" width="250" height="500"/>
+<img src="./images/Community3.jpg" width="250" height="500"/>
+<img src="./images/Community4.jpg" width="250" height="500"/>
+<img src="./images/Community5.jpg" width="250" height="500"/>
+<img src="./images/Community6.jpg" width="250" height="500"/>
+<img src="./images/Community7.jpg" width="250" height="500"/>
 
 ### Gitmoji의 이모지 설명
 
