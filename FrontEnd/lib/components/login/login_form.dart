@@ -41,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
           renderLoginTextFormField(
               hint: '아이디',
               icon: Icon(Icons.person, color: sColor),
-              onSaved: (val) {
+              onChanged: (val) {
                 id = val;
               },
               obscureText: false),
@@ -50,7 +50,7 @@ class _LoginFormState extends State<LoginForm> {
               child: renderLoginTextFormField(
                   hint: '비밀번호',
                   icon: Icon(Icons.lock, color: sColor),
-                  onSaved: (val) {
+                  onChanged: (val) {
                     pw = val;
                   },
                   obscureText: true)),
@@ -64,23 +64,33 @@ class _LoginFormState extends State<LoginForm> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (mounted) {
-                      loginFormKey.currentState?.save();
-                      loginAuth = await apiLogin
-                          .login(LoginRequestModel(id: id, password: pw));
-                      if (loginAuth?.statusCode == 200) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BottomNavBar()));
+                      print(id!);
+                      print(pw!);
+                      if (id!.length != 0 && pw!.length != 0) {
+                        loginFormKey.currentState?.save();
+                        loginAuth = await apiLogin
+                            .login(LoginRequestModel(id: id, password: pw));
+                        if (loginAuth?.statusCode == 200) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BottomNavBar()));
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CustomDialog(
+                                    loginAuth?.message == null
+                                        ? "알 수 없는 오류가 발생했습니다."
+                                        : loginAuth!.message!,
+                                    null);
+                              });
+                        }
                       } else {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return CustomDialog(
-                                  loginAuth?.message == null
-                                      ? "알 수 없는 오류가 발생했습니다."
-                                      : loginAuth!.message!,
-                                  null);
+                              return CustomDialog("아이디 또는 비밀번호를 입력해주세요.", null);
                             });
                       }
                     }
@@ -122,18 +132,18 @@ class _LoginFormState extends State<LoginForm> {
 renderLoginTextFormField({
   required String hint,
   required Icon icon,
-  required FormFieldSetter onSaved,
+  required FormFieldSetter onChanged,
   required bool obscureText,
 }) {
   assert(hint != null);
-  assert(onSaved != null);
+  assert(onChanged != null);
 
   return TextFormField(
     keyboardType: TextInputType.text,
     textInputAction: TextInputAction.next,
     style: TextStyle(fontFamily: "Daehan"),
     cursorColor: btnColor,
-    onSaved: onSaved,
+    onChanged: onChanged,
     obscureText: obscureText,
     decoration: InputDecoration(
       contentPadding: EdgeInsets.all(10.h),
