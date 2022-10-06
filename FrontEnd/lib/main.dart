@@ -72,7 +72,8 @@ void _permission() async {
 
 // You can request multiple permissions at once.
   Map<Permission, PermissionStatus> statuses = await [
-    Permission.location,
+    Permission.locationAlways,
+    Permission.manageExternalStorage,
     Permission.storage,
   ].request();
   print(statuses[Permission.location]);
