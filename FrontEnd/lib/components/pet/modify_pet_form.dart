@@ -220,6 +220,12 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
               return CustomDialog(result.message!, null);
             });
       }
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("필수 정보를 입력해주세요.", null);
+          });
     }
   }
 
