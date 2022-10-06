@@ -423,7 +423,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                     .height /
                                                                 40),
                                                         child: Title(
-                                                          color: Colors.black,
+                                                          color: btnColor,
                                                           child: Text(
                                                             "댓글 수정",
                                                             style: TextStyle(
@@ -566,8 +566,8 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                 child: Text(
                                                                   "취소",
                                                                   style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
+                                                                      color:
+                                                                          btnColor,
                                                                       fontFamily:
                                                                           "Sub"),
                                                                 ),
@@ -617,7 +617,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                     .height /
                                                                 40),
                                                         child: Title(
-                                                          color: Colors.black,
+                                                          color: btnColor,
                                                           child: Text(
                                                               "정말 이 댓글을 삭제하시겠습니까?",
                                                               style: TextStyle(
@@ -671,8 +671,8 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                 child: Text(
                                                                   "취소",
                                                                   style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
+                                                                      color:
+                                                                          btnColor,
                                                                       fontFamily:
                                                                           "Sub"),
                                                                 ),

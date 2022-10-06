@@ -320,9 +320,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                   Text(
                     '강아지는 현재 ${diagnosisResult} 상태입니다.',
                     style: TextStyle(
-                        fontFamily: "Daehan",
-                        fontSize: 20.sp,
-                        color: Colors.black),
+                        fontFamily: "Sub", fontSize: 20.sp, color: btnColor),
                   )
                   // FloatingActionButton(
                   //   child: Icon(Icons.save_alt_outlined),
