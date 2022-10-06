@@ -44,16 +44,6 @@ double initLat = 0.0;
 double initLon = 0.0;
 ApiPet apiPet = ApiPet();
 
-void main() async {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.black, // navigation bar color
-    // statusBarColor: pColor, // status bar color
-  ));
-
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: KakaoMapTest()));
-}
-
 class KakaoMapTest extends StatefulWidget {
   @override
   State<KakaoMapTest> createState() => _KakaoMapTestState();

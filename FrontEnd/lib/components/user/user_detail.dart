@@ -216,12 +216,12 @@ class _userPicState extends State<userPic> {
       height: 100.h,
       child: Center(
         child: user?.profilePic == null || user?.profilePic!.length == 0
-            ? CircleAvatar(backgroundColor: Colors.black, radius: 200.0)
+            ? CircleAvatar(backgroundColor: sColor, radius: 200.0)
             : CircleAvatar(
                 backgroundImage: NetworkImage(S3Address + user!.profilePic!),
                 radius: 200.0),
       ),
-      decoration: BoxDecoration(color: Colors.black, shape: BoxShape.circle),
+      decoration: BoxDecoration(color: sColor, shape: BoxShape.circle),
     );
   }
 }
