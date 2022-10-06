@@ -32,7 +32,7 @@ class TextBtnWidget extends StatelessWidget {
             child: Text(
               name,
               style: TextStyle(
-                fontFamily: "Daehan",
+                fontFamily: "Sub",
               ),
             ),
           ),

@@ -164,7 +164,7 @@ class _DiaryPageState extends State<DetailsPage> {
                                 color: btnColor,
                                 fontSize: 25.sp,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: "Daehan"),
+                                fontFamily: "Sub"),
                           ),
                           Text(
                             detail?.createdDate == null
@@ -174,7 +174,7 @@ class _DiaryPageState extends State<DetailsPage> {
                                     detail!.createdDate!.split("T")[1],
                             style: TextStyle(
                                 fontSize: 12.5.sp,
-                                fontFamily: "Daehan",
+                                fontFamily: "Sub",
                                 color: sColor),
                           ),
                           SizedBox(
@@ -188,7 +188,7 @@ class _DiaryPageState extends State<DetailsPage> {
                                 color: btnColor,
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w300,
-                                fontFamily: "Daehan"),
+                                fontFamily: "Sub"),
                           ),
                           Text(
                             detail?.symptom == null
@@ -198,7 +198,7 @@ class _DiaryPageState extends State<DetailsPage> {
                                 color: Colors.redAccent,
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w300,
-                                fontFamily: "Daehan"),
+                                fontFamily: "Sub"),
                           ),
                         ],
                       ),
@@ -219,7 +219,7 @@ class _DiaryPageState extends State<DetailsPage> {
                               '뒤로가기',
                               style: TextStyle(
                                   color: nWColor,
-                                  fontFamily: "Daehan",
+                                  fontFamily: "Sub",
                                   fontSize: 15.sp),
                             ),
                           ),

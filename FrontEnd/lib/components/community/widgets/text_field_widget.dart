@@ -33,7 +33,7 @@ class TextFieldWidget extends StatelessWidget {
               Text(
                 name,
                 style: TextStyle(
-                  fontFamily: "Daehan",
+                  fontFamily: "Sub",
                   fontSize: 20.sp,
                   color: btnColor,
                 ),
@@ -67,7 +67,7 @@ class TextFieldWidget extends StatelessWidget {
           obscureText: isObscured,
           keyboardType: textInputType,
           cursorColor: btnColor,
-          style: TextStyle(fontFamily: "Daehan"),
+          style: TextStyle(fontFamily: "Sub"),
           decoration: InputDecoration(
             isDense: true,
             contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
