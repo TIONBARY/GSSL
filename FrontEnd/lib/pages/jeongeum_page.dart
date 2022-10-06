@@ -292,13 +292,13 @@ class _JeongeumPageState extends State<JeongeumPage> {
       });
       diagnosisResult = diagnosisResult.replaceAll("_", " 또는 ");
       if (diagnosisResult == "행복 또는 즐거움") {
-        emoticon = "😊";
+        emoticon = "assets/images/laughing.png";
       } else if (diagnosisResult == "편안 또는 안정") {
-        emoticon = "😌";
+        emoticon = "assets/images/grinning.png";
       } else if (diagnosisResult == "화남 또는 불쾌") {
-        emoticon = "😡";
+        emoticon = "assets/images/angry-face.png";
       } else if (diagnosisResult == "불안 또는 슬픔") {
-        emoticon = "😥";
+        emoticon = "assets/images/cry.png";
       }
       if (!_loading) {
         Navigator.pop(loadingContext!);
@@ -321,24 +321,10 @@ class _JeongeumPageState extends State<JeongeumPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    '강아지는 현재',
-                    style: TextStyle(
-                        fontFamily: "Daehan",
-                        fontSize: 20.sp,
-                        color: Colors.black),
-                  ),
+                  Image.asset(emoticon, width: 80, height: 80),
                   Padding(padding: EdgeInsets.all(10)),
                   Text(
-                    emoticon + ' ${diagnosisResult}',
-                    style: TextStyle(
-                        fontFamily: "Daehan",
-                        fontSize: 30.sp,
-                        color: Colors.black),
-                  ),
-                  Padding(padding: EdgeInsets.all(10)),
-                  Text(
-                    '상태입니다.',
+                    '강아지는 현재 ${diagnosisResult} 상태입니다.',
                     style: TextStyle(
                         fontFamily: "Daehan",
                         fontSize: 20.sp,
