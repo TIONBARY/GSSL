@@ -418,17 +418,23 @@ class _DiaryPageState extends State<DiaryPage> {
                   ],
                 ),
               )
-            : Center(
-                child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/no_data.png'),
-                  MyBoxWidget(
-                    height: 5,
-                  ),
-                  const Text('작성한 일지가 없습니다.'),
-                ],
-              )),
+            : Container(
+                color: nWColor,
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/no_data.png'),
+                    MyBoxWidget(
+                      height: 5,
+                    ),
+                    const Text(
+                      '작성한 일지가 없습니다.',
+                      style: TextStyle(fontFamily: "Sub", color: btnColor),
+                    ),
+                  ],
+                )),
+              ),
         // floatingActionButton: _buildAddNoteFAB(),
       );
     }
