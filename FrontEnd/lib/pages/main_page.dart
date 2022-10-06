@@ -465,10 +465,10 @@ class blockTitle extends StatelessWidget {
             child: Text(
               title,
               style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Sub",
-              ),
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Sub",
+                  color: btnColor),
             )),
       ),
     );

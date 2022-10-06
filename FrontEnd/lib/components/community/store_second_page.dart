@@ -92,7 +92,7 @@ class _AddNewFeedPageState extends State<AddNewFeedPage> {
         leading: IconButtonWidget(
             color: btnColor,
             iconData: Icons.arrow_back_sharp,
-            iconColor: Colors.white,
+            iconColor: nWColor,
             onTap: () => Navigator.of(context).pop(insertSuccess)),
       ),
       body: SingleChildScrollView(
@@ -178,7 +178,7 @@ class _AddNewFeedPageState extends State<AddNewFeedPage> {
               TextBtnWidget(
                   name: '게시하기',
                   btnColor: btnColor,
-                  nameColor: Colors.white,
+                  nameColor: nWColor,
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();

@@ -187,7 +187,7 @@ class _AddNewFeedPageState extends State<AddNewFeedPage> {
                 TextBtnWidget(
                     name: '게시하기',
                     btnColor: btnColor,
-                    nameColor: Colors.white,
+                    nameColor: nWColor,
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
