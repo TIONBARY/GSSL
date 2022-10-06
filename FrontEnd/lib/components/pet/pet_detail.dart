@@ -47,7 +47,7 @@ class _PetDetailState extends State<PetDetail> {
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return CustomDialog("반려동물을 등록해주세요.", (context) => BottomNavBar());
+              return CustomDialog("반려견을 등록해주세요.", (context) => BottomNavBar());
             });
       }
     } else if (userInfoResponse.statusCode == 401) {
@@ -483,7 +483,7 @@ class _petIntroState extends State<petIntro> {
         style: TextStyle(fontFamily: "Sub", color: btnColor),
         controller: TextEditingController()
           ..text = pet?.description == null || pet?.description!.length == 0
-              ? "작성한 반려동물 소개가 없습니다."
+              ? "작성한 반려견 소개가 없습니다."
               : user!.introduce!,
         keyboardType: TextInputType.multiline,
         maxLines: 4,
