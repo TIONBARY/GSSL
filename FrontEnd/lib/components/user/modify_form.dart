@@ -144,6 +144,13 @@ class _ModifyFormState extends State<ModifyForm> {
   void _submit() async {
     // set this variable to true when we try to submit
     setState(() => _submitted = true);
+    if (password == null || password!.length == 0) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialog("비밀번호를 입력해주세요.", null);
+          });
+    }
     if (checkDupId &&
         checkDupNickname &&
         ModifyFormKey.currentState!.validate()) {
