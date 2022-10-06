@@ -103,13 +103,13 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
           alignment: Alignment.centerLeft,
           child: Container(
             color: nWColor,
-            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
+            // padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
           ),
         ),
         _aidList.isNotEmpty
             ? Container(
                 color: nWColor,
-                padding: EdgeInsets.all(20.0),
+                // padding: EdgeInsets.all(20.0),
                 child: DataTable(columns: [
                   DataColumn(
                     label: Text('작성자'),
@@ -123,7 +123,8 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                         ? DataCell.empty
                         : DataCell(ConstrainedBox(
                             constraints: BoxConstraints(
-                                minWidth: 50.w, maxWidth: 80.w), //SET max width
+                                minWidth: 0.3.sw,
+                                maxWidth: 0.7.sw), //SET max width
                             child: Text(_aidList[0]!.nickname!,
                                 overflow: TextOverflow.ellipsis))),
                     _aidList[0].title == null
@@ -137,8 +138,8 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                           },
                             ConstrainedBox(
                                 constraints: BoxConstraints(
-                                    minWidth: 150.w,
-                                    maxWidth: 150.w), //SET max width
+                                    minWidth: 0.3.sw,
+                                    maxWidth: 0.7.sw), //SET max width
                                 child: Text(_aidList[0].title!,
                                     overflow: TextOverflow.ellipsis))),
                   ]),
@@ -147,7 +148,8 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                         ? DataCell.empty
                         : DataCell(ConstrainedBox(
                             constraints: BoxConstraints(
-                                minWidth: 50.w, maxWidth: 80.w), //SET max width
+                                minWidth: 0.3.sw,
+                                maxWidth: 0.7.sw), //SET max width
                             child: Text(_aidList[1]!.nickname!,
                                 overflow: TextOverflow.ellipsis))),
                     _aidList.length < 2 || _aidList[1].title == null
@@ -161,8 +163,8 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                           },
                             ConstrainedBox(
                                 constraints: BoxConstraints(
-                                    minWidth: 150.w,
-                                    maxWidth: 150.w), //SET max width
+                                    minWidth: 0.3.sw,
+                                    maxWidth: 0.7.sw), //SET max width
                                 child: Text(_aidList[1].title!,
                                     overflow: TextOverflow.ellipsis))),
                   ]),
@@ -171,7 +173,8 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                         ? DataCell.empty
                         : DataCell(ConstrainedBox(
                             constraints: BoxConstraints(
-                                minWidth: 50.w, maxWidth: 80.w), //SET max width
+                                minWidth: 0.3.sw,
+                                maxWidth: 0.7.sw), //SET max width
                             child: Text(_aidList[2]!.nickname!,
                                 overflow: TextOverflow.ellipsis))),
                     _aidList.length < 3 || _aidList[2].title == null
@@ -185,8 +188,8 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                           },
                             ConstrainedBox(
                                 constraints: BoxConstraints(
-                                    minWidth: 150.w,
-                                    maxWidth: 150.w), //SET max width
+                                    minWidth: 0.3.sw,
+                                    maxWidth: 0.7.sw), //SET max width
                                 child: Text(_aidList[2].title!,
                                     overflow: TextOverflow.ellipsis))),
                   ])

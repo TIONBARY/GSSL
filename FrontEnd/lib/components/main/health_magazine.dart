@@ -112,14 +112,14 @@ class magazineBoxTitle extends StatelessWidget {
     return Container(
         width: 0.45.sw,
         height: 230.sm,
-        margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
+        margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
         child: Column(
           children: [
             Expanded(child: Image.asset("${picAdr}")),
             Container(
               color: Colors.white,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 2.h, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 2.h, 2.h, 0),
                 child: Flexible(
                   child: Container(
                     color: nWColor,
