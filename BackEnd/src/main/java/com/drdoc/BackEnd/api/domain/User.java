@@ -71,6 +71,10 @@ public class User {
 		this.profilePic = requestDto.getProfile_pic();
 	}
     
+    public void modifyPetId(int petId) {
+    	this.pet_id = petId;
+    }
+    
     public void quit() {
     	this.isLeft = true;
     }
