@@ -226,7 +226,7 @@ class _MainPageState extends State<MainPage> {
             : Container(
                 width: double.infinity,
                 height: 90.h,
-                margin: EdgeInsets.fromLTRB(0, 15.h, 0, 0),
+                // margin: EdgeInsets.fromLTRB(0, 15.h, 0, 0),
                 // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                 decoration: BoxDecoration(
                     // borderRadius: BorderRadius.circular(45),

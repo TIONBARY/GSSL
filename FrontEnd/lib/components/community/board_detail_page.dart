@@ -221,12 +221,18 @@ class _BoardDetailPageState extends State<BoardDetailPage>
     } else {
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           iconTheme: IconThemeData(
             color: btnColor,
-            size: 20,
+            size: 20.sp,
           ),
           toolbarHeight: 50,
           backgroundColor: pColor,
+          titleTextStyle: TextStyle(
+            fontFamily: "Daehan",
+            fontSize: 20.sp,
+            color: btnColor,
+          ),
           title: Text(
             board?.typeId != null && board!.typeId! == 1
                 ? "반려견 자랑하기"
@@ -235,70 +241,77 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                     : (board?.typeId != null && board!.typeId! == 3
                         ? "질문하기"
                         : "")),
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
           ),
           leading: IconButtonWidget(
+              color: btnColor,
               iconData: Icons.arrow_back_sharp,
+              iconColor: nWColor,
               onTap: () => Navigator.of(context).pop(false)),
         ),
+        backgroundColor: nWColor,
         body: Container(
-            margin: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width / 10,
-                MediaQuery.of(context).size.height / 30,
-                MediaQuery.of(context).size.width / 10,
-                0),
+            margin: EdgeInsets.fromLTRB(25.w, 20.h, 25.w, 20.h),
             child: ListView(children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(board?.title == null ? "" : board!.title!,
-                      style: TextStyle(fontSize: 25)),
+                      style: TextStyle(fontSize: 25.sp, fontFamily: "Daehan")),
                 ],
               ),
               Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      0,
-                      MediaQuery.of(context).size.height / 40,
-                      0,
-                      MediaQuery.of(context).size.height / 40),
+                  padding: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(board?.nickname == null ? "" : board!.nickname!),
-                        Text(board?.time == null
-                            ? ""
-                            : board!.time!.split("T")[0] +
-                                " " +
-                                board!.time!.split("T")[1].substring(0, 8))
+                        Text(
+                          board?.nickname == null
+                              ? ""
+                              : '작성자 : ' + board!.nickname!,
+                          style: TextStyle(fontFamily: "Daehan", color: sColor),
+                        ),
+                        Text(
+                          board?.time == null
+                              ? ""
+                              : board!.time!.split("T")[0] +
+                                  " " +
+                                  board!.time!.split("T")[1].substring(0, 8),
+                          style: TextStyle(fontFamily: "Daehan"),
+                        )
                       ])),
               Container(
-                // color: const Color(0xffd0cece),
-                padding: EdgeInsets.fromLTRB(
-                    0, 0, 0, MediaQuery.of(context).size.height / 40),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 20.h),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 child: Center(
                     child: board?.image == null
                         ? Text('')
-                        : SizedBox(
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
                             child: Image.network(
-                            S3Address + board!.image!,
-                          ))),
+                              S3Address + board!.image!,
+                            ),
+                          )),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: RichText(
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 10,
-                        text: TextSpan(
-                            text: board?.content == null ? "" : board!.content!,
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 20))),
-                  )
-                ],
+              Padding(
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: RichText(
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 10,
+                          text: TextSpan(
+                              text:
+                                  board?.content == null ? "" : board!.content!,
+                              style: TextStyle(
+                                  color: btnColor,
+                                  fontSize: 20.sp,
+                                  fontFamily: "Daehan"))),
+                    )
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
@@ -318,11 +331,11 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                   decoration: InputDecoration(
                     isCollapsed: true,
                     hintText: "댓글을 입력하세요.",
-                    hintStyle: TextStyle(color: sColor),
-                    contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                    hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                    contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.white)),
+                        borderSide: BorderSide(color: sColor)),
                     filled: true,
                     fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
@@ -355,8 +368,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                            padding: EdgeInsets.fromLTRB(0,
-                                MediaQuery.of(context).size.height / 10, 0, 0),
+                            padding: EdgeInsets.fromLTRB(0, 25.h, 0, 25.h),
                             child: Text("댓글이 없습니다."))
                       ],
                     )
@@ -367,8 +379,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                       children: [
                           for (int i = 0; i < comments.length; i++)
                             Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    2.0, 8.0, 2.0, 0.0),
+                                padding: EdgeInsets.fromLTRB(0, 7.h, 0, 7.h),
                                 child: ListTile(
                                   onTap: () {
                                     if (user?.nickname == null ||
