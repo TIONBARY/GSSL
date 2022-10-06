@@ -377,8 +377,8 @@ class _DiaryPageState extends State<DiaryPage> {
                               itemCount: _aidList.length,
                             ),
                             Positioned(
-                              top: 550.h,
-                              left: 325.w,
+                              right: 0.w,
+                              bottom: 0.h,
                               child: (selectedArticles.isNotEmpty)
                                   ? FloatingActionButton(
                                       child: Icon(Icons.delete),
