@@ -119,8 +119,7 @@ class _PetDetailState extends State<PetDetail> {
                     ? "알 수 없는 오류가 발생했습니다."
                     : deletePetResponse.message!,
                 (context) => BottomNavBar());
-          }
-       );
+          });
     }
   }
 
@@ -745,10 +744,12 @@ class healthInfoBox extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                  child: iconBox(
-                    iconName: "👼",
-                    detail: " 사망",
-                  ),
+                  child: pet?.death != null && pet!.death!
+                      ? iconBox(
+                          iconName: "👼",
+                          detail: " 사망",
+                        )
+                      : Container(),
                   flex: 3,
                 ),
                 Flexible(
