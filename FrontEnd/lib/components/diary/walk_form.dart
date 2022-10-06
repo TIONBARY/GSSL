@@ -362,10 +362,9 @@ class _WalkPageState extends State<WalkPage> {
           imagePath: _imgPath,
           title: convertWalkTime(
               infoList[index].startTime!, infoList[index].endTime!),
-          petNames: getPetNameString(infoList[index].petsList!),
         ),
       ),
-    );
+    ).then((value) => initState());
   }
 }
 
