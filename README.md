@@ -80,6 +80,7 @@
 ### 메인화면
 <img src="./images/MainPage1.jpg" width="250" height="500"/>
 <img src="./images/MainPage2.jpg" width="250" height="500"/>
+<img src="./images/Magazine1.jpg" width="250" height="500"/>
 
 ### 회원
 <img src="./images/User1.jpg" width="250" height="500"/>
