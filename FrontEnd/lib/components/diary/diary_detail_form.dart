@@ -211,7 +211,7 @@ class _DiaryPageState extends State<DetailsPage> {
                               Navigator.pop(context);
                             },
                             style: TextButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 10.h),
+                              padding: EdgeInsets.symmetric(vertical: 12.5.h),
                               foregroundColor: btnColor,
                               backgroundColor: btnColor,
                             ),
