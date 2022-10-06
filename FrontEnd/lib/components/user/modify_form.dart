@@ -244,6 +244,7 @@ class _ModifyFormState extends State<ModifyForm> {
                   return null;
                 },
                 decoration: InputDecoration(
+                  errorStyle: TextStyle(fontFamily: "Sub"),
                   isCollapsed: true,
                   hintText: "비밀번호",
                   hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -286,6 +287,7 @@ class _ModifyFormState extends State<ModifyForm> {
                 return null;
               },
               decoration: InputDecoration(
+                errorStyle: TextStyle(fontFamily: "Sub"),
                 isCollapsed: true,
                 hintText: "닉네임",
                 hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -425,6 +427,7 @@ class _ModifyFormState extends State<ModifyForm> {
                 return null;
               },
               decoration: InputDecoration(
+                errorStyle: TextStyle(fontFamily: "Sub"),
                 isCollapsed: true,
                 hintText: "전화번호 (01011112222) 형태로 입력",
                 hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -467,6 +470,7 @@ class _ModifyFormState extends State<ModifyForm> {
                   return null;
                 },
                 decoration: InputDecoration(
+                  errorStyle: TextStyle(fontFamily: "Sub"),
                   isCollapsed: true,
                   hintText: "이메일",
                   hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -557,6 +561,7 @@ class _ModifyFormState extends State<ModifyForm> {
                   return null;
                 },
                 decoration: InputDecoration(
+                  errorStyle: TextStyle(fontFamily: "Sub"),
                   isCollapsed: true,
                   hintText: "자기소개 (선택)",
                   hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),

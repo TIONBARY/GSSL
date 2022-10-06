@@ -276,6 +276,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                   return null;
                 },
                 decoration: InputDecoration(
+                  errorStyle: TextStyle(fontFamily: "Sub"),
                   isCollapsed: true,
                   hintText: "반려견 이름",
                   hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -293,6 +294,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
             ),
             DropdownButtonFormField(
               decoration: InputDecoration(
+                errorStyle: TextStyle(fontFamily: "Sub"),
                 contentPadding: EdgeInsets.fromLTRB(20.w, 14.h, 10.w, 14.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -418,6 +420,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                 controller: dateinput,
                 //editing controller of this TextField
                 decoration: InputDecoration(
+                  errorStyle: TextStyle(fontFamily: "Sub"),
                   prefixIcon: Padding(
                     padding: const EdgeInsets.all(defaultPadding),
                     child: Icon(Icons.calendar_today, color: sColor),
@@ -546,6 +549,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                   return null;
                 },
                 decoration: InputDecoration(
+                    errorStyle: TextStyle(fontFamily: "Sub"),
                     isCollapsed: true,
                     hintText: "몸무게 (선택)",
                     hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -586,6 +590,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                 return null;
               },
               decoration: InputDecoration(
+                errorStyle: TextStyle(fontFamily: "Sub"),
                 isCollapsed: true,
                 hintText: "앓고 있는 질환 (선택)",
                 hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -628,6 +633,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                   return null;
                 },
                 decoration: InputDecoration(
+                  errorStyle: TextStyle(fontFamily: "Sub"),
                   isCollapsed: true,
                   hintText: "반려견 소개 (선택)",
                   hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),

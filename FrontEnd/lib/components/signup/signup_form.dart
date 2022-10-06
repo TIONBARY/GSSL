@@ -128,6 +128,7 @@ class _SignupFormState extends State<SignUpForm> {
                 return null;
               },
               decoration: InputDecoration(
+                errorStyle: TextStyle(fontFamily: "Sub"),
                 isCollapsed: true,
                 hintText: "아이디",
                 hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -215,6 +216,7 @@ class _SignupFormState extends State<SignUpForm> {
                 return null;
               },
               decoration: InputDecoration(
+                errorStyle: TextStyle(fontFamily: "Sub"),
                 isCollapsed: true,
                 hintText: "비밀번호",
                 hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -253,6 +255,7 @@ class _SignupFormState extends State<SignUpForm> {
               return null;
             },
             decoration: InputDecoration(
+              errorStyle: TextStyle(fontFamily: "Sub"),
               isCollapsed: true,
               hintText: "닉네임",
               hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -381,6 +384,7 @@ class _SignupFormState extends State<SignUpForm> {
               return null;
             },
             decoration: InputDecoration(
+              errorStyle: TextStyle(fontFamily: "Sub"),
               isCollapsed: true,
               hintText: "전화번호",
               hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -421,6 +425,7 @@ class _SignupFormState extends State<SignUpForm> {
                 return null;
               },
               decoration: InputDecoration(
+                errorStyle: TextStyle(fontFamily: "Sub"),
                 isCollapsed: true,
                 hintText: "이메일",
                 hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
@@ -507,6 +512,7 @@ class _SignupFormState extends State<SignUpForm> {
                 return null;
               },
               decoration: InputDecoration(
+                errorStyle: TextStyle(fontFamily: "Sub"),
                 isCollapsed: true,
                 hintText: "자기소개 (선택)",
                 hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
