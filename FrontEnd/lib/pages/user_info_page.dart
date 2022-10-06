@@ -13,7 +13,7 @@ class UserInfoPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('내 정보'),
-        titleTextStyle: TextStyle(fontFamily: "Daehan", fontSize: 25.sp),
+        titleTextStyle: TextStyle(fontFamily: "Sub", fontSize: 25.sp),
         automaticallyImplyLeading: false,
         foregroundColor: nWColor,
         backgroundColor: btnColor,

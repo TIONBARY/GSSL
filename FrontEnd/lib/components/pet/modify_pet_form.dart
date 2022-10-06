@@ -248,7 +248,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: TextFormField(
                 // 반려견 이름
-                style: TextStyle(fontFamily: "Daehan"),
+                style: TextStyle(fontFamily: "Sub"),
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
                 cursorColor: btnColor,
@@ -272,7 +272,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                 decoration: InputDecoration(
                   isCollapsed: true,
                   hintText: "이름",
-                  hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                  hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
                   contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -303,7 +303,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                 return DropdownMenuItem<int>(
                   child: Text(
                     item.name!,
-                    style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                    style: TextStyle(color: btnColor, fontFamily: "Sub"),
                   ),
                   value: item.id,
                 );
@@ -322,7 +322,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                       child: ListTile(
                     title: const Text(
                       '남아',
-                      style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                      style: TextStyle(color: btnColor, fontFamily: "Sub"),
                     ),
                     leading: Radio<String>(
                       value: "M",
@@ -340,7 +340,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                       child: ListTile(
                     title: const Text(
                       '여아',
-                      style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                      style: TextStyle(color: btnColor, fontFamily: "Sub"),
                     ),
                     leading: Radio<String>(
                       value: "F",
@@ -365,7 +365,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                     children: [
                       Text(
                         '중성화 수술을 했어요',
-                        style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                        style: TextStyle(color: btnColor, fontFamily: "Sub"),
                       ),
                       Transform.scale(
                         scale: 1.25,
@@ -387,7 +387,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                     children: [
                       Text(
                         '무지개 다리를 건넜어요...',
-                        style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                        style: TextStyle(color: btnColor, fontFamily: "Sub"),
                       ),
                       Transform.scale(
                         scale: 1.25,
@@ -408,7 +408,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: TextField(
-                style: TextStyle(fontFamily: "Daehan"),
+                style: TextStyle(fontFamily: "Sub"),
                 controller: dateinput,
                 //editing controller of this TextField
                 decoration: InputDecoration(
@@ -417,7 +417,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                     child: Icon(Icons.calendar_today, color: sColor),
                   ),
                   hintText: "반려견의 생년월일",
-                  hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                  hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
                   contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -508,7 +508,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                         label: Text(
                           "반려견 이미지 (선택)",
                           style: TextStyle(
-                            fontFamily: "Daehan",
+                            fontFamily: "Sub",
                           ),
                         ),
                       ),
@@ -521,7 +521,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: TextFormField(
                 // 몸무게
-                style: TextStyle(fontFamily: "Daehan"),
+                style: TextStyle(fontFamily: "Sub"),
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
                 controller: TextEditingController()
@@ -542,7 +542,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                 decoration: InputDecoration(
                     isCollapsed: true,
                     hintText: "몸무게 (선택)",
-                    hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                    hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
                     contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -557,7 +557,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
             ),
             TextFormField(
               // 질환
-              style: TextStyle(fontFamily: "Daehan"),
+              style: TextStyle(fontFamily: "Sub"),
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               cursorColor: btnColor,
@@ -582,7 +582,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 hintText: "앓고 있는 질환 (선택)",
-                hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
                 contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -597,7 +597,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: TextFormField(
-                style: TextStyle(fontFamily: "Daehan"),
+                style: TextStyle(fontFamily: "Sub"),
                 keyboardType: TextInputType.multiline,
                 maxLines: 4,
                 textInputAction: TextInputAction.done,
@@ -624,7 +624,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                 decoration: InputDecoration(
                   isCollapsed: true,
                   hintText: "반려견 소개 (선택)",
-                  hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                  hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
                   contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -656,7 +656,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                     child: Text(
                       "반려견 정보 수정".toUpperCase(),
                       style: TextStyle(
-                        fontFamily: "Daehan",
+                        fontFamily: "Sub",
                       ),
                     ),
                   ),

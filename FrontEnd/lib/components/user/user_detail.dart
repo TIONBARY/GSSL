@@ -25,11 +25,6 @@ User? user;
 ApiUser apiUser = ApiUser();
 
 class _UserDetailState extends State<UserDetail> {
-  // final UserDetailFormKey = GlobalKey<FormState>();
-  // String S3Address = "https://a204drdoc.s3.ap-northeast-2.amazonaws.com/";
-  // User? user;
-  // ApiUser apiUser = ApiUser();
-
   bool _loading = true;
 
   Future<void> getUser() async {
@@ -131,7 +126,7 @@ class _UserDetailState extends State<UserDetail> {
                   cursorColor: btnColor,
                   readOnly: true,
                   decoration: InputDecoration(
-                    hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                    hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
                     contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -145,7 +140,8 @@ class _UserDetailState extends State<UserDetail> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+                padding:
+                    const EdgeInsets.symmetric(vertical: defaultPadding / 2),
                 child: Container(
                   height: 40.h,
                   width: double.maxFinite,
@@ -176,8 +172,7 @@ class _UserDetailState extends State<UserDetail> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: defaultPadding / 2),
+                padding: EdgeInsets.fromLTRB(0, 10.h, 0, 15.h),
                 child: Container(
                   height: 40.h,
                   width: double.maxFinite,

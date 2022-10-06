@@ -158,7 +158,7 @@ class _EditPostPageState extends State<EditPostPage> {
           centerTitle: true,
           backgroundColor: pColor,
           titleTextStyle: TextStyle(
-            fontFamily: "Daehan",
+            fontFamily: "Sub",
             fontSize: 20.sp,
             color: btnColor,
           ),

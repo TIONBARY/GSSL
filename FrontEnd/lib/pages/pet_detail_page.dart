@@ -12,7 +12,7 @@ class PetDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('반려동물 정보'),
-        titleTextStyle: TextStyle(fontFamily: "Daehan", fontSize: 25.sp),
+        titleTextStyle: TextStyle(fontFamily: "Sub", fontSize: 25.sp),
         foregroundColor: nWColor,
         backgroundColor: btnColor,
         centerTitle: true,
