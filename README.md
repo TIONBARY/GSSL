@@ -111,6 +111,7 @@
 
 ### 산책
 <img src="./images/Walk1.jpg" width="250" height="500"/>
+<img src="./images/Walk2.jpg" width="250" height="500"/>
 
 ### 게시판
 <img src="./images/Community1.jpg" width="250" height="500"/>
