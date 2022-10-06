@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../constants.dart';
+
 class health_magazine extends StatelessWidget {
   const health_magazine({Key? key}) : super(key: key);
 
@@ -11,7 +13,7 @@ class health_magazine extends StatelessWidget {
       height: 480.sm,
       width: 480.sm,
       padding: EdgeInsets.all(5.sm),
-      // color: Colors.red,
+      color: nWColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -110,33 +112,27 @@ class magazineBoxTitle extends StatelessWidget {
     return Container(
         width: 0.45.sw,
         height: 230.sm,
-        margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
+        margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
         child: Column(
           children: [
             Expanded(child: Image.asset("${picAdr}")),
             Container(
-              child: Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(3.5.w, 0, 3.5.w, 0),
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 2.h, 2.h, 0),
+                child: Flexible(
+                  child: Container(
+                    color: nWColor,
                     child: Text(
-                        style: TextStyle(
-                          color: Color(0xff424242),
-                          fontFamily: "sub",
-                          fontSize: 15.sp,
-                        ),
-                        "${category}"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5.h, 0, 0),
-                    child: Text(
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontFamily: "sub",
                           fontSize: 13.sp,
                         ),
                         "${title}"),
                   ),
-                ],
+                  flex: 4,
+                ),
               ),
             )
           ],

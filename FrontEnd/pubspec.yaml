@@ -104,9 +104,12 @@ flutter:
     - family: Daehan
       fonts:
         - asset: fonts/Independency-Ahn.ttf
-    - family: Sub
+    - family: Title
       fonts:
         - asset: fonts/BmEuljiro.ttf
+    - family: Sub
+      fonts:
+        - asset: fonts/ChosunCentennial_ttf.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

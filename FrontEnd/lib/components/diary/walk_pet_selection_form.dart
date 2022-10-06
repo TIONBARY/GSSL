@@ -3,6 +3,7 @@ import 'package:GSSL/api/api_walk.dart';
 import 'package:GSSL/constants.dart';
 import 'package:GSSL/model/response_models/get_all_pet.dart';
 import 'package:GSSL/model/response_models/get_walk_detail.dart';
+import 'package:GSSL/pages/diary_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -177,7 +178,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                                         style: TextStyle(
                                           fontSize: 15.sp,
                                           color: btnColor,
-                                          fontFamily: 'Daehan',
+                                          fontFamily: 'Sub',
                                         ),
                                       ),
                                     ),
@@ -196,7 +197,10 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                           child: TextButton(
                             onPressed: () {
                               apiWalk.modifyWalk(walkId, selectedPets);
-                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => GalleryApp()));
                             },
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(vertical: 10.h),
@@ -207,7 +211,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                               '저장',
                               style: TextStyle(
                                   color: nWColor,
-                                  fontFamily: "Daehan",
+                                  fontFamily: "Sub",
                                   fontSize: 15.sp),
                             ),
                           ),
@@ -226,7 +230,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                               '뒤로가기',
                               style: TextStyle(
                                 color: nWColor,
-                                fontFamily: "Daehan",
+                                fontFamily: "Sub",
                                 fontSize: 15.sp,
                               ),
                             ),
@@ -258,7 +262,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                       '뒤로가기',
                       style: TextStyle(
                         color: nWColor,
-                        fontFamily: "Daehan",
+                        fontFamily: "Sub",
                         fontSize: 15.sp,
                       ),
                     ),

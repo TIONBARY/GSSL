@@ -141,6 +141,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> getAllPetList() async {
+    if (!mounted) {
+      return;
+    }
     getAllPet? getAllPetResponse = await apiPet.getAllPetApi();
     if (getAllPetResponse.statusCode == 200) {
       setState(() {
@@ -166,6 +169,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> getTotalInfo() async {
+    if (!mounted) {
+      return;
+    }
     getWalkTotalInfo? getWalkTotalInfoResponse =
         await apiWalk.getTotalInfo(user!.petId!);
     if (getWalkTotalInfoResponse.statusCode == 200) {
@@ -177,10 +183,20 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> getIsDone() async {
+    if (!mounted) {
+      return;
+    }
     getWalkDone? getWalkDoneResponse = await apiWalk.getIsDone(user!.petId!);
+    debugPrint(getWalkDoneResponse.message);
     if (getWalkDoneResponse.statusCode == 200) {
       setState(() {
         done = getWalkDoneResponse.done!;
+        _loadingDone = false;
+      });
+    } else if (getWalkDoneResponse.statusCode == 400 &&
+        getWalkDoneResponse.message == "해당 반려동물의 산책기록이 없습니다.") {
+      setState(() {
+        done = false;
         _loadingDone = false;
       });
     }
@@ -192,6 +208,7 @@ class _MainPageState extends State<MainPage> {
       children: [
         _loadingPet
             ? Container(
+                // color: Colors.black,
                 margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
                 child: Column(children: [
                   Padding(
@@ -209,7 +226,7 @@ class _MainPageState extends State<MainPage> {
             : Container(
                 width: double.infinity,
                 height: 90.h,
-                margin: EdgeInsets.fromLTRB(0, 15.h, 0, 0),
+                // margin: EdgeInsets.fromLTRB(0, 15.h, 0, 0),
                 // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                 decoration: BoxDecoration(
                     // borderRadius: BorderRadius.circular(45),
@@ -251,26 +268,30 @@ class _MainPageState extends State<MainPage> {
                             ),
                           ),
                           flex: 2),
-                      Flexible(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: Container(
-                                child: Text(
-                                  textScaleFactor: 1.25.sp,
-                                  mainPet?.name == null
-                                      ? "등록된 반려견이 없습니다."
-                                      : nickname! + "의 " + mainPet!.name!,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: btnColor, fontFamily: "Daehan"),
+                      Container(
+                        child: Flexible(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                child: Container(
+                                  child: Text(
+                                    textScaleFactor: 1.25.sp,
+                                    mainPet?.name == null
+                                        ? "등록된 반려견이 없습니다."
+                                        : nickname! + "의 " + mainPet!.name!,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        color: btnColor,
+                                        fontFamily: "Sub"),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          flex: 4,
                         ),
-                        flex: 4,
                       ),
                       Container(
                         child: Flexible(
@@ -295,7 +316,7 @@ class _MainPageState extends State<MainPage> {
                                     return Container(
                                       padding: EdgeInsets.fromLTRB(
                                           20.w, 20.h, 20.w, 0),
-                                      height: 225.h,
+                                      height: 250.h,
                                       decoration: new BoxDecoration(
                                         color: pColor,
                                         borderRadius: new BorderRadius.only(
@@ -309,7 +330,7 @@ class _MainPageState extends State<MainPage> {
                                               MainAxisAlignment.center,
                                           // mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            pets == null || pets!.length! == 0
+                                            pets == null || pets!.length == 0
                                                 ? Text("등록된 반려견이 없습니다.")
                                                 : Expanded(
                                                     child: GridView.count(
@@ -350,7 +371,7 @@ class _MainPageState extends State<MainPage> {
                                                                     pet.name!,
                                                                     style: TextStyle(
                                                                         fontFamily:
-                                                                            "Daehan",
+                                                                            "Sub",
                                                                         color:
                                                                             btnColor),
                                                                   )
@@ -417,32 +438,28 @@ class blockTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 10.h, 0, 0),
-      child: Container(
-          padding: EdgeInsets.fromLTRB(13.w, 15.h, 0, 0),
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 13.h),
-          width: 40.w,
-          height: 35.h,
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontFamily: "Sub",
-            ),
-          )),
+    return Container(
+      color: nWColor,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
+        child: Container(
+            color: nWColor,
+            padding: EdgeInsets.fromLTRB(13.w, 8.h, 0, 0),
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 13.h),
+            width: 40.w,
+            height: 35.h,
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Sub",
+              ),
+            )),
+      ),
     );
   }
 }
-
-// class UserBar extends StatelessWidget {
-//   const UserBar({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
 
 class diagnosis extends StatelessWidget {
   const diagnosis({Key? key, this.mainPetName}) : super(key: key);
@@ -462,7 +479,7 @@ class diagnosis extends StatelessWidget {
           builder: (BuildContext context) {
             return Container(
               width: double.infinity,
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: BoxDecoration(color: nWColor),
               child: i,
             );
           },
@@ -481,7 +498,7 @@ class behavior_diagnosis extends StatelessWidget {
   Widget build(BuildContext context) {
     return function_box(
       title: '견민정음',
-      box_color: Color(0x80C66952),
+      box_color: Color(0x30C66952),
       paddings: EdgeInsets.fromLTRB(0.035.sw, 0.015.sh, 0.015.sw, 0.035.sh),
       description:
           "${mainPetName == null ? '강아지' : mainPetName}의 속마음, \nAI 영상 분석을 통해 알려드릴게요.",
@@ -499,10 +516,10 @@ class health_diagnosis extends StatelessWidget {
   Widget build(BuildContext context) {
     return function_box(
       title: '견의보감',
-      box_color: Color(0x80506274),
+      box_color: Color(0x30506274),
       paddings: EdgeInsets.fromLTRB(0.035.sw, 0.015.sh, 0.015.sw, 0.035.sh),
       description:
-          "${mainPetName == null ? '강아지' : mainPetName}가 아픈 것 같나요?\nAI를 통해 1차 진단을 받을 수 있어요.",
+          "${mainPetName == null ? '강아지' : mainPetName}의 건강이 걱정 되시나요?\nAI를 통해 1차 진단을 받을 수 있어요.",
       nextPage: BogamPage(),
     );
   }
@@ -517,7 +534,7 @@ class diary extends StatelessWidget {
   Widget build(BuildContext context) {
     return function_box(
       title: '견중일기',
-      box_color: Color(0x80DFB45B),
+      box_color: Color(0x30DFB45B),
       paddings: EdgeInsets.fromLTRB(0.035.sw, 0.015.sh, 0.015.sw, 0.035.sh),
       description:
           "${mainPetName == null ? '강아지' : mainPetName}의 지금까지의 진단 기록을 볼 수 있어요.",

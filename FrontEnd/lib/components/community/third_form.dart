@@ -216,35 +216,41 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
                     color: Colors.black,
                   )),
               hintText: '검색할 단어를 입력하세요.',
-              contentPadding: EdgeInsets.all(10),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
+              hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
+              contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
               enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(color: btnColor)),
+              filled: true,
+              fillColor: Colors.white,
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(color: btnColor)),
             ),
           ),
           actions: [
-            IconButtonWidget(
-              color: btnColor,
-              onTap: () => context.to(AddNewFeedPage()).then((value) {
-                if (value != null) {
-                  if (value == true) {
-                    setState(() {
-                      _aidList = [];
-                      _hasMore = true;
-                      _pageNumber = 0;
-                      _error = false;
-                      _loading = true;
-                    });
-                    _getSearchList(
-                        searchController.text, _pageNumber, _pageSize);
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 12.5.w, 0),
+              child: IconButtonWidget(
+                color: btnColor,
+                onTap: () => context.to(AddNewFeedPage()).then((value) {
+                  if (value != null) {
+                    if (value == true) {
+                      setState(() {
+                        _aidList = [];
+                        _hasMore = true;
+                        _pageNumber = 0;
+                        _error = false;
+                        _loading = true;
+                      });
+                      _getSearchList(
+                          searchController.text, _pageNumber, _pageSize);
+                    }
                   }
-                }
-              }),
-              iconData: Icons.add_sharp,
-              iconColor: Colors.white,
+                }),
+                iconData: Icons.add_sharp,
+                iconColor: Colors.white,
+              ),
             ),
           ],
         ),
@@ -319,9 +325,13 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text("수정"),
+                                          title: const Text("수정",
+                                              style:
+                                                  TextStyle(fontFamily: "Sub")),
                                           content: const Text(
-                                              "정말 해당 게시물을 수정하시겠습니까?"),
+                                              "정말 해당 게시물을 수정하시겠습니까?",
+                                              style:
+                                                  TextStyle(fontFamily: "Sub")),
                                           actions: <Widget>[
                                             TextBtnWidget(
                                               name: '수정',
@@ -371,9 +381,13 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text("삭제"),
+                                          title: const Text("삭제",
+                                              style:
+                                                  TextStyle(fontFamily: "Sub")),
                                           content: const Text(
-                                              "정말 해당 게시물을 삭제하시겠습니까?"),
+                                              "정말 해당 게시물을 삭제하시겠습니까?",
+                                              style:
+                                                  TextStyle(fontFamily: "Sub")),
                                           actions: <Widget>[
                                             TextBtnWidget(
                                               name: '삭제',
@@ -418,7 +432,7 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
                   MyBoxWidget(
                     height: 5,
                   ),
-                  const Text('게시물이 없습니다.'),
+                  const Text('게시물이 없습니다.', style: TextStyle(fontFamily: "Sub")),
                 ],
               )),
       );

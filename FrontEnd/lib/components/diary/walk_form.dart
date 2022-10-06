@@ -190,7 +190,7 @@ class _WalkPageState extends State<WalkPage> {
                                           style: TextStyle(
                                             fontSize: 10.sp,
                                             color: btnColor,
-                                            fontFamily: 'Daehan',
+                                            fontFamily: 'Sub',
                                           ),
                                         ),
                                       ),
@@ -202,7 +202,7 @@ class _WalkPageState extends State<WalkPage> {
                             ),
                             Positioned(
                               top: 445.h,
-                              left: 280.w,
+                              left: 250.w,
                               child: (selectedArticles.isNotEmpty)
                                   ? FloatingActionButton(
                                       child: Icon(Icons.delete),
@@ -247,6 +247,11 @@ class _WalkPageState extends State<WalkPage> {
                     ])));
               }
             });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   Future<List<Detail>?> getAllWalkInfo() async {

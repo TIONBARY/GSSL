@@ -1,5 +1,7 @@
+import 'package:GSSL/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'card_widget.dart';
 import 'my_box_widget.dart';
@@ -27,17 +29,16 @@ class ContentItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(10.h),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  height: 50.0,
-                  width: 50.0,
-                  margin: EdgeInsets.fromLTRB(
-                      0, 0, MediaQuery.of(context).size.width / 40, 0),
+                  height: 50.h,
+                  width: 50.w,
+                  margin: EdgeInsets.fromLTRB(0, 0, 15.w, 0),
                   decoration: new BoxDecoration(
-                      color: Colors.blue,
+                      color: sColor,
                       borderRadius: new BorderRadius.all(Radius.circular(50))),
                   child: profileImage == null || profileImage!.length! == 0
                       ? CircleAvatar(radius: 50, backgroundImage: basic_image)
@@ -49,7 +50,7 @@ class ContentItemWidget extends StatelessWidget {
                 MyBoxWidget(),
                 Text(
                   nickname,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20.sp, fontFamily: "Sub"),
                 ),
                 MyBoxWidget(),
                 // Text(
@@ -60,23 +61,13 @@ class ContentItemWidget extends StatelessWidget {
             ),
           ),
           Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
-            ),
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
               child: photo == null || photo == ''
                   ? Container()
                   : CachedNetworkImage(
-                      maxWidthDiskCache: 500,
-                      maxHeightDiskCache: 500,
-                      height: 200,
+                      maxWidthDiskCache: 250,
+                      maxHeightDiskCache: 250,
+                      height: 200.h,
                       width: double.infinity,
                       fit: BoxFit.cover,
                       imageUrl: S3Address + photo!,
@@ -95,13 +86,13 @@ class ContentItemWidget extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: EdgeInsets.fromLTRB(15.w, 5.h, 15.w, 0.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   name,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20.sp, fontFamily: "Sub"),
                 ),
                 MyBoxWidget(),
                 // Text(

@@ -49,7 +49,7 @@ class PetWorkout extends StatelessWidget {
       return Container(
           width: double.infinity,
           height: 130.h,
-          // color: Colors.grey,
+          color: nWColor,
           child: Column(
             children: [
               Container(
@@ -57,6 +57,7 @@ class PetWorkout extends StatelessWidget {
                 child: Text(
                     style: TextStyle(
                       fontFamily: "Sub",
+                      fontWeight: FontWeight.bold,
                       fontSize: 25.sp,
                     ),
                     done! ? "오늘은 산책을 다녀왔어요!" : "아직 산책을 못했어요.."),
@@ -64,14 +65,16 @@ class PetWorkout extends StatelessWidget {
               Text(
                   style: TextStyle(
                     // fontFamily: "Sub",
+                    fontFamily: "Sub",
                     fontSize: 15.sp,
                   ),
-                  "${mainPet?.name}와 이만큼 산책했어요."),
+                  "${user?.nickname}님과 ${mainPet?.name}의 함께한 거리와 시간은"),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
                 child: Text(
                     style: TextStyle(
                       fontFamily: "Sub",
+                      fontWeight: FontWeight.bold,
                       fontSize: 20.sp,
                     ),
                     "${walkInfo?.distance_sum}m, ${(walkInfo!.time_passed! / 60).round()}분"),

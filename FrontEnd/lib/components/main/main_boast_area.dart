@@ -105,6 +105,7 @@ class _MainBoastAreaState extends State<MainBoastArea>
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
+                          color: nWColor,
                           width: double.infinity,
                           margin: EdgeInsets.symmetric(horizontal: 5.0),
                           // decoration: BoxDecoration(color: Colors.blue),
