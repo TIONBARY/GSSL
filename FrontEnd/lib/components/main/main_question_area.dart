@@ -112,10 +112,16 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                 // padding: EdgeInsets.all(20.0),
                 child: DataTable(columns: [
                   DataColumn(
-                    label: Text('작성자'),
+                    label: Text(
+                      '작성자',
+                      style: TextStyle(fontFamily: "Sub"),
+                    ),
                   ),
                   DataColumn(
-                    label: Text('제목'),
+                    label: Text(
+                      '제목',
+                      style: TextStyle(fontFamily: "Sub"),
+                    ),
                   ),
                 ], rows: [
                   DataRow(cells: [
@@ -126,6 +132,7 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                                 minWidth: 0.3.sw,
                                 maxWidth: 0.7.sw), //SET max width
                             child: Text(_aidList[0]!.nickname!,
+                                style: TextStyle(fontFamily: "Sub"),
                                 overflow: TextOverflow.ellipsis))),
                     _aidList[0].title == null
                         ? DataCell.empty
@@ -141,6 +148,7 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                                     minWidth: 0.3.sw,
                                     maxWidth: 0.7.sw), //SET max width
                                 child: Text(_aidList[0].title!,
+                                    style: TextStyle(fontFamily: "Sub"),
                                     overflow: TextOverflow.ellipsis))),
                   ]),
                   DataRow(cells: [
@@ -151,6 +159,7 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                                 minWidth: 0.3.sw,
                                 maxWidth: 0.7.sw), //SET max width
                             child: Text(_aidList[1]!.nickname!,
+                                style: TextStyle(fontFamily: "Sub"),
                                 overflow: TextOverflow.ellipsis))),
                     _aidList.length < 2 || _aidList[1].title == null
                         ? DataCell.empty
@@ -166,6 +175,7 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                                     minWidth: 0.3.sw,
                                     maxWidth: 0.7.sw), //SET max width
                                 child: Text(_aidList[1].title!,
+                                    style: TextStyle(fontFamily: "Sub"),
                                     overflow: TextOverflow.ellipsis))),
                   ]),
                   DataRow(cells: [
@@ -176,6 +186,7 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                                 minWidth: 0.3.sw,
                                 maxWidth: 0.7.sw), //SET max width
                             child: Text(_aidList[2]!.nickname!,
+                                style: TextStyle(fontFamily: "Sub"),
                                 overflow: TextOverflow.ellipsis))),
                     _aidList.length < 3 || _aidList[2].title == null
                         ? DataCell.empty
@@ -191,6 +202,7 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                                     minWidth: 0.3.sw,
                                     maxWidth: 0.7.sw), //SET max width
                                 child: Text(_aidList[2].title!,
+                                    style: TextStyle(fontFamily: "Sub"),
                                     overflow: TextOverflow.ellipsis))),
                   ])
                 ]))
@@ -202,7 +214,10 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                   MyBoxWidget(
                     height: 5,
                   ),
-                  const Text('게시물이 없습니다.'),
+                  const Text(
+                    '게시물이 없습니다.',
+                    style: TextStyle(fontFamily: "Sub"),
+                  ),
                 ],
               ))
       ]);

@@ -85,6 +85,6 @@ PersistentBottomNavBarItem _btnItem({
     textStyle: const TextStyle(fontFamily: "Sub"),
     activeColorPrimary: sColor,
     inactiveColorPrimary: btnColor,
-    activeColorSecondary: Colors.white,
+    activeColorSecondary: nWColor,
   );
 }

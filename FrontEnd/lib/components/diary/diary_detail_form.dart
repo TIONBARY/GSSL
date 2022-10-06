@@ -111,7 +111,7 @@ class _DiaryPageState extends State<DetailsPage> {
                 child: Container(
               padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: nWColor,
                 image: DecorationImage(
                     fit: BoxFit.contain,
                     image: AssetImage("assets/images/loadingDog.gif")),

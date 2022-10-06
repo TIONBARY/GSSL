@@ -77,7 +77,7 @@ class magazineBox extends StatelessWidget {
             return Container(
                 height: 0.8.sh,
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: nWColor,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -117,7 +117,7 @@ class magazineBoxTitle extends StatelessWidget {
           children: [
             Expanded(child: Image.asset("${picAdr}")),
             Container(
-              color: Colors.white,
+              color: nWColor,
               child: Padding(
                 padding: EdgeInsets.fromLTRB(0, 2.h, 2.h, 0),
                 child: Flexible(

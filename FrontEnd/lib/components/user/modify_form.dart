@@ -648,8 +648,8 @@ class _ModifyFormState extends State<ModifyForm> {
                                                         Colors.red),
                                                 child: Text(
                                                   "확인",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
+                                                  style:
+                                                      TextStyle(color: nWColor),
                                                 ),
                                               ),
                                               ElevatedButton(
@@ -657,8 +657,7 @@ class _ModifyFormState extends State<ModifyForm> {
                                                   Navigator.of(context).pop();
                                                 },
                                                 style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        Colors.white),
+                                                    backgroundColor: nWColor),
                                                 child: Text(
                                                   "취소",
                                                   style: TextStyle(
