@@ -69,14 +69,24 @@
 
 # 기능별 화면
 ### 메인화면
-<img src="./images/MainPage1.jpg" width="200" height="400"/>
-
+<img src="./images/MainPage1.jpg" width="250" height="500"/>
+<img src="./images/MainPage2.jpg" width="250" height="500"/>
 
 ### 회원
 
 ### 반려견
+<img src="./images/Pet1.jpg" width="250" height="500"/>
+<img src="./images/Pet2.jpg" width="250" height="500"/>
+<img src="./images/Pet3.jpg" width="250" height="500"/>
+<img src="./images/Pet4.jpg" width="250" height="500"/>
+<img src="./images/Pet5.jpg" width="250" height="500"/>
 
 ### 견의보감
+<img src="./images/Bogam1.jpg" width="250" height="500"/>
+<img src="./images/Bogam2.jpg" width="250" height="500"/>
+<img src="./images/Bogam3.jpg" width="250" height="500"/>
+<img src="./images/Bogam4.jpg" width="250" height="500"/>
+<img src="./images/Bogam5.jpg" width="250" height="500"/>
 
 ### 견민정음
 
