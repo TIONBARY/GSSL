@@ -325,9 +325,13 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text("수정"),
+                                          title: const Text("수정",
+                                              style:
+                                                  TextStyle(fontFamily: "Sub")),
                                           content: const Text(
-                                              "정말 해당 게시물을 수정하시겠습니까?"),
+                                              "정말 해당 게시물을 수정하시겠습니까?",
+                                              style:
+                                                  TextStyle(fontFamily: "Sub")),
                                           actions: <Widget>[
                                             TextBtnWidget(
                                               name: '수정',
@@ -377,9 +381,13 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text("삭제"),
+                                          title: const Text("삭제",
+                                              style:
+                                                  TextStyle(fontFamily: "Sub")),
                                           content: const Text(
-                                              "정말 해당 게시물을 삭제하시겠습니까?"),
+                                              "정말 해당 게시물을 삭제하시겠습니까?",
+                                              style:
+                                                  TextStyle(fontFamily: "Sub")),
                                           actions: <Widget>[
                                             TextBtnWidget(
                                               name: '삭제',
@@ -424,7 +432,7 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
                   MyBoxWidget(
                     height: 5,
                   ),
-                  const Text('게시물이 없습니다.'),
+                  const Text('게시물이 없습니다.', style: TextStyle(fontFamily: "Sub")),
                 ],
               )),
       );
