@@ -194,7 +194,7 @@ class _MainPageState extends State<MainPage> {
         _loadingDone = false;
       });
     } else if (getWalkDoneResponse.statusCode == 400 &&
-        getWalkDoneResponse.message == "해당 반려견의 산책기록이 없습니다.") {
+        getWalkDoneResponse.message == "해당 반려동물의 산책기록이 없습니다.") {
       setState(() {
         done = false;
         _loadingDone = false;
@@ -320,7 +320,7 @@ class _MainPageState extends State<MainPage> {
                                       return Container(
                                         padding: EdgeInsets.fromLTRB(
                                             20.w, 20.h, 20.w, 0),
-                                        height: 250.h,
+                                        height: 225.h,
                                         decoration: new BoxDecoration(
                                           color: pColor,
                                           borderRadius: new BorderRadius.only(

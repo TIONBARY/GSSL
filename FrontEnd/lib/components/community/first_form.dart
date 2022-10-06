@@ -170,7 +170,10 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
       ));
     } else {
       return RefreshIndicator(
-        onRefresh: () async {},
+        onRefresh: () async {
+          _getSearchList(searchController.text, _pageNumber, _pageSize);
+          getUser();
+        },
         child: Scaffold(
           appBar: AppBar(
             toolbarHeight: 70,
@@ -320,13 +323,9 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: const Text("수정",
-                                                style: TextStyle(
-                                                    fontFamily: "Sub")),
+                                            title: const Text("수정"),
                                             content: const Text(
-                                                "정말 해당 게시물을 수정하시겠습니까?",
-                                                style: TextStyle(
-                                                    fontFamily: "Sub")),
+                                                "정말 해당 게시물을 수정하시겠습니까?"),
                                             actions: <Widget>[
                                               TextBtnWidget(
                                                 name: '수정',
@@ -378,13 +377,9 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: const Text("삭제",
-                                                style: TextStyle(
-                                                    fontFamily: "Sub")),
+                                            title: const Text("삭제"),
                                             content: const Text(
-                                                "정말 해당 게시물을 삭제하시겠습니까?",
-                                                style: TextStyle(
-                                                    fontFamily: "Sub")),
+                                                "정말 해당 게시물을 삭제하시겠습니까?"),
                                             actions: <Widget>[
                                               TextBtnWidget(
                                                 name: '삭제',
@@ -431,8 +426,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                     MyBoxWidget(
                       height: 5,
                     ),
-                    const Text('게시물이 없습니다.',
-                        style: TextStyle(fontFamily: "Sub")),
+                    const Text('게시물이 없습니다.'),
                   ],
                 )),
         ),
