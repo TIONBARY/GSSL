@@ -690,7 +690,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                       height: 50.0,
                                       width: 50.0,
                                       decoration: new BoxDecoration(
-                                          color: Colors.blue,
+                                          color: btnColor,
                                           borderRadius: new BorderRadius.all(
                                               Radius.circular(50))),
                                       child: comments[i].image == null ||
