@@ -202,7 +202,7 @@ class _WalkPageState extends State<WalkPage> {
                             ),
                             Positioned(
                               top: 445.h,
-                              left: 280.w,
+                              left: 250.w,
                               child: (selectedArticles.isNotEmpty)
                                   ? FloatingActionButton(
                                       child: Icon(Icons.delete),
