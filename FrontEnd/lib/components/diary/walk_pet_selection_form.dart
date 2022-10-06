@@ -170,8 +170,8 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                                       },
                                     ),
                                     Positioned(
-                                      top: 90.h,
-                                      left: 80.w,
+                                      right: 0.w,
+                                      bottom: 0.h,
                                       child: Text(
                                         petList[index].name!,
                                         textAlign: TextAlign.right,
@@ -246,8 +246,12 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: 8.0.w, vertical: 80.0.h),
-                    child: Text('반려동물 없음',
-                        textAlign: TextAlign.center, softWrap: true),
+                    child: Text(
+                      '반려견 없음',
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      style: TextStyle(fontFamily: "Sub"),
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
