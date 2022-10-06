@@ -156,7 +156,7 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        BoardDetailPage(_aidList[0].id!)));
+                                        BoardDetailPage(_aidList[1].id!)));
                           },
                             ConstrainedBox(
                                 constraints: BoxConstraints(
