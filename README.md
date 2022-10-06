@@ -120,7 +120,6 @@
 <img src="./images/Community4.jpg" width="250" height="500"/>
 <img src="./images/Community5.jpg" width="250" height="500"/>
 <img src="./images/Community6.jpg" width="250" height="500"/>
-<img src="./images/Community7.jpg" width="250" height="500"/>
 
 ### Gitmoji의 이모지 설명
 
