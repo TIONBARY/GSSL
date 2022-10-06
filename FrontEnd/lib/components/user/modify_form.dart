@@ -628,13 +628,17 @@ class _ModifyFormState extends State<ModifyForm> {
                                   children: [
                                     Title(
                                       color: btnColor,
-                                      child: Text("정말 탈퇴하시겠습니까?",
-                                          style: TextStyle(fontSize: 13)),
+                                      child: Text(
+                                        "정말 탈퇴하시겠습니까?",
+                                        style: TextStyle(
+                                            fontSize: 13, fontFamily: "Sub"),
+                                      ),
                                     ),
                                     Title(
                                       color: btnColor,
                                       child: Text("탈퇴 시 해당 아이디로 로그인할 수 없습니다.",
-                                          style: TextStyle(fontSize: 13)),
+                                          style: TextStyle(
+                                              fontSize: 13, fontFamily: "Sub")),
                                     ),
                                     Container(
                                         width: 150.0,
@@ -653,8 +657,9 @@ class _ModifyFormState extends State<ModifyForm> {
                                                         Colors.red),
                                                 child: Text(
                                                   "확인",
-                                                  style:
-                                                      TextStyle(color: nWColor),
+                                                  style: TextStyle(
+                                                      color: nWColor,
+                                                      fontFamily: "Sub"),
                                                 ),
                                               ),
                                               ElevatedButton(
@@ -666,7 +671,8 @@ class _ModifyFormState extends State<ModifyForm> {
                                                 child: Text(
                                                   "취소",
                                                   style: TextStyle(
-                                                      color: btnColor),
+                                                      color: btnColor,
+                                                      fontFamily: "Sub"),
                                                 ),
                                               ),
                                             ]))
