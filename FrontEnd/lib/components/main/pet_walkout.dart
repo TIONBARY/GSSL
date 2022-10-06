@@ -46,41 +46,45 @@ class PetWorkout extends StatelessWidget {
                 ))),
           ]));
     } else {
-      return Container(
-          width: double.infinity,
-          height: 130.h,
-          color: nWColor,
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(10.h),
-                child: Text(
+      if (mainPet == null) {
+        return Container();
+      } else {
+        return Container(
+            width: double.infinity,
+            height: 130.h,
+            color: nWColor,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10.h),
+                  child: Text(
+                      style: TextStyle(
+                        fontFamily: "Sub",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.sp,
+                      ),
+                      done! ? "오늘은 산책을 다녀왔어요!" : "아직 산책을 못했어요.."),
+                ),
+                Text(
                     style: TextStyle(
+                      // fontFamily: "Sub",
                       fontFamily: "Sub",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.sp,
+                      fontSize: 15.sp,
                     ),
-                    done! ? "오늘은 산책을 다녀왔어요!" : "아직 산책을 못했어요.."),
-              ),
-              Text(
-                  style: TextStyle(
-                    // fontFamily: "Sub",
-                    fontFamily: "Sub",
-                    fontSize: 15.sp,
-                  ),
-                  "${user?.nickname}님과 ${mainPet?.name}의 함께한 거리와 시간은"),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
-                child: Text(
-                    style: TextStyle(
-                      fontFamily: "Sub",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.sp,
-                    ),
-                    "${walkInfo?.distance_sum}m, ${(walkInfo!.time_passed! / 60).round()}분"),
-              ),
-            ],
-          ));
+                    "${user?.nickname}님과 ${mainPet?.name}의 함께한 거리와 시간은"),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
+                  child: Text(
+                      style: TextStyle(
+                        fontFamily: "Sub",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.sp,
+                      ),
+                      "${walkInfo?.distance_sum}m, ${(walkInfo!.time_passed! / 60).round()}분"),
+                ),
+              ],
+            ));
+      }
     }
   }
 }
