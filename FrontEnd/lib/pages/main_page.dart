@@ -441,7 +441,7 @@ class blockTitle extends StatelessWidget {
     return Container(
       color: nWColor,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 10.h, 0, 0),
+        padding: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
         child: Container(
             color: nWColor,
             padding: EdgeInsets.fromLTRB(13.w, 8.h, 0, 0),
