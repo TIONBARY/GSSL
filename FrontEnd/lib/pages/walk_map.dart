@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:GSSL/api/api_pet.dart';
 import 'package:GSSL/api/api_walk.dart';
+import 'package:GSSL/components/bottomNavBar.dart';
 import 'package:GSSL/components/pet/pet_detail.dart';
 import 'package:GSSL/components/util/custom_dialog.dart';
 import 'package:GSSL/components/walk/walk_length.dart';
@@ -122,6 +123,13 @@ class _KakaoMapTestState extends State<KakaoMapTest>
       setState(() {
         allPets = getAllPetResponse.pets;
       });
+      if (allPets!.isEmpty) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomDialog("반려견을 등록해주세요.", (context) => BottomNavBar());
+            });
+      }
     } else if (getAllPetResponse.statusCode == 401) {
       showDialog(
           context: context,
