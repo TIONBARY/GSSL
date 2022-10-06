@@ -47,14 +47,15 @@ class _WalkLengthState extends State<WalkLength> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
             child: Container(
-              width: 87.w,
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
               height: 50.h,
+              width: MediaQuery.of(context).size.width / 3,
               child: Text(
                 convertMeters(widget.totalWalkLength),
                 style: TextStyle(
                   fontSize: 25.sp,
                   color: btnColor,
-                  fontFamily: 'Daehan',
+                  fontFamily: 'Title',
                 ),
                 textAlign: TextAlign.center,
               ),

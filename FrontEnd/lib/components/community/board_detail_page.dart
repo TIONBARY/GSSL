@@ -132,6 +132,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
         putComment(boardId: widget.boardId, content: commentContent));
     if (result.statusCode == 201) {
       _getComments();
+      commentController.text = "";
     } else if (result.statusCode == 401) {
       showDialog(
           context: context,
@@ -221,12 +222,18 @@ class _BoardDetailPageState extends State<BoardDetailPage>
     } else {
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           iconTheme: IconThemeData(
             color: btnColor,
-            size: 20,
+            size: 20.sp,
           ),
           toolbarHeight: 50,
           backgroundColor: pColor,
+          titleTextStyle: TextStyle(
+            fontFamily: "Sub",
+            fontSize: 20.sp,
+            color: btnColor,
+          ),
           title: Text(
             board?.typeId != null && board!.typeId! == 1
                 ? "반려견 자랑하기"
@@ -235,74 +242,82 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                     : (board?.typeId != null && board!.typeId! == 3
                         ? "질문하기"
                         : "")),
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
           ),
           leading: IconButtonWidget(
+              color: btnColor,
               iconData: Icons.arrow_back_sharp,
+              iconColor: nWColor,
               onTap: () => Navigator.of(context).pop(false)),
         ),
+        backgroundColor: nWColor,
         body: Container(
-            margin: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width / 10,
-                MediaQuery.of(context).size.height / 30,
-                MediaQuery.of(context).size.width / 10,
-                0),
+            margin: EdgeInsets.fromLTRB(25.w, 20.h, 25.w, 20.h),
             child: ListView(children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(board?.title == null ? "" : board!.title!,
-                      style: TextStyle(fontSize: 25)),
+                      style: TextStyle(fontSize: 25.sp, fontFamily: "Sub")),
                 ],
               ),
               Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      0,
-                      MediaQuery.of(context).size.height / 40,
-                      0,
-                      MediaQuery.of(context).size.height / 40),
+                  padding: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(board?.nickname == null ? "" : board!.nickname!),
-                        Text(board?.time == null
-                            ? ""
-                            : board!.time!.split("T")[0] +
-                                " " +
-                                board!.time!.split("T")[1].substring(0, 8))
+                        Text(
+                          board?.nickname == null
+                              ? ""
+                              : '작성자 : ' + board!.nickname!,
+                          style: TextStyle(fontFamily: "Sub", color: sColor),
+                        ),
+                        Text(
+                          board?.time == null
+                              ? ""
+                              : board!.time!.split("T")[0] +
+                                  " " +
+                                  board!.time!.split("T")[1].substring(0, 8),
+                          style: TextStyle(fontFamily: "Sub"),
+                        )
                       ])),
               Container(
-                // color: const Color(0xffd0cece),
-                padding: EdgeInsets.fromLTRB(
-                    0, 0, 0, MediaQuery.of(context).size.height / 40),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 20.h),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 child: Center(
                     child: board?.image == null
                         ? Text('')
-                        : SizedBox(
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
                             child: Image.network(
-                            S3Address + board!.image!,
-                          ))),
+                              S3Address + board!.image!,
+                            ),
+                          )),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: RichText(
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 10,
-                        text: TextSpan(
-                            text: board?.content == null ? "" : board!.content!,
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 20))),
-                  )
-                ],
+              Padding(
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: RichText(
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 10,
+                          text: TextSpan(
+                              text:
+                                  board?.content == null ? "" : board!.content!,
+                              style: TextStyle(
+                                  color: btnColor,
+                                  fontSize: 20.sp,
+                                  fontFamily: "Sub"))),
+                    )
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                 child: TextFormField(
+                  controller: commentController,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                   cursorColor: btnColor,
@@ -318,11 +333,11 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                   decoration: InputDecoration(
                     isCollapsed: true,
                     hintText: "댓글을 입력하세요.",
-                    hintStyle: TextStyle(color: sColor),
-                    contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                    hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
+                    contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.white)),
+                        borderSide: BorderSide(color: sColor)),
                     filled: true,
                     fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
@@ -343,7 +358,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                       child: Text(
                         "등록".toUpperCase(),
                         style: TextStyle(
-                          fontFamily: "Daehan",
+                          fontFamily: "Sub",
                         ),
                       ),
                     ),
@@ -355,9 +370,11 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                            padding: EdgeInsets.fromLTRB(0,
-                                MediaQuery.of(context).size.height / 10, 0, 0),
-                            child: Text("댓글이 없습니다."))
+                            padding: EdgeInsets.fromLTRB(0, 25.h, 0, 25.h),
+                            child: Text(
+                              "댓글이 없습니다.",
+                              style: TextStyle(fontFamily: "Sub"),
+                            ))
                       ],
                     )
                   : ListView(
@@ -367,8 +384,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                       children: [
                           for (int i = 0; i < comments.length; i++)
                             Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    2.0, 8.0, 2.0, 0.0),
+                                padding: EdgeInsets.fromLTRB(0, 7.h, 0, 7.h),
                                 child: ListTile(
                                   onTap: () {
                                     if (user?.nickname == null ||
@@ -383,7 +399,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                     BorderRadius.circular(
                                                         20.0)), //this right here
                                             child: Container(
-                                              height: 150.h,
+                                              height: 200.h,
                                               child: Padding(
                                                 padding: EdgeInsets.fromLTRB(
                                                     12.0.w,
@@ -408,10 +424,14 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                 40),
                                                         child: Title(
                                                           color: Colors.black,
-                                                          child: Text("댓글 수정",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      18.sp)),
+                                                          child: Text(
+                                                            "댓글 수정",
+                                                            style: TextStyle(
+                                                              fontSize: 18.sp,
+                                                              fontFamily:
+                                                                  "Title",
+                                                            ),
+                                                          ),
                                                         )),
                                                     TextFormField(
                                                       controller:
@@ -429,6 +449,8 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                       textInputAction:
                                                           TextInputAction.next,
                                                       cursorColor: btnColor,
+                                                      style: TextStyle(
+                                                          fontFamily: "Sub"),
                                                       onChanged: (val) {
                                                         final value = TextSelection
                                                             .collapsed(
@@ -453,7 +475,9 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                         isCollapsed: true,
                                                         hintText: "댓글을 입력하세요.",
                                                         hintStyle: TextStyle(
-                                                            color: sColor),
+                                                          color: sColor,
+                                                          fontFamily: "Sub",
+                                                        ),
                                                         contentPadding:
                                                             EdgeInsets.fromLTRB(
                                                                 20, 10, 10, 10),
@@ -465,8 +489,8 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                             10)),
                                                             borderSide:
                                                                 BorderSide(
-                                                                    color: Colors
-                                                                        .white)),
+                                                                    color:
+                                                                        sColor)),
                                                         filled: true,
                                                         fillColor: Colors.white,
                                                         focusedBorder: OutlineInputBorder(
@@ -503,11 +527,31 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                               i]
                                                                           .id);
                                                                 },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              0),
+                                                                  backgroundColor:
+                                                                      btnColor,
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5.0),
+                                                                  ),
+                                                                  tapTargetSize:
+                                                                      MaterialTapTargetSize
+                                                                          .shrinkWrap,
+                                                                ),
                                                                 child: Text(
                                                                   "확인",
                                                                   style: TextStyle(
                                                                       color: Colors
-                                                                          .white),
+                                                                          .white,
+                                                                      fontFamily:
+                                                                          "Sub"),
                                                                 ),
                                                               ),
                                                               ElevatedButton(
@@ -515,11 +559,17 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                   Navigator.pop(
                                                                       context);
                                                                 },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                        backgroundColor:
+                                                                            Colors.white),
                                                                 child: Text(
                                                                   "취소",
                                                                   style: TextStyle(
                                                                       color: Colors
-                                                                          .white),
+                                                                          .black,
+                                                                      fontFamily:
+                                                                          "Sub"),
                                                                 ),
                                                               ),
                                                             ])),
@@ -543,7 +593,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                     BorderRadius.circular(
                                                         20.0)), //this right here
                                             child: Container(
-                                              height: 120.h,
+                                              height: 150.h,
                                               child: Padding(
                                                 padding: EdgeInsets.fromLTRB(
                                                     12.0.w,
@@ -572,7 +622,9 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                               "정말 이 댓글을 삭제하시겠습니까?",
                                                               style: TextStyle(
                                                                   fontSize:
-                                                                      15.sp)),
+                                                                      15.sp,
+                                                                  fontFamily:
+                                                                      "Title")),
                                                         )),
                                                     Container(
                                                         width: 150.0.w,
@@ -594,11 +646,17 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                               i]
                                                                           .id);
                                                                 },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                        backgroundColor:
+                                                                            btnColor),
                                                                 child: Text(
                                                                   "확인",
                                                                   style: TextStyle(
                                                                       color: Colors
-                                                                          .white),
+                                                                          .white,
+                                                                      fontFamily:
+                                                                          "Sub"),
                                                                 ),
                                                               ),
                                                               ElevatedButton(
@@ -606,11 +664,17 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                   Navigator.pop(
                                                                       context);
                                                                 },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                        backgroundColor:
+                                                                            Colors.white),
                                                                 child: Text(
                                                                   "취소",
                                                                   style: TextStyle(
                                                                       color: Colors
-                                                                          .white),
+                                                                          .black,
+                                                                      fontFamily:
+                                                                          "Sub"),
                                                                 ),
                                                               ),
                                                             ])),
@@ -645,12 +709,16 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                     comments[i].nickname == null
                                         ? ""
                                         : comments[i].nickname!,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "Sub"),
                                   ),
-                                  subtitle: Text(comments[i].content == null
-                                      ? ""
-                                      : comments[i].content!),
+                                  subtitle: Text(
+                                    comments[i].content == null
+                                        ? ""
+                                        : comments[i].content!,
+                                    style: TextStyle(fontFamily: "Sub"),
+                                  ),
                                 )),
                         ]),
             ])),

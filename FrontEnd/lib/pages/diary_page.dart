@@ -28,7 +28,7 @@ class GalleryApp extends StatelessWidget {
             labelColor: btnColor,
             labelStyle: TextStyle(
               fontSize: 14.sp,
-              fontFamily: "Daehan",
+              fontFamily: "Sub",
             ),
           ),
         ),

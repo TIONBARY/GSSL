@@ -205,7 +205,7 @@ class _PetDetailState extends State<PetDetail> {
                     child: Text(
                       "수정".toUpperCase(),
                       style: TextStyle(
-                        fontFamily: "Daehan",
+                        fontFamily: "Sub",
                       ),
                     ),
                   ),
@@ -291,7 +291,7 @@ class _PetDetailState extends State<PetDetail> {
                     child: Text(
                       "삭제".toUpperCase(),
                       style: TextStyle(
-                        fontFamily: "Daehan",
+                        fontFamily: "Sub",
                       ),
                     ),
                   ),
@@ -347,15 +347,13 @@ class _petNameState extends State<petName> {
           text: pet?.name == null
               ? TextSpan(children: [
                   TextSpan(
-                      style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                      style: TextStyle(color: btnColor, fontFamily: "Sub"),
                       text: "등록된 반려견이 없습니다.")
                 ])
               : TextSpan(children: [
                   TextSpan(
                       style: TextStyle(
-                          color: btnColor,
-                          fontFamily: "Daehan",
-                          fontSize: 25.sp),
+                          color: btnColor, fontFamily: "Sub", fontSize: 25.sp),
                       text: pet!.name!),
                 ])),
     );
@@ -482,7 +480,7 @@ class _petIntroState extends State<petIntro> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: defaultPadding),
       child: TextFormField(
-        style: TextStyle(fontFamily: "Daehan", color: btnColor),
+        style: TextStyle(fontFamily: "Sub", color: btnColor),
         controller: TextEditingController()
           ..text = pet?.description == null || pet?.description!.length == 0
               ? "작성한 반려동물 소개가 없습니다."
@@ -493,7 +491,7 @@ class _petIntroState extends State<petIntro> {
         cursorColor: btnColor,
         readOnly: true,
         decoration: InputDecoration(
-          hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+          hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
           contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -523,7 +521,7 @@ class iconBox extends StatelessWidget {
         ),
         Text(
           detail,
-          style: TextStyle(fontFamily: "Sub"),
+          style: TextStyle(fontFamily: "Title"),
         ),
       ],
     );
@@ -588,13 +586,14 @@ class infoTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(2.5.w, 10.h, 0, 2.5.h),
+          padding: EdgeInsets.fromLTRB(5.w, 15.h, 0, 5.h),
           child: Text(
             title,
             style: TextStyle(
               fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
               color: btnColor,
-              fontFamily: "Daehan",
+              fontFamily: "Sub",
             ),
           ),
         ),

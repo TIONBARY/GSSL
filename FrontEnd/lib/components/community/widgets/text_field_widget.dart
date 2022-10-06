@@ -1,6 +1,6 @@
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
-
-import 'my_box_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -26,23 +26,28 @@ class TextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Text(
-              name,
-            ),
-            if (isRequired)
-              const Padding(
-                padding: EdgeInsets.only(left: 2.0),
-                child: Text(
-                  '*',
-                  style: TextStyle(color: Colors.red, fontSize: 18),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 5.h),
+          child: Row(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                  fontFamily: "Sub",
+                  fontSize: 20.sp,
+                  color: btnColor,
                 ),
-              )
-          ],
-        ),
-        MyBoxWidget(
-          height: 5,
+              ),
+              if (isRequired)
+                const Padding(
+                  padding: EdgeInsets.only(left: 2),
+                  child: Text(
+                    '*',
+                    style: TextStyle(color: Colors.red, fontSize: 15),
+                  ),
+                )
+            ],
+          ),
         ),
         TextFormField(
           validator: validator == null
@@ -61,21 +66,27 @@ class TextFieldWidget extends StatelessWidget {
           controller: controller,
           obscureText: isObscured,
           keyboardType: textInputType,
+          cursorColor: btnColor,
+          style: TextStyle(fontFamily: "Sub"),
           decoration: InputDecoration(
             isDense: true,
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+            contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
                 borderSide: BorderSide.none),
             filled: true,
-            fillColor: filledColor ?? Colors.blueGrey.withOpacity(0.15),
+            fillColor: filledColor ?? Color(0x40C3B091),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                borderSide: BorderSide(color: btnColor)),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.all(Radius.circular(15)),
               borderSide: BorderSide(
                 color: Colors.red,
               ),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.all(Radius.circular(15)),
               borderSide: BorderSide(
                 color: Colors.red,
               ),

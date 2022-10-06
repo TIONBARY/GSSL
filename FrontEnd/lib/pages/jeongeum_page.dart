@@ -15,6 +15,7 @@ ApiJeongeum apiJeongeum = ApiJeongeum();
 XFile? _video;
 final picker = ImagePicker();
 bool _loading = true;
+String emoticon = "";
 
 BuildContext? loadingContext;
 
@@ -61,9 +62,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                   ? Text(
                       '동영상을 촬영 또는 선택 해주세요',
                       style: TextStyle(
-                          fontFamily: "Daehan",
-                          fontSize: 20.sp,
-                          color: btnColor),
+                          fontFamily: "Sub", fontSize: 20.sp, color: btnColor),
                     )
                   : Stack(
                       children: [
@@ -107,7 +106,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
             centerTitle: true,
             titleTextStyle: TextStyle(
               color: nWColor,
-              fontFamily: "Daehan",
+              fontFamily: "Sub",
               fontSize: 25.sp,
             ),
             iconTheme: IconThemeData(
@@ -148,9 +147,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                       child: Text(
                         '분석',
                         style: TextStyle(
-                            fontFamily: "Daehan",
-                            fontSize: 20.sp,
-                            color: nWColor),
+                            fontFamily: "Sub", fontSize: 20.sp, color: nWColor),
                       ),
                       onPressed: () {
                         if (_video == null) {
@@ -194,7 +191,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          Future.delayed(Duration(seconds: 3), () {
+          Future.delayed(Duration(seconds: 5), () {
             Navigator.pop(context);
           });
           return AlertDialog(
@@ -207,7 +204,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                 Text(
                   "촬영 가이드",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                  style: TextStyle(fontFamily: "Sub", color: btnColor),
                 ),
               ],
             ),
@@ -216,8 +213,8 @@ class _JeongeumPageState extends State<JeongeumPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  "강아지가 가운데 오도록 찍어주세요.",
-                  style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                  "강아지가 가운데 오도록 찍어주세요.\n동영상 길이는 5초 이내로 해주세요.",
+                  style: TextStyle(fontFamily: "Sub", color: btnColor),
                 ),
               ],
             ),
@@ -265,13 +262,11 @@ class _JeongeumPageState extends State<JeongeumPage> {
                       children: [
                         Text(
                           '잠시만 기다려주세요.',
-                          style:
-                              TextStyle(fontFamily: "Daehan", color: btnColor),
+                          style: TextStyle(fontFamily: "Sub", color: btnColor),
                         ),
                         Text(
-                          '30초 가량 소요됩니다.',
-                          style:
-                              TextStyle(fontFamily: "Daehan", color: btnColor),
+                          '1분 가량 소요됩니다.',
+                          style: TextStyle(fontFamily: "Sub", color: btnColor),
                         ),
                       ],
                     ),
@@ -290,6 +285,15 @@ class _JeongeumPageState extends State<JeongeumPage> {
         _loading = false;
       });
       diagnosisResult = diagnosisResult.replaceAll("_", " 또는 ");
+      if (diagnosisResult == "행복 또는 즐거움") {
+        emoticon = "assets/images/laughing.png";
+      } else if (diagnosisResult == "편안 또는 안정") {
+        emoticon = "assets/images/grinning.png";
+      } else if (diagnosisResult == "화남 또는 불쾌") {
+        emoticon = "assets/images/angry-face.png";
+      } else if (diagnosisResult == "불안 또는 슬픔") {
+        emoticon = "assets/images/cry.png";
+      }
       if (!_loading) {
         Navigator.pop(loadingContext!);
         showModalBottomSheet<void>(
@@ -311,11 +315,15 @@ class _JeongeumPageState extends State<JeongeumPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('강아지는 현재'),
+                  Image.asset(emoticon, width: 80, height: 80),
                   Padding(padding: EdgeInsets.all(10)),
-                  Text('${diagnosisResult}', style: TextStyle(fontSize: 24)),
-                  Padding(padding: EdgeInsets.all(10)),
-                  Text('한 상태입니다.')
+                  Text(
+                    '강아지는 현재 ${diagnosisResult} 상태입니다.',
+                    style: TextStyle(
+                        fontFamily: "Daehan",
+                        fontSize: 20.sp,
+                        color: Colors.black),
+                  )
                   // FloatingActionButton(
                   //   child: Icon(Icons.save_alt_outlined),
                   //   tooltip: 'save',

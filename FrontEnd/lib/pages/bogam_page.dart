@@ -36,6 +36,9 @@ ApiBogam apiBogam = ApiBogam();
 XFile? _image;
 final picker = ImagePicker();
 int count = 0;
+bool _loading = true;
+
+BuildContext? loadingContext;
 
 class BogamPage extends StatefulWidget {
   const BogamPage({Key? key}) : super(key: key);
@@ -89,7 +92,7 @@ class _BogamPageState extends State<BogamPage> {
 
   Future<void> getMainPet() async {
     getPetDetail? getMainPetResponse =
-    await apiPet.getPetDetailApi(user?.petId);
+        await apiPet.getPetDetailApi(user?.petId);
     if (getMainPetResponse.statusCode == 200) {
       setState(() {
         mainPet = getMainPetResponse.pet;
@@ -223,102 +226,8 @@ class _BogamPageState extends State<BogamPage> {
                         } else {
                           _diagnosis();
                           loadingDialog();
-                          Future.delayed(const Duration(milliseconds: 40000),
-                              () {
-                            showModalBottomSheet<void>(
-                              context: context,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              builder: (BuildContext context) {
-                                return Container(
-                                  height: 300.h,
-                                  decoration: new BoxDecoration(
-                                    color: pColor,
-                                    borderRadius: new BorderRadius.only(
-                                      topLeft: const Radius.circular(25.0),
-                                      topRight: const Radius.circular(25.0),
-                                    ),
-                                  ),
-                                  padding:
-                                      EdgeInsets.fromLTRB(30.w, 0, 30.w, 0),
-                                  child: count == 0
-                                      ? Center(
-                                    child: Text('${mainPet?.name}는 건강합니다.',
-                                      style: TextStyle(
-                                          fontFamily: "Daehan",
-                                          fontSize: 20.sp,
-                                          color: Colors.black
-                                      ),
-                                    ),
-                                  )
-                                      : Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.all(15.h),
-                                        child: Text('해당 질병이 의심됩니다.',
-                                            style: TextStyle(
-                                                fontFamily: "Daehan",
-                                                color: btnColor)),
-                                      ),
-                                      for(int i = 0; i < count; i++)
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                                  3,
-                                              child: Text(
-                                                  diagnosisResult.elementAt(i),
-                                                  style: TextStyle(
-                                                      fontFamily: "Daehan",
-                                                      color: btnColor)),
-                                            ),
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                                  3,
-                                              child: Text(
-                                                  '${diagnosisPercent.elementAt(i)}%',
-                                                  style: TextStyle(
-                                                      fontFamily: "Daehan",
-                                                      color: btnColor)),
-                                            ),
-                                            Container(
-                                              child: IconButton(
-                                                onPressed: () async {
-                                                  Uri _url = Uri.parse(
-                                                      'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=강아지' +
-                                                          diagnosisResult
-                                                              .elementAt(i));
-                                                  if (!await launchUrl(_url)) {
-                                                    throw 'Could not launch $_url';
-                                                  }
-                                                },
-                                                icon: Icon(Icons.help_outline),
-                                                color: btnColor,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      IconButton(
-                                        padding: EdgeInsets.all(10.h),
-                                        icon: Icon(Icons.save_alt_outlined,
-                                            color: btnColor),
-                                        onPressed: () {
-                                          _writeJournal();
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          });
+                          Future.delayed(
+                              const Duration(milliseconds: 40000), () {});
                         }
                       }),
                   // 갤러리에서 이미지를 가져오는 버튼
@@ -400,10 +309,7 @@ class _BogamPageState extends State<BogamPage> {
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
         builder: (BuildContext context) {
-          Future.delayed(Duration(milliseconds: 40000), () {
-            Navigator.pop(context);
-          });
-
+          loadingContext = context;
           return AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0)),
@@ -424,7 +330,7 @@ class _BogamPageState extends State<BogamPage> {
                               TextStyle(fontFamily: "Daehan", color: btnColor),
                         ),
                         Text(
-                          '40초 가량 소요됩니다.',
+                          '1분 가량 소요됩니다.',
                           style:
                               TextStyle(fontFamily: "Daehan", color: btnColor),
                         ),
@@ -446,9 +352,120 @@ class _BogamPageState extends State<BogamPage> {
     }
     index = 0;
     for (int value in result.values) {
-      if(value > 50 && count < 3) count++;
+      if (value > 50 && count < 3) count++;
       diagnosisPercent[index++] = value;
       if (index == 3) break;
     }
+    Navigator.pop(loadingContext!);
+    showModalBottomSheet<void>(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25.0),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          height: 300.h,
+          decoration: new BoxDecoration(
+            color: pColor,
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(25.0),
+              topRight: const Radius.circular(25.0),
+            ),
+          ),
+          padding: EdgeInsets.fromLTRB(30.w, 0, 30.w, 0),
+          child: count == 0
+                  ? Center(
+                child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('▼・ᴥ・▼', style: TextStyle(fontSize: 50),),
+                        Padding(padding: EdgeInsets.all(10)),
+                        Text(
+                          '${mainPet?.name}는 건강합니다.',
+                          style: TextStyle(
+                              fontFamily: "Daehan",
+                              fontSize: 20.sp,
+                              color: Colors.black),
+                        ),
+                        Padding(padding: EdgeInsets.all(10)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.campaign, color: Colors.red),
+                            Text(' 결과는 참고용으로만 사용하세요.',
+                              style: TextStyle(
+                                  fontFamily: "Daehan",
+                                  fontSize: 20.sp,
+                                  color: Colors.red),
+                            ),
+                          ],
+                        ),
+                      ],
+                ),
+              )
+                  : Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(15.h),
+                    child: Text('해당 질병이 의심됩니다.',
+                        style:
+                        TextStyle(fontFamily: "Daehan", color: btnColor)),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.campaign, color: Colors.red),
+                      Text(' 결과는 참고용으로만 사용하세요.',
+                        style: TextStyle(
+                            fontFamily: "Daehan",
+                            fontSize: 20.sp,
+                            color: Colors.red),
+                      ),
+                    ],
+                  ),
+                  for (int i = 0; i < count; i++)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: Text(diagnosisResult.elementAt(i),
+                              style: TextStyle(
+                                  fontFamily: "Daehan", color: btnColor)),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: Text('${diagnosisPercent.elementAt(i)}%',
+                              style: TextStyle(
+                                  fontFamily: "Daehan", color: btnColor)),
+                        ),
+                        Container(
+                          child: IconButton(
+                            onPressed: () async {
+                              Uri _url = Uri.parse(
+                                  'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=강아지' +
+                                      diagnosisResult.elementAt(i));
+                              if (!await launchUrl(_url)) {
+                                throw 'Could not launch $_url';
+                              }
+                            },
+                            icon: Icon(Icons.help_outline),
+                            color: btnColor,
+                          ),
+                        )
+                      ],
+                    ),
+                  IconButton(
+                    padding: EdgeInsets.all(10.h),
+                    icon: Icon(Icons.save_alt_outlined, color: btnColor),
+                    onPressed: () {
+                      _writeJournal();
+                    },
+                  ),
+                ],
+              ),
+        );
+      },
+    );
   }
 }

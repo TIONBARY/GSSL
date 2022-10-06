@@ -79,12 +79,12 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                                   color: btnColor,
                                   fontSize: 25.sp,
                                   fontWeight: FontWeight.w500,
-                                  fontFamily: "Daehan"),
+                                  fontFamily: "Sub"),
                             ),
                             Text(
                               '$title',
                               style: TextStyle(
-                                fontFamily: "Daehan",
+                                fontFamily: "Sub",
                                 color: sColor,
                                 fontSize: 11.sp,
                               ),
@@ -97,7 +97,7 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                               style: TextStyle(
                                 color: btnColor,
                                 fontSize: 20.sp,
-                                fontFamily: "Daehan",
+                                fontFamily: "Sub",
                               ),
                             ),
                             // Text(
@@ -126,7 +126,7 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                                 '뒤로가기',
                                 style: TextStyle(
                                   color: nWColor,
-                                  fontFamily: "Daehan",
+                                  fontFamily: "Sub",
                                   fontSize: 15.sp,
                                 ),
                               ),
@@ -139,7 +139,7 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                 ),
                 Positioned(
                   top: 12.5.h,
-                  left: 300.w,
+                  left: 250.w,
                   child: FloatingActionButton(
                       child: Icon(Icons.edit),
                       elevation: 5,
@@ -161,7 +161,7 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                 ),
                 Positioned(
                   top: 12.5.h,
-                  left: 350.w,
+                  left: 300.w,
                   child: FloatingActionButton(
                       child: Icon(Icons.delete),
                       elevation: 5,

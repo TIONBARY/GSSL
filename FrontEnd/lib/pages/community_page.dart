@@ -3,6 +3,7 @@ import 'package:GSSL/components/community/second_form.dart';
 import 'package:GSSL/components/community/third_form.dart';
 import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() => runApp(
     MaterialApp(debugShowCheckedModeBanner: false, home: CommunityApp()));
@@ -33,8 +34,8 @@ class CommunityApp extends StatelessWidget {
               unselectedLabelColor: sColor,
               labelColor: btnColor,
               labelStyle: TextStyle(
-                fontSize: 15,
-                fontFamily: "Daehan",
+                fontSize: 15.sp,
+                fontFamily: "Sub",
               ),
             ),
           ),
