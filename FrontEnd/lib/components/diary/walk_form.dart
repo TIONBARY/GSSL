@@ -46,7 +46,7 @@ class _WalkPageState extends State<WalkPage> {
                           child: Container(
                         padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: nWColor,
                           image: DecorationImage(
                               fit: BoxFit.contain,
                               image:
@@ -182,8 +182,8 @@ class _WalkPageState extends State<WalkPage> {
                                             )
                                           : Container(),
                                       Positioned(
-                                        top: 100.h,
-                                        left: 75.w,
+                                        right: 0.h,
+                                        bottom: 0.h,
                                         child: Text(
                                           toMonth(infoList[index].endTime!),
                                           textAlign: TextAlign.right,
@@ -201,8 +201,8 @@ class _WalkPageState extends State<WalkPage> {
                               itemCount: infoList.length,
                             ),
                             Positioned(
-                              top: 445.h,
-                              left: 250.w,
+                              right: 0.h,
+                              bottom: 0.h,
                               child: (selectedArticles.isNotEmpty)
                                   ? FloatingActionButton(
                                       child: Icon(Icons.delete),

@@ -1,3 +1,4 @@
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 
 class CardWidget extends StatelessWidget {
@@ -65,16 +66,16 @@ class CardWidget extends StatelessWidget {
           top: 20,
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.black,
+                color: btnColor,
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.black)),
+                border: Border.all(color: btnColor)),
           ),
         ),
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Theme.of(context).cardColor,
-              border: Border.all(color: Colors.black)),
+              border: Border.all(color: btnColor)),
           margin: EdgeInsets.only(left: ml!, right: mr!, top: mt!, bottom: mb!),
           padding:
               EdgeInsets.only(left: pl!, right: pr!, top: pt!, bottom: pb!),

@@ -115,7 +115,7 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                       child: Container(
                         padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 15.h),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: nWColor,
                         ),
                         child: Stack(children: [
                           GridView.builder(
