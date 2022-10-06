@@ -70,6 +70,7 @@ class _ModifyFormState extends State<ModifyForm> {
         introduce = user?.introduce;
         nicknameController = TextEditingController()
           ..text = nickname == null || nickname!.length == 0 ? "" : nickname!;
+        _loading = false;
       });
       if (user?.profilePic == null || user!.profilePic!.length == 0) return;
       final url = S3Address + user!.profilePic!; // <-- 1
@@ -85,7 +86,6 @@ class _ModifyFormState extends State<ModifyForm> {
       file2.writeAsBytesSync(response.bodyBytes); // <-- 3
       setState(() {
         profileImage = file2;
-        _loading = false;
       });
     } else if (userInfoResponse.statusCode == 401) {
       showDialog(
