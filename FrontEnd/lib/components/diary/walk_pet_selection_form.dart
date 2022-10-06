@@ -240,39 +240,51 @@ class WalkPetSelectionPageState extends State<WalkPetSelectionPage> {
                     )
                   ])));
             } else {
-              return Container(
-                  child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 8.0.w, vertical: 80.0.h),
-                    child: Text(
-                      '반려견 없음',
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      style: TextStyle(fontFamily: "Sub"),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
-                      foregroundColor: sColor,
-                      backgroundColor: sColor,
-                    ),
-                    child: Text(
-                      '뒤로가기',
-                      style: TextStyle(
-                        color: nWColor,
-                        fontFamily: "Sub",
-                        fontSize: 15.sp,
-                      ),
-                    ),
-                  ),
-                ],
-              ));
+              return Scaffold(
+                  body: Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8.0.w, vertical: 200.h),
+                            child: Text(
+                              '등록한 반려견이 없습니다.',
+                              textAlign: TextAlign.center,
+                              softWrap: true,
+                              style: TextStyle(fontFamily: "Sub", fontSize: 20),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  style: TextButton.styleFrom(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 10.h),
+                                    foregroundColor: sColor,
+                                    backgroundColor: sColor,
+                                  ),
+                                  child: Text(
+                                    '뒤로가기',
+                                    style: TextStyle(
+                                      color: nWColor,
+                                      fontFamily: "Sub",
+                                      fontSize: 15.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      )));
             }
           }
         });
