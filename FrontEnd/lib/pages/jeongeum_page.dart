@@ -62,9 +62,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                   ? Text(
                       '동영상을 촬영 또는 선택 해주세요',
                       style: TextStyle(
-                          fontFamily: "Daehan",
-                          fontSize: 20.sp,
-                          color: btnColor),
+                          fontFamily: "Sub", fontSize: 20.sp, color: btnColor),
                     )
                   : Stack(
                       children: [
@@ -108,7 +106,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
             centerTitle: true,
             titleTextStyle: TextStyle(
               color: nWColor,
-              fontFamily: "Daehan",
+              fontFamily: "Sub",
               fontSize: 25.sp,
             ),
             iconTheme: IconThemeData(
@@ -149,9 +147,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                       child: Text(
                         '분석',
                         style: TextStyle(
-                            fontFamily: "Daehan",
-                            fontSize: 20.sp,
-                            color: nWColor),
+                            fontFamily: "Sub", fontSize: 20.sp, color: nWColor),
                       ),
                       onPressed: () {
                         if (_video == null) {
@@ -208,7 +204,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
                 Text(
                   "촬영 가이드",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                  style: TextStyle(fontFamily: "Sub", color: btnColor),
                 ),
               ],
             ),
@@ -218,7 +214,7 @@ class _JeongeumPageState extends State<JeongeumPage> {
               children: <Widget>[
                 Text(
                   "강아지가 가운데 오도록 찍어주세요.\n동영상 길이는 5초 이내로 해주세요.",
-                  style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                  style: TextStyle(fontFamily: "Sub", color: btnColor),
                 ),
               ],
             ),
@@ -266,13 +262,11 @@ class _JeongeumPageState extends State<JeongeumPage> {
                       children: [
                         Text(
                           '잠시만 기다려주세요.',
-                          style:
-                              TextStyle(fontFamily: "Daehan", color: btnColor),
+                          style: TextStyle(fontFamily: "Sub", color: btnColor),
                         ),
                         Text(
                           '1분 가량 소요됩니다.',
-                          style:
-                              TextStyle(fontFamily: "Daehan", color: btnColor),
+                          style: TextStyle(fontFamily: "Sub", color: btnColor),
                         ),
                       ],
                     ),

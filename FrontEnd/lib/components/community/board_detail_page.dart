@@ -230,7 +230,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
           toolbarHeight: 50,
           backgroundColor: pColor,
           titleTextStyle: TextStyle(
-            fontFamily: "Daehan",
+            fontFamily: "Sub",
             fontSize: 20.sp,
             color: btnColor,
           ),
@@ -257,7 +257,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(board?.title == null ? "" : board!.title!,
-                      style: TextStyle(fontSize: 25.sp, fontFamily: "Daehan")),
+                      style: TextStyle(fontSize: 25.sp, fontFamily: "Sub")),
                 ],
               ),
               Padding(
@@ -269,7 +269,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                           board?.nickname == null
                               ? ""
                               : '작성자 : ' + board!.nickname!,
-                          style: TextStyle(fontFamily: "Daehan", color: sColor),
+                          style: TextStyle(fontFamily: "Sub", color: sColor),
                         ),
                         Text(
                           board?.time == null
@@ -277,7 +277,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                               : board!.time!.split("T")[0] +
                                   " " +
                                   board!.time!.split("T")[1].substring(0, 8),
-                          style: TextStyle(fontFamily: "Daehan"),
+                          style: TextStyle(fontFamily: "Sub"),
                         )
                       ])),
               Container(
@@ -309,7 +309,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                               style: TextStyle(
                                   color: btnColor,
                                   fontSize: 20.sp,
-                                  fontFamily: "Daehan"))),
+                                  fontFamily: "Sub"))),
                     )
                   ],
                 ),
@@ -333,7 +333,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                   decoration: InputDecoration(
                     isCollapsed: true,
                     hintText: "댓글을 입력하세요.",
-                    hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+                    hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
                     contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -358,7 +358,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                       child: Text(
                         "등록".toUpperCase(),
                         style: TextStyle(
-                          fontFamily: "Daehan",
+                          fontFamily: "Sub",
                         ),
                       ),
                     ),
@@ -371,7 +371,10 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                       children: [
                         Container(
                             padding: EdgeInsets.fromLTRB(0, 25.h, 0, 25.h),
-                            child: Text("댓글이 없습니다."))
+                            child: Text(
+                              "댓글이 없습니다.",
+                              style: TextStyle(fontFamily: "Sub"),
+                            ))
                       ],
                     )
                   : ListView(
@@ -706,12 +709,16 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                     comments[i].nickname == null
                                         ? ""
                                         : comments[i].nickname!,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "Sub"),
                                   ),
-                                  subtitle: Text(comments[i].content == null
-                                      ? ""
-                                      : comments[i].content!),
+                                  subtitle: Text(
+                                    comments[i].content == null
+                                        ? ""
+                                        : comments[i].content!,
+                                    style: TextStyle(fontFamily: "Sub"),
+                                  ),
                                 )),
                         ]),
             ])),

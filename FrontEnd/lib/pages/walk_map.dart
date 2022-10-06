@@ -166,7 +166,7 @@ class _KakaoMapTestState extends State<KakaoMapTest>
           ),
           SnappingPosition.pixels(
             // 원하는 높이만큼 보임
-            positionPixels: 100.h,
+            positionPixels: 150.h,
             snappingCurve: Curves.elasticOut,
             snappingDuration: Duration(milliseconds: 1750),
           ),

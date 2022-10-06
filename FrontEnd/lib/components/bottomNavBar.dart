@@ -82,7 +82,7 @@ PersistentBottomNavBarItem _btnItem({
   return PersistentBottomNavBarItem(
     title: title,
     icon: Icon(icon),
-    textStyle: const TextStyle(fontFamily: "Daehan"),
+    textStyle: const TextStyle(fontFamily: "Sub"),
     activeColorPrimary: sColor,
     inactiveColorPrimary: btnColor,
     activeColorSecondary: Colors.white,
