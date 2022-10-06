@@ -139,7 +139,7 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                 ),
                 Positioned(
                   top: 12.5.h,
-                  left: 300.w,
+                  left: 250.w,
                   child: FloatingActionButton(
                       child: Icon(Icons.edit),
                       elevation: 5,
@@ -161,7 +161,7 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                 ),
                 Positioned(
                   top: 12.5.h,
-                  left: 350.w,
+                  left: 300.w,
                   child: FloatingActionButton(
                       child: Icon(Icons.delete),
                       elevation: 5,
