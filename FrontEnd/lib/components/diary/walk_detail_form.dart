@@ -118,7 +118,7 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                                 Navigator.pop(context);
                               },
                               style: TextButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 10.h),
+                                padding: EdgeInsets.symmetric(vertical: 12.5.h),
                                 foregroundColor: btnColor,
                                 backgroundColor: btnColor,
                               ),
@@ -138,8 +138,8 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                   ),
                 ),
                 Positioned(
-                  top: 12.5.h,
-                  left: 250.w,
+                  right: 50.w,
+                  bottom: 50.h,
                   child: FloatingActionButton(
                       child: Icon(Icons.edit),
                       elevation: 5,
@@ -160,8 +160,8 @@ class _WalkDetailsPageState extends State<WalkDetailsPage> {
                       }),
                 ),
                 Positioned(
-                  top: 12.5.h,
-                  left: 300.w,
+                  right: 0.w,
+                  bottom: 50.h,
                   child: FloatingActionButton(
                       child: Icon(Icons.delete),
                       elevation: 5,
