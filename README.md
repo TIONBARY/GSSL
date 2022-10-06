@@ -64,7 +64,12 @@
 <img src="https://img.shields.io/badge/FFE6BC-FFE6BC?style=for-the-badge&logo=&logoColor=white">
 <img src="https://img.shields.io/badge/FFFDF4-FFFDF4?style=for-the-badge&logo=&logoColor=white">
 
-# JIRA 
+# JIRA
+![JIRA](images/지라.PNG)
+
+# 세부기능
+
+
 
 
 
