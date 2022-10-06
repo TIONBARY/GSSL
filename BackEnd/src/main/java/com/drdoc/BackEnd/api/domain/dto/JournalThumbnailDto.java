@@ -25,7 +25,7 @@ public class JournalThumbnailDto {
     
 	public JournalThumbnailDto(Journal journal) {
 		this.journal_id = journal.getId();
-		this.pet_id = journal.getPet_id();
+		this.pet_id = journal.getPetId();
 		this.picture = journal.getPicture();
 		this.result = journal.getResult();
 		this.created_date = journal.getCreated_date();
