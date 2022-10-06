@@ -111,8 +111,12 @@ class _BogamPageState extends State<BogamPage> {
     }
     generalResponse result = await apiDiary.register(
         _image,
+        diagnosisPercent[0] > 50 ?
         putPetJournal(
-            petId: user!.petId!, part: "눈", result: diagnosisResult[0]));
+            petId: user!.petId!, part: "눈", result: diagnosisResult[0])
+        : putPetJournal(
+            petId: user!.petId!, part: "눈", result: '정상')
+    );
     if (result.statusCode == 201) {
       showDialog(
           context: context,
@@ -383,7 +387,7 @@ class _BogamPageState extends State<BogamPage> {
                       ),
                       Padding(padding: EdgeInsets.all(10)),
                       Text(
-                        '${mainPet?.name}는 건강합니다.',
+                        '${mainPet?.name}는(은) 건강합니다.',
                         style: TextStyle(
                             fontFamily: "Sub",
                             fontSize: 20.sp,
@@ -402,6 +406,13 @@ class _BogamPageState extends State<BogamPage> {
                                 color: Colors.red),
                           ),
                         ],
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.all(10.h),
+                        icon: Icon(Icons.save_alt_outlined, color: btnColor),
+                        onPressed: () {
+                          _writeJournal();
+                        },
                       ),
                     ],
                   ),
