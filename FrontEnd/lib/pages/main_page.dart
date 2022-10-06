@@ -194,7 +194,7 @@ class _MainPageState extends State<MainPage> {
         _loadingDone = false;
       });
     } else if (getWalkDoneResponse.statusCode == 400 &&
-        getWalkDoneResponse.message == "해당 반려동물의 산책기록이 없습니다.") {
+        getWalkDoneResponse.message == "해당 반려견의 산책기록이 없습니다.") {
       setState(() {
         done = false;
         _loadingDone = false;
