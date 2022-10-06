@@ -132,6 +132,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
         putComment(boardId: widget.boardId, content: commentContent));
     if (result.statusCode == 201) {
       _getComments();
+      commentController.text = "";
     } else if (result.statusCode == 401) {
       showDialog(
           context: context,
@@ -316,6 +317,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                 child: TextFormField(
+                  controller: commentController,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                   cursorColor: btnColor,
@@ -394,7 +396,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                     BorderRadius.circular(
                                                         20.0)), //this right here
                                             child: Container(
-                                              height: 150.h,
+                                              height: 200.h,
                                               child: Padding(
                                                 padding: EdgeInsets.fromLTRB(
                                                     12.0.w,
@@ -419,10 +421,14 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                 40),
                                                         child: Title(
                                                           color: Colors.black,
-                                                          child: Text("댓글 수정",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      18.sp)),
+                                                          child: Text(
+                                                            "댓글 수정",
+                                                            style: TextStyle(
+                                                              fontSize: 18.sp,
+                                                              fontFamily:
+                                                                  "Title",
+                                                            ),
+                                                          ),
                                                         )),
                                                     TextFormField(
                                                       controller:
@@ -440,6 +446,8 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                       textInputAction:
                                                           TextInputAction.next,
                                                       cursorColor: btnColor,
+                                                      style: TextStyle(
+                                                          fontFamily: "Sub"),
                                                       onChanged: (val) {
                                                         final value = TextSelection
                                                             .collapsed(
@@ -464,7 +472,9 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                         isCollapsed: true,
                                                         hintText: "댓글을 입력하세요.",
                                                         hintStyle: TextStyle(
-                                                            color: sColor),
+                                                          color: sColor,
+                                                          fontFamily: "Sub",
+                                                        ),
                                                         contentPadding:
                                                             EdgeInsets.fromLTRB(
                                                                 20, 10, 10, 10),
@@ -476,8 +486,8 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                             10)),
                                                             borderSide:
                                                                 BorderSide(
-                                                                    color: Colors
-                                                                        .white)),
+                                                                    color:
+                                                                        sColor)),
                                                         filled: true,
                                                         fillColor: Colors.white,
                                                         focusedBorder: OutlineInputBorder(
@@ -514,11 +524,31 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                               i]
                                                                           .id);
                                                                 },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              0),
+                                                                  backgroundColor:
+                                                                      btnColor,
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5.0),
+                                                                  ),
+                                                                  tapTargetSize:
+                                                                      MaterialTapTargetSize
+                                                                          .shrinkWrap,
+                                                                ),
                                                                 child: Text(
                                                                   "확인",
                                                                   style: TextStyle(
                                                                       color: Colors
-                                                                          .white),
+                                                                          .white,
+                                                                      fontFamily:
+                                                                          "Sub"),
                                                                 ),
                                                               ),
                                                               ElevatedButton(
@@ -526,11 +556,17 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                   Navigator.pop(
                                                                       context);
                                                                 },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                        backgroundColor:
+                                                                            Colors.white),
                                                                 child: Text(
                                                                   "취소",
                                                                   style: TextStyle(
                                                                       color: Colors
-                                                                          .white),
+                                                                          .black,
+                                                                      fontFamily:
+                                                                          "Sub"),
                                                                 ),
                                                               ),
                                                             ])),
@@ -554,7 +590,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                     BorderRadius.circular(
                                                         20.0)), //this right here
                                             child: Container(
-                                              height: 120.h,
+                                              height: 150.h,
                                               child: Padding(
                                                 padding: EdgeInsets.fromLTRB(
                                                     12.0.w,
@@ -583,7 +619,9 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                               "정말 이 댓글을 삭제하시겠습니까?",
                                                               style: TextStyle(
                                                                   fontSize:
-                                                                      15.sp)),
+                                                                      15.sp,
+                                                                  fontFamily:
+                                                                      "Title")),
                                                         )),
                                                     Container(
                                                         width: 150.0.w,
@@ -605,11 +643,17 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                               i]
                                                                           .id);
                                                                 },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                        backgroundColor:
+                                                                            btnColor),
                                                                 child: Text(
                                                                   "확인",
                                                                   style: TextStyle(
                                                                       color: Colors
-                                                                          .white),
+                                                                          .white,
+                                                                      fontFamily:
+                                                                          "Sub"),
                                                                 ),
                                                               ),
                                                               ElevatedButton(
@@ -617,11 +661,17 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                                   Navigator.pop(
                                                                       context);
                                                                 },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                        backgroundColor:
+                                                                            Colors.white),
                                                                 child: Text(
                                                                   "취소",
                                                                   style: TextStyle(
                                                                       color: Colors
-                                                                          .white),
+                                                                          .black,
+                                                                      fontFamily:
+                                                                          "Sub"),
                                                                 ),
                                                               ),
                                                             ])),
