@@ -10,7 +10,7 @@ class DismissibleBackgroundWidget extends StatelessWidget {
       {required this.icon,
       required this.backgroundColor,
       required this.alignment,
-      this.iconColor = Colors.black});
+      this.iconColor = btnColor});
   @override
   Widget build(BuildContext context) {
     return Container(

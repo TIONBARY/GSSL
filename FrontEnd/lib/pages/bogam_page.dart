@@ -385,9 +385,9 @@ class _BogamPageState extends State<BogamPage> {
                       Text(
                         '${mainPet?.name}는 건강합니다.',
                         style: TextStyle(
-                            fontFamily: "Daehan",
+                            fontFamily: "Sub",
                             fontSize: 20.sp,
-                            color: Colors.black),
+                            color: btnColor),
                       ),
                       Padding(padding: EdgeInsets.all(10)),
                       Row(
