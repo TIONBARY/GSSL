@@ -36,6 +36,7 @@ class _WalkTimerState extends State<WalkTimer> {
               padding: EdgeInsets.fromLTRB(0, 25.h, 0, 0),
               child: Container(
                 height: 50.h,
+                width: MediaQuery.of(context).size.width / 3,
                 child: Text(
                   displayTime.split('.')[0],
                   style: TextStyle(
