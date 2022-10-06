@@ -316,7 +316,7 @@ class _MainPageState extends State<MainPage> {
                                     return Container(
                                       padding: EdgeInsets.fromLTRB(
                                           20.w, 20.h, 20.w, 0),
-                                      height: 225.h,
+                                      height: 250.h,
                                       decoration: new BoxDecoration(
                                         color: pColor,
                                         borderRadius: new BorderRadius.only(
