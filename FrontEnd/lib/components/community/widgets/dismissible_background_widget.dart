@@ -1,3 +1,4 @@
+import 'package:GSSL/constants.dart';
 import 'package:flutter/material.dart';
 
 class DismissibleBackgroundWidget extends StatelessWidget {
@@ -30,7 +31,7 @@ class DismissibleBackgroundWidget extends StatelessWidget {
             topRight:
                 Radius.circular(alignment == Alignment.centerLeft ? 10 : 0),
           ),
-          color: Colors.white),
+          color: nWColor),
       child: IntrinsicWidth(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,

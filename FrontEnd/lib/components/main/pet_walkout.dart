@@ -59,10 +59,10 @@ class PetWorkout extends StatelessWidget {
                   padding: EdgeInsets.all(10.h),
                   child: Text(
                       style: TextStyle(
-                        fontFamily: "Sub",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.sp,
-                      ),
+                          fontFamily: "Sub",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.sp,
+                          color: btnColor),
                       done! ? "오늘은 산책을 다녀왔어요!" : "아직 산책을 못했어요.."),
                 ),
                 Text(
@@ -76,11 +76,11 @@ class PetWorkout extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
                   child: Text(
                       style: TextStyle(
-                        fontFamily: "Sub",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.sp,
-                      ),
-                      "${walkInfo?.distance_sum}m, ${(walkInfo!.time_passed! / 60).round()}분"),
+                          fontFamily: "Sub",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.sp,
+                          color: btnColor),
+                      "총 ${walkInfo?.distance_sum}m, ${(walkInfo!.time_passed! / 60).round()}분"),
                 ),
               ],
             ));

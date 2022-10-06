@@ -258,7 +258,7 @@ class _PetDetailState extends State<PetDetail> {
                                                   child: Text(
                                                     "확인",
                                                     style: TextStyle(
-                                                        color: Colors.white),
+                                                        color: nWColor),
                                                   ),
                                                 ),
                                                 ElevatedButton(
@@ -268,7 +268,7 @@ class _PetDetailState extends State<PetDetail> {
                                                   style:
                                                       ElevatedButton.styleFrom(
                                                           backgroundColor:
-                                                              Colors.white),
+                                                              nWColor),
                                                   child: Text(
                                                     "취소",
                                                     style: TextStyle(
