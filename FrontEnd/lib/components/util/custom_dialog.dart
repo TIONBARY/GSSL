@@ -23,7 +23,8 @@ class CustomDialog extends StatelessWidget {
             children: [
               Title(
                 color: btnColor,
-                child: Text(text, style: TextStyle(fontSize: 15.sp)),
+                child: Text(text,
+                    style: TextStyle(fontSize: 15.sp, fontFamily: "Sub")),
               ),
               Container(
                 width: 60.w,
@@ -47,7 +48,7 @@ class CustomDialog extends StatelessWidget {
                   },
                   child: Text(
                     "확인",
-                    style: TextStyle(color: nWColor),
+                    style: TextStyle(color: nWColor, fontFamily: "Sub"),
                   ),
                 ),
               )
