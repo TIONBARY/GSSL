@@ -1,3 +1,53 @@
+# 서비스명
+![Logo](images/mainlogo2.svg)
+
+# 개요
+- **프로젝트 기간** : 2022.08.22 ~ 2022.10.07 (7주)
+  - AI를 통한 행동분석 및 1차 진단이 가능한 반려견 종합 케어 앱
+- **주요 기능**
+  1. 반려견의 안구사진을 진단하여 현재 가지고 있는 질환은 알아낸다
+  2. 반려견의 행동영상을 진단하여 현재 반려견의 감정을 분석한다.
+  3. 1&2에서 진단받은 결과를 일지에 저장, 공유할 수 있다.
+  4. 반려견과 산책을 할 시 이동거리, 시간, 경로를 지도에 나타내어 기록할 수 있다.
+  5. 반려견 자랑하기, 진단결과 공유, 질문 게시판을 이용해 커뮤니티를 이용할 수 있다.   
+
+# 팀원 소개
+| 이름   | 역할 | 담당        |
+| ------ | ---- | ----------- |
+| 김도훈 | 팀장 | `Front-end` |
+| 김시언 | 팀원 | `Front-end` |
+| 김준우 | 팀원 | `Front-end` |
+| 윤지환 | 팀원 | `Back-end` |
+| 최윤정 | 팀원 | `Back-end` |
+| 한준수 | 팀원 | `Back-end` |
+
+# 기술 스택
+
+### 협업툴
+<img src="https://img.shields.io/badge/GitLab-FCA121?style=for-the-badge&logo=GitLab&logoColor=white">
+<img src="https://img.shields.io/badge/MatterMost-0058CC?style=for-the-badge&logo=MatterMost&logoColor=white">
+<img src="https://img.shields.io/badge/JIRA-0052CC?style=for-the-badge&logo=JIRA&logoColor=white">
+<img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">
+
+### Back-end
+<img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=Java&logoColor=white">
+<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white">
+<img src="https://img.shields.io/badge/FastAPI-009185?style=for-the-badge&logo=FastAPI&logoColor=white">
+<img src="https://img.shields.io/badge/MYSQL-4479A1?style=for-the-badge&logo=MYSQL&logoColor=white">
+<img src="https://img.shields.io/badge/SpringSecurity-6DB33F?style=for-the-badge&logo=SpringSecurity&logoColor=white">
+<img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white">
+
+### Front-end
+<img src="https://img.shields.io/badge/Flutter-blue?style=for-the-badge&logo=Flutter&logoColor=white">
+<img src="https://img.shields.io/badge/Dart-blue?style=for-the-badge&logo=Dart&logoColor=white">
+
+### 서버
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white">
+<img src="https://img.shields.io/badge/Jenkins-white?style=for-the-badge&logo=Jenkins&logoColor=black">
+<img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=NGINX&logoColor=white">
+
+
+
 ### Gitmoji의 이모지 설명
 
 | Emoji | Code                          | Description              |
