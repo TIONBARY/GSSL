@@ -317,6 +317,7 @@ class _BoardDetailPageState extends State<BoardDetailPage>
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                 child: TextFormField(
+                  style: TextStyle(fontFamily: "Sub"),
                   controller: commentController,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
@@ -434,6 +435,8 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                           ),
                                                         )),
                                                     TextFormField(
+                                                      style: TextStyle(
+                                                          fontFamily: "Sub"),
                                                       controller:
                                                           modifyCommentController
                                                             ..text = comments[i]
@@ -449,8 +452,6 @@ class _BoardDetailPageState extends State<BoardDetailPage>
                                                       textInputAction:
                                                           TextInputAction.next,
                                                       cursorColor: btnColor,
-                                                      style: TextStyle(
-                                                          fontFamily: "Sub"),
                                                       onChanged: (val) {
                                                         final value = TextSelection
                                                             .collapsed(
