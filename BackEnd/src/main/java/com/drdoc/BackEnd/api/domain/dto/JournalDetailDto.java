@@ -27,7 +27,7 @@ public class JournalDetailDto {
     
 	public JournalDetailDto(Journal journal) {
 		this.id = journal.getId();
-		this.pet_id = journal.getPet_id();
+		this.pet_id = journal.getPetId();
 		this.picture = journal.getPicture();
 		this.part = journal.getPart();
 		this.symptom = journal.getSymptom();
