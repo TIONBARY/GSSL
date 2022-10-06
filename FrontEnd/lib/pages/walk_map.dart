@@ -250,74 +250,77 @@ class _KakaoMapTestState extends State<KakaoMapTest>
             child: ListView(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     WalkLength(totalWalkLength),
-                    CircleAvatar(
-                      backgroundColor: btnColor,
-                      radius: 20,
-                      child: IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: pressWalkBtn
-                              ? Icon(Icons.stop)
-                              : Icon(Icons.play_arrow),
-                          color: nWColor,
-                          iconSize: 30,
-                          onPressed: () {
-                            setState(() {
-                              if (pressWalkBtn == false) {
-                                // 버튼 변경
-                                pressWalkBtn = true;
-                                debugPrint(pressWalkBtn.toString());
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      child: CircleAvatar(
+                        backgroundColor: btnColor,
+                        radius: 20,
+                        child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: pressWalkBtn
+                                ? Icon(Icons.stop)
+                                : Icon(Icons.play_arrow),
+                            color: nWColor,
+                            iconSize: 30,
+                            onPressed: () {
+                              setState(() {
+                                if (pressWalkBtn == false) {
+                                  // 버튼 변경
+                                  pressWalkBtn = true;
+                                  debugPrint(pressWalkBtn.toString());
 
-                                // 카카오 맵 이동 기록 시작
-                                Future<Position> future = _determinePosition();
-                                future
-                                    .then(
-                                        (pos) => startWalk(pos, _mapController))
-                                    .catchError((error) => debugPrint(error));
+                                  // 카카오 맵 이동 기록 시작
+                                  Future<Position> future =
+                                      _determinePosition();
+                                  future
+                                      .then((pos) =>
+                                          startWalk(pos, _mapController))
+                                      .catchError((error) => debugPrint(error));
 
-                                // 타이머 정지
-                                startTime = DateTime.now();
-                                _stopWatchTimer =
-                                    StopWatchTimer(mode: StopWatchMode.countUp);
-                                _stopWatchTimer.onStartTimer();
-                                // _stopWatchTimer.secondTime
-                                //     .listen((value) => print('secondTime $value'));
-                              } else if (pressWalkBtn == true) {
-                                // 버튼 변경
-                                pressWalkBtn = false;
-                                debugPrint(pressWalkBtn.toString());
+                                  // 타이머 정지
+                                  startTime = DateTime.now();
+                                  _stopWatchTimer = StopWatchTimer(
+                                      mode: StopWatchMode.countUp);
+                                  _stopWatchTimer.onStartTimer();
+                                  // _stopWatchTimer.secondTime
+                                  //     .listen((value) => print('secondTime $value'));
+                                } else if (pressWalkBtn == true) {
+                                  // 버튼 변경
+                                  pressWalkBtn = false;
+                                  debugPrint(pressWalkBtn.toString());
 
-                                // 카카오 맵 이동 기록 중단
-                                stopWalk(_mapController!);
+                                  // 카카오 맵 이동 기록 중단
+                                  stopWalk(_mapController!);
 
-                                // 타이머 정지
-                                // _stopWatchTimer.dispose();
-                                _stopWatchTimer.onStopTimer();
-                                endTime = DateTime.now();
-                                // 백엔드 서버로 전송
-                                List<int> pets = [];
-                                for (Pets p in allPets!) {
-                                  pets.add(p.id!);
+                                  // 타이머 정지
+                                  // _stopWatchTimer.dispose();
+                                  _stopWatchTimer.onStopTimer();
+                                  endTime = DateTime.now();
+                                  // 백엔드 서버로 전송
+                                  List<int> pets = [];
+                                  for (Pets p in allPets!) {
+                                    pets.add(p.id!);
+                                  }
+
+                                  putWalk info = new putWalk(
+                                      startTime: startTime.toIso8601String(),
+                                      endTime: endTime.toIso8601String(),
+                                      distance: totalWalkLength,
+                                      pet_ids: pets);
+
+                                  ApiWalk apiWalk = ApiWalk();
+                                  apiWalk.enterWalk(info);
+
+                                  sleep(Duration(milliseconds: 500));
+                                  // 스크린샷 저장
+                                  _capturePng();
                                 }
-
-                                putWalk info = new putWalk(
-                                    startTime: startTime.toIso8601String(),
-                                    endTime: endTime.toIso8601String(),
-                                    distance: totalWalkLength,
-                                    pet_ids: pets);
-
-                                ApiWalk apiWalk = ApiWalk();
-                                apiWalk.enterWalk(info);
-
-                                sleep(Duration(milliseconds: 500));
-                                // 스크린샷 저장
-                                _capturePng();
-                              }
-                            });
-                          }),
+                              });
+                            }),
+                      ),
                     ),
                     WalkTimer(_stopWatchTimer),
 //                     // 임시 버튼
