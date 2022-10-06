@@ -277,9 +277,9 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                 },
                 decoration: InputDecoration(
                   isCollapsed: true,
-                  hintText: "이름",
+                  hintText: "반려견 이름",
                   hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
-                  contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
+                  contentPadding: EdgeInsets.fromLTRB(20.w, 17.h, 10.w, 17.h),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: sColor)),
@@ -549,7 +549,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                     isCollapsed: true,
                     hintText: "몸무게 (선택)",
                     hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
-                    contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
+                    contentPadding: EdgeInsets.fromLTRB(20.w, 17.h, 10.w, 17.h),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         borderSide: BorderSide(color: sColor)),
@@ -589,7 +589,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                 isCollapsed: true,
                 hintText: "앓고 있는 질환 (선택)",
                 hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
-                contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
+                contentPadding: EdgeInsets.fromLTRB(20.w, 17.h, 10.w, 17.h),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: sColor)),
@@ -631,7 +631,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
                   isCollapsed: true,
                   hintText: "반려견 소개 (선택)",
                   hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
-                  contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
+                  contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: sColor)),
@@ -644,9 +644,9 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+              padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
               child: Container(
-                height: 35.h,
+                height: 40.h,
                 width: double.maxFinite,
                 child: Hero(
                   tag: "modify_btn",

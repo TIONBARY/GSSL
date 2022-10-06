@@ -159,7 +159,7 @@ renderLoginTextFormField({
       ),
       enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(color: Colors.white)),
+          borderSide: BorderSide(color: nWColor)),
       filled: true,
       fillColor: Colors.white,
       focusedBorder: OutlineInputBorder(
