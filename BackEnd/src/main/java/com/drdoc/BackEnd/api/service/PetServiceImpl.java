@@ -18,8 +18,11 @@ import com.drdoc.BackEnd.api.domain.dto.PetListDto;
 import com.drdoc.BackEnd.api.domain.dto.PetModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.PetRegisterRequestDto;
 import com.drdoc.BackEnd.api.repository.PetRepository;
+import com.drdoc.BackEnd.api.repository.JournalRepository;
 import com.drdoc.BackEnd.api.repository.PetKindRepository;
 import com.drdoc.BackEnd.api.repository.UserRepository;
+import com.drdoc.BackEnd.api.repository.WalkPetRepository;
+import com.drdoc.BackEnd.api.repository.WalkRepository;
 
 @Service
 public class PetServiceImpl implements PetService {
@@ -32,6 +35,9 @@ public class PetServiceImpl implements PetService {
 
 	@Autowired
 	private PetRepository petRepository;
+	
+	@Autowired
+	private JournalRepository journalRepository;
 
 	@Override
 	@Transactional
@@ -82,7 +88,7 @@ public class PetServiceImpl implements PetService {
 		if (user.getId() != pet.getUser().getId())
 			throw new AccessDeniedException("권한이 없습니다.");
 		petRepository.delete(pet);
-
+		journalRepository.deleteByPetId(pet.getId());
 	}
 
 	@Override
