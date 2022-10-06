@@ -141,6 +141,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> getAllPetList() async {
+    if (!mounted) {
+      return;
+    }
     getAllPet? getAllPetResponse = await apiPet.getAllPetApi();
     if (getAllPetResponse.statusCode == 200) {
       setState(() {
@@ -166,6 +169,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> getTotalInfo() async {
+    if (!mounted) {
+      return;
+    }
     getWalkTotalInfo? getWalkTotalInfoResponse =
         await apiWalk.getTotalInfo(user!.petId!);
     if (getWalkTotalInfoResponse.statusCode == 200) {
@@ -177,10 +183,20 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> getIsDone() async {
+    if (!mounted) {
+      return;
+    }
     getWalkDone? getWalkDoneResponse = await apiWalk.getIsDone(user!.petId!);
+    debugPrint(getWalkDoneResponse.message);
     if (getWalkDoneResponse.statusCode == 200) {
       setState(() {
         done = getWalkDoneResponse.done!;
+        _loadingDone = false;
+      });
+    } else if (getWalkDoneResponse.statusCode == 400 &&
+        getWalkDoneResponse.message == "해당 반려동물의 산책기록이 없습니다.") {
+      setState(() {
+        done = false;
         _loadingDone = false;
       });
     }
@@ -210,7 +226,7 @@ class _MainPageState extends State<MainPage> {
             : Container(
                 width: double.infinity,
                 height: 90.h,
-                margin: EdgeInsets.fromLTRB(0, 15.h, 0, 0),
+                // margin: EdgeInsets.fromLTRB(0, 15.h, 0, 0),
                 // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                 decoration: BoxDecoration(
                     // borderRadius: BorderRadius.circular(45),

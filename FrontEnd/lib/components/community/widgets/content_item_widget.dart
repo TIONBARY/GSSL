@@ -50,7 +50,7 @@ class ContentItemWidget extends StatelessWidget {
                 MyBoxWidget(),
                 Text(
                   nickname,
-                  style: TextStyle(fontSize: 20.sp, fontFamily: "Daehan"),
+                  style: TextStyle(fontSize: 20.sp, fontFamily: "Sub"),
                 ),
                 MyBoxWidget(),
                 // Text(
@@ -92,7 +92,7 @@ class ContentItemWidget extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: TextStyle(fontSize: 20.sp, fontFamily: "Daehan"),
+                  style: TextStyle(fontSize: 20.sp, fontFamily: "Sub"),
                 ),
                 MyBoxWidget(),
                 // Text(

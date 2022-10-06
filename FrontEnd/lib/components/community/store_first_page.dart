@@ -85,7 +85,7 @@ class _AddNewFeedPageState extends State<AddNewFeedPage> {
         toolbarHeight: 50,
         backgroundColor: pColor,
         titleTextStyle: TextStyle(
-          fontFamily: "Daehan",
+          fontFamily: "Sub",
           fontSize: 20.sp,
           color: btnColor,
         ),
@@ -171,7 +171,7 @@ class _AddNewFeedPageState extends State<AddNewFeedPage> {
                                     label: Text(
                                       "게시글 이미지 선택",
                                       style: TextStyle(
-                                        fontFamily: "Daehan",
+                                        fontFamily: "Sub",
                                       ),
                                     ),
                                   ),
