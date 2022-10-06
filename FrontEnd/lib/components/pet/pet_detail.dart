@@ -744,10 +744,12 @@ class healthInfoBox extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                  child: iconBox(
-                    iconName: "👼",
-                    detail: " 사망",
-                  ),
+                  child: pet?.death != null && pet!.death!
+                      ? iconBox(
+                          iconName: "👼",
+                          detail: " 사망",
+                        )
+                      : Container(),
                   flex: 3,
                 ),
                 Flexible(

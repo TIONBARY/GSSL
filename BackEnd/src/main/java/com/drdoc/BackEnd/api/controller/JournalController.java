@@ -70,16 +70,17 @@ public class JournalController {
 				String imgPath = s3Service.upload(requestDto.getPicture(), file);
 				requestDto.setPicture(imgPath);
 
-				journalService.register(requestDto);
 				
-				return ResponseEntity.status(200).body(BaseResponseDto.of(201, "Created"));
 			} else {
 				return ResponseEntity.status(400).body(BaseResponseDto.of(400, "이미지 파일을 찾지 못 했습니다."));
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "잘못된 요청입니다."));
 		}
+		journalService.register(requestDto);
+		return ResponseEntity.status(200).body(BaseResponseDto.of(201, "Created"));
 	}
 
 	@ApiOperation(value = "일지 수정", notes = "사진, 부위, 증상, 상세 일지, 시작 날짜, (진단 결과, 치료 완료 여부, 완료 날짜) 입력 \r\n \"1. 부위는 30자 이내\r\n"
