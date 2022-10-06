@@ -622,12 +622,12 @@ class _ModifyFormState extends State<ModifyForm> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Title(
-                                      color: Colors.black,
+                                      color: btnColor,
                                       child: Text("정말 탈퇴하시겠습니까?",
                                           style: TextStyle(fontSize: 13)),
                                     ),
                                     Title(
-                                      color: Colors.black,
+                                      color: btnColor,
                                       child: Text("탈퇴 시 해당 아이디로 로그인할 수 없습니다.",
                                           style: TextStyle(fontSize: 13)),
                                     ),
@@ -661,7 +661,7 @@ class _ModifyFormState extends State<ModifyForm> {
                                                 child: Text(
                                                   "취소",
                                                   style: TextStyle(
-                                                      color: Colors.black),
+                                                      color: btnColor),
                                                 ),
                                               ),
                                             ]))
