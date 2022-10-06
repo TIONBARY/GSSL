@@ -347,7 +347,7 @@ class _petNameState extends State<petName> {
           text: pet?.name == null
               ? TextSpan(children: [
                   TextSpan(
-                      style: TextStyle(color: btnColor, fontFamily: "Daehan"),
+                      style: TextStyle(color: btnColor, fontFamily: "Sub"),
                       text: "등록된 반려견이 없습니다.")
                 ])
               : TextSpan(children: [
@@ -491,7 +491,7 @@ class _petIntroState extends State<petIntro> {
         cursorColor: btnColor,
         readOnly: true,
         decoration: InputDecoration(
-          hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+          hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
           contentPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),

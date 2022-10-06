@@ -209,7 +209,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                     color: btnColor,
                   )),
               hintText: '검색할 단어를 입력하세요.',
-              hintStyle: TextStyle(color: sColor, fontFamily: "Daehan"),
+              hintStyle: TextStyle(color: sColor, fontFamily: "Sub"),
               contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),

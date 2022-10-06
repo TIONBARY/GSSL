@@ -190,7 +190,7 @@ class _WalkPageState extends State<WalkPage> {
                                           style: TextStyle(
                                             fontSize: 10.sp,
                                             color: btnColor,
-                                            fontFamily: 'Daehan',
+                                            fontFamily: 'Sub',
                                           ),
                                         ),
                                       ),
