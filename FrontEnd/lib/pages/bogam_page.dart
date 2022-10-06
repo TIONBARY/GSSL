@@ -111,8 +111,10 @@ class _BogamPageState extends State<BogamPage> {
     }
     generalResponse result = await apiDiary.register(
         _image,
-        putPetJournal(
-            petId: user!.petId!, part: "눈", result: diagnosisResult[0]));
+        diagnosisPercent[0] > 50
+            ? putPetJournal(
+                petId: user!.petId!, part: "눈", result: diagnosisResult[0])
+            : putPetJournal(petId: user!.petId!, part: "눈", result: '정상'));
     if (result.statusCode == 201) {
       showDialog(
           context: context,
@@ -153,9 +155,7 @@ class _BogamPageState extends State<BogamPage> {
                   ? Text(
                       '이미지를 촬영 또는 선택 해주세요',
                       style: TextStyle(
-                          fontFamily: "Daehan",
-                          fontSize: 20.sp,
-                          color: btnColor),
+                          fontFamily: "Sub", fontSize: 20.sp, color: btnColor),
                     )
                   : Image.file(File(_image!.path)))),
     );
@@ -174,7 +174,7 @@ class _BogamPageState extends State<BogamPage> {
             centerTitle: true,
             titleTextStyle: TextStyle(
               color: nWColor,
-              fontFamily: "Daehan",
+              fontFamily: "Sub",
               fontSize: 25.sp,
             ),
             iconTheme: IconThemeData(
@@ -215,9 +215,7 @@ class _BogamPageState extends State<BogamPage> {
                       child: Text(
                         '분석',
                         style: TextStyle(
-                            fontFamily: "Daehan",
-                            fontSize: 20.sp,
-                            color: nWColor),
+                            fontFamily: "Sub", fontSize: 20.sp, color: nWColor),
                       ),
                       onPressed: () {
                         if (_image == null) {
@@ -261,7 +259,7 @@ class _BogamPageState extends State<BogamPage> {
                 Text(
                   "촬영 가이드",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                  style: TextStyle(fontFamily: "Sub", color: btnColor),
                 ),
               ],
             ),
@@ -271,7 +269,7 @@ class _BogamPageState extends State<BogamPage> {
               children: <Widget>[
                 Text(
                   "해당 사진처럼 가까이 찍어주세요.",
-                  style: TextStyle(fontFamily: "Daehan", color: btnColor),
+                  style: TextStyle(fontFamily: "Sub", color: btnColor),
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 0),
@@ -325,13 +323,11 @@ class _BogamPageState extends State<BogamPage> {
                       children: [
                         Text(
                           '잠시만 기다려주세요.',
-                          style:
-                              TextStyle(fontFamily: "Daehan", color: btnColor),
+                          style: TextStyle(fontFamily: "Sub", color: btnColor),
                         ),
                         Text(
                           '1분 가량 소요됩니다.',
-                          style:
-                              TextStyle(fontFamily: "Daehan", color: btnColor),
+                          style: TextStyle(fontFamily: "Sub", color: btnColor),
                         ),
                       ],
                     ),
@@ -383,7 +379,7 @@ class _BogamPageState extends State<BogamPage> {
                       ),
                       Padding(padding: EdgeInsets.all(10)),
                       Text(
-                        '${mainPet?.name}는 건강합니다.',
+                        '${mainPet?.name}는(은) 건강합니다.',
                         style: TextStyle(
                             fontFamily: "Sub",
                             fontSize: 20.sp,
@@ -397,11 +393,18 @@ class _BogamPageState extends State<BogamPage> {
                           Text(
                             ' 결과는 참고용으로만 사용하세요.',
                             style: TextStyle(
-                                fontFamily: "Daehan",
+                                fontFamily: "Sub",
                                 fontSize: 20.sp,
                                 color: Colors.red),
                           ),
                         ],
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.all(10.h),
+                        icon: Icon(Icons.save_alt_outlined, color: btnColor),
+                        onPressed: () {
+                          _writeJournal();
+                        },
                       ),
                     ],
                   ),
@@ -411,8 +414,7 @@ class _BogamPageState extends State<BogamPage> {
                     Padding(
                       padding: EdgeInsets.all(15.h),
                       child: Text('해당 질병이 의심됩니다.',
-                          style:
-                              TextStyle(fontFamily: "Daehan", color: btnColor)),
+                          style: TextStyle(fontFamily: "Sub", color: btnColor)),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -421,7 +423,7 @@ class _BogamPageState extends State<BogamPage> {
                         Text(
                           ' 결과는 참고용으로만 사용하세요.',
                           style: TextStyle(
-                              fontFamily: "Daehan",
+                              fontFamily: "Sub",
                               fontSize: 20.sp,
                               color: Colors.red),
                         ),
@@ -435,13 +437,13 @@ class _BogamPageState extends State<BogamPage> {
                             width: MediaQuery.of(context).size.width / 3,
                             child: Text(diagnosisResult.elementAt(i),
                                 style: TextStyle(
-                                    fontFamily: "Daehan", color: btnColor)),
+                                    fontFamily: "Sub", color: btnColor)),
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width / 3,
                             child: Text('${diagnosisPercent.elementAt(i)}%',
                                 style: TextStyle(
-                                    fontFamily: "Daehan", color: btnColor)),
+                                    fontFamily: "Sub", color: btnColor)),
                           ),
                           Container(
                             child: IconButton(
