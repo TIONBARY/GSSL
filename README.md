@@ -114,11 +114,11 @@
 <img src="./images/Walk2.jpg" width="250" height="500"/>
 
 ### 게시판
-<img src="./images/Community1.jpg" width="250" height="500"/>
-<img src="./images/Community2.jpg" width="250" height="500"/>
-<img src="./images/Community3.jpg" width="250" height="500"/>
 <img src="./images/Community4.jpg" width="250" height="500"/>
 <img src="./images/Community5.jpg" width="250" height="500"/>
+<img src="./images/Community3.jpg" width="250" height="500"/>
+<img src="./images/Community2.jpg" width="250" height="500"/>
+<img src="./images/Community1.jpg" width="250" height="500"/>
 <img src="./images/Community6.jpg" width="250" height="500"/>
 
 ### Gitmoji의 이모지 설명
