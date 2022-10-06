@@ -92,6 +92,10 @@ class _MainPageState extends State<MainPage> {
         getMainPet();
         getTotalInfo();
         getIsDone();
+      } else {
+        _loadingPet = false;
+        _loadingDone = false;
+        _loadingInfo = false;
       }
       getAllPetList();
     } else if (userInfoResponse.statusCode == 401) {
@@ -367,8 +371,9 @@ class _MainPageState extends State<MainPage> {
                                                                                 await apiUser.modifyUserPetAPI(pet.id!);
                                                                             if (res.statusCode ==
                                                                                 200) {
+                                                                              _loadingInfo = true;
+                                                                              _loadingDone = true;
                                                                               await getUser();
-                                                                              await getMainPet();
                                                                               Navigator.pop(context);
                                                                             }
                                                                           },
