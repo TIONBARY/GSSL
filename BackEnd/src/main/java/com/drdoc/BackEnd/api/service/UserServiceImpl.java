@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.drdoc.BackEnd.api.domain.Pet;
 import com.drdoc.BackEnd.api.domain.RefreshToken;
 import com.drdoc.BackEnd.api.domain.User;
 import com.drdoc.BackEnd.api.domain.dto.RefreshTokenDto;
@@ -21,6 +22,7 @@ import com.drdoc.BackEnd.api.domain.dto.UserLoginRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.UserRegisterRequestDto;
 import com.drdoc.BackEnd.api.jwt.TokenProvider;
+import com.drdoc.BackEnd.api.repository.PetRepository;
 import com.drdoc.BackEnd.api.repository.RefreshTokenRepository;
 import com.drdoc.BackEnd.api.repository.UserRepository;
 
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 	private final TokenProvider tokenProvider;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final PetRepository petRepository;
 
 	// 회원가입
 	@Override
@@ -147,12 +150,31 @@ public class UserServiceImpl implements UserService {
 				.pet_id(user.getPet_id()).build();
 		return userInfoDto;
 	}
-
+	
+	@Override
 	public void modify(String memberId, UserModifyRequestDto requestDto) {
 		User user = repository.findByMemberId(memberId)
 				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
 		requestDto.setPassword(encoder.encode(requestDto.getPassword()));
 		user.modify(requestDto);
+		repository.save(user);
+	}
+	
+	@Override
+	public void modifyPet(String memberId, int petId) {
+		User user = repository.findByMemberId(memberId)
+				.orElseThrow(() -> new IllegalArgumentException("가입하지 않은 계정입니다."));
+		if (petId == 0) {
+			user.modifyPetId(petId);
+			repository.save(user);
+			return;
+		}
+		Pet pet = petRepository.findById(petId)
+				.orElseThrow(() -> new IllegalArgumentException("등록되지 않은 반려동물입니다."));
+		if (pet.getUser().getId() != user.getId()) {
+			throw new IllegalArgumentException("해당 반려동물은 선택할 수 없습니다.");
+		}
+		user.modifyPetId(petId);
 		repository.save(user);
 	}
 
