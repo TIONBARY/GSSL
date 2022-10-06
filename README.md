@@ -69,7 +69,7 @@
 
 # 기능별 화면
 ### 메인화면
-<img src="./images/메인페이지1.jpg" width="200" height="400"/>
+<img src="./images/MainPage1.jpg" width="200" height="400"/>
 
 
 ### 회원
