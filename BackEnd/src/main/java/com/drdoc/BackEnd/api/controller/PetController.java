@@ -1,14 +1,12 @@
 package com.drdoc.BackEnd.api.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.drdoc.BackEnd.api.domain.dto.BaseResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetDetailResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.PetKindListDto;
+import com.drdoc.BackEnd.api.domain.dto.PetKindListResponseDto;
+import com.drdoc.BackEnd.api.domain.dto.PetKindResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetListResponseDto;
 import com.drdoc.BackEnd.api.domain.dto.PetModifyRequestDto;
 import com.drdoc.BackEnd.api.domain.dto.PetRegisterRequestDto;
@@ -33,7 +34,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "반려동물 API", tags = { "반려동물 관리" })
 @RestController
@@ -72,12 +72,12 @@ public class PetController {
 				String imgPath = s3Service.upload("", file);
 				petRegisterRequestDto.setAnimal_pic(imgPath);
 			}
-			petService.registerPet(memberId, petRegisterRequestDto);
-			return ResponseEntity.status(201).body(BaseResponseDto.of(201, "Created"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "파일 업로드에 실패했습니다."));
 		}
+		petService.registerPet(memberId, petRegisterRequestDto);
+		return ResponseEntity.status(201).body(BaseResponseDto.of(201, "Created"));
 	}
 
 	@PutMapping("/{petId}")
@@ -108,12 +108,12 @@ public class PetController {
 			} else {
 				s3Service.delete(petService.getPetImage(petId));
 			}
-			petService.modifyPet(petId, memberId, petModifyRequestDto);
-			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "파일 업로드에 실패했습니다."));
 		}
+		petService.modifyPet(petId, memberId, petModifyRequestDto);
+		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
 	}
 	
 	@DeleteMapping("/{petId}")
@@ -134,18 +134,19 @@ public class PetController {
 		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Deleted"));
 	}
 	
-	@GetMapping("/{userId}")
+	@GetMapping
 	@ApiOperation(value = "반려동물 목록 조회", notes = "나의 반려동물 목록을 모두 조회합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "반려동물 목록 조회"),
 		@ApiResponse(code = 400, message = "잘못된 요청입니다."),
 		@ApiResponse(code = 401, message = "인증이 필요합니다."),
 		@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<PetListResponseDto> getPetList(@PathVariable int userId) {
-		return ResponseEntity.status(200).body(PetListResponseDto.of(200, "Success", petService.getPetList(userId)));
+	public ResponseEntity<PetListResponseDto> getPetList() {
+		String memberId = SecurityUtil.getCurrentUsername();
+		return ResponseEntity.status(200).body(PetListResponseDto.of(200, "Success", petService.getPetList(memberId)));
 	}
 	
-	@GetMapping("/{petId}/detail")
+	@GetMapping("/{petId}")
 	@ApiOperation(value = "반려동물 상세 조회", notes = "나의 반려동물을 상세 조회합니다.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "반려동물 상세 조회"),
@@ -155,6 +156,28 @@ public class PetController {
 	public ResponseEntity<PetDetailResponseDto> getDetail(@PathVariable int petId) {
 		return ResponseEntity.status(200)
 				.body(PetDetailResponseDto.of(200, "Success", petService.getPetDetail(petId)));
+	}
+	
+	@GetMapping("/kind")
+	@ApiOperation(value = "반려동물 품종 목록 조회", notes = "반려동물 품종 목록을 모두 조회합니다.")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "반려동물 목록 조회"),
+		@ApiResponse(code = 400, message = "잘못된 요청입니다."),
+		@ApiResponse(code = 401, message = "인증이 필요합니다."),
+		@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<PetKindListResponseDto> getPetKindList() {
+		return ResponseEntity.status(200).body(PetKindListResponseDto.of(200, "Success", petService.getPetKindList()));
+	}
+	
+	@GetMapping("/kind/{kindId}")
+	@ApiOperation(value = "반려동물 품종 번호 조회", notes = "반려동물 품종 번호에 해당하는 품종을 조회합니다.")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "반려동물 목록 조회"),
+		@ApiResponse(code = 400, message = "잘못된 요청입니다."),
+		@ApiResponse(code = 401, message = "인증이 필요합니다."),
+		@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<PetKindResponseDto> getPetKind(@PathVariable("kindId") int kindId) {
+		return ResponseEntity.status(200).body(PetKindResponseDto.of(200, "Success", petService.getPetKind(kindId)));
 	}
 
 

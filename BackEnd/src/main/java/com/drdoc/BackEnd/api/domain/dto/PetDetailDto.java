@@ -17,7 +17,7 @@ public class PetDetailDto {
 	
 	private int id;
 	private int user_id;
-	private String kind;
+	private int kind_id;
 	private boolean species;
 	private String name;
 	private String gender;
