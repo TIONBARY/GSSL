@@ -17,7 +17,7 @@ class DontHaveAnAccount extends StatelessWidget {
       children: <Widget>[
         Text(
           login ? " 계정이 없으신가요? " : "Already have an Account ? ",
-          style: TextStyle(fontFamily: "Daehan", color: btnColor),
+          style: TextStyle(fontFamily: "Sub", color: btnColor),
         ),
         GestureDetector(
           onTap: press as void Function()?,
@@ -26,7 +26,7 @@ class DontHaveAnAccount extends StatelessWidget {
             style: const TextStyle(
               color: btnColor,
               fontWeight: FontWeight.bold,
-              fontFamily: "Daehan",
+              fontFamily: "Sub",
             ),
           ),
         )
