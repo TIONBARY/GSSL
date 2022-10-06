@@ -34,6 +34,9 @@ class _MainQuestionAreaState extends State<MainQuestionArea>
   String S3Address = "https://a204drdoc.s3.ap-northeast-2.amazonaws.com/";
 
   Future<bool> _getList(int page, int size) async {
+    if (!mounted) {
+      return false;
+    }
     getBoardList result = await apiCommunity.getAllBoardApi(3, '', page, size);
     if (result.statusCode == 200) {
       setState(() {
