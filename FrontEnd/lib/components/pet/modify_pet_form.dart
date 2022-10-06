@@ -137,6 +137,7 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
         death = pet!.death!;
         diseases = pet!.diseases!;
         description = pet!.description!;
+        _loading = false;
       });
       if (pet?.animalPic == null || pet!.animalPic!.length == 0) return;
       final url = S3Address + pet!.animalPic!; // <-- 1
@@ -152,7 +153,6 @@ class _ModifyPetFormState extends State<ModifyPetForm> {
       file2.writeAsBytesSync(response.bodyBytes); // <-- 3
       setState(() {
         animalPicture = file2;
-        _loading = false;
       });
       print(animalPicture);
     } else if (getMainPetResponse.statusCode == 401) {
