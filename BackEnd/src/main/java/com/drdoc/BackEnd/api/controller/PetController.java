@@ -72,12 +72,12 @@ public class PetController {
 				String imgPath = s3Service.upload("", file);
 				petRegisterRequestDto.setAnimal_pic(imgPath);
 			}
-			petService.registerPet(memberId, petRegisterRequestDto);
-			return ResponseEntity.status(201).body(BaseResponseDto.of(201, "Created"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "파일 업로드에 실패했습니다."));
 		}
+		petService.registerPet(memberId, petRegisterRequestDto);
+		return ResponseEntity.status(201).body(BaseResponseDto.of(201, "Created"));
 	}
 
 	@PutMapping("/{petId}")
@@ -108,12 +108,12 @@ public class PetController {
 			} else {
 				s3Service.delete(petService.getPetImage(petId));
 			}
-			petService.modifyPet(petId, memberId, petModifyRequestDto);
-			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body(BaseResponseDto.of(400, "파일 업로드에 실패했습니다."));
 		}
+		petService.modifyPet(petId, memberId, petModifyRequestDto);
+		return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Modified"));
 	}
 	
 	@DeleteMapping("/{petId}")

@@ -4,9 +4,11 @@ import 'package:GSSL/api/api_signup.dart';
 import 'package:GSSL/model/request_models/signup.dart';
 import 'package:GSSL/model/response_models/general_response.dart';
 import 'package:GSSL/pages/login_page.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants.dart';
 import '../util/custom_dialog.dart';
@@ -33,6 +35,8 @@ class _SignupFormState extends State<SignUpForm> {
   String? introduce = '';
   generalResponse? signup;
   ApiSignup apiSignup = ApiSignup();
+  bool showTerms = false;
+  bool agreed = false;
 
   bool checkDupId = false;
   bool checkDupNickname = false;
@@ -441,6 +445,60 @@ class _SignupFormState extends State<SignUpForm> {
               ),
             ),
           ),
+          Padding(
+            // 약관 동의
+            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: [
+                    Checkbox(
+                      value: agreed,
+                      onChanged: (value) {
+                        setState(() {
+                          agreed = value!;
+                        });
+                      },
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            style: TextStyle(
+                                color: sColor,
+                                decoration: TextDecoration.underline,
+                                fontFamily: "Sub"),
+                            text: "약관",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                final url = Uri.parse(
+                                    'https://1vl.notion.site/e240cebfbf0049d9a7098953608bd1c7');
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                }
+                              },
+                          ),
+                          agreed
+                              ? TextSpan(
+                                  style: TextStyle(
+                                      color: sColor.withOpacity(0.8),
+                                      fontFamily: "Sub"),
+                                  text: "에 동의하셨습니다.",
+                                )
+                              : TextSpan(
+                                  style: TextStyle(
+                                      color: Colors.deepOrange,
+                                      fontFamily: "Sub"),
+                                  text: "에 동의하고 진행해 주세요.",
+                                ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
           Container(
               margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
               child: Divider(color: sColor, thickness: 2.0)),
@@ -537,7 +595,15 @@ class _SignupFormState extends State<SignUpForm> {
                 tag: "signUp_btn",
                 child: ElevatedButton(
                   onPressed: () {
-                    _submit();
+                    if (agreed) {
+                      _submit();
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomDialog("회원가입 하려면 약관에 동의해주세요.", null);
+                          });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: btnColor,
