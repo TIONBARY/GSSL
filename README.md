@@ -69,29 +69,25 @@
 
 # 기능별 화면
 ### 인트로
-<img src="./images/Intro1.jpg" width="250" height="500"/>
+<img src="./images/gif/1-0.gif" width="250" height="500"/>
 
 ### 로그인화면
-<img src="./images/Login1.jpg" width="250" height="500"/>
+<img src="./images/gif/2-2.gif" width="250" height="500"/>
 
 ### 회원가입화면
-<img src="./images/Signup1.jpg" width="250" height="500"/>
+<img src="./images/gif/1-2.gif" width="250" height="500"/>
+<img src="./images/gif/1-8.gif" width="250" height="500"/>
 
 ### 메인화면
-<img src="./images/MainPage1.jpg" width="250" height="500"/>
-<img src="./images/MainPage2.jpg" width="250" height="500"/>
-<img src="./images/Magazine1.jpg" width="250" height="500"/>
+<img src="./images/gif/4-3.gif" width="250" height="500"/>
 
 ### 회원
-<img src="./images/User1.jpg" width="250" height="500"/>
-<img src="./images/User2.jpg" width="250" height="500"/>
+<img src="./images/gif/2-2-1-2.gif" width="250" height="500"/>
 
 ### 반려견
-<img src="./images/Pet1.jpg" width="250" height="500"/>
-<img src="./images/Pet2.jpg" width="250" height="500"/>
-<img src="./images/Pet3.jpg" width="250" height="500"/>
-<img src="./images/Pet4.jpg" width="250" height="500"/>
-<img src="./images/Pet5.jpg" width="250" height="500"/>
+<img src="./images/gif/6-1-1.gif" width="250" height="500"/>
+<img src="./images/gif/6-2.gif" width="250" height="500"/>
+<img src="./images/gif/12.gif" width="250" height="500"/>
 
 ### 견의보감
 <img src="./images/Bogam1.jpg" width="250" height="500"/>
@@ -106,20 +102,16 @@
 <img src="./images/Jeongeum3.jpg" width="250" height="500"/>
 
 ### 견중일기
-<img src="./images/Diary1.jpg" width="250" height="500"/>
-<img src="./images/Diary2.jpg" width="250" height="500"/>
+<img src="./images/gif/13.gif" width="250" height="500"/>
 
 ### 산책
-<img src="./images/Walk1.jpg" width="250" height="500"/>
-<img src="./images/Walk2.jpg" width="250" height="500"/>
+<img src="./images/gif/6-3.gif" width="250" height="500"/>
+<img src="./images/gif/6-4.gif" width="250" height="500"/>
 
 ### 게시판
-<img src="./images/Community4.jpg" width="250" height="500"/>
-<img src="./images/Community5.jpg" width="250" height="500"/>
-<img src="./images/Community3.jpg" width="250" height="500"/>
-<img src="./images/Community2.jpg" width="250" height="500"/>
-<img src="./images/Community1.jpg" width="250" height="500"/>
-<img src="./images/Community6.jpg" width="250" height="500"/>
+<img src="./images/gif/15.gif" width="250" height="500"/>
+<img src="./images/gif/16.gif" width="250" height="500"/>
+<img src="./images/gif/19.gif" width="250" height="500"/>
 
 ### Gitmoji의 이모지 설명
 
